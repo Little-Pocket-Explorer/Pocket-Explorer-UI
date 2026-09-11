@@ -2,7 +2,7 @@
 
 The iPhone app is the primary product. Preserve the approved cream-paper, forest-green, sculptural visual direction. The website is the public story viewer.
 
-Use the local `codex-project` skill at `/Users/haichang/.codex/skills/codex-project/SKILL.md`. Read PROMPT.md and TODO.md when resuming. PLAN.md owns the design and ACCEPTANCE.md owns the 79 product criteria. TODO.md owns current progress and evidence.
+Use the `codex-project` skill when installed. Otherwise follow the durable workflow in PLAN.md, PROMPT.md and TODO.md directly. Read PROMPT.md and TODO.md when resuming. PLAN.md owns the design and ACCEPTANCE.md owns the 79 product criteria. TODO.md owns current progress and evidence.
 
 Implement within this directory. Do not modify the sibling gaokao-kg project. Keep code, comments and repository documents in English. Maintain substantial Chinese review copies in `/Users/haichang/tmp` with the `pocket-explorer-` prefix and update those first when applying review feedback.
 
