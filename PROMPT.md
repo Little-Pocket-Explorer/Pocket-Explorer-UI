@@ -92,7 +92,7 @@ Latest continuation: T14 is released as 0.1.0 (5), independently confirmed Testi
 
 ## T15 current task
 
-The user authorized creating an iOS UI repository under Little-Pocket-Explorer and configuring GitHub builds to update TestFlight. Use the private pocket-explorer-ios-ui repository. Complete repository setup and verify automated delivery before starting the planned larger changes. Current authorization covers committing and pushing the baseline, configuring CI credentials and running an actual release. Do not change product behavior or cancel the existing external review. Resume from TODO T15.
+The user authorized creating an iOS UI repository under Little-Pocket-Explorer and configuring GitHub builds to update TestFlight. Use the private Pocket-Explorer-UI repository. Complete repository setup and verify automated delivery before starting the planned larger changes. Current authorization covers committing and pushing the baseline, configuring CI credentials and running an actual release. Do not change product behavior or cancel the existing external review. Resume from TODO T15.
 
 ## Future AI integration
 

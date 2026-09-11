@@ -1,13 +1,13 @@
 {
   "status": "completed",
-  "updated_at": "2026-09-11T07:17:30.653896+00:00",
+  "updated_at": "2026-09-11T07:23:54.856930+00:00",
   "repository": {
-    "url": "https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui",
+    "url": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI",
     "visibility": "private",
     "default_branch": "main"
   },
   "workflow": {
-    "url": "https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui/actions/runs/34571657181",
+    "url": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI/actions/runs/34571657181",
     "source_commit": "1eecb89134c2b7f6ec866bcb5d36c6f71ea23b7f",
     "runner": "macos-26",
     "xcode": "26.6",
@@ -122,5 +122,27 @@
     "internal_group": "Hackathon Internal",
     "group_membership_verified": true,
     "remote_testing_notes_source_verified": true
+  },
+  "repository_rename": {
+    "verified_at": "2026-09-11T07:23:54.856930+00:00",
+    "from": "Little-Pocket-Explorer/pocket-explorer-ios-ui",
+    "to": "Little-Pocket-Explorer/Pocket-Explorer-UI",
+    "repository_id": 1365475207,
+    "same_name_repository_before_rename": "Absent in organization-admin repository listing and GET returned HTTP 404",
+    "deletion_performed": false,
+    "main_commit_preserved": "b711ab9eb6b2585a11ed8fc0f46d0f716723076e",
+    "workflow_run_preserved": 34571657181,
+    "testflight_environment_id_preserved": 21708390931,
+    "testflight_secret_names_preserved": [
+      "ASC_ISSUER_ID",
+      "ASC_KEY_ID",
+      "ASC_PRIVATE_KEY",
+      "DISTRIBUTION_P12_BASE64",
+      "DISTRIBUTION_P12_PASSWORD",
+      "PROVISIONING_PROFILE_BASE64"
+    ],
+    "deployment_branch_preserved": "main",
+    "local_remote_updated": true,
+    "historical_release_url": "The original release artifact run_url is retained above. Current workflow URL uses the new repository name."
   }
 }

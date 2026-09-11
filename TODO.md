@@ -4,12 +4,14 @@ Updated: 2026-09-11.
 
 ## T15 current task
 
+- Renamed pocket-explorer-ios-ui to Pocket-Explorer-UI at the user's request. An organization-admin read confirmed the older same-name repository was already absent, so no deletion was performed in this turn. Independent reads verified the repository ID, main commit, successful Actions run, testflight environment and six secret entries were preserved. Local origin and documentation links are updated.
+
 - DONE: GitHub repository and automated TestFlight delivery. GitHub released 0.1.0 (6), independently confirmed Testing internally by Apple. Product behavior is unchanged.
-- Accepted haha1903's organization invitation. Created and independently verified private repository with ADMIN access: https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui.
+- Accepted haha1903's organization invitation. Created and independently verified private repository with ADMIN access: https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI.
 - Created a dedicated Apple API key, distribution certificate and App Store profile, independently verified through the API. Certificate and profile expire 2027-09-11. Configured and independently listed six GitHub testflight environment secrets. The environment accepts main only.
 - Workflow, Fastlane and scripts are implemented. actionlint, shellcheck, Ruby syntax and lane loading passed. Pinned Xcode 26.6, XcodeGen 2.46.0 with SHA-256 verification and Fastlane 2.239.0. Npm tarball URLs use the public registry with versions and integrity values unchanged.
 - Published main at code revision 1eecb89134c2b7f6ec866bcb5d36c6f71ea23b7f. The remote tree independently contains 148 files. The first-commit sensitive-content audit passed with no credentials, databases or generated projects tracked.
-- Current run: https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui/actions/runs/34571657181. Web checks passed: 18 tests, six browser tests, 100% lines and 98.91% branches. Native regression passed all 39 tests with 2823/3024 app lines covered (93.35%). The release job completed successfully. Two earlier runs were superseded and canceled after configuration fixes.
+- Current run: https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI/actions/runs/34571657181. Web checks passed: 18 tests, six browser tests, 100% lines and 98.91% branches. Native regression passed all 39 tests with 2823/3024 app lines covered (93.35%). The release job completed successfully. Two earlier runs were superseded and canceled after configuration fixes.
 - All three GitHub jobs succeeded. Native regression passed 26 unit and 13 UI tests with 93.35% app line coverage. Web passed 18 tests and six browser tests with 100% lines and 98.91% branches.
 - The release result matches independent Apple reads: 0.1.0 (6), build ID 23b9c4d3-3b0c-4244-82f0-67607854ac88, VALID / IN_BETA_TESTING, assigned to Hackathon Internal. Remote testing notes identify the workflow source commit. Signing cleanup passed. Evidence: docs/evidence/github-setup.json.
 

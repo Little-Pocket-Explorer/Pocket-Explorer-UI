@@ -369,7 +369,7 @@ User clarification: remove parental restrictions entirely. Sharing is available 
 
 ## T15: GitHub repository and automated TestFlight delivery
 
-- Goal: preserve the working baseline in the private Little-Pocket-Explorer/pocket-explorer-ios-ui repository. Complete repository and release setup before further product changes.
+- Goal: preserve the working baseline in the private Little-Pocket-Explorer/Pocket-Explorer-UI repository. Complete repository and release setup before further product changes.
 - Scope: retain iOS, shared resources and the current sharing website for a buildable baseline. Leave the organization's other repositories alone. Exclude generated and duplicate Xcode projects, certificates, private keys, databases, build artifacts and machine settings.
 - Files: GitHub Actions workflow, Fastlane release configuration, runner scripts, release documentation and PLAN/PROMPT/TODO.
 - Flow: pull requests run native and web tests. Main pushes and explicit manual releases upload only after tests pass, using dedicated signing credentials. Wait for Apple processing and assign Hackathon Internal.

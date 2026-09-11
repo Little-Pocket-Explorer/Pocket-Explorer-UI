@@ -1,7 +1,7 @@
 # GitHub builds and TestFlight
 
-Repository: https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui.
-Workflow: [iOS CI and TestFlight](https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui/actions/workflows/ios.yml).
+Repository: https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI.
+Workflow: [iOS CI and TestFlight](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI/actions/workflows/ios.yml).
 
 ## Daily workflow
 

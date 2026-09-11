@@ -1,6 +1,6 @@
 # Pocket Explorer
 
-[![iOS CI and TestFlight](https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui/actions/workflows/ios.yml/badge.svg)](https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui/actions/workflows/ios.yml)
+[![iOS CI and TestFlight](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI/actions/workflows/ios.yml/badge.svg)](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI/actions/workflows/ios.yml)
 
 An iPhone-first exploration prototype with a public family story viewer. A child's question becomes an observation, a collectible card, a place in their journal and a replayable memory.
 
