@@ -1,0 +1,46 @@
+{
+  "backend_repository": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend",
+  "backend_workflow": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/34575491870",
+  "backend_deployed_commit": "d19e3a16086d6cf5773de0f43a4308342962b09c",
+  "cloudflare_version": "3bb481f8-00ca-49bd-9ed9-0f16592e99c0",
+  "website": "https://pocket.changhai.me",
+  "backend_tests": {
+    "unit_integration": 18,
+    "browser": 6,
+    "production_browser": 1,
+    "lines_percent": 100,
+    "branches_percent": 98.91
+  },
+  "ui_workflow": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI/actions/runs/34575779608",
+  "ui_code_commit": "e44061792ea308a3cc987ec2dac1bf937e9361d7",
+  "native_tests": {
+    "unit": 26,
+    "ui": 13,
+    "failures": 0,
+    "live_cloudflare_sharing": "passed",
+    "coverage_gate": "passed (at least 80% application line coverage)"
+  },
+  "testflight_status": "verified",
+  "ai_integration": "not implemented",
+  "testflight": {
+    "id": "44f6cf4f-397b-446d-80c2-5d36f035867f",
+    "version": "0.1.0",
+    "build": "7",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "group_membership_verified": true
+  },
+  "ui_workflow_conclusion": "success",
+  "release_artifact": {
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 7,
+    "build_id": "44f6cf4f-397b-446d-80c2-5d36f035867f",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "source_commit": "e44061792ea308a3cc987ec2dac1bf937e9361d7",
+    "run_url": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI/actions/runs/34575779608"
+  }
+}

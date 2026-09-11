@@ -90,13 +90,13 @@ User clarification: remove parental restrictions entirely. Sharing is available 
 
 Latest continuation: T14 is released as 0.1.0 (5), independently confirmed Testing in Hackathon Internal. Cloudflare is deployed and verified. All software checks passed. Next obtain phone sharing acceptance after the user updates, while preserving the other outstanding physical-device and human checks. Never reintroduce parental restrictions or ask for a sharing key. Preserve the existing external build 2 review. See docs/evidence/sharing-build5.json.
 
-## T15 current task
+## T15 repository setup
 
 The user authorized creating an iOS UI repository under Little-Pocket-Explorer and configuring GitHub builds to update TestFlight. Use the private Pocket-Explorer-UI repository. Complete repository setup and verify automated delivery before starting the planned larger changes. Current authorization covers committing and pushing the baseline, configuring CI credentials and running an actual release. Do not change product behavior or cancel the existing external review. Resume from TODO T15.
 
 ## Future AI integration
 
-The user selected image deployment gpt-image-2.5-sunburst. PLAN T12 records its endpoint and the source of earlier test evidence. The image key exists only in ignored local .local/ai/providers.json. Reuse the existing gpt-6-astra / copilot-proxy / xhigh configuration from ~/.codex/config.toml for GPT-6. Credentials must be used server-side and never copied into the app, website, repository or logs. Finish T15 first. This provider selection does not implement live AI, and the prepared demonstration responses remain in place.
+The user selected image deployment gpt-image-2.5-sunburst. PLAN T12 records its endpoint and the source of earlier test evidence. The image key exists only in ignored local ../pocket-explorer-backend/.local/ai/providers.json. Reuse the existing gpt-6-astra / copilot-proxy / xhigh configuration from ~/.codex/config.toml for GPT-6. Credentials must be used server-side and never copied into the app, website, repository or logs. Finish T15 first. This provider selection does not implement live AI, and the prepared demonstration responses remain in place.
 
 External status update: independent API and public-page checks on 2026-09-11 confirm build 2 is IN_BETA_TESTING and public enrollment is available. Earlier pending-review statements are historical. CI automatically updates the internal group, while the external group currently retains build 2. See TODO's external status refresh.
 
@@ -108,3 +108,6 @@ T15 is complete: all three jobs in GitHub run 34571657181 succeeded and automati
 ## T16: Backend extraction and automatic Cloudflare delivery
 
 Current authorized task: T16 extracts the website and sharing API to ../pocket-explorer-backend and https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend. Follow its PLAN/PROMPT/TODO for deployment setup. Preserve existing Cloudflare resources and domain. Finish a real GitHub-to-Cloudflare release and update native CI to test against deployed Cloudflare. The user authorized commits, pushes and workflow deployment for this setup. Live AI remains future work.
+
+
+T16 is complete. Website/backend source lives in ../pocket-explorer-backend, where main automatically deploys to Cloudflare after checks. UI CI directly verifies the production sharing API. All 39 native tests passed and automatically released 0.1.0 (7), with independent Apple state and group verification. See docs/evidence/backend-extraction.json. No extraction blocker remains. Future AI work and physical-device acceptance are separate.

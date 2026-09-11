@@ -383,7 +383,7 @@ T15 is complete: all three jobs in GitHub run 34571657181 succeeded and automati
 
 - On 2026-09-11 the user selected https://xuche-mohicupb-westus3.services.ai.azure.com/openai/v1/images/generations with Azure deployment gpt-image-2.5-sunburst. The user supplied earlier test evidence of HTTP 200 in 20.8 seconds with 1024×1024 and quality=low. This setup task records that evidence without repeating image generation.
 - Future GPT-6 integration should reuse the existing ~/.codex/config.toml provider configuration. Read-only inspection confirmed gpt-6-astra, copilot-proxy and xhigh reasoning. Do not modify global Codex settings.
-- The image credential is stored in ignored .local/ai/providers.json, with directory mode 0700 and file mode 0600. GPT-6 credentials remain in their original configuration. Future deployment must inject server-side secrets and keep them out of iOS, browser bundles, Git and logs.
+- The image credential is stored in ignored ../pocket-explorer-backend/.local/ai/providers.json, with directory mode 0700 and file mode 0600. GPT-6 credentials remain in their original configuration. Future deployment must inject server-side secrets and keep them out of iOS, browser bundles, Git and logs.
 - Complete T15 automated TestFlight delivery before larger product changes or AI integration. Provider selection does not mean the app is connected. Integration must verify real image/text requests, failure recovery and the approved visual style.
 
 ## Accepted Cloudflare AI backend direction
@@ -404,3 +404,6 @@ The user authorized moving the website, Worker API, D1 migrations and web tests 
 Tasks: extract the tracked web baseline, add Backend PLAN/PROMPT/TODO and a checks-to-deploy workflow, configure a dedicated Cloudflare API token in a main-only environment, run an actual GitHub deployment, independently verify deployed behavior and source version, then remove duplicate web implementation from the UI repository and verify its updated native integration workflow. Failed checks prevent deployment. D1 migrations remain additive and existing records must survive. This stage does not implement live AI, Queues or R2.
 
 Verification: actionlint, build, existing unit/integration coverage thresholds, six browser checks, a live public-sharing check, Cloudflare API deployment reads and actual UI regression with deployed Cloudflare. Never copy the global Cloudflare key, AI credentials or signing material into Git or clients.
+
+
+T16 is complete: Backend run 34575491870 deployed and verified Cloudflare, and UI run 34575779608 passed 39 native tests and released internal TestFlight 0.1.0 (7). See docs/evidence/backend-extraction.json and Backend cloudflare-migration.json. Repository ownership is separated. Live AI remains unimplemented.

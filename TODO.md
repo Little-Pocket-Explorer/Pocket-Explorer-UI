@@ -2,6 +2,15 @@
 
 Updated: 2026-09-11.
 
+## T16 complete: repository extraction and automatic delivery
+
+- Website, sharing Worker, D1 migrations and web tests now live in [Pocket-Explorer-Backend](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend). UI retains native source and native shared resources.
+- Backend [run 34575491870](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/34575491870) passed and deployed https://pocket.changhai.me. Live create, independent read, playback, card flip, revocation and the existing example passed. Original D1 and secret bindings remain intact.
+- UI [run 34575779608](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI/actions/runs/34575779608) passed all three jobs with 26 unit and 13 UI tests, zero failures. It released 0.1.0 (7). Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership, matching the release artifact.
+- Main code pushes run checks before automatic publication. Documentation-only pushes do not publish. Credentials remain server-side.
+- Evidence: docs/evidence/backend-extraction.json and Backend's docs/evidence/cloudflare-migration.json.
+- No extraction blockers remain. Live AI, Queues and R2 remain future work. Physical-device and human acceptance remain separate.
+
 ## T15 delivery history
 
 - Renamed pocket-explorer-ios-ui to Pocket-Explorer-UI at the user's request. An organization-admin read confirmed the older same-name repository was already absent, so no deletion was performed in this turn. Independent reads verified the repository ID, main commit, successful Actions run, testflight environment and six secret entries were preserved. Local origin and documentation links are updated.
@@ -20,11 +29,11 @@ States: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, DEFERRED. DONE requires eviden
 ## Current checkpoint
 
 - Objective: Deliver the iPhone-first exploration prototype and actual web sharing.
-- Current stage: T16 repository extraction. Backend GitHub run 34575491870 passed checks, deployed Cloudflare and passed live verification. Removing the duplicate runtime here and verifying the adjusted iOS workflow. Version 0.1.0 (6) remains the latest independently confirmed TestFlight build.
+- Current stage: T16 complete. Backend and UI automatic delivery both passed. Cloudflare serves the extracted backend, and 0.1.0 (7) is Testing internally.
 - New skill: /Users/haichang/.codex/skills/codex-project passed structural validation. Legacy codex-bootstrap is preserved.
 - Local preview: http://127.0.0.1:4174/s/EDYeU5SzHaXpMEy1XAx9WqvE1Grjrmv3. This is accessible on this Mac only.
-- Running processes: GitHub Actions 34571657181 and the local watcher exited successfully. No local test or archive is running. The isolated sharing service on port 4176 is stopped. The original preview on port 4174 is preserved.
-- Next action: push the UI extraction commit and verify native regression against production plus automatic TestFlight release. AI integration has not started. Phone sharing, speech and camera acceptance remain separate.
+- Running processes: UI GitHub run 34575779608 and its local watcher exited successfully. The preview on port 4174 now runs from ../pocket-explorer-backend (PID 17900). Its existing story was independently read before and after migration with identical SHA-256. The original SQLite file remains as a local backup.
+- Next action: continue with subsequent product work when requested. AI integration has not started. Phone sharing, speech and camera acceptance remain separate.
 - Prerequisites: external build 2 is now confirmed IN_BETA_TESTING and public enrollment is available. External distribution of later builds is managed separately. Physical-device and human acceptance remain open.
 - Human checks: Visual approval, VoiceOver, actual device speech/camera, mobile Safari and the two-minute full rehearsal.
 
@@ -32,7 +41,7 @@ States: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, DEFERRED. DONE requires eviden
 
 | Task | State | Work | Evidence and remaining work |
 | --- | --- | --- | --- |
-| T00 | REVIEW | Device setup and installation | Build 2 installation was confirmed earlier. Build 6 is Testing internally. Await user update and phone acceptance. |
+| T00 | REVIEW | Device setup and installation | Build 2 installation was confirmed earlier. Build 7 is Testing internally. Await user update and phone acceptance. |
 | T01 | REVIEW | Visual baseline and original assets | Native and web captures exist. Human visual approval is pending. |
 | T02 | REVIEW | Native shell and accessibility | Navigation and large text passed on the main simulator and at 375pt and 390pt. Human VoiceOver inspection remains open. |
 | T03 | DONE | Stable journal and persistence | Independent file reads, failed-write rollback, stable IDs, editing and process relaunch passed. |
@@ -47,6 +56,7 @@ States: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, DEFERRED. DONE requires eviden
 | T13 | REVIEW | First-use usability correction and language choice | User reports improved usability. Automated evidence remains in first-use-build3.json. Physical speech/camera and other human checks remain open. |
 | T14 | REVIEW | Sharing without parental restrictions or manual setup | Released as 0.1.0 (5), Testing internally. Cloudflare and native sharing verified. Phone acceptance awaits user update. |
 | T15 | DONE | GitHub repository and automated TestFlight delivery | All three GitHub jobs passed. Apple independently confirms 0.1.0 (6) Testing internally. See github-setup.json. |
+| T16 | DONE | Extract Backend and automate Cloudflare delivery | Backend deployment and UI live integration passed. Apple independently confirms 0.1.0 (7) Testing internally. See backend-extraction.json. |
 | T12 | DEFERRED | Optional live AI | Prepared duck, leaf and shell answers are explicitly labeled. A live generative service is optional. |
 
 Task dependencies and the unchanged acceptance contract remain in PLAN.md and ACCEPTANCE.md.
@@ -170,7 +180,7 @@ Final build 5 has uploaded and finished App Store Connect processing. Save its t
 ## Future AI configuration checkpoint
 
 - Recorded the user's gpt-image-2.5-sunburst image endpoint and existing GPT-6 configuration in PLAN T12. Earlier image success is user-provided evidence and was not independently retested in this task.
-- Saved the image key in .local/ai/providers.json. An independent read verified the deployment and 0600/0700 permissions, and git check-ignore confirmed exclusion. No GPT-6 key was copied and no global settings were changed.
+- Saved the image key in ../pocket-explorer-backend/.local/ai/providers.json. An independent read verified the deployment and 0600/0700 permissions, and git check-ignore confirmed exclusion. No GPT-6 key was copied and no global settings were changed.
 - T12 remains DEFERRED. T15 delivery is verified. Larger product changes and AI integration have not started.
 
 ## External testing status refresh (2026-09-11)
@@ -187,8 +197,12 @@ Final build 5 has uploaded and finished App Store Connect processing. Save its t
 
 ## T16: Backend extraction and automatic Cloudflare delivery
 
-- IN_PROGRESS: T16 repository extraction and automatic Cloudflare delivery. The backend repository was independently confirmed empty. Production Worker settings still bind the original D1 database, ASSETS, OWNER_KEY and rate limiter. Existing sharing is implemented and deployed. AI routes, Queues and R2 are not implemented.
-- Next: prepare Backend checks/deploy workflow, provision narrowly scoped CI credentials, test and publish, verify production, then remove duplicate UI web source and verify native CI against production.
+- DONE: T16 repository extraction and automatic Cloudflare delivery. The backend repository was independently confirmed empty. Production Worker settings still bind the original D1 database, ASSETS, OWNER_KEY and rate limiter. Existing sharing is implemented and deployed. AI routes, Queues and R2 are not implemented.
+- Completed: Backend workflow and scoped credentials, actual deployment, independent production verification, removal of duplicate UI source, native CI and TestFlight verification.
 
 - T16 backend release verified: https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/34575491870 succeeded. Cloudflare version 3bb481f8-00ca-49bd-9ed9-0f16592e99c0 serves 100% traffic and is tagged with backend commit d19e3a16086d6cf5773de0f43a4308342962b09c. Existing example and live create/read/play/revoke passed.
 - UI extraction: removed tracked web source and Docker recipe, retained native resources and fixtures. Updated native workflow to call production through TEST_RUNNER_POCKET_SHARE_BASE_URL. actionlint and shellcheck passed. No Swift application code changed.
+
+- Local migration: copied SQLite through its backup API, preserved the existing preview response, and restarted the preview from Backend. Image provider configuration and the legacy Cloudflare owner key moved into Backend .local with restrictive permissions. Old local preview database/key remain as migration backups, outside Git.
+
+- Native extraction regression passed: 26 unit tests and 13 UI tests, zero failures. The deployed Cloudflare create/read/relaunch/copy/revoke test passed. The 80% application line coverage gate passed. TestFlight release 0.1.0 (7) passed in run 34575779608 and was independently verified in Apple.
