@@ -103,3 +103,8 @@ External status update: independent API and public-page checks on 2026-09-11 con
 The user confirmed Cloudflare for the future AI backend. Follow PLAN's accepted direction: Workers API and server-side secrets, Queues for durable image generation, R2 image objects and D1 job/relationship state. Backend code should use the existing empty Pocket-Explorer-Backend repository when that implementation begins. Finish T15 before changing product behavior. The current deployment still handles sharing only.
 
 T15 is complete: all three jobs in GitHub run 34571657181 succeeded and automatically released 0.1.0 (6). Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. All 39 native, 18 web and six browser tests passed, with 93.35% native app line coverage. Future work follows the accepted Cloudflare direction in PLAN, but larger changes and AI integration have not begun. Physical-device and human acceptance remain separate open items. Evidence: docs/evidence/github-setup.json.
+
+
+## T16: Backend extraction and automatic Cloudflare delivery
+
+Current authorized task: T16 extracts the website and sharing API to ../pocket-explorer-backend and https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend. Follow its PLAN/PROMPT/TODO for deployment setup. Preserve existing Cloudflare resources and domain. Finish a real GitHub-to-Cloudflare release and update native CI to test against deployed Cloudflare. The user authorized commits, pushes and workflow deployment for this setup. Live AI remains future work.

@@ -2,7 +2,7 @@
 
 Updated: 2026-09-11.
 
-## T15 current task
+## T15 delivery history
 
 - Renamed pocket-explorer-ios-ui to Pocket-Explorer-UI at the user's request. An organization-admin read confirmed the older same-name repository was already absent, so no deletion was performed in this turn. Independent reads verified the repository ID, main commit, successful Actions run, testflight environment and six secret entries were preserved. Local origin and documentation links are updated.
 
@@ -20,11 +20,11 @@ States: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, DEFERRED. DONE requires eviden
 ## Current checkpoint
 
 - Objective: Deliver the iPhone-first exploration prototype and actual web sharing.
-- Current stage: T15 is complete and the repository plus automatic delivery are ready for future development. Version 0.1.0 (6) is Testing internally. Cloudflare retains its verified deployment. Phone acceptance awaits the user updating.
+- Current stage: T16 repository extraction. Backend GitHub run 34575491870 passed checks, deployed Cloudflare and passed live verification. Removing the duplicate runtime here and verifying the adjusted iOS workflow. Version 0.1.0 (6) remains the latest independently confirmed TestFlight build.
 - New skill: /Users/haichang/.codex/skills/codex-project passed structural validation. Legacy codex-bootstrap is preserved.
 - Local preview: http://127.0.0.1:4174/s/EDYeU5SzHaXpMEy1XAx9WqvE1Grjrmv3. This is accessible on this Mac only.
 - Running processes: GitHub Actions 34571657181 and the local watcher exited successfully. No local test or archive is running. The isolated sharing service on port 4176 is stopped. The original preview on port 4174 is preserved.
-- Next action: repository setup is ready for the user's subsequent product changes. Cloudflare is selected for the future AI backend but integration has not started. Phone sharing, speech and camera acceptance remain separate.
+- Next action: push the UI extraction commit and verify native regression against production plus automatic TestFlight release. AI integration has not started. Phone sharing, speech and camera acceptance remain separate.
 - Prerequisites: external build 2 is now confirmed IN_BETA_TESTING and public enrollment is available. External distribution of later builds is managed separately. Physical-device and human acceptance remain open.
 - Human checks: Visual approval, VoiceOver, actual device speech/camera, mobile Safari and the two-minute full rehearsal.
 
@@ -183,3 +183,12 @@ Final build 5 has uploaded and finished App Store Connect processing. Save its t
 
 - The user confirmed Cloudflare for the future AI backend. PLAN records Workers, Queues, R2 and D1 responsibilities, server-only credentials and integration acceptance. No AI service deployment was performed.
 - GitHub run 34571657181 passed native regression: 26 unit tests and 13 UI tests, zero failures. Web checks also passed. TestFlight 0.1.0 (6) is released and independently verified. Native logs: /Users/haichang/tmp/pocket-github-native-final.log.
+
+
+## T16: Backend extraction and automatic Cloudflare delivery
+
+- IN_PROGRESS: T16 repository extraction and automatic Cloudflare delivery. The backend repository was independently confirmed empty. Production Worker settings still bind the original D1 database, ASSETS, OWNER_KEY and rate limiter. Existing sharing is implemented and deployed. AI routes, Queues and R2 are not implemented.
+- Next: prepare Backend checks/deploy workflow, provision narrowly scoped CI credentials, test and publish, verify production, then remove duplicate UI web source and verify native CI against production.
+
+- T16 backend release verified: https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/34575491870 succeeded. Cloudflare version 3bb481f8-00ca-49bd-9ed9-0f16592e99c0 serves 100% traffic and is tagged with backend commit d19e3a16086d6cf5773de0f43a4308342962b09c. Existing example and live create/read/play/revoke passed.
+- UI extraction: removed tracked web source and Docker recipe, retained native resources and fixtures. Updated native workflow to call production through TEST_RUNNER_POCKET_SHARE_BASE_URL. actionlint and shellcheck passed. No Swift application code changed.

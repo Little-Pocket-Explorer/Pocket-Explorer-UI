@@ -4,9 +4,7 @@ set -euo pipefail
 : "${RUNNER_TEMP:?Run this script on a GitHub macOS runner.}"
 repo_dir="$(cd "$(dirname "$0")/../.." && pwd)"
 simulator_id=""
-service_pid=""
 cleanup() {
-  if [[ -n "$service_pid" ]]; then kill "$service_pid" 2>/dev/null || true; fi
   if [[ -n "$simulator_id" ]]; then
     xcrun simctl shutdown "$simulator_id" || true
     xcrun simctl delete "$simulator_id" || true
@@ -14,14 +12,9 @@ cleanup() {
 }
 trap cleanup EXIT
 
-cd "$repo_dir/web"
-PORT=4176 PUBLIC_BASE_URL=http://127.0.0.1:4176 \
-  OWNER_KEY=ci-integration-owner-00000000000000 \
-  DATABASE_PATH="$RUNNER_TEMP/native-sharing.sqlite" \
-  node --import tsx server/main.ts > "$RUNNER_TEMP/sharing-service.log" 2>&1 &
-service_pid=$!
-curl --fail --silent --show-error --retry 15 --retry-connrefused \
-  --retry-delay 1 --max-time 5 http://127.0.0.1:4176/health
+share_base_url="${POCKET_SHARE_BASE_URL:-https://pocket.changhai.me}"
+curl --fail --silent --show-error --retry 3 \
+  --retry-delay 1 --max-time 5 "${share_base_url%/}/health"
 
 cd "$repo_dir/ios"
 xcodegen generate
@@ -32,6 +25,7 @@ xcrun simctl boot "$simulator_id"
 xcrun simctl bootstatus "$simulator_id" -b
 
 TEST_RUNNER_POCKET_RUN_LIVE_SHARE=1 \
+  TEST_RUNNER_POCKET_SHARE_BASE_URL="$share_base_url" \
   xcodebuild -project PocketExplorer.xcodeproj -scheme PocketExplorer \
   -destination "platform=iOS Simulator,id=$simulator_id" \
   -derivedDataPath "$RUNNER_TEMP/ios-derived-data" \

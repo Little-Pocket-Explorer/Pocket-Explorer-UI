@@ -395,3 +395,12 @@ The user confirmed continuing with Cloudflare on 2026-09-11. Extend the existing
 - Store generated image objects in R2, and store job/card/image relationships in D1. Preserve local private journals unless synchronization is explicitly added later. Retain the existing public-story field restrictions and revocation behavior.
 - Verify app-to-backend-to-model requests, interrupted clients, duplicate submissions, upstream failures, image retrieval and isolation of private content before calling the integration complete. Current deployment still supports sharing only. No AI routes, queues or R2 storage have been deployed in T15.
 - Cloudflare documents that network waiting does not consume CPU time, HTTP requests can continue while the client stays connected, waitUntil adds at most 30 seconds after disconnect, and queue consumers have a 15-minute wall-clock limit. References: https://developers.cloudflare.com/workers/platform/limits/ and https://developers.cloudflare.com/queues/platform/limits/.
+
+
+## T16: Backend extraction and automatic Cloudflare delivery
+
+The user authorized moving the website, Worker API, D1 migrations and web tests into Little-Pocket-Explorer/Pocket-Explorer-Backend, with successful main pushes deploying to Cloudflare. Preserve pocket.changhai.me, the existing D1 database, public links and server-side secrets. The iOS repository keeps native source and shared native fixtures. Its native integration checks use the deployed Cloudflare API with their own installation credential. Backend CI owns isolated database and browser tests. Repository policy disables Deploy Keys, and no policy change or cross-repository credential is introduced.
+
+Tasks: extract the tracked web baseline, add Backend PLAN/PROMPT/TODO and a checks-to-deploy workflow, configure a dedicated Cloudflare API token in a main-only environment, run an actual GitHub deployment, independently verify deployed behavior and source version, then remove duplicate web implementation from the UI repository and verify its updated native integration workflow. Failed checks prevent deployment. D1 migrations remain additive and existing records must survive. This stage does not implement live AI, Queues or R2.
+
+Verification: actionlint, build, existing unit/integration coverage thresholds, six browser checks, a live public-sharing check, Cloudflare API deployment reads and actual UI regression with deployed Cloudflare. Never copy the global Cloudflare key, AI credentials or signing material into Git or clients.

@@ -7,7 +7,6 @@ on:
     paths:
       - 'ios/**'
       - 'shared/**'
-      - 'web/**'
       - 'scripts/ci/**'
       - '.github/workflows/ios.yml'
   workflow_dispatch:
@@ -24,45 +23,19 @@ concurrency:
   group: ios-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
-env:
-  NODE_VERSION: '24'
-
 jobs:
-  web:
-    name: Web and workflow checks
+  checks:
+    name: Workflow and script checks
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    defaults:
-      run:
-        working-directory: web
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-          cache-dependency-path: web/package-lock.json
       - name: Lint workflow and shell scripts
-        working-directory: .
         run: |
           go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
           shellcheck scripts/ci/*.sh
-      - run: npm ci
-      - run: npm run build
-      - run: npm test
-      - run: npx playwright install --with-deps chrome
-      - run: npm run test:browser
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        if: always()
-        with:
-          name: web-checks-${{ github.run_attempt }}
-          path: |
-            web/coverage/
-            web/test-results/
-            !web/test-results/*.sqlite*
-          retention-days: 7
 
   ios:
     name: iPhone simulator tests
@@ -74,18 +47,11 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-          cache-dependency-path: web/package-lock.json
       - name: Install XcodeGen
         run: bash scripts/ci/install-xcodegen.sh
       - name: Check selected Xcode
         run: xcodebuild -version
-      - run: npm ci && npm run build
-        working-directory: web
-      - name: Run native regression and local sharing integration
+      - name: Run native regression and Cloudflare sharing integration
         run: bash scripts/ci/test-ios.sh
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
@@ -95,12 +61,11 @@ jobs:
             ${{ runner.temp }}/ios-tests.xcresult
             ${{ runner.temp }}/ios-coverage.json
             ${{ runner.temp }}/ios-tests.log
-            ${{ runner.temp }}/sharing-service.log
           retention-days: 7
 
   testflight:
     name: Upload and verify TestFlight
-    needs: [web, ios]
+    needs: [checks, ios]
     if: >-
       github.ref == 'refs/heads/main' &&
       (github.event_name == 'push' ||

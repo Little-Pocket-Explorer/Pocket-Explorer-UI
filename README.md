@@ -17,7 +17,7 @@ On first launch, choose device language, Simplified Chinese or English. The save
 - [TODO.md](TODO.md): current state, evidence and outstanding work.
 - [ACCEPTANCE.md](ACCEPTANCE.md): product acceptance contract.
 - [iPhone setup](ios/README.md).
-- [Sharing service setup](web/README.md).
+- [Sharing service setup](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/blob/main/web/README.md).
 - [Visual direction and asset origins](design/visual-direction.md).
 - [Demonstration script](docs/demo.md).
 
@@ -25,9 +25,9 @@ The project uses the local codex-project skill. Keep implementation, tests and T
 
 ## Repository and releases
 
-This repository owns the native iOS UI. The existing `shared/` resources and `web/` sharing service are included to preserve the working prototype and its integration tests. The organization's Backend and Infra repositories are managed separately.
+This repository owns the native iOS UI and its native shared resources. [Pocket-Explorer-Backend](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend) owns the website, Worker API, D1 migrations and web tests. Backend main pushes automatically update Cloudflare after checks.
 
-Pull requests run native and web checks. A successful push to `main` also uploads a new TestFlight build and assigns the internal testing group. Run the workflow manually with `publish` disabled for checks only. See [GitHub release operations](docs/github-release.md) for credentials, toolchain, reruns and external testing.
+Pull requests run workflow checks, native regression and integration with the deployed Cloudflare sharing API. A successful push to `main` also uploads a new TestFlight build and assigns the internal testing group. Run the workflow manually with `publish` disabled for checks only. See [GitHub release operations](docs/github-release.md) for credentials, toolchain, reruns and external testing.
 
 ## What is real
 
@@ -37,12 +37,6 @@ Simulator and browser verification do not constitute real-iPhone acceptance. Che
 
 ## Test
 
-```sh
-cd web
-npm ci
-npm run build
-npm test
-npm run test:browser
-```
+Native tests and installation steps are in [ios/README.md](ios/README.md). CI tests the deployed Cloudflare service using fictional data and its own installation credential, then revokes the test share. Backend CI owns web, browser and isolated SQLite/D1 tests.
 
-The browser suite starts its own isolated loopback service. It requires Google Chrome. Native tests and installation steps are in ios/README.md. Test journals and owner keys are isolated from the normal app.
+For local service work, clone Pocket-Explorer-Backend beside this checkout and follow its web setup. Set TEST_RUNNER_POCKET_SHARE_BASE_URL when running xcodebuild to test another origin. The native sharing integration is enabled by TEST_RUNNER_POCKET_RUN_LIVE_SHARE=1.

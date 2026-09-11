@@ -1,5 +1,0 @@
-CREATE TABLE IF NOT EXISTS shares (
-  token TEXT PRIMARY KEY,
-  snapshot TEXT NOT NULL,
-  revoked INTEGER NOT NULL DEFAULT 0 CHECK (revoked IN (0, 1))
-) STRICT;
