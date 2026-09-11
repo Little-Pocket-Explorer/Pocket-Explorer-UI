@@ -46,7 +46,7 @@ final class TripStore {
         guard !observation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw JournalError.emptyObservation }
         if let existing = state.discoveries.first(where: { $0.id == id }) { return existing }
         let filename = photo.map { _ in "\(id.uuidString).jpg" }
-        let record = Discovery(id: id, tripID: tripID, subject: subject, question: question, observation: observation, explanation: explanation, createdAt: now, photoFilename: filename)
+        let record = Discovery(id: id, tripID: tripID, subject: subject, question: question, observation: observation, explanation: explanation, createdAt: now, photoFilename: filename, unlockedAt: now, origin: .exploration, tier: .fieldFind)
         var next = state
         next.discoveries.append(record)
         refreshMemory(in: &next, tripID: tripID)

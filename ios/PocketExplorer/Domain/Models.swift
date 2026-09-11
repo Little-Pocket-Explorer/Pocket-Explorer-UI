@@ -39,6 +39,24 @@ struct Place: Codable, Equatable, Identifiable {
     static let examples = [sydney, melbourne, brisbane]
 }
 
+enum DiscoveryOrigin: String, Codable, Equatable {
+    case exploration
+    case gift
+
+    var title: String {
+        switch self {
+        case .exploration: return L10n.text("Exploration")
+        case .gift: return L10n.text("Gift")
+        }
+    }
+}
+
+enum CardTier: String, Codable, Equatable {
+    case fieldFind
+
+    var title: String { L10n.text("Field find") }
+}
+
 struct Discovery: Codable, Equatable, Identifiable {
     var id: UUID
     var tripID: UUID
@@ -48,6 +66,9 @@ struct Discovery: Codable, Equatable, Identifiable {
     var explanation: String
     var createdAt: Date
     var photoFilename: String?
+    var unlockedAt: Date? = nil
+    var origin: DiscoveryOrigin? = nil
+    var tier: CardTier? = nil
 }
 
 struct MemoryChapter: Codable, Equatable, Identifiable {

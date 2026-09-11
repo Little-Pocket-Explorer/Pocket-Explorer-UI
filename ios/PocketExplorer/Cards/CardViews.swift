@@ -31,11 +31,15 @@ struct DiscoveryCard: View {
                 Text(discovery.subject.title).font(.system(.title2, design: .rounded, weight: .heavy))
                 Text(discovery.question).font(.system(.subheadline, design: .rounded)).foregroundStyle(Theme.muted)
                 HStack {
-                    Text("A WONDER, KEPT.").tracking(1.5)
+                    Label((discovery.tier ?? .fieldFind).title.uppercased(), systemImage: "sparkles")
                     Spacer()
-                    Image(systemName: "sparkles")
+                    Text((discovery.origin ?? .exploration).title.uppercased())
                 }
                 .font(.system(.caption2, design: .rounded, weight: .bold)).padding(.top, 10)
+                if let unlockedAt = discovery.unlockedAt {
+                    Text(unlockedAt.formatted(date: .abbreviated, time: .omitted))
+                        .font(.system(.caption2, design: .rounded)).foregroundStyle(Theme.muted)
+                }
             }.padding(20)
         }
         .foregroundStyle(Theme.ink)
@@ -44,6 +48,70 @@ struct DiscoveryCard: View {
         .background(Theme.shimmer, in: RoundedRectangle(cornerRadius: 31))
         .overlay(RoundedRectangle(cornerRadius: 31).stroke(.white.opacity(0.85), lineWidth: 1))
         .shadow(color: Theme.ink.opacity(0.12), radius: 18, x: 0, y: 9)
+    }
+}
+
+struct CardUnlockView: View {
+    let discovery: Discovery
+    var onReveal: () -> Void
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var unlocking = false
+
+    var body: some View {
+        VStack(spacing: 24) {
+            Spacer(minLength: 20)
+            Eyebrow(text: "Discovery complete")
+            Text("A new card is waiting.")
+                .font(.system(.largeTitle, design: .rounded, weight: .heavy))
+                .multilineTextAlignment(.center)
+            ZStack {
+                RoundedRectangle(cornerRadius: 31)
+                    .fill(Theme.shimmer)
+                RoundedRectangle(cornerRadius: 25)
+                    .fill(Theme.forest)
+                    .padding(7)
+                VStack(spacing: 18) {
+                    Image(systemName: unlocking ? "sparkles" : "lock.fill")
+                        .font(.system(size: 44, weight: .bold))
+                    Image(discovery.subject.rawValue)
+                        .resizable().scaledToFit().frame(height: 150)
+                        .opacity(unlocking ? 1 : 0.3)
+                    Text(discovery.subject.category)
+                        .font(.system(.headline, design: .rounded, weight: .bold))
+                }
+                .foregroundStyle(Theme.paper)
+            }
+            .frame(maxWidth: 330, minHeight: 390)
+            .scaleEffect(unlocking && !reduceMotion ? 1.04 : 1)
+            .rotation3DEffect(.degrees(unlocking && !reduceMotion ? 8 : 0), axis: (x: 0, y: 1, z: 0))
+            .shadow(color: Theme.ink.opacity(0.18), radius: 22, y: 12)
+            .accessibilityIdentifier("card-unlock-stage")
+            Text("You asked, looked closer, and made this discovery your own.")
+                .font(.system(.body, design: .rounded, weight: .semibold))
+                .foregroundStyle(Theme.muted).multilineTextAlignment(.center)
+            Button(action: reveal) {
+                Label(unlocking ? L10n.text("Unlocking…") : L10n.text("Reveal my card"), systemImage: unlocking ? "sparkles" : "lock.open.fill")
+            }
+            .buttonStyle(ExplorerButtonStyle())
+            .accessibilityIdentifier("reveal-card")
+            .disabled(unlocking)
+            Spacer(minLength: 12)
+        }
+        .padding(26).background(Theme.paper).foregroundStyle(Theme.ink)
+    }
+
+    private func reveal() {
+        guard !unlocking else { return }
+        if reduceMotion {
+            unlocking = true
+            onReveal()
+            return
+        }
+        withAnimation(.spring(duration: 0.55, bounce: 0.35)) { unlocking = true }
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(650))
+            onReveal()
+        }
     }
 }
 

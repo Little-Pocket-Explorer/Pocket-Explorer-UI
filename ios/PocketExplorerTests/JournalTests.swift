@@ -32,6 +32,9 @@ final class JournalTests: XCTestCase {
         let record = try store.addDiscovery(tripID: trip, subject: .duck, question: "How do ducks swim?", observation: observation, explanation: "Webbed feet push water.", photo: photo)
         var reload = try TripStore(fileURL: fileURL)
         XCTAssertEqual(reload.discoveries(in: trip).first?.observation, observation)
+        XCTAssertEqual(reload.discoveries(in: trip).first?.unlockedAt, record.createdAt)
+        XCTAssertEqual(reload.discoveries(in: trip).first?.origin, .exploration)
+        XCTAssertEqual(reload.discoveries(in: trip).first?.tier, .fieldFind)
         XCTAssertEqual(try Data(contentsOf: reload.mediaURL(record.photoFilename!)), photo)
         XCTAssertEqual(reload.state.trips[0].title, "Our adventure")
         XCTAssertNil(reload.state.trips[0].place)
@@ -90,6 +93,21 @@ final class JournalTests: XCTestCase {
         try encoded.write(to: fileURL)
         XCTAssertThrowsError(try TripStore(fileURL: fileURL))
         XCTAssertEqual(try Data(contentsOf: fileURL), encoded)
+    }
+
+    func testLegacyDiscoveriesDecodeWithoutUnlockMetadata() throws {
+        let encoded = try JSONEncoder().encode(JournalState.examples())
+        var object = try XCTUnwrap(JSONSerialization.jsonObject(with: encoded) as? [String: Any])
+        var discoveries = try XCTUnwrap(object["discoveries"] as? [[String: Any]])
+        for index in discoveries.indices {
+            discoveries[index].removeValue(forKey: "unlockedAt")
+            discoveries[index].removeValue(forKey: "origin")
+            discoveries[index].removeValue(forKey: "tier")
+        }
+        object["discoveries"] = discoveries
+        let legacy = try JSONSerialization.data(withJSONObject: object)
+        let decoded = try JSONDecoder().decode(JournalState.self, from: legacy)
+        XCTAssertTrue(decoded.discoveries.allSatisfy { $0.unlockedAt == nil && $0.origin == nil && $0.tier == nil })
     }
 
     func testReminderBoundariesAndPersistence() throws {

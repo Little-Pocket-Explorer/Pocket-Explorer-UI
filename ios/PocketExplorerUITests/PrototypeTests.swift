@@ -76,6 +76,7 @@ final class PrototypeTests: XCTestCase {
         observation.typeText("I saw two feet pushing backwards.")
         scrollTo(app.buttons["save-discovery"])
         app.buttons["save-discovery"].tap()
+        revealEarnedCard()
         XCTAssertTrue(app.buttons["discovery-card"].waitForExistence(timeout: 10))
         app.buttons["discovery-card"].tap()
         XCTAssertEqual(app.staticTexts["card-observation"].label, "I saw two feet pushing backwards.")
@@ -106,6 +107,7 @@ final class PrototypeTests: XCTestCase {
         let input = app.textViews["exploration-input"].exists ? app.textViews["exploration-input"] : app.textFields["exploration-input"]
         scrollTo(input); input.tap(); input.typeText("One leaf has a zigzag edge.")
         app.buttons["save-discovery"].tap()
+        revealEarnedCard()
         let memory = app.buttons["new-card-memory"]
         XCTAssertTrue(memory.waitForExistence(timeout: 5))
         XCTAssertTrue(memory.isHittable, "The next step must be visible without finding the trip again.")
@@ -146,6 +148,10 @@ final class PrototypeTests: XCTestCase {
         scrollTo(input); input.tap(); input.typeText("Two feet push water.")
         XCTAssertEqual(app.buttons["save-discovery"].label, "制作我的卡片")
         app.buttons["save-discovery"].tap()
+        let reveal = app.buttons["reveal-card"]
+        XCTAssertTrue(reveal.waitForExistence(timeout: 5))
+        XCTAssertEqual(reveal.label, "揭晓我的卡片")
+        reveal.tap()
         let memory = app.buttons["new-card-memory"]
         XCTAssertTrue(memory.waitForExistence(timeout: 5))
         XCTAssertEqual(memory.label, "制作这段回忆")
@@ -366,6 +372,12 @@ final class PrototypeTests: XCTestCase {
         let status = app.staticTexts["exploration-status"]
         let ready = expectation(for: NSPredicate(format: "label == %@ OR label == %@", "Notice one thing, then make it into your card.", "记录一件新发现，把它变成自己的卡片。"), evaluatedWith: status)
         wait(for: [ready], timeout: 10)
+    }
+    private func revealEarnedCard() {
+        let reveal = app.buttons["reveal-card"]
+        XCTAssertTrue(reveal.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.otherElements["card-unlock-stage"].exists)
+        reveal.tap()
     }
     private func dismissAccountReminder() {
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")

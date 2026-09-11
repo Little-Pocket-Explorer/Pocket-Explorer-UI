@@ -2,6 +2,18 @@
 
 Updated: 2026-09-11.
 
+## T17 in progress: earned card unlock loop
+
+- Product direction: the Hackathon Web experience is a required complete review surface, while the iPhone app provides the synchronized native experience. Core card-flow UI changes must be implemented in both repositories.
+- Native implementation now separates saving a completed observation from revealing its earned card. The child reaches a dedicated locked-card stage, explicitly reveals the card, and then continues to the existing card, memory and sharing flow.
+- Newly earned discoveries persist an unlock timestamp, exploration origin and initial `fieldFind` tier. All fields are optional so existing journals remain decodable. Public-story exports continue to exclude private journal and unlock metadata.
+- Card faces now show the tier, origin and unlock date. The reveal uses a finite animation and immediately reaches the same result when Reduce Motion is enabled.
+- Added unit coverage for metadata persistence, legacy JSON decoding and public export boundaries. Updated English, Simplified Chinese and the affected end-to-end UI paths.
+- Windows validation passed: editor diagnostics report no errors in touched Swift files; all four shared JSON files parse; both localization files contain 152 unique keys; `git diff --check` passes.
+- Matching Web implementation: the Backend root route now provides question entry, optional local image selection, short prepared answers, observation entry, an unlock stage and a persistent local Collection. The public `/s/:token` version 1 sharing route remains unchanged.
+- Web verification passed on Windows: 24 unit/integration tests, 7 Chromium browser tests, 99.59% lines and 95.68% branches. The mobile unlock screenshot has no detected overflow or overlap.
+- REVIEW: native XCTest, XCUITest, coverage and visual results still require the macOS CI workflow. Do not treat Windows diagnostics as an iOS build result.
+
 ## T16 complete: repository extraction and automatic delivery
 
 - Website, sharing Worker, D1 migrations and web tests now live in [Pocket-Explorer-Backend](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend). UI retains native source and native shared resources.
@@ -28,12 +40,12 @@ States: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, DEFERRED. DONE requires eviden
 
 ## Current checkpoint
 
-- Objective: Deliver the iPhone-first exploration prototype and actual web sharing.
-- Current stage: T16 complete. Backend and UI automatic delivery both passed. Cloudflare serves the extracted backend, and 0.1.0 (7) is Testing internally.
+- Objective: Deliver a complete Hackathon Web experience and a synchronized enhanced iPhone exploration experience.
+- Current stage: T17 card unlock loop is implemented in both SwiftUI and Web. Web checks pass; native changes await macOS CI.
 - New skill: /Users/haichang/.codex/skills/codex-project passed structural validation. Legacy codex-bootstrap is preserved.
 - Local preview: http://127.0.0.1:4174/s/EDYeU5SzHaXpMEy1XAx9WqvE1Grjrmv3. This is accessible on this Mac only.
 - Running processes: UI GitHub run 34575779608 and its local watcher exited successfully. The preview on port 4174 now runs from ../pocket-explorer-backend (PID 17900). Its existing story was independently read before and after migration with identical SHA-256. The original SQLite file remains as a local backup.
-- Next action: continue with subsequent product work when requested. AI integration has not started. Phone sharing, speech and camera acceptance remain separate.
+- Next action: run the native PR workflow before TestFlight review, inspect the Web demo on an iPhone browser, then select the next card-system increment. Live AI integration has not started.
 - Prerequisites: external build 2 is now confirmed IN_BETA_TESTING and public enrollment is available. External distribution of later builds is managed separately. Physical-device and human acceptance remain open.
 - Human checks: Visual approval, VoiceOver, actual device speech/camera, mobile Safari and the two-minute full rehearsal.
 
@@ -57,6 +69,7 @@ States: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, DEFERRED. DONE requires eviden
 | T14 | REVIEW | Sharing without parental restrictions or manual setup | Released as 0.1.0 (5), Testing internally. Cloudflare and native sharing verified. Phone acceptance awaits user update. |
 | T15 | DONE | GitHub repository and automated TestFlight delivery | All three GitHub jobs passed. Apple independently confirms 0.1.0 (6) Testing internally. See github-setup.json. |
 | T16 | DONE | Extract Backend and automate Cloudflare delivery | Backend deployment and UI live integration passed. Apple independently confirms 0.1.0 (7) Testing internally. See backend-extraction.json. |
+| T17 | REVIEW | Earned card unlock loop in Web and SwiftUI | Web implementation and full local tests pass. SwiftUI implementation and static checks pass; macOS native tests, TestFlight and human review remain. |
 | T12 | DEFERRED | Optional live AI | Prepared duck, leaf and shell answers are explicitly labeled. A live generative service is optional. |
 
 Task dependencies and the unchanged acceptance contract remain in PLAN.md and ACCEPTANCE.md.

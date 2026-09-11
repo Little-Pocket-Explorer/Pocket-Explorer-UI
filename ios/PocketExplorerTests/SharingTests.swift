@@ -38,7 +38,7 @@ final class SharingTests: XCTestCase {
         XCTAssertNil(publicStory.firstName)
         XCTAssertNil(publicStory.city)
         let text = String(data: try JSONEncoder().encode(publicStory), encoding: .utf8)!
-        for field in ["latitude", "longitude", "photoFilename", "createdAt", "tripID", "rawRecording"] { XCTAssertFalse(text.contains(field)) }
+        for field in ["latitude", "longitude", "photoFilename", "createdAt", "tripID", "rawRecording", "unlockedAt", "origin", "tier"] { XCTAssertFalse(text.contains(field)) }
         let included = PublicStory.make(trip: state.trips[0], discoveries: state.discoveries, firstName: " Alex ", includeCity: true)
         XCTAssertEqual(included.firstName, "Alex")
         XCTAssertEqual(included.city, "Sydney")

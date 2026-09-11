@@ -25,6 +25,7 @@ struct ExplorationFlow: View {
     let tripID: UUID?
     @Environment(\.dismiss) private var dismiss
     @State private var saved: Discovery?
+    @State private var revealed = false
     @State private var showMemory = false
     @State private var error: String?
 
@@ -32,17 +33,21 @@ struct ExplorationFlow: View {
         NavigationStack {
             Group {
                 if let saved {
-                    CardDetailView(store: store, discoveryID: saved.id, isNew: true)
-                        .safeAreaInset(edge: .bottom) {
-                            VStack(spacing: 8) {
-                                Text("Saved to My finds. Turn it into a memory next.").font(.caption).foregroundStyle(Theme.muted)
-                                Button("Make a memory") {
-                                    do { try store.finishTrip(saved.tripID); showMemory = true }
-                                    catch { self.error = error.localizedDescription }
-                                }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("new-card-memory")
-                                if let error { Text(error).font(.caption) }
-                            }.padding(20).background(Theme.paper)
-                        }
+                    if revealed {
+                        CardDetailView(store: store, discoveryID: saved.id, isNew: true)
+                            .safeAreaInset(edge: .bottom) {
+                                VStack(spacing: 8) {
+                                    Text("Saved to My finds. Turn it into a memory next.").font(.caption).foregroundStyle(Theme.muted)
+                                    Button("Make a memory") {
+                                        do { try store.finishTrip(saved.tripID); showMemory = true }
+                                        catch { self.error = error.localizedDescription }
+                                    }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("new-card-memory")
+                                    if let error { Text(error).font(.caption) }
+                                }.padding(20).background(Theme.paper)
+                            }
+                    } else {
+                        CardUnlockView(discovery: saved) { revealed = true }
+                    }
                 }
                 else { ExploreView(store: store, tripID: tripID, onSave: { saved = $0 }) }
             }
