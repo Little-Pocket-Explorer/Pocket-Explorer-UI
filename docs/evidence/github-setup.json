@@ -1,0 +1,126 @@
+{
+  "status": "completed",
+  "updated_at": "2026-09-11T07:17:30.653896+00:00",
+  "repository": {
+    "url": "https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui",
+    "visibility": "private",
+    "default_branch": "main"
+  },
+  "workflow": {
+    "url": "https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui/actions/runs/34571657181",
+    "source_commit": "1eecb89134c2b7f6ec866bcb5d36c6f71ea23b7f",
+    "runner": "macos-26",
+    "xcode": "26.6",
+    "xcodegen": "2.46.0",
+    "fastlane": "2.239.0",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "iPhone simulator tests",
+        "id": 103174945937,
+        "conclusion": "success"
+      },
+      {
+        "name": "Web and workflow checks",
+        "id": 103174946279,
+        "conclusion": "success"
+      },
+      {
+        "name": "Upload and verify TestFlight",
+        "id": 103179266660,
+        "conclusion": "success"
+      }
+    ]
+  },
+  "tests": {
+    "native": {
+      "result": "Passed",
+      "passed": 39,
+      "failed": 0,
+      "skipped": 0,
+      "unit_tests": 26,
+      "ui_tests": 13,
+      "coverage": {
+        "coveredLines": 2823,
+        "executableLines": 3024,
+        "lineCoverage": 0.933531746031746
+      },
+      "result_bundle": ".local/github-run-34571657181/ios/ios-tests.xcresult",
+      "log": "/Users/haichang/tmp/pocket-github-native-final.log"
+    },
+    "web": {
+      "passed": 18,
+      "browser_tests_passed": 6,
+      "line_coverage": {
+        "total": 187,
+        "covered": 187,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branch_coverage": {
+        "total": 185,
+        "covered": 183,
+        "skipped": 0,
+        "pct": 98.91
+      },
+      "log": "/Users/haichang/tmp/pocket-github-web-final.log"
+    }
+  },
+  "signing": {
+    "environment": "testflight",
+    "allowed_branch": "main",
+    "certificate_profile_expiry": "2027-09-11T06:30:43Z",
+    "secrets_independently_listed": true,
+    "credential_content_excluded": true,
+    "runner_cleanup_verified": true
+  },
+  "release": {
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 6,
+    "build_id": "23b9c4d3-3b0c-4244-82f0-67607854ac88",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "source_commit": "1eecb89134c2b7f6ec866bcb5d36c6f71ea23b7f",
+    "run_url": "https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui/actions/runs/34571657181"
+  },
+  "external": {
+    "build": 2,
+    "processing_state": "VALID",
+    "external_state": "IN_BETA_TESTING",
+    "group": "Hackathon External",
+    "public_link": "https://testflight.apple.com/join/83Jzf4WB",
+    "public_link_available": true,
+    "tester_limit": 3,
+    "verification": "Independent Apple API reads and public browser reload",
+    "changed": false
+  },
+  "scope": {
+    "product_behavior_changed": false,
+    "website_deployment_changed": false,
+    "ai_integrated": false,
+    "future_backend": "Cloudflare Workers, Queues, R2 and D1",
+    "future_image_deployment": "gpt-image-2.5-sunburst",
+    "future_reasoning_provider": "Existing local Codex configuration"
+  },
+  "remaining_product_acceptance": [
+    "Physical-device speech and camera",
+    "Phone sharing acceptance",
+    "VoiceOver",
+    "Mobile Safari",
+    "Human visual approval",
+    "Timed rehearsal"
+  ],
+  "independent_apple_verification": {
+    "verified_at": "2026-09-11T07:16:43.837372+00:00",
+    "version": "0.1.0",
+    "build": 6,
+    "build_id": "23b9c4d3-3b0c-4244-82f0-67607854ac88",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "group_membership_verified": true,
+    "remote_testing_notes_source_verified": true
+  }
+}

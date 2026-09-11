@@ -4,30 +4,33 @@ Updated: 2026-09-11.
 
 ## T15 current task
 
-- IN_PROGRESS: GitHub repository and automated TestFlight delivery. Product changes are paused.
+- DONE: GitHub repository and automated TestFlight delivery. GitHub released 0.1.0 (6), independently confirmed Testing internally by Apple. Product behavior is unchanged.
 - Accepted haha1903's organization invitation. Created and independently verified private repository with ADMIN access: https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui.
 - Created a dedicated Apple API key, distribution certificate and App Store profile, independently verified through the API. Certificate and profile expire 2027-09-11. Configured and independently listed six GitHub testflight environment secrets. The environment accepts main only.
 - Workflow, Fastlane and scripts are implemented. actionlint, shellcheck, Ruby syntax and lane loading passed. Pinned Xcode 26.6, XcodeGen 2.46.0 with SHA-256 verification and Fastlane 2.239.0. Npm tarball URLs use the public registry with versions and integrity values unchanged.
-- Next: inspect the first commit, push and run actual GitHub native/web checks and TestFlight delivery. Apple independently reports latest build number 5.
+- Published main at code revision 1eecb89134c2b7f6ec866bcb5d36c6f71ea23b7f. The remote tree independently contains 148 files. The first-commit sensitive-content audit passed with no credentials, databases or generated projects tracked.
+- Current run: https://github.com/Little-Pocket-Explorer/pocket-explorer-ios-ui/actions/runs/34571657181. Web checks passed: 18 tests, six browser tests, 100% lines and 98.91% branches. Native regression passed all 39 tests with 2823/3024 app lines covered (93.35%). The release job completed successfully. Two earlier runs were superseded and canceled after configuration fixes.
+- All three GitHub jobs succeeded. Native regression passed 26 unit and 13 UI tests with 93.35% app line coverage. Web passed 18 tests and six browser tests with 100% lines and 98.91% branches.
+- The release result matches independent Apple reads: 0.1.0 (6), build ID 23b9c4d3-3b0c-4244-82f0-67607854ac88, VALID / IN_BETA_TESTING, assigned to Hackathon Internal. Remote testing notes identify the workflow source commit. Signing cleanup passed. Evidence: docs/evidence/github-setup.json.
 
 States: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, DEFERRED. DONE requires evidence. Simulator checks cannot replace real-device or public-sharing acceptance.
 
 ## Current checkpoint
 
 - Objective: Deliver the iPhone-first exploration prototype and actual web sharing.
-- Current stage: T14 is released as 0.1.0 (5), independently confirmed Testing in Hackathon Internal. Cloudflare is deployed and verified. All software checks passed. Device acceptance awaits the user updating.
+- Current stage: T15 is complete and the repository plus automatic delivery are ready for future development. Version 0.1.0 (6) is Testing internally. Cloudflare retains its verified deployment. Phone acceptance awaits the user updating.
 - New skill: /Users/haichang/.codex/skills/codex-project passed structural validation. Legacy codex-bootstrap is preserved.
 - Local preview: http://127.0.0.1:4174/s/EDYeU5SzHaXpMEy1XAx9WqvE1Grjrmv3. This is accessible on this Mac only.
-- Running processes: all tests, archiving and upload have finished. The isolated sharing service on port 4176 is stopped. The original preview on port 4174 is preserved.
-- Next action: user updates to 0.1.0 (5) and checks Preview & share → Create a sharing link on their phone. External eligibility still depends on build 2 Beta App Review.
-- Prerequisites: the user completed review submission, so no contact phone request remains necessary. Apple review is pending. Public-link enrollment does not require teammate email addresses. Physical-device and human acceptance remain open.
+- Running processes: GitHub Actions 34571657181 and the local watcher exited successfully. No local test or archive is running. The isolated sharing service on port 4176 is stopped. The original preview on port 4174 is preserved.
+- Next action: repository setup is ready for the user's subsequent product changes. Cloudflare is selected for the future AI backend but integration has not started. Phone sharing, speech and camera acceptance remain separate.
+- Prerequisites: external build 2 is now confirmed IN_BETA_TESTING and public enrollment is available. External distribution of later builds is managed separately. Physical-device and human acceptance remain open.
 - Human checks: Visual approval, VoiceOver, actual device speech/camera, mobile Safari and the two-minute full rehearsal.
 
 ## Tasks
 
 | Task | State | Work | Evidence and remaining work |
 | --- | --- | --- | --- |
-| T00 | REVIEW | Device setup and installation | Build 2 installation was confirmed earlier. Final build 5 is Testing internally. Await user update and phone acceptance. |
+| T00 | REVIEW | Device setup and installation | Build 2 installation was confirmed earlier. Build 6 is Testing internally. Await user update and phone acceptance. |
 | T01 | REVIEW | Visual baseline and original assets | Native and web captures exist. Human visual approval is pending. |
 | T02 | REVIEW | Native shell and accessibility | Navigation and large text passed on the main simulator and at 375pt and 390pt. Human VoiceOver inspection remains open. |
 | T03 | DONE | Stable journal and persistence | Independent file reads, failed-write rollback, stable IDs, editing and process relaunch passed. |
@@ -41,6 +44,7 @@ States: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, DEFERRED. DONE requires eviden
 | T11 | REVIEW | Final verification and delivery | Pre-release native baseline: 29 passed, 92.97% Swift line coverage. Release edits have separate targeted checks. Current web tests: 14 passed, plus 6 original browser tests and 1 live browser test. Device, visual, VoiceOver, mobile Safari and timed rehearsal checks remain. |
 | T13 | REVIEW | First-use usability correction and language choice | User reports improved usability. Automated evidence remains in first-use-build3.json. Physical speech/camera and other human checks remain open. |
 | T14 | REVIEW | Sharing without parental restrictions or manual setup | Released as 0.1.0 (5), Testing internally. Cloudflare and native sharing verified. Phone acceptance awaits user update. |
+| T15 | DONE | GitHub repository and automated TestFlight delivery | All three GitHub jobs passed. Apple independently confirms 0.1.0 (6) Testing internally. See github-setup.json. |
 | T12 | DEFERRED | Optional live AI | Prepared duck, leaf and shell answers are explicitly labeled. A live generative service is optional. |
 
 Task dependencies and the unchanged acceptance contract remain in PLAN.md and ACCEPTANCE.md.
@@ -72,7 +76,7 @@ Task dependencies and the unchanged acceptance contract remain in PLAN.md and AC
 
 ## Delivery limits
 
-Final build 0.1.0 (5) is Testing in Hackathon Internal. The website is deployed, sharing no longer has parental restrictions or manual setup, and all software checks passed. The user must update for phone acceptance. Physical speech/camera, VoiceOver, mobile Safari and the timed rehearsal remain unverified. Build 2 remains Waiting for Review externally. No public App Store release, commits, pushes or teammate messages were performed.
+Current build 0.1.0 (6) is Testing in Hackathon Internal. The website is deployed, sharing no longer has parental restrictions or manual setup, and software checks passed. Phone sharing, physical speech/camera, VoiceOver, mobile Safari and the timed rehearsal remain unverified. External build 2 is now confirmed IN_BETA_TESTING, and the public invitation is available. T15 authorizes repository creation, commits and pushes. No public App Store release, live AI integration or teammate messages were performed.
 
 ## Release checkpoint (build 2 history)
 
@@ -91,7 +95,7 @@ Final build 0.1.0 (5) is Testing in Hackathon Internal. The website is deployed,
 - Two byte-identical temporary browser downloads were removed. /Users/haichang/Downloads/Xcode_27_Release_Candidate.xip is retained.
 - Evidence: docs/evidence/testflight-release.json, docs/evidence/testflight-ready.png and docs/evidence/testflight-invited.png. The user is already invited, so avoid a duplicate invitation. Teammate invitations require actual recipients and existing authorization.
 
-## External testing checkpoint
+## Initial external submission history
 
 - State: REVIEW, with build 2 submitted for external Beta App Review and Waiting for Review.
 - The user explicitly requested External Testing. Teammates need neither developer membership nor App Store Connect access.
@@ -127,13 +131,13 @@ Final build 0.1.0 (5) is Testing in Hackathon Internal. The website is deployed,
 
 - Xcode Organizer independently showed PocketExplorer 0.1.0 (3) uploaded, with Uploaded to Apple in the archive list. The CLI account-access failure was resolved through the existing GUI session without another login. Apple processing and group assignment are next.
 
-## Current delivery checkpoint
+## Build 3 delivery history
 
 Build 0.1.0 (3) is uploaded and independently verified as Testing in Hackathon Internal. The user can update through TestFlight. Build 2 installation on Hai's iPhone 17 Pro Max, iOS 27, is confirmed. Build 3 first use, speech and camera await user feedback. Apple currently prevents adding build 3 to the external group because one build from version 0.1.0 is already in Beta App Review. Build 2 remains Waiting for Review.
 
 Evidence: docs/evidence/first-use-build3.json and docs/evidence/testflight-build3-testing.png. What to Test was saved and independently read after reload. No T13 process remains running.
 
-## T14 current checkpoint
+## T14 implementation history
 
 - IN_PROGRESS: remove the manual family-key blocker with installation-scoped sharing ownership.
 - Next: reproduce rejection of a fresh credential, implement zero-setup sharing, verify and release build 4.
@@ -160,3 +164,20 @@ Final build 5 has uploaded and finished App Store Connect processing. Save its t
 - Next: phone acceptance after the user updates. External build 2 remains Waiting for Review and Apple disables selecting the external group for build 5. Do not cancel that review or resend invitations.
 - Evidence: docs/evidence/sharing-build5.json, design/key-screens/sharing-preview-zh-build5.png, docs/evidence/testflight-build5-testing.png.
 - Test harness note: after all regression tests passed, optional simctl diagnose stalled. Only that child was terminated, allowing xcodebuild to exit 0 and finalize its result bundle. The later focused checks used the supported -collect-test-diagnostics never flag without disabling assertions or coverage.
+
+## Future AI configuration checkpoint
+
+- Recorded the user's gpt-image-2.5-sunburst image endpoint and existing GPT-6 configuration in PLAN T12. Earlier image success is user-provided evidence and was not independently retested in this task.
+- Saved the image key in .local/ai/providers.json. An independent read verified the deployment and 0600/0700 permissions, and git check-ignore confirmed exclusion. No GPT-6 key was copied and no global settings were changed.
+- T12 remains DEFERRED. T15 delivery is verified. Larger product changes and AI integration have not started.
+
+## External testing status refresh (2026-09-11)
+
+- Independent Apple API reads confirm build 2 is VALID / IN_BETA_TESTING and remains assigned to Hackathon External. Earlier Waiting for Review entries are historical.
+- Public link https://testflight.apple.com/join/83Jzf4WB is enabled with a limit of three testers. A fresh public-page load shows View in TestFlight instead of enrollment being closed. Screenshot: /Users/haichang/tmp/pocket-testflight-public-available.png.
+- This was read-only verification. No testers, invitations or external assignments were changed. CI still distributes automatically to the internal group, while the public link exposes the older build 2.
+
+## Accepted backend checkpoint
+
+- The user confirmed Cloudflare for the future AI backend. PLAN records Workers, Queues, R2 and D1 responsibilities, server-only credentials and integration acceptance. No AI service deployment was performed.
+- GitHub run 34571657181 passed native regression: 26 unit tests and 13 UI tests, zero failures. Web checks also passed. TestFlight 0.1.0 (6) is released and independently verified. Native logs: /Users/haichang/tmp/pocket-github-native-final.log.

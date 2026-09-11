@@ -93,3 +93,13 @@ Latest continuation: T14 is released as 0.1.0 (5), independently confirmed Testi
 ## T15 current task
 
 The user authorized creating an iOS UI repository under Little-Pocket-Explorer and configuring GitHub builds to update TestFlight. Use the private pocket-explorer-ios-ui repository. Complete repository setup and verify automated delivery before starting the planned larger changes. Current authorization covers committing and pushing the baseline, configuring CI credentials and running an actual release. Do not change product behavior or cancel the existing external review. Resume from TODO T15.
+
+## Future AI integration
+
+The user selected image deployment gpt-image-2.5-sunburst. PLAN T12 records its endpoint and the source of earlier test evidence. The image key exists only in ignored local .local/ai/providers.json. Reuse the existing gpt-6-astra / copilot-proxy / xhigh configuration from ~/.codex/config.toml for GPT-6. Credentials must be used server-side and never copied into the app, website, repository or logs. Finish T15 first. This provider selection does not implement live AI, and the prepared demonstration responses remain in place.
+
+External status update: independent API and public-page checks on 2026-09-11 confirm build 2 is IN_BETA_TESTING and public enrollment is available. Earlier pending-review statements are historical. CI automatically updates the internal group, while the external group currently retains build 2. See TODO's external status refresh.
+
+The user confirmed Cloudflare for the future AI backend. Follow PLAN's accepted direction: Workers API and server-side secrets, Queues for durable image generation, R2 image objects and D1 job/relationship state. Backend code should use the existing empty Pocket-Explorer-Backend repository when that implementation begins. Finish T15 before changing product behavior. The current deployment still handles sharing only.
+
+T15 is complete: all three jobs in GitHub run 34571657181 succeeded and automatically released 0.1.0 (6). Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. All 39 native, 18 web and six browser tests passed, with 93.35% native app line coverage. Future work follows the accepted Cloudflare direction in PLAN, but larger changes and AI integration have not begun. Physical-device and human acceptance remain separate open items. Evidence: docs/evidence/github-setup.json.

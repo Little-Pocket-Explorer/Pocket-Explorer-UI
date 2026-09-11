@@ -376,3 +376,22 @@ User clarification: remove parental restrictions entirely. Sharing is available 
 - Build numbers: serialize releases and increment the latest Apple build number, including reruns. Preserve 0.1.0 (5). Avoid simultaneous manual uploads from another publisher.
 - Credentials: store signing material only in encrypted secrets for the GitHub testflight environment. Restrict that environment to main. Pull requests receive no signing secrets. Pin Actions and tool versions and fail closed on errors.
 - Verification: inspect sensitive content before the first commit, lint workflows and shell scripts, run actual GitHub tests and upload, then independently confirm internal TestFlight state. Existing external review and website deployment remain independent.
+
+T15 is complete: all three jobs in GitHub run 34571657181 succeeded and automatically released 0.1.0 (6). Independent reads of Apple's build, internal group and testing notes agree with the release artifact. See docs/evidence/github-setup.json. This completion does not close existing physical-device acceptance or future AI integration.
+
+## T12: Selected services for future AI integration
+
+- On 2026-09-11 the user selected https://xuche-mohicupb-westus3.services.ai.azure.com/openai/v1/images/generations with Azure deployment gpt-image-2.5-sunburst. The user supplied earlier test evidence of HTTP 200 in 20.8 seconds with 1024×1024 and quality=low. This setup task records that evidence without repeating image generation.
+- Future GPT-6 integration should reuse the existing ~/.codex/config.toml provider configuration. Read-only inspection confirmed gpt-6-astra, copilot-proxy and xhigh reasoning. Do not modify global Codex settings.
+- The image credential is stored in ignored .local/ai/providers.json, with directory mode 0700 and file mode 0600. GPT-6 credentials remain in their original configuration. Future deployment must inject server-side secrets and keep them out of iOS, browser bundles, Git and logs.
+- Complete T15 automated TestFlight delivery before larger product changes or AI integration. Provider selection does not mean the app is connected. Integration must verify real image/text requests, failure recovery and the approved visual style.
+
+## Accepted Cloudflare AI backend direction
+
+The user confirmed continuing with Cloudflare on 2026-09-11. Extend the existing hosting platform after T15 is verified. Keep the iOS app as the primary interface and use the existing Pocket-Explorer-Backend repository for subsequent backend work. That repository was independently confirmed empty, so no competing implementation was observed. The current repository remains a buildable baseline until any deliberate extraction.
+
+- Workers provide the app API, validate requests, enforce caller access and usage limits, and call the selected upstream models. Upstream credentials are Cloudflare secrets. Clients never receive them.
+- Use Queues for durable image-generation jobs, with D1 job state, request deduplication, bounded retries and explicit failure status. Closing the app must not cancel an accepted job. Do not use request-bound waitUntil as the durable job mechanism.
+- Store generated image objects in R2, and store job/card/image relationships in D1. Preserve local private journals unless synchronization is explicitly added later. Retain the existing public-story field restrictions and revocation behavior.
+- Verify app-to-backend-to-model requests, interrupted clients, duplicate submissions, upstream failures, image retrieval and isolation of private content before calling the integration complete. Current deployment still supports sharing only. No AI routes, queues or R2 storage have been deployed in T15.
+- Cloudflare documents that network waiting does not consume CPU time, HTTP requests can continue while the client stays connected, waitUntil adds at most 30 seconds after disconnect, and queue consumers have a 15-minute wall-clock limit. References: https://developers.cloudflare.com/workers/platform/limits/ and https://developers.cloudflare.com/queues/platform/limits/.

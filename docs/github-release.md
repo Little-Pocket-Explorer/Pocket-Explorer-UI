@@ -34,6 +34,6 @@ If an upload times out after Apple accepts it, inspect TestFlight processing bef
 
 ## External testing
 
-Internal distribution is automatic. External testing still follows Apple's Beta App Review rules. This workflow does not submit, cancel or replace an external review, expire existing builds, or send invitations. Build 2's existing external review is preserved. Once eligible, choose the desired build for Hackathon External in App Store Connect. The existing public TestFlight invitation remains https://testflight.apple.com/join/83Jzf4WB.
+Internal distribution is automatic. External testing still follows Apple's Beta App Review rules. This workflow does not submit, cancel or replace an external review, expire existing builds, or send invitations. Build 2 was independently confirmed IN_BETA_TESTING on September 11, 2026, and public enrollment is available. The external group still serves build 2. Choose an eligible later build for Hackathon External in App Store Connect when ready. The existing public TestFlight invitation remains https://testflight.apple.com/join/83Jzf4WB.
 
 Current verification evidence and any unresolved prerequisites belong in TODO.md and docs/evidence/github-setup.json.
