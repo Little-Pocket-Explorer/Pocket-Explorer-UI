@@ -48,7 +48,7 @@ platform :ios do
     profile = Plist.parse_xml(xml)
     UI.user_error!("Wrong provisioning profile") unless
       profile["Entitlements"]["application-identifier"] == "#{team_id}.#{bundle_id}" &&
-      profile["ExpirationDate"] > Time.now && !profile.key?("ProvisionedDevices")
+      profile["ExpirationDate"].to_time > Time.now && !profile.key?("ProvisionedDevices")
     installed_profile = File.expand_path("~/Library/Developer/Xcode/UserData/Provisioning Profiles/#{profile.fetch('UUID')}.mobileprovision")
     FileUtils.mkdir_p(File.dirname(installed_profile))
     File.write(File.join(signing, "profile-path"), installed_profile, perm: 0600)
