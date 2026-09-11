@@ -1,0 +1,110 @@
+require "base64"
+require "fileutils"
+require "json"
+require "open3"
+require "plist"
+require "securerandom"
+require "shellwords"
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Upload the tested main revision and verify internal TestFlight distribution"
+  lane :beta do
+    UI.user_error!("Release only from main on GitHub Actions") unless
+      ENV["GITHUB_ACTIONS"] == "true" && ENV["GITHUB_REF"] == "refs/heads/main"
+
+    app_id = ENV.fetch("APP_STORE_CONNECT_APP_ID")
+    team_id = ENV.fetch("APPLE_TEAM_ID")
+    bundle_id = "com.haichang.pocketexplorer"
+    group_id = "61f0eb50-fc33-4ee4-93fd-2844342c7584"
+    temp = ENV.fetch("RUNNER_TEMP")
+    signing = File.join(temp, "pocket-signing")
+    FileUtils.mkdir_p(signing, mode: 0700)
+
+    api_key = app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_content: ENV.fetch("ASC_PRIVATE_KEY"),
+      duration: 1200,
+      in_house: false
+    )
+    app = Spaceship::ConnectAPI::App.get(app_id: app_id)
+    UI.user_error!("App ID does not match the bundle") unless app.bundle_id == bundle_id
+    group = app.get_beta_groups.find { |item| item.id == group_id && item.is_internal_group }
+    UI.user_error!("Expected internal TestFlight group is unavailable") unless group
+
+    builds = Spaceship::ConnectAPI::Build.all(app_id: app_id, platform: "IOS")
+    numbers = builds.map { |build| Integer(build.version, 10) }
+    build_number = ([5] + numbers).max + 1
+    version = get_version_number(xcodeproj: "PocketExplorer.xcodeproj", target: "PocketExplorer")
+
+    certificate = File.join(signing, "distribution.p12")
+    profile_file = File.join(signing, "distribution.mobileprovision")
+    File.write(certificate, Base64.strict_decode64(ENV.fetch("DISTRIBUTION_P12_BASE64")), mode: "wb", perm: 0600)
+    File.write(profile_file, Base64.strict_decode64(ENV.fetch("PROVISIONING_PROFILE_BASE64")), mode: "wb", perm: 0600)
+    xml, _error, status = Open3.capture3("security", "cms", "-D", "-i", profile_file)
+    UI.user_error!("Cannot decode provisioning profile") unless status.success?
+    profile = Plist.parse_xml(xml)
+    UI.user_error!("Wrong provisioning profile") unless
+      profile["Entitlements"]["application-identifier"] == "#{team_id}.#{bundle_id}" &&
+      profile["ExpirationDate"] > Time.now && !profile.key?("ProvisionedDevices")
+    installed_profile = File.expand_path("~/Library/Developer/Xcode/UserData/Provisioning Profiles/#{profile.fetch('UUID')}.mobileprovision")
+    FileUtils.mkdir_p(File.dirname(installed_profile))
+    File.write(File.join(signing, "profile-path"), installed_profile, perm: 0600)
+    FileUtils.cp(profile_file, installed_profile)
+
+    keychain = File.join(temp, "pocket-signing.keychain-db")
+    keychain_password = SecureRandom.hex(32)
+    create_keychain(path: keychain, password: keychain_password, default_keychain: false,
+                    unlock: true, timeout: 3600, add_to_search_list: true)
+    import_certificate(certificate_path: certificate,
+                       certificate_password: ENV.fetch("DISTRIBUTION_P12_PASSWORD"),
+                       keychain_path: keychain, keychain_password: keychain_password,
+                       log_output: false)
+
+    ipa = build_app(
+      project: "PocketExplorer.xcodeproj", scheme: "PocketExplorer", configuration: "Release",
+      clean: true, export_method: "app-store", skip_profile_detection: true,
+      derived_data_path: File.join(temp, "release-derived-data"),
+      archive_path: File.join(temp, "PocketExplorer.xcarchive"),
+      output_directory: File.join(temp, "release"),
+      buildlog_path: File.join(temp, "release-logs"),
+      xcargs: "CURRENT_PROJECT_VERSION=#{build_number} DEVELOPMENT_TEAM=#{team_id} CODE_SIGN_STYLE=Manual " \
+              "CODE_SIGN_IDENTITY='Apple Distribution' PROVISIONING_PROFILE_SPECIFIER=#{Shellwords.escape(profile.fetch('Name'))}",
+      export_options: {
+        method: "app-store-connect", signingStyle: "manual", teamID: team_id,
+        signingCertificate: "Apple Distribution", manageAppVersionAndBuildNumber: false,
+        provisioningProfiles: { bundle_id => profile.fetch("Name") }
+      }
+    )
+    notes = File.read(File.join(__dir__, "TESTFLIGHT_NOTES.md")).strip
+    notes += "\n\nSource: #{ENV.fetch('GITHUB_SHA')}"
+    upload_to_testflight(
+      api_key: api_key, app_identifier: bundle_id, apple_id: app_id, ipa: ipa,
+      app_version: version, build_number: build_number.to_s, changelog: notes,
+      groups: [group_id], distribute_external: false, submit_beta_review: false,
+      notify_external_testers: false, skip_waiting_for_build_processing: false,
+      wait_processing_timeout_duration: 1800, wait_processing_interval: 30,
+      reject_build_waiting_for_review: false, expire_previous_builds: false
+    )
+
+    verified = Spaceship::ConnectAPI::Build.all(app_id: app_id, version: version,
+                                               build_number: build_number.to_s, platform: "IOS").first
+    UI.user_error!("Uploaded build is not valid") unless verified && verified.processing_state == "VALID"
+    UI.user_error!("Internal group assignment was not confirmed") unless
+      group.fetch_builds.any? { |item| item.id == verified.id }
+    result = {
+      app_id: app_id, version: version, build_number: build_number, build_id: verified.id,
+      processing_state: verified.processing_state,
+      internal_state: verified.build_beta_detail&.internal_build_state,
+      internal_group: group.name, source_commit: ENV.fetch("GITHUB_SHA"),
+      run_url: "#{ENV.fetch('GITHUB_SERVER_URL')}/#{ENV.fetch('GITHUB_REPOSITORY')}/actions/runs/#{ENV.fetch('GITHUB_RUN_ID')}"
+    }
+    File.write(File.join(temp, "release-result.json"), JSON.pretty_generate(result) + "\n")
+    File.open(ENV.fetch("GITHUB_STEP_SUMMARY"), "a") do |summary|
+      summary.puts("TestFlight #{version} (#{build_number}) is valid and assigned to #{group.name}.")
+      summary.puts("\nSource: `#{ENV.fetch('GITHUB_SHA')}`. External review is managed separately.")
+    end
+  end
+end

@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "title": "The day we met the ducks",
+  "cards": [
+    {
+      "id": "20000000-0000-4000-8000-000000000001",
+      "subject": "duck",
+      "title": "Duck paddles",
+      "question": "How do ducks swim?",
+      "observation": "Their feet push the water like little paddles!",
+      "explanation": "Webbed feet help ducks push against the water."
+    }
+  ],
+  "chapters": [
+    {
+      "id": "20000000-0000-4000-8000-000000000001-question",
+      "title": "It started with a why.",
+      "text": "How do ducks swim?",
+      "subject": "duck"
+    },
+    {
+      "id": "20000000-0000-4000-8000-000000000001-observation",
+      "title": "Then I looked closer.",
+      "text": "Their feet push the water like little paddles!",
+      "subject": "duck"
+    },
+    {
+      "id": "20000000-0000-4000-8000-000000000001-discovery",
+      "title": "A little discovery, kept.",
+      "text": "Webbed feet help ducks push against the water.",
+      "subject": "duck"
+    }
+  ]
+}

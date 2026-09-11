@@ -1,0 +1,58 @@
+name: PocketExplorer
+options:
+  bundleIdPrefix: com.haichang
+  deploymentTarget:
+    iOS: '17.0'
+settings:
+  base:
+    SWIFT_VERSION: '5.0'
+    TARGETED_DEVICE_FAMILY: '1'
+    CODE_SIGN_STYLE: Automatic
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_UILaunchScreen_Generation: YES
+    INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+    INFOPLIST_KEY_NSMicrophoneUsageDescription: Record your questions and discoveries when you tap to speak.
+    INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: Turn your spoken questions and observations into your own discovery cards.
+    INFOPLIST_KEY_NSCameraUsageDescription: Photograph things you discover during an adventure.
+    INFOPLIST_KEY_CFBundleDisplayName: Pocket Explorer
+    INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    MARKETING_VERSION: 0.1.0
+    CURRENT_PROJECT_VERSION: 5
+    INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
+targets:
+  PocketExplorer:
+    type: application
+    platform: iOS
+    sources:
+      - PocketExplorer
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.haichang.pocketexplorer
+        TARGETED_DEVICE_FAMILY: '1'
+  PocketExplorerTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - PocketExplorerTests
+      - path: ../shared/fixtures/public-story-v1.json
+        buildPhase: resources
+    dependencies:
+      - target: PocketExplorer
+  PocketExplorerUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - PocketExplorerUITests
+    dependencies:
+      - target: PocketExplorer
+schemes:
+  PocketExplorer:
+    build:
+      targets:
+        PocketExplorer: all
+    test:
+      gatherCoverageData: true
+      targets:
+        - PocketExplorerTests
+        - PocketExplorerUITests

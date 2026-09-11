@@ -1,0 +1,154 @@
+name: iOS CI and TestFlight
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - 'ios/**'
+      - 'shared/**'
+      - 'web/**'
+      - 'scripts/ci/**'
+      - '.github/workflows/ios.yml'
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Upload to TestFlight after all checks pass
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  NODE_VERSION: '24'
+
+jobs:
+  web:
+    name: Web and workflow checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Lint workflow and shell scripts
+        working-directory: .
+        run: |
+          go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+          shellcheck scripts/ci/*.sh
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - run: npx playwright install --with-deps chrome
+      - run: npm run test:browser
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: web-checks-${{ github.run_attempt }}
+          path: |
+            web/coverage/
+            web/test-results/
+            !web/test-results/*.sqlite*
+          retention-days: 7
+
+  ios:
+    name: iPhone simulator tests
+    runs-on: macos-26
+    timeout-minutes: 35
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Install XcodeGen
+        run: bash scripts/ci/install-xcodegen.sh
+      - name: Check selected Xcode
+        run: xcodebuild -version
+      - run: npm ci && npm run build
+        working-directory: web
+      - name: Run native regression and local sharing integration
+        run: bash scripts/ci/test-ios.sh
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: ios-checks-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/ios-tests.xcresult
+            ${{ runner.temp }}/ios-coverage.json
+            ${{ runner.temp }}/ios-tests.log
+            ${{ runner.temp }}/sharing-service.log
+          retention-days: 7
+
+  testflight:
+    name: Upload and verify TestFlight
+    needs: [web, ios]
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' && inputs.publish))
+    runs-on: macos-26
+    timeout-minutes: 60
+    concurrency:
+      group: pocket-explorer-testflight
+      cancel-in-progress: false
+    environment:
+      name: testflight
+      url: https://appstoreconnect.apple.com/apps/6810920731/testflight
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+      FASTLANE_SKIP_UPDATE_CHECK: '1'
+      FASTLANE_HIDE_CHANGELOG: '1'
+      FASTLANE_OPT_OUT_USAGE: '1'
+      APPLE_TEAM_ID: 5B858997A3
+      APP_STORE_CONNECT_APP_ID: '6810920731'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+          working-directory: ios
+      - run: bash scripts/ci/install-xcodegen.sh
+      - run: xcodegen generate
+        working-directory: ios
+      - name: Sign, upload, wait for processing and assign internal testers
+        working-directory: ios
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+          DISTRIBUTION_P12_BASE64: ${{ secrets.DISTRIBUTION_P12_BASE64 }}
+          DISTRIBUTION_P12_PASSWORD: ${{ secrets.DISTRIBUTION_P12_PASSWORD }}
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+        run: bundle exec fastlane ios beta
+      - name: Remove temporary signing files
+        if: always()
+        run: bash scripts/ci/clean-signing.sh
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: testflight-result-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/release-result.json
+          if-no-files-found: ignore
+          retention-days: 30

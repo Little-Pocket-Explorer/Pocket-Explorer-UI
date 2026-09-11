@@ -1,0 +1,135 @@
+{
+  "date": "2026-09-11",
+  "build": "0.1.0 (3)",
+  "reproduction": {
+    "bundle": "/Users/haichang/tmp/pocket-first-use-before.xcresult",
+    "result": "The old start action ended at y=718.5, below the required first-screen threshold of 433.55 on the 375pt simulator."
+  },
+  "verification": {
+    "regression": "/Users/haichang/tmp/pocket-first-use-regression-2.xcresult",
+    "unitPassed": 25,
+    "uiPassed": 12,
+    "uiFailed": 1,
+    "uiSkipped": 0,
+    "correctedMapTest": "/Users/haichang/tmp/pocket-first-use-map-2.xcresult",
+    "correctedMapPassed": 1,
+    "explanation": "Full-screen swipes overshot the marker. Short controlled scrolling passed the same marker and destination assertions without an app source change. All 38 checks have passing evidence across these two runs."
+  },
+  "coverage": {
+    "changedFiles": [
+      {
+        "name": "AppLanguage.swift",
+        "coveredLines": 31,
+        "executableLines": 31,
+        "lineCoverage": 1
+      },
+      {
+        "name": "Theme.swift",
+        "coveredLines": 16,
+        "executableLines": 16,
+        "lineCoverage": 1
+      },
+      {
+        "name": "RootView.swift",
+        "coveredLines": 173,
+        "executableLines": 174,
+        "lineCoverage": 0.9942528735632183
+      },
+      {
+        "name": "VoiceSession.swift",
+        "coveredLines": 102,
+        "executableLines": 153,
+        "lineCoverage": 0.6666666666666666
+      },
+      {
+        "name": "MemoryViews.swift",
+        "coveredLines": 304,
+        "executableLines": 315,
+        "lineCoverage": 0.9650793650793651
+      },
+      {
+        "name": "PocketExplorerApp.swift",
+        "coveredLines": 90,
+        "executableLines": 92,
+        "lineCoverage": 0.9782608695652174
+      },
+      {
+        "name": "ParentShareView.swift",
+        "coveredLines": 353,
+        "executableLines": 367,
+        "lineCoverage": 0.9618528610354223
+      },
+      {
+        "name": "PublicStory.swift",
+        "coveredLines": 29,
+        "executableLines": 29,
+        "lineCoverage": 1
+      },
+      {
+        "name": "Models.swift",
+        "coveredLines": 53,
+        "executableLines": 54,
+        "lineCoverage": 0.9814814814814815
+      },
+      {
+        "name": "TripDetailView.swift",
+        "coveredLines": 102,
+        "executableLines": 106,
+        "lineCoverage": 0.9622641509433962
+      },
+      {
+        "name": "CardViews.swift",
+        "coveredLines": 349,
+        "executableLines": 357,
+        "lineCoverage": 0.9775910364145658
+      },
+      {
+        "name": "DemoGuide.swift",
+        "coveredLines": 63,
+        "executableLines": 63,
+        "lineCoverage": 1
+      },
+      {
+        "name": "LanguageSelectionView.swift",
+        "coveredLines": 138,
+        "executableLines": 138,
+        "lineCoverage": 1
+      },
+      {
+        "name": "ExploreView.swift",
+        "coveredLines": 556,
+        "executableLines": 617,
+        "lineCoverage": 0.9011345218800648
+      },
+      {
+        "name": "WorldView.swift",
+        "coveredLines": 321,
+        "executableLines": 341,
+        "lineCoverage": 0.9413489736070382
+      }
+    ],
+    "coveredLines": 2680,
+    "executableLines": 2853,
+    "percent": 93.94,
+    "hardwareLimitation": "VoiceSession.swift full-file coverage is 66.7%. Recording hardware branches remain unverified on the actual iPhone and are retained in this denominator."
+  },
+  "archive": "/Users/haichang/tmp/PocketExplorer-RC-build3.xcarchive",
+  "signingVerified": true,
+  "toolchain": "Xcode 27 RC (27A266a)",
+  "localizations": [
+    "en",
+    "zh-Hans"
+  ],
+  "uploadStatus": "Uploaded through Xcode Organizer",
+  "deviceAcceptance": "Build 2 installation independently confirmed in App Store Connect. Build 3 first-use, speech and camera acceptance remain pending.",
+  "uploadConfirmation": "PocketExplorer 0.1.0 (3) uploaded",
+  "uploadCLIError": "Failed to Use Accounts, resolved through existing Organizer session",
+  "testFlightBuildId": "1a23c45a-9e52-4ea2-95cd-d486ca5e9bf5",
+  "whatToTestSaved": true,
+  "externalGroupAddition": "Unavailable: Apple permits one build from version 0.1.0 in Beta App Review at a time. Build 2 remains Waiting for Review.",
+  "testFlightStatus": "Testing in Hackathon Internal",
+  "internalGroupId": "61f0eb50-fc33-4ee4-93fd-2844342c7584",
+  "internalTesterCount": 1,
+  "groupAssignmentIndependentlyRead": true,
+  "releaseScreenshot": "docs/evidence/testflight-build3-testing.png"
+}

@@ -1,0 +1,13 @@
+{
+  "baseURL": "https://pocket.changhai.me",
+  "demoURL": "https://pocket.changhai.me/s/DmprLZx_BvlA75rki9n7MqFdl1b4U4hn",
+  "checks": [
+    "health",
+    "unauthorized-create",
+    "create",
+    "independent-public-read",
+    "private-field-allowlist",
+    "revoke",
+    "revoked-read-410"
+  ]
+}

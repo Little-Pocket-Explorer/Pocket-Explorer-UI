@@ -1,0 +1,3 @@
+"NSMicrophoneUsageDescription" = "当你点一下说话时，录下你的问题和发现。";
+"NSSpeechRecognitionUsageDescription" = "把你说的问题和观察变成卡片上的文字。";
+"NSCameraUsageDescription" = "拍下探索中发现的东西，保存在自己的记录里。";

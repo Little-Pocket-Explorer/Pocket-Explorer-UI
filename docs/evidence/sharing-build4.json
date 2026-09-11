@@ -1,0 +1,300 @@
+{
+  "build": "0.1.0 (4)",
+  "change": "Sharing without parental restrictions or manual service credentials",
+  "reproduction": {
+    "expected": 201,
+    "observed": 401,
+    "log": "/Users/haichang/tmp/pocket-sharing-before.log"
+  },
+  "web": {
+    "tests": 18,
+    "passed": 18,
+    "coverage": {
+      "total": {
+        "lines": {
+          "total": 187,
+          "covered": 187,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 251,
+          "covered": 251,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 52,
+          "covered": 52,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 185,
+          "covered": 183,
+          "skipped": 0,
+          "pct": 98.91
+        },
+        "branchesTrue": {
+          "total": 0,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "/Users/haichang/Documents/ChatGPT/Hai/pocket-explorer/web/server/app.ts": {
+        "lines": {
+          "total": 42,
+          "covered": 42,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 10,
+          "covered": 10,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 51,
+          "covered": 51,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 39,
+          "covered": 39,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "/Users/haichang/Documents/ChatGPT/Hai/pocket-explorer/web/server/ownership.ts": {
+        "lines": {
+          "total": 7,
+          "covered": 7,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 1,
+          "covered": 1,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 10,
+          "covered": 10,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 10,
+          "covered": 10,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "/Users/haichang/Documents/ChatGPT/Hai/pocket-explorer/web/server/store.ts": {
+        "lines": {
+          "total": 16,
+          "covered": 16,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 6,
+          "covered": 6,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 19,
+          "covered": 19,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 6,
+          "covered": 6,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "/Users/haichang/Documents/ChatGPT/Hai/pocket-explorer/web/src/App.tsx": {
+        "lines": {
+          "total": 47,
+          "covered": 47,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 25,
+          "covered": 25,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 79,
+          "covered": 79,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 62,
+          "covered": 60,
+          "skipped": 0,
+          "pct": 96.77
+        }
+      },
+      "/Users/haichang/Documents/ChatGPT/Hai/pocket-explorer/web/src/story.ts": {
+        "lines": {
+          "total": 13,
+          "covered": 13,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 6,
+          "covered": 6,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 16,
+          "covered": 16,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 8,
+          "covered": 8,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "/Users/haichang/Documents/ChatGPT/Hai/pocket-explorer/web/worker/index.ts": {
+        "lines": {
+          "total": 62,
+          "covered": 62,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 4,
+          "covered": 4,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 76,
+          "covered": 76,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 60,
+          "covered": 60,
+          "skipped": 0,
+          "pct": 100
+        }
+      }
+    },
+    "log": "/Users/haichang/tmp/pocket-sharing-web-tests.log"
+  },
+  "cloudflare": {
+    "migration": "0002_share_ownership.sql",
+    "workerVersion": "9795fbba-5d36-49bb-b509-a3e428732525",
+    "origin": "https://pocket.changhai.me",
+    "browserTestsPassed": 1,
+    "log": "/Users/haichang/tmp/pocket-sharing-live-web.log",
+    "legacyStoryPreserved": "https://pocket.changhai.me/s/DmprLZx_BvlA75rki9n7MqFdl1b4U4hn"
+  },
+  "native": {
+    "status": "Full regression passed",
+    "resultBundle": "/Users/haichang/tmp/pocket-sharing-regression-1.xcresult",
+    "unitTestsPassed": 26,
+    "localIntegration": "Passed: no setup, create, independent read, process relaunch, copy, revoke and HTTP 410",
+    "totalTests": 39,
+    "uiTestsPassed": 13,
+    "coverage": {
+      "covered": 1618,
+      "executable": 1763,
+      "percentage": 91.77538287010776,
+      "files": [
+        {
+          "name": "ShareClient.swift",
+          "coveredLines": 87,
+          "executableLines": 90,
+          "lineCoverage": 0.9666666666666667
+        },
+        {
+          "name": "SharePreviewView.swift",
+          "coveredLines": 264,
+          "executableLines": 278,
+          "lineCoverage": 0.9496402877697842
+        },
+        {
+          "name": "RootView.swift",
+          "coveredLines": 173,
+          "executableLines": 174,
+          "lineCoverage": 0.9942528735632183
+        },
+        {
+          "name": "VoiceSession.swift",
+          "coveredLines": 102,
+          "executableLines": 153,
+          "lineCoverage": 0.6666666666666666
+        },
+        {
+          "name": "MemoryViews.swift",
+          "coveredLines": 304,
+          "executableLines": 315,
+          "lineCoverage": 0.9650793650793651
+        },
+        {
+          "name": "PublicStory.swift",
+          "coveredLines": 30,
+          "executableLines": 30,
+          "lineCoverage": 1
+        },
+        {
+          "name": "TripDetailView.swift",
+          "coveredLines": 102,
+          "executableLines": 106,
+          "lineCoverage": 0.9622641509433962
+        },
+        {
+          "name": "ExploreView.swift",
+          "coveredLines": 556,
+          "executableLines": 617,
+          "lineCoverage": 0.9011345218800648
+        }
+      ]
+    },
+    "diagnostics": "After all tests passed, optional simctl diagnose stalled. Only that child was terminated. xcodebuild exited 0 and finalized the result bundle.",
+    "productionIntegration": {
+      "result": "Passed",
+      "checks": [
+        "Chinese sharing entry",
+        "Fresh installation credential",
+        "Create on pocket.changhai.me",
+        "Independent public read",
+        "Process relaunch",
+        "Copy",
+        "Revoke",
+        "Independent HTTP 410"
+      ],
+      "resultBundle": "/Users/haichang/tmp/pocket-sharing-cloudflare-1.xcresult"
+    }
+  },
+  "release": {
+    "status": "Uploaded, superseded by build 5 before internal distribution to correct one Chinese heading",
+    "archive": "/Users/haichang/tmp/PocketExplorer-RC-build4.xcarchive",
+    "appStoreConnectBuildId": "755edb53-2f94-442c-bf2c-e463fff08804"
+  },
+  "limits": [
+    "Physical-device acceptance remains unverified.",
+    "External build 2 is still Waiting for Review.",
+    "Prepared responses remain in use."
+  ]
+}

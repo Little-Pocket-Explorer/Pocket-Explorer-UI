@@ -1,0 +1,163 @@
+{
+  "date": "2026-09-11",
+  "archive": "/Users/haichang/tmp/PocketExplorer-RC-build2.xcarchive",
+  "properties": {
+    "ApplicationPath": "Applications/PocketExplorer.app",
+    "Architectures": [
+      "arm64"
+    ],
+    "CFBundleIdentifier": "com.haichang.pocketexplorer",
+    "CFBundleShortVersionString": "0.1.0",
+    "CFBundleVersion": "2",
+    "SigningIdentity": "Apple Development: Hai Chang (6KHHC4YDB3)",
+    "Team": "5B858997A3"
+  },
+  "deviceFamily": [
+    1
+  ],
+  "encryptionExempt": true,
+  "privacyManifestPresent": true,
+  "codesignVerification": "passed",
+  "toolchain": "Xcode 27 RC (27A266a)",
+  "uploadStatus": "uploaded",
+  "nativeCloudflareTest": "/Users/haichang/tmp/pocket-cloudflare-share-2.xcresult",
+  "changedSwiftCoverage": {
+    "file": "ParentShareView.swift",
+    "coveredLines": 350,
+    "executableLines": 367
+  },
+  "appStoreConnectAppId": "6810920731",
+  "agreementAcceptanceVerified": "2026-09-11",
+  "recovery": {
+    "status": "complete: RC uploaded and processing completed",
+    "toolchain": "Xcode 27 RC (27A266a)",
+    "nextAction": "Wait for external Beta App Review approval, then verify public-link enrollment and actual TestFlight installation.",
+    "downloadStartedByAgent": false,
+    "downloadPath": "/Users/haichang/Downloads/Xcode_27_Release_Candidate.xip",
+    "downloadBytes": 2014229334,
+    "downloadSignature": "signed Apple Software",
+    "installedVersionVerified": true
+  },
+  "acceptedTestFlightBuildVerified": true,
+  "rcBuild": {
+    "toolchain": "Xcode 27 RC (27A266a)",
+    "developerDir": "/Users/haichang/Downloads/Xcode.app/Contents/Developer",
+    "archive": "/Users/haichang/tmp/PocketExplorer-RC-build2.xcarchive",
+    "version": "0.1.0",
+    "build": "2",
+    "archiveStatus": "succeeded",
+    "codesignVerification": "passed",
+    "deviceFamily": [
+      1
+    ],
+    "uploadStatus": "uploaded",
+    "uploadConfirmation": "Xcode Organizer: PocketExplorer 0.1.0 (2) uploaded",
+    "processingStatus": "Complete",
+    "distributionLogs": "/var/folders/yf/xy_x1pxs6dvbg6jvss4lnct00000gn/T/PocketExplorer_2026-09-11_13-54-53.252.xcdistributionlogs",
+    "processingObservedIn": "App Store Connect TestFlight > iOS > Build Uploads",
+    "processingScreenshot": "docs/evidence/testflight-processing.png",
+    "tests": {
+      "passed": 20,
+      "failures": 0,
+      "resultBundle": "/Users/haichang/tmp/pocket-rc-unit-tests-signed.xcresult",
+      "earlierRun": "Signing-disabled simulator run failed its Keychain test. The signed retry passed without source changes."
+    },
+    "testFlightStatus": "Testing (internal group only)",
+    "readyScreenshot": "docs/evidence/testflight-ready.png"
+  },
+  "previousAttempts": [
+    {
+      "archive": "/Users/haichang/tmp/PocketExplorer-iPhone.xcarchive",
+      "properties": {
+        "ApplicationPath": "Applications/PocketExplorer.app",
+        "Architectures": [
+          "arm64"
+        ],
+        "CFBundleIdentifier": "com.haichang.pocketexplorer",
+        "CFBundleShortVersionString": "0.1.0",
+        "CFBundleVersion": "1",
+        "SigningIdentity": "Apple Development: Hai Chang (6KHHC4YDB3)",
+        "Team": "5B858997A3"
+      },
+      "toolchain": "Xcode 27.0 beta (27A5194q)",
+      "uploadStatus": "rejected by Apple upload validation: unsupported SDK or Xcode version",
+      "uploadErrorCode": 90534,
+      "uploadErrorId": "YEGI3WUYXRWGGS4IMNOJUZBXQM"
+    }
+  ],
+  "processingStatus": "Complete",
+  "testFlightStatus": "Testing (internal group only)",
+  "testFlightBuildId": "14be6808-a515-42d0-8561-ba090d4d293d",
+  "testFlightURL": "https://appstoreconnect.apple.com/teams/69a6de75-bfdc-47e3-e053-5b8c7c11a4d1/apps/6810920731/testflight/ios/14be6808-a515-42d0-8561-ba090d4d293d",
+  "testGroups": 2,
+  "individualTesters": 0,
+  "testFlightInstallationVerified": true,
+  "appTestGroups": 2,
+  "groupedTesters": 1,
+  "internalTesting": {
+    "groupName": "Hackathon Internal",
+    "groupId": "61f0eb50-fc33-4ee4-93fd-2844342c7584",
+    "automaticDistribution": false,
+    "build": "0.1.0 (2)",
+    "status": "Testing",
+    "testerCount": 1,
+    "tester": "changhai@me.com",
+    "invitationStatus": "Installed",
+    "invitationVerified": "2026-09-11",
+    "screenshot": "docs/evidence/testflight-invited.png"
+  },
+  "externalTesting": {
+    "groupName": "Hackathon External",
+    "groupId": "eddab1cd-de9f-434a-b3b7-9d90af7951d6",
+    "groupTypeVerified": "External Group",
+    "testerCount": 0,
+    "buildCount": 1,
+    "reviewSubmitted": true,
+    "status": "Waiting for Review",
+    "betaDescriptionPrepared": true,
+    "signInRequired": false,
+    "contactName": "Hai Chang",
+    "contactEmail": "changhai@me.com",
+    "teammateEmailsKnown": false,
+    "invitationPreference": "Public Link",
+    "redemptionCodeRetrieved": false,
+    "publicLinkEnabled": true,
+    "betaDescriptionDraft": "Pocket Explorer turns a child's real-world questions into collectible discovery cards, a trip map and replayable memories.\n\nExplore together with a parent: ask a question aloud, hear a short guide response, look more closely and describe what you noticed. Keep your own observations on illustrated cards, revisit your finds and replay the story of a trip.\n\nParents can preview a web story and choose which discoveries to share. Recipients can view an existing story in a browser without installing the app.\n\nThis early beta includes prepared guide examples about ducks, leaves and shells. Speech transcription and audio playback use iOS services. Live generative AI is not connected. Exploration, cards and memories need no account. Creating or revoking public links requires the parent to configure the private demo workspace owner key. Please use this prototype with a parent.",
+    "draftScreenshot": "docs/evidence/testflight-external-draft.png",
+    "build": "0.1.0 (2)",
+    "reviewSubmittedBy": "user",
+    "reviewStatusObservedIn": "Hackathon External > Builds",
+    "reviewStatusScreenshot": "docs/evidence/testflight-external-waiting-review.png",
+    "contactPhoneRequiredFromUser": false,
+    "invitationPathsObserved": [
+      "Public Link",
+      "Email",
+      "Existing",
+      "Import"
+    ],
+    "emailFormInspected": true,
+    "externalInvitationsSent": false,
+    "submittedReviewTextRechecked": false,
+    "preparedDraftIsHistorical": true,
+    "publicLinkURL": "https://testflight.apple.com/join/83Jzf4WB",
+    "publicLinkTesterLimit": 3,
+    "publicLinkTesters": 0,
+    "publicLinkCriteria": "Open to Anyone",
+    "publicLinkJoinAvailable": false,
+    "publicLinkAvailabilityReason": "No approved build",
+    "publicLinkVerifiedAfterReload": true,
+    "publicPageMessage": "This beta isn't accepting any new testers right now.",
+    "publicLinkScreenshot": "docs/evidence/testflight-public-link.png"
+  },
+  "whatToTestSaved": true,
+  "firstUse": {
+    "userReportedAppDownloaded": true,
+    "installedVersionVerified": true,
+    "appLaunchVerified": false,
+    "physicalSpeechVerified": false,
+    "physicalCameraVerified": false,
+    "nextAction": "Update to build 3 and verify the corrected first-use flow. See first-use-build3.json.",
+    "installedVersion": "0.1.0 (2)",
+    "userReportedAppUsed": true
+  }
+}
