@@ -3,6 +3,7 @@ import SwiftUI
 struct ChatHomeView: View {
     let store: TripStore
     var changeLanguage: () -> Void
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var launch: ExplorationLaunch?
     @State private var selectedQuestion: ExplorationRecord?
     @State private var history = false
@@ -15,10 +16,14 @@ struct ChatHomeView: View {
         ScrollView {
             VStack(spacing: 0) {
                 HStack(spacing: 8) {
-                    Button { history = true } label: { Image(systemName: "sidebar.left").font(.title3).frame(width: 44, height: 44).background(.white.opacity(0.85), in: Circle()) }
+                    Button { history = true } label: { Image(systemName: "sidebar.left").font(.system(size: 21)).frame(width: 44, height: 44).background(.white.opacity(0.85), in: Circle()) }
                         .accessibilityLabel("Question history").accessibilityIdentifier("question-history")
-                    Image(systemName: "leaf.fill").font(.title2).foregroundStyle(Theme.forest)
-                    Text("Pocket Explorer").font(.system(.title3, design: .rounded, weight: .black)).minimumScaleFactor(0.65).lineLimit(1)
+                    if !dynamicTypeSize.isAccessibilitySize {
+                        Image(systemName: "leaf.fill").font(.system(size: 23)).foregroundStyle(Theme.forest).accessibilityHidden(true)
+                    }
+                    Text("Pocket Explorer").font(.system(.title3, design: .rounded, weight: .black))
+                        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+                        .fixedSize(horizontal: false, vertical: true).layoutPriority(1)
                     Spacer(minLength: 0)
                     Button { profile = true } label: { ExplorerAvatar().frame(width: 44, height: 44) }.accessibilityLabel("My profile").accessibilityIdentifier("open-profile")
                 }.padding(.horizontal, 18).padding(.top, 8)
@@ -44,16 +49,18 @@ struct ChatHomeView: View {
         .background(ExplorerBackdrop()).foregroundStyle(Theme.ink)
         .toolbar(.hidden, for: .navigationBar)
         .safeAreaInset(edge: .bottom) {
-            HStack(spacing: 12) {
-                Button { open(.camera) } label: { Image(systemName: "camera").foregroundStyle(Theme.forest).frame(width: 44, height: 44) }
+            HStack(spacing: dynamicTypeSize.isAccessibilitySize ? 8 : 12) {
+                Button { open(.camera) } label: { Image(systemName: "camera").font(.system(size: 22)).foregroundStyle(Theme.forest).frame(width: 44, height: 44) }
                     .accessibilityLabel("Explore with a photo").accessibilityIdentifier("home-camera")
                 Button { open(.compose) } label: {
-                    Text("Ask anything…").foregroundStyle(Theme.muted).frame(maxWidth: .infinity, minHeight: 44, alignment: .leading).contentShape(Rectangle())
+                    Text(L10n.text(dynamicTypeSize.isAccessibilitySize ? "Ask" : "Ask anything…"))
+                        .foregroundStyle(Theme.muted).fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading).contentShape(Rectangle())
                 }.buttonStyle(.plain).accessibilityLabel("Type your question").accessibilityIdentifier("home-question")
                 Button { open(.voice) } label: { LeafBadge(symbol: "mic.fill").frame(width: 44, height: 44) }
                     .accessibilityLabel("Speak your question").accessibilityIdentifier("home-ask")
             }.padding(12).background(.white, in: Capsule()).shadow(color: Theme.ink.opacity(0.07), radius: 12, y: 4)
-                .padding(.horizontal, 16).padding(.bottom, 6).background(Theme.paper.opacity(0.8))
+                .padding(.horizontal, dynamicTypeSize.isAccessibilitySize ? 10 : 16).padding(.bottom, 6).background(Theme.paper.opacity(0.8))
         }
         .sheet(item: $launch) { launch in ExplorationFlow(store: store, tripID: nil, initialQuestion: launch.question, entry: launch.entry) }
         .sheet(item: $selectedQuestion) { record in ExplorationFlow(store: store, tripID: nil, recordID: record.id) }
@@ -65,7 +72,7 @@ struct ChatHomeView: View {
                         Button { pendingQuestion = record; history = false } label: {
                             HStack { LeafBadge(); VStack(alignment: .leading, spacing: 4) {
                                 Text(record.reply?.title ?? record.question).font(.headline)
-                                Text(record.createdAt.formatted(date: .abbreviated, time: .shortened)).font(.caption).foregroundStyle(Theme.muted)
+                                Text(L10n.date(record.createdAt, includeTime: true)).font(.caption).foregroundStyle(Theme.muted)
                             }; Spacer(); Image(systemName: "chevron.right") }
                         }.buttonStyle(.plain)
                     }
@@ -81,7 +88,7 @@ struct ChatHomeView: View {
                         Text("Your guide adjusts explanations to your age.").font(.caption).foregroundStyle(Theme.muted)
                     }
                     Section {
-                        Button("语言 / Language") { pendingLanguage = true; profile = false }.accessibilityIdentifier("choose-language")
+                        Button("Language") { pendingLanguage = true; profile = false }.accessibilityIdentifier("choose-language")
                         LabeledContent("Discoveries", value: "\(store.state.discoveries.count)")
                         LabeledContent("Questions", value: "\(store.questions.count)")
                     }

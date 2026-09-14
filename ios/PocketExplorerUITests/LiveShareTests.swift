@@ -5,8 +5,8 @@ final class LiveShareTests: XCTestCase {
     private var created = false
 
     override func tearDown() {
-        if created, app.buttons["Stop sharing this story"].exists {
-            app.buttons["Stop sharing this story"].tap()
+        if created, app.buttons["revoke-share"].exists {
+            app.buttons["revoke-share"].tap()
         }
     }
 
@@ -40,8 +40,12 @@ final class LiveShareTests: XCTestCase {
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)"]
         app.launchEnvironment["POCKET_SHARE_BASE_URL"] = base
         app.launch()
-        XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15)); app.buttons["language-continue"].tap()
-        app.tabBars.buttons["Map"].tap(); app.buttons["trip-10000000-0000-4000-8000-000000000001"].tap()
+        XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
+        let spanish = app.buttons["language-spanish"]
+        for _ in 0..<5 where !spanish.isHittable || spanish.frame.maxY >= app.buttons["language-continue"].frame.minY { app.swipeUp(velocity: .slow) }
+        spanish.tap(); app.buttons["language-continue"].tap()
+        XCTAssertTrue(app.tabBars.buttons["Mapa"].waitForExistence(timeout: 10))
+        app.tabBars.buttons["Mapa"].tap(); app.buttons["trip-10000000-0000-4000-8000-000000000001"].tap()
         let share = app.buttons["share-trip"]
         for _ in 0..<10 where !share.isHittable { app.swipeUp(velocity: .slow) }
         XCTAssertTrue(share.isHittable); share.tap()
@@ -54,14 +58,20 @@ final class LiveShareTests: XCTestCase {
         URLSession.shared.dataTask(with: apiURL) { data, response, error in
             XCTAssertNil(error); XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
             let object = try? JSONSerialization.jsonObject(with: data!) as? [String: Any]
-            XCTAssertEqual(object?["title"] as? String, "The day we met the ducks")
+            XCTAssertEqual(object?["title"] as? String, "El día que conocimos a los patos")
+            XCTAssertEqual(object?["language"] as? String, "es")
+            let cards = object?["cards"] as? [[String: Any]]
+            XCTAssertEqual(cards?.first?["language"] as? String, "es")
+            XCTAssertEqual(cards?.first?["question"] as? String, "¿Cómo nadan los patos?")
+            let chapters = object?["chapters"] as? [[String: Any]]
+            XCTAssertTrue(chapters?.allSatisfy { $0["language"] as? String == "es" } == true)
             XCTAssertNil(object?["firstName"]); XCTAssertNil(object?["city"])
             read.fulfill()
         }.resume()
         wait(for: [read], timeout: 15)
         let attachment = XCTAttachment(string: url.absoluteString); attachment.name = "deployed-native-share"; attachment.lifetime = .keepAlways; add(attachment)
-        app.buttons["Stop sharing this story"].tap()
-        let stopped = expectation(for: NSPredicate(format: "label == %@", "This link is no longer shared."), evaluatedWith: app.staticTexts["share-message"])
+        app.buttons["revoke-share"].tap()
+        let stopped = expectation(for: NSPredicate(format: "label == %@", "Este enlace ya no se comparte."), evaluatedWith: app.staticTexts["share-message"])
         wait(for: [stopped], timeout: 15)
         created = false
         let revoked = expectation(description: "Independent deployed revocation")

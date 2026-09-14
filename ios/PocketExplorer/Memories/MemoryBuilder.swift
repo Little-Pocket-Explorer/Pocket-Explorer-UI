@@ -4,9 +4,9 @@ enum MemoryBuilder {
     static func build(tripID: UUID, discoveries: [Discovery]) -> TripMemory {
         TripMemory(id: tripID, chapters: discoveries.flatMap { discovery in
             [
-                MemoryChapter(id: "\(discovery.id)-question", title: "It started with a why.", text: discovery.question, subject: discovery.subject),
-                MemoryChapter(id: "\(discovery.id)-observation", title: "Then I looked closer.", text: discovery.observation, subject: discovery.subject),
-                MemoryChapter(id: "\(discovery.id)-discovery", title: "A little discovery, kept.", text: discovery.explanation, subject: discovery.subject)
+                MemoryChapter(id: "\(discovery.id)-question", title: "It started with a why.", text: discovery.question, subject: discovery.subject, language: discovery.language),
+                MemoryChapter(id: "\(discovery.id)-observation", title: "Then I looked closer.", text: discovery.observation, subject: discovery.subject, language: discovery.language),
+                MemoryChapter(id: "\(discovery.id)-discovery", title: "A little discovery, kept.", text: discovery.explanation, subject: discovery.subject, language: discovery.language)
             ]
         })
     }

@@ -1,0 +1,214 @@
+{
+  "status": "verified-local-unpublished",
+  "baseCommit": "7907f02f5a2a0160ea092fb7275b889a42251b05",
+  "tests": {
+    "unitPassed": 85,
+    "distinctUIPassedAfterCorrection": 44,
+    "skipped": 2,
+    "fullRun": {
+      "bundle": "native-candidate-11.xcresult",
+      "passed": 128,
+      "failed": 1,
+      "skipped": 2
+    },
+    "correctedLanguageRerun": {
+      "bundle": "native-final-language-flows.xcresult",
+      "passed": 14,
+      "failed": 0
+    },
+    "independentFrenchIterations": {
+      "bundle": "french-share-positioned-2.xcresult",
+      "passed": 3,
+      "failed": 0
+    }
+  },
+  "coverage": {
+    "base": "7907f02f5a2a0160ea092fb7275b889a42251b05",
+    "result": "/Users/haichang/tmp/review/pocket-polish-20260915/native-candidate-11.xcresult",
+    "covered": 401,
+    "executable": 411,
+    "percent": 97.57,
+    "files": [
+      {
+        "path": "ios/PocketExplorer/App/PocketExplorerApp.swift",
+        "covered": 13,
+        "executable": 16,
+        "percent": 81.25,
+        "uncovered": [
+          42,
+          43,
+          91
+        ]
+      },
+      {
+        "path": "ios/PocketExplorer/App/RootView.swift",
+        "covered": 1,
+        "executable": 1,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Cards/CardViews.swift",
+        "covered": 26,
+        "executable": 26,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Data/TripStore.swift",
+        "covered": 4,
+        "executable": 4,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Design/AppLanguage.swift",
+        "covered": 49,
+        "executable": 49,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Design/LanguageSelectionView.swift",
+        "covered": 18,
+        "executable": 18,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Design/Theme.swift",
+        "covered": 6,
+        "executable": 6,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Domain/Models.swift",
+        "covered": 23,
+        "executable": 24,
+        "percent": 95.83,
+        "uncovered": [
+          7
+        ]
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/AIClient.swift",
+        "covered": 1,
+        "executable": 1,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/ChatHomeView.swift",
+        "covered": 15,
+        "executable": 15,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/DemoGuide.swift",
+        "covered": 11,
+        "executable": 11,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/ExploreView.swift",
+        "covered": 54,
+        "executable": 59,
+        "percent": 91.53,
+        "uncovered": [
+          128,
+          141,
+          156,
+          157,
+          158
+        ]
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/NarrationStyle.swift",
+        "covered": 6,
+        "executable": 6,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/PhotoDraft.swift",
+        "covered": 60,
+        "executable": 60,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Memories/MemoryBuilder.swift",
+        "covered": 3,
+        "executable": 3,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Memories/MemoryViews.swift",
+        "covered": 31,
+        "executable": 31,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Sharing/PublicStory.swift",
+        "covered": 4,
+        "executable": 4,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Sharing/ShareClient.swift",
+        "covered": 10,
+        "executable": 10,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Sharing/SharePreviewView.swift",
+        "covered": 5,
+        "executable": 6,
+        "percent": 83.33,
+        "uncovered": [
+          70
+        ]
+      },
+      {
+        "path": "ios/PocketExplorer/World/TripDetailView.swift",
+        "covered": 2,
+        "executable": 2,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/World/WorldView.swift",
+        "covered": 59,
+        "executable": 59,
+        "percent": 100.0,
+        "uncovered": []
+      }
+    ]
+  },
+  "applicationCoverage": {
+    "covered": 4989,
+    "executable": 5193,
+    "percent": 96.07
+  },
+  "credentialScan": {
+    "scannedFiles": 275,
+    "configuredSecretValuesChecked": 3,
+    "matches": []
+  },
+  "artifactDirectory": "/Users/haichang/tmp/review/pocket-polish-20260915",
+  "visualReview": "native-candidate-11-visual-review.jpg",
+  "review": "docs/reviews/language-photo-20260915.md",
+  "limitations": [
+    "Physical iPhone could not connect for version/crash readback.",
+    "Physical microphone, camera, premium-voice naturalness and VoiceOver remain unverified.",
+    "Internal QoS warnings are retained without an established application cause.",
+    "Raw contrast findings need to be distinguished from the strict clipping/hit-target checks."
+  ]
+}

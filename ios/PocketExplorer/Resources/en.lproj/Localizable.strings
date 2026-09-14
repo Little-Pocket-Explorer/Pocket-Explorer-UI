@@ -117,7 +117,7 @@
 "Share this little adventure" = "Share this little adventure";
 "Your adventure, ready to share" = "Your adventure, ready to share";
 "A little adventure.\nA lovely thing to share." = "A little adventure.\nA lovely thing to share.";
-"Preview the words everyone with your link will see. Photos and exact locations stay on this iPhone." = "Preview the words everyone with your link will see. Photos and exact locations stay on this iPhone.";
+"Preview the words everyone with your link will see. Field photos and exact locations are not included in the link." = "Preview the words everyone with your link will see. Field photos and exact locations are not included in the link.";
 "Include a first name" = "Include a first name";
 "Include the city" = "Include the city";
 "First name" = "First name";
@@ -133,9 +133,9 @@
 "Link copied." = "Link copied.";
 "Opening your little world…" = "Opening your little world…";
 "Your journal needs a moment" = "Your journal needs a moment";
-"%lld discoveries, each with a story only you can tell." = "%lld discoveries, each with a story only you can tell.";
-"%lld discoveries · Tap to relive it" = "%lld discoveries · Tap to relive it";
-"%lld discoveries · %@" = "%lld discoveries · %@";
+"%lld discoveries, each with a story only you can tell." = "A story in every discovery. Collected: %lld.";
+"%lld discoveries · Tap to relive it" = "Discoveries: %lld · Tap to relive it";
+"%lld discoveries · %@" = "Discoveries: %lld · %@";
 "Your public story preview" = "Your public story preview";
 "Shared snapshot" = "Shared snapshot";
 "Your story is ready. Anyone with the link can open it." = "Your story is ready. Anyone with the link can open it.";
@@ -150,7 +150,6 @@
 "This iPhone could not prepare sharing. Your story is safe. Please try again." = "This iPhone could not prepare sharing. Your story is safe. Please try again.";
 "Sharing could not verify this iPhone. Your story is safe. Please try again." = "Sharing could not verify this iPhone. Your story is safe. Please try again.";
 "A little pause. Please wait a minute before creating another link." = "A little pause. Please wait a minute before creating another link.";
-
 "AI illustration · inspired by your discovery" = "AI illustration · inspired by your discovery";
 "Ask a question to grow your collection, or try another search." = "Ask a question to grow your collection, or try another search.";
 "Ask about anything you notice." = "Ask about anything you notice.";
@@ -233,15 +232,11 @@
 "Discoveries" = "Discoveries";
 "Questions" = "Questions";
 "Age: %lld" = "Age: %lld";
-"%lld discoveries" = "%lld discoveries";
-"%lld little adventures" = "%lld little adventures";
-
+"%lld discoveries" = "Discoveries: %lld";
+"%lld little adventures" = "Little adventures: %lld";
 "Ask another question" = "Ask another question";
-
 "Explore with a photo" = "Explore with a photo";
-
 "Say what you noticed" = "Say what you noticed";
-
 "Your card is ready" = "Your card is ready";
 "Your card is saved" = "Your card is saved";
 "Adding a little colour" = "Adding a little colour";
@@ -255,47 +250,71 @@
 "Your words and discovery are saved. You can try the picture once more." = "Your words and discovery are saved. You can try the picture once more.";
 "Your discovery is still yours. You can read it, make a memory and share your words." = "Your discovery is still yours. You can read it, make a memory and share your words.";
 "Check illustration" = "Check illustration";
-
 "Your guide couldn't finish this answer. Your question is saved, and you can ask again." = "Your guide couldn't finish this answer. Your question is saved, and you can ask again.";
-
 "You're offline. Your question is saved. Try again when you're connected." = "You're offline. Your question is saved. Try again when you're connected.";
-
 "The connection took too long. Your question is saved. Check again in a moment." = "The connection took too long. Your question is saved. Check again in a moment.";
-
 "Today's AI allowance is used. Your saved discoveries are still here." = "Today's AI allowance is used. Your saved discoveries are still here.";
-
 "This demo's AI allowance is used. You can still enjoy your saved discoveries." = "This demo's AI allowance is used. You can still enjoy your saved discoveries.";
-
 "This picture can't be retried. Your discovery is still saved." = "This picture can't be retried. Your discovery is still saved.";
-
 "This question has changed. Start a new question to explore it." = "This question has changed. Start a new question to explore it.";
-
 "Your guide is taking a little longer…" = "Your guide is taking a little longer…";
-
 "Later" = "Later";
-
 "Send question" = "Send question";
-
 "Your question is saved. Check the answer whenever you're ready." = "Your question is saved. Check the answer whenever you're ready.";
-
 "Picture unavailable" = "Picture unavailable";
-
 "Getting the microphone ready…" = "Getting the microphone ready…";
-
 "Keeping your last words…" = "Keeping your last words…";
-
 "Speak your question" = "Speak your question";
-
 "We couldn't find this saved answer. You can ask the question again." = "We couldn't find this saved answer. You can ask the question again.";
-
 "This photo couldn't be opened. Try choosing another photo." = "This photo couldn't be opened. Try choosing another photo.";
-
 "The voice isn't available right now. You can read the answer or listen again later." = "The voice isn't available right now. You can read the answer or listen again later.";
-
 "Your phone couldn't save this yet. Your words are still on this screen. Please try again." = "Your phone couldn't save this yet. Your words are still on this screen. Please try again.";
-
 "Type your question" = "Type your question";
-
 "This illustration is unavailable. Your card and words are still saved." = "This illustration is unavailable. Your card and words are still saved.";
-
 "We couldn't check your illustration. Your card is safe. We'll check again shortly." = "We couldn't check your illustration. Your card is safe. We'll check again shortly.";
+"This photo is taking too long. Try again or choose another one." = "This photo is taking too long. Try again or choose another one.";
+"Preparing your photo…" = "Preparing your photo…";
+"Cancel photo" = "Cancel photo";
+"Hello, explorer!" = "Hello, explorer!";
+"Choose your language" = "Choose your language";
+"For your words, questions and discoveries." = "For your words, questions and discoveries.";
+"You can change this on the home screen." = "You can change this on the home screen.";
+"Continue" = "Continue";
+"Use device language" = "Use device language";
+"Language" = "Language";
+"Stop reply" = "Stop reply";
+"Show card front" = "Show card front";
+"Flip card to read my observation" = "Flip card to read my observation";
+"Tell us one thing you noticed first." = "Tell us one thing you noticed first.";
+"Add your question first." = "Add your question first.";
+"This adventure could not be found." = "This adventure could not be found.";
+"This discovery could not be found." = "This discovery could not be found.";
+"Make one discovery before creating a memory." = "Make one discovery before creating a memory.";
+"This journal needs a newer version of Pocket Explorer." = "This journal needs a newer version of Pocket Explorer.";
+"Your saved journal has been kept. Please close the app and try again." = "Your saved journal has been kept. Please close the app and try again.";
+"This photo may need to download. Check your connection and try again." = "This photo may need to download. Check your connection and try again.";
+"This photo is too large. Try choosing a smaller one." = "This photo is too large. Try choosing a smaller one.";
+"Your previous photo is still attached." = "Your previous photo is still attached.";
+"Your answer is saved. This photo couldn't be opened." = "Your answer is saved. This photo couldn't be opened.";
+"Their feet push the water like little paddles!" = "Their feet push the water like little paddles!";
+"Webbed feet help ducks push against the water." = "Webbed feet help ducks push against the water.";
+"One had smooth edges. Another had tiny teeth." = "One had smooth edges. Another had tiny teeth.";
+"Leaf shapes and edges can help us notice differences between plants." = "Leaf shapes and edges can help us notice differences between plants.";
+"Why does this leaf have lines?" = "Why does this leaf have lines?";
+"The little lines branch out like roads." = "The little lines branch out like roads.";
+"Leaf veins carry water and other materials through the leaf." = "Leaf veins carry water and other materials through the leaf.";
+"I could see a little doorway and a spiral." = "I could see a little doorway and a spiral.";
+"Many molluscs grow shells that protect their soft bodies." = "Many molluscs grow shells that protect their soft bodies.";
+"The day we met the ducks" = "The day we met the ducks";
+"A garden full of little wonders" = "A garden full of little wonders";
+"Treasures by the sea" = "Treasures by the sea";
+"Ducks use their webbed feet to push against the water." = "Ducks use their webbed feet to push against the water.";
+"Watch a duck for a moment. What do its feet do when it moves?" = "Watch a duck for a moment. What do its feet do when it moves?";
+"Leaves come in many shapes, with different edges and patterns of veins." = "Leaves come in many shapes, with different edges and patterns of veins.";
+"Find two fallen leaves. What is different about their edges?" = "Find two fallen leaves. What is different about their edges?";
+"Many soft-bodied sea animals grow shells to protect themselves." = "Many soft-bodied sea animals grow shells to protect themselves.";
+"Look at its shape and opening. What details can you spot?" = "Look at its shape and opening. What details can you spot?";
+
+"Ask" = "Ask";
+
+"Search" = "Search";

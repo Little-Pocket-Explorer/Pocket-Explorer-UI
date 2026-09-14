@@ -1,5 +1,54 @@
 # Pocket Explorer: Project Continuation Prompt
 
+## Local release candidate ready (2026-09-15 05:07 AEST)
+
+- Verified 85 unit and 44 distinct UI checks, with two explicit skips. The full run's French failure was a test tap on the tab bar. After correcting positioning, three independent French iterations and all 14 language flows passed. Application source remained unchanged.
+- Changed Swift executable-line coverage is 401/411 (97.57%), each file above 80%. Application coverage is 4989/5193 (96.07%). Final ten-language, photo and maximum-text screenshots are reviewed. Original contrast reports and internal QoS warnings remain attached.
+- No checked service/owner value was found in 275 repository files. Commit and archive/upload from this Mac now, using [skip ci] and no GitHub iOS workflow. TestFlight remains 0.1.0 (10) until independent Apple readback completes.
+- Freeze ios/shared/scripts during upload. Afterwards refine native memory reading duration and scroll position, and resolve the new WebKit language-picker touch-area and collection-scroll findings. Continue through 08:39:34 AEST.
+
+## Native checkpoint 11 (2026-09-15 04:56 AEST)
+
+- All 85 final-candidate unit tests passed. UI regression continues. The French maximum-text sharing test failed once. Completed photo, question, card, memory and public-sharing journeys passed.
+- Independent screenshot and hierarchy show the share button at y=489.5 with height 266pt, placing its center inside the tab bar beginning at y=584. The old helper checked only isHittable, which does not establish a visible tap center. Position the complete button inside the usable region before tapping. Three independent iterations are running, with the first passed. An earlier helper revision failed because the map has no navigation bar. That assumption is corrected.
+- The website memory refinement reproduces and fixes five-second long-text advancement, offscreen pause, replay not resetting its interval, and next chapters opening at the collection. Passed 24 browser and 89 unit/integration checks. Independent review and publication remain pending.
+- Native app code stays frozen. TestFlight is still 0.1.0 (10). Next inspect the full failure attachments and final coverage, verify corrected scrolling, and publish locally. After release, improve native memory reading pace and continue through 08:39:34 AEST.
+
+## Native checkpoint 10 (2026-09-15 04:28 AEST)
+
+- Reproduced large-text defects on independent 375pt simulator E571D373-70EE-43D4-B93E-9DE0EE7DE2BF with separate DerivedData, leaving the original full regression undisturbed. Four baseline UI checks failed. Measured home input height was 272pt, Play height 152.5pt, and card width 162pt.
+- Adapted large-text input copy, fixed icon sizes, brand sizing, single-column collection, complete card titles/categories and stacked memory controls. Chapter position moves to the chapter text's VoiceOver value. The decorative 5pt progress strip is no longer a separate focus target. Ten catalogs now contain 318 entries.
+- First fixes passed the three geometry assertions and clipping checks. Screenshots then exposed the brand's last letter wrapping, truncated categories and the progress strip's hit-region issue. Corrections are included in the second targeted run, together with French and Portuguese maximum-text journeys.
+- Apple's contrast audit also samples scrolling labels behind bottom overlays. Raw findings and screenshots are retained for explicit pixel review. Ordinary test success must not be described as zero contrast findings. Clipping, hit-region, element-description and reading-space assertions remain strict. Original journal-count pixels were independently measured as #61746B against backgrounds with roughly 4.5 to 5 contrast. That finding disappeared in the first corrected layout.
+- Added an actual Memories-tab chapter/back-navigation test, not run yet. The earlier full regression continues with no failures so far. TestFlight remains 0.1.0 (10), and new native code is unpublished.
+- This Mac lists the paired physical iPhone, but reading this app's version/crash logs failed to connect (CoreDevice 4000 / NWError 57). No physical app was changed or reinstalled, and no physical verification is claimed.
+- Next collect both running results and screenshots, address remaining observed defects, run final full regression and changed-line coverage, record review, and release locally. Continue through 08:39:34 AEST.
+
+## Native checkpoint 09 (2026-09-15 04:17 AEST)
+
+- Read the previous complete result: 84 unit tests had one legacy sharing-fixture failure. The 39 UI tests had two locale-scroll failures and two explicit skips. Corrected full regression is running, with all 84 unit tests passed so far.
+- Actual screenshots exposed an oversized home composer, an Arabic collection word breaking across lines, and a squeezed multi-line memory Play label at the largest text size. Added AccessibilityFlowTests with actual Apple audits and reading-space assertions. This new test file is not part of the already-running regression and will first run against the unchanged app.
+- Previous app coverage is 4736/5105 (92.77%). Changed executable lines are 321/331 (96.98%), with each changed file above 80%. Coverage does not turn failed tests into a complete pass.
+- Backend compass fallback is deployed and independently verified, with remote main at e47cdfc. TestFlight remains 0.1.0 (10). Hold native publication until the newly observed large-text defects are addressed.
+- Opus 5 is reviewing home, collection and memory accessibility and interactions. Next finish regression, reproduce the accessibility findings, fix and inspect screenshots, then release locally. Continue through 08:39:34 AEST.
+
+## Native checkpoint 08 (2026-09-15 04:06 AEST)
+
+- Completed ten 316-entry catalogs and localized permissions. New examples are created after first language selection with consistent titles, content and dates. Existing journals are retained. Reproduced and fixed first-launch loading that did not resume after language selection.
+- The largest map text previously covered the collection entry. A bounded, fully scrollable trip panel corrected it and passed Arabic and German accessibility-size cases. Two later locale-picker checks overshot the target through long test swipes. The test now uses short drags calculated from actual element geometry.
+- Full regression is still running. Of 84 unit checks, one legacy sharing-fixture comparison failed because new examples now include language metadata. The test is corrected to construct the original language-free record conditions. Photo, question, artwork-recovery and UI checks continue. No full-pass claim yet.
+- Native Spanish production sharing passed independent HTTP content/language readback and HTTP 410 after revocation, without new AI or image calls. Apple currently returns zero TestFlight crash feedback submissions. That does not prove the absence of physical-device crashes.
+- Verified photo-review fixes are retained. A focused Opus translation review led to checked corrections in Traditional Chinese, Japanese, Korean, German and Arabic. A larger review exhausted its budget and supplied no usable result. The foundation review's onReceive compile-error and missing-chapter-language claims contradict actual builds and tests. They were rejected. Its map-height finding was retracted.
+- Added a matching native compass illustration for sharing without artwork. Sharing copy now scopes field-photo and precise-location exclusion to the public link, distinct from deliberately submitting a photo to AI.
+- TestFlight remains 0.1.0 (10). New native code is uncommitted and unpublished. Backend keepsake/recovery source 4a4c0e0 is pushed, with workflow 34878450664 running.
+- Next collect the full results, verify corrected fixture/picker checks, inspect final screenshots and coverage, then publish TestFlight locally. Continue with actual accessibility audits and other reproducible rough interactions through 08:39:34 AEST.
+
+## Current language checkpoint (2026-09-15 03:35 AEST)
+
+- Installed ten 316-entry UI/sample catalogs and ten permission catalogs. The 12 photo/language foundation unit tests passed. The new catalog, sample-preservation and explicit-date checks passed in a 15-test unit run.
+- New examples are created after the first language selection, saved in that language with content metadata. Existing stories are preserved on UI changes. Prepared replies support all ten languages, and dates follow manual selection. Opus 5 is reviewing sensitive photo, speech and sharing translations.
+- Native changes remain unpublished. TestFlight is 0.1.0 (10), while the ten-language Backend is deployed. Next resolve tests and review, inspect all ten locales, small screens, large text and RTL, then run full regression, coverage and local release. Continue through 08:39:34 AEST.
+
 ## Active eight-hour refinement (2026-09-15)
 
 The user now authorizes implementation and repeated refinement through 2026-09-15 08:39:34 Australia/Sydney. This supersedes the planning-only checkpoint below. Prioritize rough interactions, gentle child-friendly speech, and slow or stuck image generation, then advance global multilingual quality within the same core journeys. Accounts and friend chat remain deferred.

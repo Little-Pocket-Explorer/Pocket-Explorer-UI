@@ -42,6 +42,7 @@ struct MemoryPlayer: View {
     var store: TripStore?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var playback: MemoryPlayback
     @State private var timerTask: Task<Void, Never>?
 
@@ -62,7 +63,7 @@ struct MemoryPlayer: View {
                         ForEach(chapters.indices, id: \.self) { index in
                             Capsule().fill(index <= playback.index ? Theme.forest : Theme.line).frame(height: 5)
                         }
-                    }.accessibilityLabel("Chapter \(playback.index + 1) of \(chapters.count)")
+                    }.accessibilityHidden(true)
                     Group {
                         if let discovery = store?.discoveries(in: trip.id).first(where: { chapter.id.hasPrefix($0.id.uuidString) }) {
                             DiscoveryArtwork(discovery: discovery, store: store)
@@ -74,25 +75,23 @@ struct MemoryPlayer: View {
                         Eyebrow(text: chapter.title)
                         Text(chapter.text).font(.system(.title2, design: .rounded, weight: .bold))
                             .accessibilityIdentifier("memory-chapter")
+                            .accessibilityValue("Chapter \(playback.index + 1) of \(chapters.count)")
                     }.id(chapter.id).transition(.opacity)
                 }
             }.padding(26)
         }
         .safeAreaInset(edge: .bottom) {
             if let chapters = trip.memory?.chapters, !chapters.isEmpty {
-                HStack(spacing: 8) {
-                    Button { stopTimer(); playback.select(playback.index - 1) } label: { Image(systemName: "backward.end.fill").frame(width: 48, height: 50) }
-                        .accessibilityLabel("Previous chapter").disabled(playback.index == 0)
-                    Button {
-                        if playback.isPlaying { stopTimer(); playback.pause() }
-                        else { playback.play(); startTimer() }
-                    } label: { Label(L10n.text(playback.isPlaying ? "Pause" : "Play"), systemImage: playback.isPlaying ? "pause.fill" : "play.fill") }
-                        .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("memory-play-pause")
-                    Button { stopTimer(); playback.select(playback.index + 1) } label: { Image(systemName: "forward.end.fill").frame(width: 48, height: 50) }
-                        .accessibilityLabel("Next chapter").disabled(playback.index >= chapters.count - 1)
-                    Button { playback.replay(); startTimer() } label: { Image(systemName: "arrow.counterclockwise").frame(width: 44, height: 50) }
-                        .accessibilityLabel("Replay from the beginning").accessibilityIdentifier("memory-replay")
-                }
+                Group {
+                    if dynamicTypeSize.isAccessibilitySize {
+                        VStack(spacing: 2) {
+                            playButton
+                            HStack { previousButton; Spacer(); replayButton; Spacer(); nextButton(count: chapters.count) }
+                        }
+                    } else {
+                        HStack(spacing: 8) { previousButton; playButton; nextButton(count: chapters.count); replayButton }
+                    }
+                }.font(.system(size: 22))
                 .padding(.horizontal, 20).padding(.vertical, 10).background(Theme.paper)
             }
         }
@@ -100,6 +99,29 @@ struct MemoryPlayer: View {
         .navigationTitle("My little memory").navigationBarTitleDisplayMode(.inline)
         .onDisappear { stopTimer(); playback.pause() }
         .onChange(of: scenePhase) { _, next in if next != .active { stopTimer(); playback.pause() } }
+    }
+
+    private var playButton: some View {
+        Button {
+            if playback.isPlaying { stopTimer(); playback.pause() }
+            else { playback.play(); startTimer() }
+        } label: { Label(L10n.text(playback.isPlaying ? "Pause" : "Play"), systemImage: playback.isPlaying ? "pause.fill" : "play.fill") }
+            .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("memory-play-pause")
+    }
+
+    private var previousButton: some View {
+        Button { stopTimer(); playback.select(playback.index - 1) } label: { Image(systemName: "backward.end.fill").frame(width: 48, height: 50) }
+            .accessibilityLabel("Previous chapter").disabled(playback.index == 0)
+    }
+
+    private func nextButton(count: Int) -> some View {
+        Button { stopTimer(); playback.select(playback.index + 1) } label: { Image(systemName: "forward.end.fill").frame(width: 48, height: 50) }
+            .accessibilityLabel("Next chapter").disabled(playback.index >= count - 1)
+    }
+
+    private var replayButton: some View {
+        Button { playback.replay(); startTimer() } label: { Image(systemName: "arrow.counterclockwise").frame(width: 44, height: 50) }
+            .accessibilityLabel("Replay from the beginning").accessibilityIdentifier("memory-replay")
     }
 
     private func startTimer() {

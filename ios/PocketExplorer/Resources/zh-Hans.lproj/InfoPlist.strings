@@ -1,5 +1,4 @@
-"NSMicrophoneUsageDescription" = "当你点一下说话时，录下你的问题和发现。";
-"NSSpeechRecognitionUsageDescription" = "把你说的问题和观察变成卡片上的文字。";
-"NSCameraUsageDescription" = "拍下探索中发现的东西，保存在自己的记录里。";
-
-"NSLocationWhenInUseUsageDescription" = "只有你选择记录地点时，才把发现保存到私人地图上。";
+"NSMicrophoneUsageDescription" = "当你点击说话时，录下你的问题和发现。";
+"NSSpeechRecognitionUsageDescription" = "把你说的问题和观察变成发现卡片上的文字。";
+"NSCameraUsageDescription" = "拍下探索中发现的东西。只有发送问题时，附带的照片才会发给 AI 向导。";
+"NSLocationWhenInUseUsageDescription" = "只有你选择添加地点时，才把发现保存到私人地图上。";

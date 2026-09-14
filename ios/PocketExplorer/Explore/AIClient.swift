@@ -83,6 +83,7 @@ struct AIClient {
 
     func ask(_ record: ExplorationRecord, photo: Data?, connection: ShareConnection) async throws -> AIReceipt {
         struct Input: Encodable { var id: String; var question: String; var language: String; var age: Int; var photo: String? }
+        guard record.photoFilename == nil || photo != nil else { throw AIClientError.photoUnreadable }
         let photoInput = photo.flatMap(Self.imageInput)
         if photo != nil && photoInput == nil { throw AIClientError.photoUnreadable }
         let input = Input(id: record.id.uuidString.lowercased(), question: record.question, language: record.language, age: record.age, photo: photoInput)

@@ -97,7 +97,7 @@ final class PrototypeTests: XCTestCase {
     func testEmptyCollectionAndRemindersOfferClearNextActions() {
         app.terminate(); app.launchArguments += ["--empty-journal"]; app.launch()
         app.buttons["language-continue"].tap(); openCollection()
-        XCTAssertTrue(app.staticTexts["journal-count"].label.contains("0 discoveries"))
+        XCTAssertTrue(app.staticTexts["journal-count"].label.contains("Discoveries: 0"))
         capture("empty-collection")
         app.buttons["collection-reminders"].tap()
         XCTAssertTrue(app.staticTexts["Nothing to catch up on. Come back after your next discovery."].exists)
@@ -139,7 +139,12 @@ final class PrototypeTests: XCTestCase {
         input.tap(); input.typeText("Why is the sky blue?"); app.buttons["ask-button"].tap()
         XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.buttons["save-discovery"].isHittable)
+        XCTAssertGreaterThan(app.buttons["save-discovery"].frame.minY, app.frame.height * 0.70, "The fixed action must leave useful room for the answer.")
         capture("large-text-answer")
+        scrollTo(app.buttons["ask-another"])
+        XCTAssertTrue(app.buttons["ask-another"].isHittable)
+        XCTAssertTrue(app.buttons["save-discovery"].isHittable)
+        capture("large-text-secondary-action")
     }
 
     func testMapMarkerOpensTheMatchingAdventure() {

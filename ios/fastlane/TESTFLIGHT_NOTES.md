@@ -1,5 +1,7 @@
-Illustrations now recover after interrupted connections, show clear waiting or failure states, and let you keep reading your saved card. An explicit retry is available when the server permits it. Questions can be paused and resumed without losing your words.
+Choose English, Simplified or Traditional Chinese, Spanish, French, German, Brazilian Portuguese, Japanese, Korean or Arabic. New examples follow your choice. Existing questions, discoveries and shared stories keep their original words.
 
-The guide prefers higher-quality gentle voices available on your iPhone, uses calmer pacing, and replays answers in their original language. Recording preserves your typed words and allows the final spoken words to finish. Home entry buttons now open the requested input directly.
+Photo selection handles slow downloads, replacements and interrupted restores without duplicating your question. Large-text layouts give the composer, collection and memory controls more room. Sharing has a preview while illustrations are pending, and connection errors follow your chosen language.
 
-Please test microphone, speaker and camera behavior on your iPhone, including interruptions and returning to the app. English and Simplified Chinese are available. Maximum accessibility text layout and additional languages are still being refined. Accounts and friend chat remain deferred.
+Illustrations can still finish in the background while you read your saved card. The guide uses calmer pacing and prefers higher-quality gentle voices available on your iPhone.
+
+Please test microphone, speaker, camera and VoiceOver on your iPhone, including interruptions, returning to the app and your preferred language. Accounts and friend chat remain deferred.

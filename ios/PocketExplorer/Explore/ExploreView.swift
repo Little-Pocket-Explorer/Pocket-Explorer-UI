@@ -34,8 +34,10 @@ struct ExploreView: View {
     @State private var questionError: AIClientError?
     @State private var questionStartedAt = Date()
     @State private var requestToken = UUID()
-    @State private var photo: Data?
+    @State private var photoDraft = PhotoDraft()
+    private var photo: Data? { photoDraft.data }
     @State private var selection: PhotosPickerItem?
+    @State private var photoPickerOpen = false
     @State private var cameraOpen = false
     @State private var replyTask: Task<Void, Never>?
     @FocusState private var focused: Bool
@@ -56,7 +58,7 @@ struct ExploreView: View {
                             Text("What did you notice? (optional)").font(.system(.subheadline, design: .rounded, weight: .semibold))
                             TextField("I noticed…", text: $observation, axis: .vertical).lineLimit(2...4)
                                 .padding(16).background(.white, in: RoundedRectangle(cornerRadius: 18)).accessibilityIdentifier("observation-input")
-                                .disabled(listening || startingListening || finishingListening)
+                                .disabled(thinking || listening || startingListening || finishingListening)
                             Button { toggleRecording(forObservation: true) } label: {
                                 Label(L10n.text(listening && recordingObservation ? "Finish recording" : "Say what you noticed"), systemImage: listening && recordingObservation ? "stop.fill" : "mic.fill")
                             }.frame(minHeight: 44).accessibilityIdentifier("observation-speak").disabled(finishingListening)
@@ -69,18 +71,22 @@ struct ExploreView: View {
                             if let error = location.error { Text(error).font(.caption).foregroundStyle(Theme.muted) }
                             Text("Your question is already a discovery. Keep it whenever you are ready.").font(.caption).foregroundStyle(Theme.muted)
                         }.padding(.leading, 48)
+                        Button("Ask another question") {
+                            stopVoice(); self.record = nil; question = ""; observation = ""; photoDraft.clear(); selection = nil; error = nil; questionError = nil; location.remove(); focused = true
+                        }.frame(minHeight: 44).frame(maxWidth: .infinity).accessibilityIdentifier("ask-another")
                     }
-                } else {
+                } else if photoDraft.image == nil {
                     Image("explorer-hero").resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 26)).accessibilityHidden(true)
                     Text("Every discovery starts\nwith a question.").font(.system(.largeTitle, design: .rounded, weight: .black))
                     Text("Speak, type, or add a photo of something you notice.").foregroundStyle(Theme.muted)
                 }
-                if let photo, record?.reply == nil, let image = UIImage(data: photo) {
-                    Image(uiImage: image).resizable().scaledToFit().frame(maxHeight: 220).clipShape(RoundedRectangle(cornerRadius: 18))
-                    Button("Remove photo") { self.photo = nil; selection = nil }.frame(minHeight: 44)
+                if record?.reply == nil, let image = photoDraft.image {
+                    Image(uiImage: image).resizable().scaledToFit().frame(maxHeight: 220).clipShape(RoundedRectangle(cornerRadius: 18)).accessibilityIdentifier("exploration-photo")
+                    Button("Remove photo") { photoDraft.clear(); selection = nil }.frame(minHeight: 44)
                 }
             }.padding(20)
         }
+        .scrollDismissesKeyboard(.interactively)
         .background(ExplorerBackdrop()).foregroundStyle(Theme.ink)
         .navigationTitle(record?.reply?.title ?? L10n.text("Let's explore")).navigationBarTitleDisplayMode(.inline)
         .safeAreaInset(edge: .bottom) {
@@ -109,30 +115,33 @@ struct ExploreView: View {
                 VStack(spacing: 6) {
                     Button(action: keep) { Label(L10n.text(record.cardID == nil ? "Make my card" : "View my card"), systemImage: "sparkles") }
                         .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("save-discovery")
-                    Button("Ask another question") {
-                        stopVoice(); self.record = nil; question = ""; observation = ""; photo = nil; selection = nil; error = nil; questionError = nil; location.remove(); focused = true
-                    }.frame(minHeight: 44).accessibilityIdentifier("ask-another")
+
                 }.padding(.horizontal, 20).padding(.top, 12).background(Theme.paper)
                 } else { composer }
             }
         }
         .onAppear(perform: prepare)
-        .onDisappear { replyTask?.cancel(); stopVoice() }
+        .onDisappear { replyTask?.cancel(); photoDraft.cancel(); stopVoice() }
         .onChange(of: scenePhase) { _, next in
             if next == .background {
                 if thinking { pauseQuestion() }
-                stopVoice()
+                photoDraft.cancel(); stopVoice()
             }
         }
         .onChange(of: selection) { _, item in
-            Task {
-                do { photo = try await item?.loadTransferable(type: Data.self) }
-                catch { self.error = L10n.text("This photo couldn't be opened. Try choosing another photo.") }
+            if let item {
+                focused = false
+                photoPickerOpen = false
+                photoDraft.load { try await item.loadTransferable(type: Data.self) }
+                selection = nil
             }
         }
         .sheet(isPresented: $cameraOpen) {
-            CameraCapture(onPhoto: { photo = $0; cameraOpen = false }, onCancel: { cameraOpen = false }).ignoresSafeArea()
+            CameraCapture(onPhoto: { data in
+                focused = false; selection = nil; photoDraft.load { data }; cameraOpen = false
+            }, onCancel: { cameraOpen = false }).ignoresSafeArea()
         }
+        .photosPicker(isPresented: $photoPickerOpen, selection: $selection, matching: .images)
     }
 
     private func answer(_ reply: AIReply) -> some View {
@@ -143,8 +152,12 @@ struct ExploreView: View {
                 Button { if speaking { stopVoice() } else { speak(reply.answer) } } label: {
                     Label(L10n.text(speaking ? "Stop reply" : "Listen"), systemImage: speaking ? "stop.fill" : "speaker.wave.2.fill")
                 }.frame(minHeight: 44).accessibilityIdentifier("listen-answer")
-                if let photo, let image = UIImage(data: photo) {
-                    Image(uiImage: image).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 18))
+                if let image = photoDraft.image {
+                    Image(uiImage: image).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 18)).accessibilityIdentifier("exploration-photo")
+                }
+                if photoDraft.isLoading { ProgressView("Preparing your photo…") }
+                if photoDraft.error != nil {
+                    Text("Your answer is saved. This photo couldn't be opened.").font(.caption).accessibilityIdentifier("photo-error")
                 }
             }.padding(18).background(.white.opacity(0.97), in: RoundedRectangle(cornerRadius: 24))
                 .shadow(color: Theme.ink.opacity(0.05), radius: 12, y: 3)
@@ -153,24 +166,41 @@ struct ExploreView: View {
 
     private var composer: some View {
         VStack(spacing: 10) {
+            if photoDraft.isLoading {
+                HStack {
+                    ProgressView()
+                    Text("Preparing your photo…").font(.caption)
+                    Spacer()
+                    Button("Cancel photo") { photoDraft.cancel(); selection = nil }.frame(minHeight: 44)
+                }.padding(.horizontal, 16).accessibilityIdentifier("preparing-photo")
+            }
+            if let message = photoDraft.error {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(message).accessibilityIdentifier("photo-error")
+                    if photoDraft.image != nil { Text("Your previous photo is still attached.") }
+                    else if record?.photoFilename != nil, !photoDraft.hasChanges {
+                        Button("Remove photo") { photoDraft.clear(); selection = nil }.frame(minHeight: 44)
+                    }
+                }.font(.caption).padding(.horizontal, 16)
+            }
             if listening || startingListening || finishingListening {
                 Text(L10n.text(startingListening ? "Getting the microphone ready…" : finishingListening ? "Keeping your last words…" : "I'm listening…"))
                     .font(.caption).accessibilityIdentifier("exploration-status")
             }
             TextField("Ask anything…", text: $question, axis: .vertical).lineLimit(1...4).focused($focused)
                 .padding(.horizontal, 16).padding(.top, 12).accessibilityIdentifier("exploration-input")
-                .disabled(listening || startingListening || finishingListening)
+                .disabled(thinking || listening || startingListening || finishingListening)
             HStack(spacing: 18) {
-                PhotosPicker(selection: $selection, matching: .images) { Image(systemName: "photo").frame(width: 44, height: 44) }
-                    .accessibilityLabel("Choose a photo").disabled(listening || startingListening || finishingListening)
-                Button(action: openCamera) { Image(systemName: "camera").frame(width: 44, height: 44) }.accessibilityLabel("Take a photo")
+                Button { focused = false; photoPickerOpen = true } label: { Image(systemName: "photo").frame(width: 44, height: 44) }
+                    .accessibilityLabel("Choose a photo").disabled(thinking || listening || startingListening || finishingListening)
+                Button(action: openCamera) { Image(systemName: "camera").frame(width: 44, height: 44) }.accessibilityLabel("Take a photo").disabled(thinking || photoDraft.isLoading || listening || startingListening || finishingListening)
                 Spacer()
                 Button { toggleRecording() } label: { Image(systemName: listening ? "stop.fill" : "mic.fill").frame(width: 44, height: 44).background(Theme.mint, in: Circle()) }
                     .accessibilityLabel(L10n.text(listening || startingListening ? "Finish recording" : "Speak your question"))
                     .accessibilityIdentifier("speak-button").disabled(thinking || finishingListening)
                 Button(action: ask) { Image(systemName: "arrow.up").font(.title3.bold()).foregroundStyle(.white).frame(width: 44, height: 44).background(Theme.forest, in: Circle()) }
                     .accessibilityLabel("Send question").accessibilityIdentifier("ask-button")
-                    .disabled(thinking || startingListening || finishingListening || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .disabled(thinking || photoDraft.isLoading || startingListening || finishingListening || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             }.padding(.horizontal, 8)
             if photo != nil { Text("This photo will be sent to your AI guide with your question.").font(.caption2).foregroundStyle(Theme.muted).padding(.horizontal) }
         }.padding(.bottom, 10).background(.white, in: RoundedRectangle(cornerRadius: 26))
@@ -187,7 +217,10 @@ struct ExploreView: View {
         voice.onFinishedListening = { listening = false; startingListening = false }
         if let recordID, let existing = store.questions.first(where: { $0.id == recordID }) {
             record = existing; question = existing.question
-            photo = existing.photoFilename.flatMap { try? Data(contentsOf: store.mediaURL($0)) }
+            if let filename = existing.photoFilename {
+                let url = store.mediaURL(filename)
+                photoDraft.load(preservingData: true) { try Data(contentsOf: url) }
+            }
             if existing.reply == nil {
                 questionError = .pending
                 error = L10n.text("Your question is saved. Check the answer whenever you're ready.")
@@ -204,16 +237,16 @@ struct ExploreView: View {
     }
 
     private func ask() {
-        guard !thinking, !question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        guard !thinking, !photoDraft.isLoading, !question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         if listening { finishRecording(then: ask); return }
         guard !startingListening, !finishingListening else { return }
         let previousID = record?.id
         let readSavedAnswer = questionError != .answerFailed
         focused = false; stopVoice(); error = nil; questionError = nil
         do {
-            let priorPhoto = record?.photoFilename.flatMap { try? Data(contentsOf: store.mediaURL($0)) }
-            if record?.question != question.trimmingCharacters(in: .whitespacesAndNewlines) || priorPhoto != photo {
+            if record?.question != question.trimmingCharacters(in: .whitespacesAndNewlines) || photoDraft.hasChanges {
                 record = try store.beginQuestion(question, age: age, photo: photo)
+                photoDraft.markSaved()
                 observation = ""
             }
             guard let record else { return }
@@ -221,12 +254,13 @@ struct ExploreView: View {
             thinking = true
             questionStartedAt = Date()
             let token = UUID(); requestToken = token
+            let requestPhoto = photo
             replyTask = Task { @MainActor in
                 defer { if requestToken == token { thinking = false } }
                 do {
                     let connection = try ConnectionVault().loadOrCreate()
                     let client = AIClient()
-                    let receipt = try await client.answer(record, photo: photo, connection: connection, resume: previousID == record.id && readSavedAnswer)
+                    let receipt = try await client.answer(record, photo: requestPhoto, connection: connection, resume: previousID == record.id && readSavedAnswer)
                     try Task.checkCancellation()
                     guard requestToken == token, let reply = receipt.reply else { throw AIClientError.invalidResponse }
                     try store.saveAnswer(reply, for: record.id)

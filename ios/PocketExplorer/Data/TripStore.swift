@@ -62,9 +62,9 @@ final class TripStore {
         let record = Discovery(id: UUID(), tripID: tripID, subject: .discovery, question: question.question,
             observation: observation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? question.question : observation,
             explanation: reply.answer, createdAt: now, photoFilename: question.photoFilename, unlockedAt: now, origin: .exploration, tier: .fieldFind,
-            ai: reply, explorationID: id, place: place)
+            ai: reply, explorationID: id, place: place, language: question.language)
         var next = state
-        if existingTripID == nil { next.trips.insert(Trip(id: tripID, title: reply.title, startedAt: question.createdAt, place: place, isExample: false), at: 0) }
+        if existingTripID == nil { next.trips.insert(Trip(id: tripID, title: reply.title, startedAt: question.createdAt, place: place, isExample: false, language: question.language), at: 0) }
         else if let index = next.trips.firstIndex(where: { $0.id == tripID }), next.trips[index].place == nil { next.trips[index].place = place }
         next.discoveries.append(record)
         refreshMemory(in: &next, tripID: tripID)
@@ -109,7 +109,7 @@ final class TripStore {
         let id = UUID()
         var next = state
         let cleaned = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        next.trips.insert(Trip(id: id, title: cleaned.isEmpty ? "A day of little wonders" : cleaned, startedAt: now, place: place, isExample: false), at: 0)
+        next.trips.insert(Trip(id: id, title: cleaned.isEmpty ? L10n.text("A day of little wonders") : cleaned, startedAt: now, place: place, isExample: false, language: cleaned.isEmpty ? AppLanguage.current.rawValue : nil), at: 0)
         try commit(next)
         return id
     }
@@ -121,7 +121,7 @@ final class TripStore {
         guard !observation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw JournalError.emptyObservation }
         if let existing = state.discoveries.first(where: { $0.id == id }) { return existing }
         let filename = photo.map { _ in "\(id.uuidString).jpg" }
-        let record = Discovery(id: id, tripID: tripID, subject: subject, question: question, observation: observation, explanation: explanation, createdAt: now, photoFilename: filename, unlockedAt: now, origin: .exploration, tier: .fieldFind)
+        let record = Discovery(id: id, tripID: tripID, subject: subject, question: question, observation: observation, explanation: explanation, createdAt: now, photoFilename: filename, unlockedAt: now, origin: .exploration, tier: .fieldFind, language: AppLanguage.current.rawValue)
         var next = state
         next.discoveries.append(record)
         refreshMemory(in: &next, tripID: tripID)

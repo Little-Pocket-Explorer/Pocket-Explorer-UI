@@ -22,12 +22,12 @@ struct SharePreviewView: View {
                 VStack(alignment: .leading, spacing: 22) {
                     Eyebrow(text: "Your adventure, ready to share")
                     Text("A little adventure.\nA lovely thing to share.").font(.system(.largeTitle, design: .rounded, weight: .heavy))
-                    Text("Preview the words everyone with your link will see. Photos and exact locations stay on this iPhone.").foregroundStyle(Theme.muted)
+                    Text("Preview the words everyone with your link will see. Field photos and exact locations are not included in the link.").foregroundStyle(Theme.muted)
                     if published == nil {
                         VStack(alignment: .leading, spacing: 14) {
-                            Toggle("Include a first name", isOn: $includeName)
+                            Toggle("Include a first name", isOn: $includeName).accessibilityIdentifier("share-include-name")
                             if includeName { TextField("First name", text: $firstName).textContentType(.givenName).padding(12).background(Theme.paper, in: RoundedRectangle(cornerRadius: 12)) }
-                            Toggle("Include the city", isOn: $includeCity).disabled(trip.place == nil)
+                            Toggle("Include the city", isOn: $includeCity).disabled(trip.place == nil).accessibilityIdentifier("share-include-city")
                         }.padding(20).background(Theme.surface, in: RoundedRectangle(cornerRadius: 22)).disabled(busy)
                     }
                     VStack(alignment: .leading, spacing: 18) {
@@ -67,9 +67,9 @@ struct SharePreviewView: View {
             AsyncImage(url: published.receipt.url.deletingLastPathComponent().deletingLastPathComponent()
                 .appendingPathComponent("api/shares/\(published.receipt.token)/artwork/\(artworkID)")) { image in
                     image.resizable().scaledToFill()
-                } placeholder: { Image("leaf").resizable().scaledToFit() }
+                } placeholder: { Image("keepsake").resizable().scaledToFit() }
         } else {
-            Image(card.subject == .discovery ? "leaf" : card.subject.rawValue).resizable().scaledToFit()
+            Image(card.subject == .discovery ? "keepsake" : card.subject.rawValue).resizable().scaledToFit()
         }
     }
     private var shareActions: some View {
@@ -81,7 +81,7 @@ struct SharePreviewView: View {
                 ShareLink(item: published.receipt.url) { Label("Share my adventure", systemImage: "square.and.arrow.up") }.buttonStyle(ExplorerButtonStyle())
                 HStack {
                     Button("Copy link") { UIPasteboard.general.url = published.receipt.url; message = "Link copied." }.frame(maxWidth: .infinity, minHeight: 44)
-                    Button("Stop sharing this story", action: revoke).frame(maxWidth: .infinity, minHeight: 44)
+                    Button("Stop sharing this story", action: revoke).frame(maxWidth: .infinity, minHeight: 44).accessibilityIdentifier("revoke-share")
                 }.font(.footnote).disabled(busy)
             } else {
                 Button(L10n.text(busy ? "Creating your link…" : "Create a sharing link"), action: create)

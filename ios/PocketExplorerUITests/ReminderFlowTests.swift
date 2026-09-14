@@ -31,7 +31,7 @@ final class ReminderFlowTests: XCTestCase {
         relaunch(); app.tabBars.buttons["Map"].tap(); app.buttons["open-reminders"].tap()
         XCTAssertTrue(app.staticTexts["Nothing to catch up on. Come back after your next discovery."].exists)
         app.buttons["Done"].tap(); app.buttons["open-collection"].tap()
-        XCTAssertTrue(app.staticTexts["journal-count"].label.contains("1 discoveries"))
+        XCTAssertTrue(app.staticTexts["journal-count"].label.contains("Discoveries: 1"))
         XCTAssertTrue(app.buttons["collection-card-\(card)"].exists)
     }
 

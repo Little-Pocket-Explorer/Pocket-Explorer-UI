@@ -25,8 +25,10 @@ struct ExplorerButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.system(.subheadline, design: .rounded, weight: .bold))
-            .frame(maxWidth: .infinity, minHeight: 50)
+            .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
             .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .frame(maxWidth: .infinity, minHeight: 50)
             .background(LinearGradient(colors: secondary ? [Color.white, Theme.mint.opacity(0.4)] : [Color(hex: 0xBEFCE1), Color(hex: 0x68DDB3)], startPoint: .top, endPoint: .bottom), in: Capsule())
             .foregroundStyle(Theme.ink)
             .shadow(color: Theme.forest.opacity(configuration.isPressed ? 0 : 0.1), radius: 8, y: 4)
@@ -37,6 +39,8 @@ struct ExplorerButtonStyle: ButtonStyle {
 struct Eyebrow: View {
     let text: String
     var body: some View {
-        Text(L10n.text(text).uppercased()).font(.system(.caption2, design: .rounded, weight: .bold)).tracking(2).foregroundStyle(Theme.muted)
+        Text(L10n.text(text).uppercased()).font(.system(.caption2, design: .rounded, weight: .bold))
+            .kerning(AppLanguage.current.isRightToLeft ? 0 : 2).foregroundStyle(Theme.muted)
+            .accessibilityLabel(Text(L10n.text(text)))
     }
 }

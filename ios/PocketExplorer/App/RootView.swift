@@ -74,7 +74,7 @@ struct ExplorationFlow: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(L10n.text(saved == nil ? "Close" : "Done")) { dismiss() }.frame(minWidth: 44, minHeight: 44)
+                    Button(L10n.text(saved == nil ? "Close" : "Done")) { dismiss() }.frame(minWidth: 44, minHeight: 44).accessibilityIdentifier("exploration-close")
                 }
             }
         }

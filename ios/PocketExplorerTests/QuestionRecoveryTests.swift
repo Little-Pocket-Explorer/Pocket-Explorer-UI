@@ -54,6 +54,21 @@ final class QuestionRecoveryTests: XCTestCase {
         do { _ = try await client.answer(record, photo: nil, connection: connection, resume: true); XCTFail() }
         catch { XCTAssertEqual(error as? AIClientError, .answerFailed) }
     }
+    func testMissingSavedPhotoStillResumesButCannotSilentlyResubmitWithoutIt() async throws {
+        var original = record; original.photoFilename = "missing.jpg"
+        MockShareProtocol.reply = { request in
+            XCTAssertEqual(request.httpMethod, "GET")
+            return (200, try JSONEncoder().encode(AIReceipt(id: self.record.id, question: self.record.question, status: "ready", reply: self.reply)))
+        }
+        let result = try await client.answer(original, photo: nil, connection: connection, resume: true)
+        XCTAssertEqual(result.reply, reply)
+        MockShareProtocol.reply = { request in
+            XCTAssertEqual(request.httpMethod, "GET")
+            return (404, Data())
+        }
+        do { _ = try await client.answer(original, photo: nil, connection: connection, resume: true); XCTFail("Resubmitted without its original photo") }
+        catch { XCTAssertEqual(error as? AIClientError, .photoUnreadable) }
+    }
 
     func testFailedAndMalformedAnswersCannotRemainInAThinkingLoop() async {
         for (status, id, reply, expected) in [("failed", record.id, nil, AIClientError.answerFailed),

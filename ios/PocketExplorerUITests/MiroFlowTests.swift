@@ -75,7 +75,7 @@ final class MiroFlowTests: XCTestCase {
         app.launch()
         app.tabBars.buttons["Map"].tap(); app.buttons["open-collection"].tap()
         XCTAssertTrue(app.staticTexts["journal-count"].waitForExistence(timeout: 8))
-        XCTAssertTrue(app.staticTexts["journal-count"].label.contains("5 discoveries"))
+        XCTAssertTrue(app.staticTexts["journal-count"].label.contains("Discoveries: 5"))
     }
 
     func testFailedQuestionRemainsInTheHistoryAfterRelaunch() {

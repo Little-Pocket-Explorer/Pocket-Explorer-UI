@@ -14,8 +14,8 @@ struct TripDetailView: View {
             if let trip {
                 VStack(alignment: .leading, spacing: 24) {
                     Eyebrow(text: trip.place?.name ?? "Somewhere wonderful")
-                    Text(trip.title).font(.system(.largeTitle, design: .rounded, weight: .heavy))
-                    Text(trip.startedAt.formatted(date: .abbreviated, time: .omitted)).foregroundStyle(Theme.muted)
+                    Text(trip.title).font(.system(.largeTitle, design: .rounded, weight: .heavy)).accessibilityIdentifier("trip-title")
+                    Text(L10n.date(trip.startedAt)).foregroundStyle(Theme.muted)
                     if trip.isExample { Text("A fictional sample adventure to explore the demo.").font(.footnote).foregroundStyle(Theme.muted) }
                     ForEach(store.discoveries(in: tripID)) { discovery in
                         NavigationLink { CardDetailView(store: store, discoveryID: discovery.id) } label: { DiscoveryCard(discovery: discovery, store: store) }.buttonStyle(.plain)

@@ -5,6 +5,7 @@ struct DiscoveryCard: View {
     var reversed = false
     var store: TripStore?
     var compact = false
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -25,12 +26,15 @@ struct DiscoveryCard: View {
             }
             VStack(alignment: .leading, spacing: 8) {
                 Text(discovery.title).font(.system(compact ? .subheadline : .title2, design: .rounded, weight: .heavy))
-                    .lineLimit(compact ? 2 : nil).fixedSize(horizontal: false, vertical: true)
-                Label(discovery.category, systemImage: "leaf.fill").font(.system(.caption2, design: .rounded, weight: .semibold))
+                    .lineLimit(compact && !dynamicTypeSize.isAccessibilitySize ? 2 : nil).fixedSize(horizontal: false, vertical: true)
+                Label {
+                    Text(discovery.category).fixedSize(horizontal: false, vertical: true)
+                } icon: { Image(systemName: "leaf.fill") }
+                    .font(.system(.caption2, design: .rounded, weight: .semibold))
                     .padding(.horizontal, 9).padding(.vertical, 5).background(Theme.mint, in: Capsule())
                 if !compact {
                     Text(discovery.question).font(.system(.subheadline, design: .rounded)).foregroundStyle(Theme.muted)
-                    Text(discovery.createdAt.formatted(date: .abbreviated, time: .omitted)).font(.caption2).foregroundStyle(Theme.muted)
+                    Text(L10n.date(discovery.createdAt)).font(.caption2).foregroundStyle(Theme.muted)
                 }
             }.padding(compact ? 10 : 18).frame(maxWidth: .infinity, alignment: .leading)
         }.foregroundStyle(Theme.ink).modifier(BotanicalFrame())
@@ -154,6 +158,7 @@ struct CardDetailView: View {
 struct CollectionView: View {
     let store: TripStore
     var explore: () -> Void
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var query = ""
     @State private var category = "All"
     @State private var newestFirst = true
@@ -168,24 +173,27 @@ struct CollectionView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                HStack {
-                    LeafBadge(symbol: "rectangle.stack.fill")
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text("Collection").font(.system(.largeTitle, design: .rounded, weight: .black))
-                        Text("\(store.state.discoveries.count) discoveries").font(.subheadline).foregroundStyle(Theme.muted).accessibilityIdentifier("journal-count")
+                if dynamicTypeSize.isAccessibilitySize {
+                    collectionHeading
+                } else {
+                    HStack {
+                        LeafBadge(symbol: "rectangle.stack.fill")
+                        collectionHeading
+                        Spacer(); ExplorerAvatar()
                     }
-                    Spacer(); ExplorerAvatar()
                 }
                 HStack {
-                    Image(systemName: "magnifyingglass").foregroundStyle(Theme.muted)
-                    TextField("Search discoveries", text: $query).accessibilityIdentifier("collection-search")
-                    Button { newestFirst.toggle() } label: { Image(systemName: "arrow.up.arrow.down").frame(width: 44, height: 44) }.accessibilityLabel("Reverse sort order")
+                    Image(systemName: "magnifyingglass").font(.system(size: 20)).foregroundStyle(Theme.muted).accessibilityHidden(true)
+                    TextField(L10n.text(dynamicTypeSize.isAccessibilitySize ? "Search" : "Search discoveries"), text: $query)
+                        .accessibilityLabel("Search discoveries").accessibilityIdentifier("collection-search")
+                    Button { newestFirst.toggle() } label: { Image(systemName: "arrow.up.arrow.down").font(.system(size: 22)).frame(width: 44, height: 44) }.accessibilityLabel("Reverse sort order")
                 }.padding(.leading, 14).background(.white, in: Capsule())
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(["All", "Nature", "Science", "Animals", "Space", "History", "Culture"], id: \.self) { item in
                             Button { category = item } label: {
                                 Text(L10n.text(item)).font(.system(.caption, design: .rounded, weight: .semibold))
+                                    .fixedSize(horizontal: true, vertical: false)
                                     .padding(.horizontal, 16).frame(minHeight: 44).background(category == item ? Theme.mint : .white, in: Capsule())
                             }.buttonStyle(.plain).accessibilityAddTraits(category == item ? .isSelected : [])
                         }
@@ -194,7 +202,7 @@ struct CollectionView: View {
                 if discoveries.isEmpty {
                     ContentUnavailableView("Your next wonder is waiting", systemImage: "leaf", description: Text("Ask a question to grow your collection, or try another search."))
                 }
-                LazyVGrid(columns: [GridItem(.flexible(), spacing: 14), GridItem(.flexible())], spacing: 18) {
+                LazyVGrid(columns: dynamicTypeSize.isAccessibilitySize ? [GridItem(.flexible())] : [GridItem(.flexible(), spacing: 14), GridItem(.flexible())], spacing: 18) {
                     ForEach(discoveries) { discovery in
                         NavigationLink { CardDetailView(store: store, discoveryID: discovery.id) } label: {
                             DiscoveryCard(discovery: discovery, store: store, compact: true)
@@ -210,6 +218,14 @@ struct CollectionView: View {
                         .accessibilityIdentifier("collection-reminders")
                 }
             }
+    }
+
+    private var collectionHeading: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("Collection").font(.system(dynamicTypeSize.isAccessibilitySize ? .title2 : .largeTitle, design: .rounded, weight: .black))
+                .fixedSize(horizontal: false, vertical: true).accessibilityAddTraits(.isHeader)
+            Text("\(store.state.discoveries.count) discoveries").font(.subheadline).foregroundStyle(Theme.muted).accessibilityIdentifier("journal-count")
+        }.frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

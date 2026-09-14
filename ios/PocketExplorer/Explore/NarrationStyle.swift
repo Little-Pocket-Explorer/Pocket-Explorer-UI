@@ -14,6 +14,12 @@ enum NarrationStyle {
         case "en": return "en-AU"
         case "zh-Hans": return "zh-CN"
         case "zh-Hant": return "zh-TW"
+        case "es": return "es-ES"
+        case "fr": return "fr-FR"
+        case "de": return "de-DE"
+        case "ja": return "ja-JP"
+        case "ko": return "ko-KR"
+        case "ar": return "ar-SA"
         default: return language
         }
     }

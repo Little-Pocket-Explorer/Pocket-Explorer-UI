@@ -30,6 +30,11 @@ final class ArtworkFlowTests: XCTestCase {
         app.buttons["new-card-memory"].tap()
         XCTAssertTrue(app.staticTexts["memory-chapter"].waitForExistence(timeout: 8))
         capture("memory-works-while-artwork-is-pending")
+        app.buttons["memory-share-preview"].tap()
+        XCTAssertTrue(app.buttons["create-share"].waitForExistence(timeout: 6))
+        XCTAssertTrue(app.buttons["create-share"].isHittable)
+        app.swipeUp(velocity: .slow)
+        capture("share-preview-while-artwork-is-pending")
     }
 
     func testFailedArtworkCanRecoverWithoutLosingTheCard() {
