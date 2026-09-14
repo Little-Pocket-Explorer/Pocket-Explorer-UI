@@ -1,5 +1,5 @@
 {
-  "status": "verified-candidate",
+  "status": "released",
   "baseCommit": "fa793c0fec79843ce2cba562e423fe2ae260a6d9",
   "artifactDirectory": "/Users/haichang/tmp/review/pocket-polish-20260915",
   "review": "docs/reviews/memory-map-20260915.md",
@@ -135,5 +135,46 @@
     "The pixel-reviewed German maximum-text hyphenation finding is narrowly characterized, not a zero-audit result.",
     "Map timing is a simulator microbenchmark, not measured physical frame rate.",
     "Voice render checks do not establish naturalness or female voices for every language."
-  ]
+  ],
+  "release": {
+    "checkedAt": "2026-09-14T21:03:56.304Z",
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 12,
+    "build_id": "96bf2c3e-9c6b-477c-9b67-470a9dd3a16c",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "source_commit": "5ebdde049c1c99d0c41a147f049469508370f52b:6d3c8a43cdbd46e86cc7c8184e4a51c763c61a863ef6d0e6e2c5c3f165f58248",
+    "release_origin": "local",
+    "run_url": null,
+    "independentlyVerified": true,
+    "internalStateReadback": "IN_BETA_TESTING"
+  },
+  "ipa": {
+    "ipaSHA256": "c1a56f52506bf1b864080183758819db913993c5793925944d9985e129e349e3",
+    "bundleIdentifier": "com.haichang.pocketexplorer",
+    "version": "0.1.0",
+    "build": "12",
+    "xcodeBuild": "27A266a",
+    "sdkBuild": "24A430",
+    "signatureVerified": true,
+    "getTaskAllow": false,
+    "sourceUnchanged": true,
+    "sourceCommit": "5ebdde049c1c99d0c41a147f049469508370f52b",
+    "sourceSHA256": "6d3c8a43cdbd46e86cc7c8184e4a51c763c61a863ef6d0e6e2c5c3f165f58248",
+    "temporarySigningKeychainRemoved": true,
+    "catalogs": {
+      "de.lproj": 321,
+      "ar.lproj": 321,
+      "zh-Hans.lproj": 321,
+      "ja.lproj": 321,
+      "en.lproj": 321,
+      "es.lproj": 321,
+      "ko.lproj": 321,
+      "zh-Hant.lproj": 321,
+      "pt-BR.lproj": 321,
+      "fr.lproj": 321
+    }
+  }
 }

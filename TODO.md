@@ -1,5 +1,13 @@
 # Pocket Explorer: Execution State
 
+## TestFlight 12 released (2026-09-15 07:06 AEST)
+
+- Published 0.1.0 (12) from this Mac. Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. Build ID 96bf2c3e-9c6b-477c-9b67-470a9dd3a16c, source 5ebdde049c1c99d0c41a147f049469508370f52b.
+- Independently verified IPA, signature, disabled debug entitlement, Xcode 27A266a, SDK 24A430, ten 321-entry catalogs and unchanged source. The temporary signing keychain is removed. Release artifacts are in ~/tmp/review/pocket-release-polish-12/, with formal evidence in docs/evidence/memory-map.json.
+- Complete regression passed 143 with no failures and two explicit skips. Final-source subset passed 105, supplementary editor/narration passed three, and iOS 27 passed two. Final-source coverage union is 177/181 (97.79%), each file above 80%.
+- Further sharing checks reproduced duplicate public links when closing and reopening a pending request. Revoking the visible link left another available. The isolated ~/Worktrees/Pocket-Explorer-UI-sharing-reentry fix reuses requests, with the completed test result owning exact counts. A follow-up reproduction lost Ari from the pending preview. That correction is running in share-reentry-snapshot-after.xcresult, session 19966. Independent share fixture 4201 runs in session 89106.
+- Preserve the physical iPhone installation. Physical microphone, camera, natural narration, VoiceOver, Safari and human visual acceptance remain open. Continue through 08:39:34 AEST.
+
 ## Final-source verification (2026-09-15 06:50 AEST)
 
 - Complete native-final-12.xcresult passed 143 tests, failed none and skipped two. Changed-line coverage is 174/178 (97.75%), with every file above 80%. Preserve raw Apple contrast/QoS reports and the characterized German hyphenation exception rather than claiming an empty audit.

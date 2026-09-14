@@ -4,7 +4,7 @@ Updated 2026-09-15. The user authorizes continued refinement through 08:39:34 AE
 
 ## Current delivery
 
-TestFlight 0.1.0 (11) was published from this Mac. Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. The Cloudflare backend and public viewer are deployed, with runtime, actual-page and revocation evidence.
+TestFlight 0.1.0 (12) was published from this Mac. Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. The Cloudflare backend and public viewer are deployed, with runtime, actual-page and revocation evidence.
 
 The app remains the primary product. Web provides sharing without installation. Preserve the Miro cream-paper, forest-green illustrated direction and omit parental restrictions.
 
@@ -14,7 +14,7 @@ The app remains the primary product. Web provides sharing without installation. 
 | Generated artwork | Explicit waiting states, deadlines, recovery and retries while saved cards stay readable | Provider duration remains variable. Instant generation is not promised |
 | Languages | Ten UI and permission languages, explicit selection, content-language metadata and legacy compatibility | Native-speaker child-facing copy and natural speech need human review |
 | Narration | Available high-quality female voices preferred, slower sentence pacing and content-language replay | Results depend on installed voices. The configured cloud TTS deployment is unavailable |
-| Memories and rewards | One-day card questions and seven-day memories when the app is opened, with cards retained after wrong answers | Native long-reading and scrolling changes are under verification. Closed-app local notifications are not implemented |
+| Memories and rewards | One-day card questions and seven-day memories when the app is opened, with cards retained after wrong answers | Length-based native reading and chapter scrolling are released. Closed-app local notifications are not implemented |
 | Map | Satellite map, personal card markers and optional private places | Public destinations, nearby 2 km exploration, arrival checks and exclusive collections remain later scope |
 | Collection | Counts, search, categories, sorting, reversal and observation editing | Custom tags, achievements, deduplication and version history remain later work. V1 is a visual badge |
 | Sharing | Revocable card/trip links, ten-language Web and immediate illustration fallback | Accounts, friends, gifts and chat are deferred. Physical iPhone Safari acceptance remains open |
@@ -24,7 +24,7 @@ The app remains the primary product. Web provides sharing without installation. 
 
 Delivered English, Simplified Chinese, Traditional Chinese, Spanish, French, German, Brazilian Portuguese, Japanese, Korean and Arabic: en, zh-Hans, zh-Hant, es, fr, de, pt-BR, ja, ko and ar.
 
-Each iOS UI catalog contains 318 entries, with separate permission catalogs. System preference resolution, manual selection, errors, dates, original content language, Web lang/dir and Arabic RTL are implemented. UI switching does not overwrite a child's original content. This does not establish every world language or completed native-speaker and physical speech acceptance.
+Each iOS UI catalog contains 321 entries, with separate permission catalogs. System preference resolution, manual selection, errors, dates, original content language, Web lang/dir and Arabic RTL are implemented. UI switching does not overwrite a child's original content. This does not establish every world language or completed native-speaker and physical speech acceptance.
 
 ## Continue execution
 
@@ -34,13 +34,13 @@ Each iOS UI catalog contains 318 entries, with separate permission catalogs. Sys
 | T20.2 / T21.2 | Code released, physical review open | Verify actual voice naturalness, recording interruption, permissions and speech-unavailable fallback |
 | T20.3 | Automated and screenshot checks complete, human review open | Add iOS 27 large-screen and native-speaker checks. Automated results do not establish human approval |
 | T21.1 / B09.1 | Released | Reproduce new stuck/recovery reports without repeating unchanged provider work |
-| T21.3 / B09.3 | Web released, native memory under verification | Finish reading/scroll checks, review, coverage and local publication, then address newly observed defects |
+| T21.3 / B09.3 | Web and native memory released | Correct the reproduced pending-sharing reentry issue, then verify and publish locally |
 
 Each meaningful version still needs reproduction, tests, actual UI inspection, critique and independent release readback. Changed Swift lines require at least 80% coverage. Each changed TypeScript file requires at least 80% line and branch coverage.
 
 ## Evidence and limitations
 
-Released native evidence is in docs/evidence/language-photo.json, with docs/reviews/language-photo-20260915.md. Backend language, recovery, artwork and WebKit evidence is in the sibling repository's docs/evidence directory. TODO.md records active runs and later releases.
+Released native evidence is in docs/evidence/memory-map.json and docs/evidence/language-photo.json, with reviews in docs/reviews/. Backend language, recovery, artwork and WebKit evidence is in the sibling repository's docs/evidence directory. TODO.md records active runs and later releases.
 
 This Mac lists a paired iPhone, but connection reads failed. Simulator microphone crashes in Apple AudioToolbox were also reproduced on released source and are not attributed to this change. Physical microphone, camera, premium voice, VoiceOver and real Safari acceptance cannot be replaced by simulator results.
 
