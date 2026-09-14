@@ -1,5 +1,5 @@
 {
-  "status": "verified-awaiting-local-publication",
+  "status": "released-and-independently-verified",
   "baseCommit": "d7cdec643b4eea6a6b57d1fe34d05da975fd96f1",
   "artifactDirectory": "/Users/haichang/tmp/review/pocket-polish-20260915",
   "review": "docs/reviews/sharing-reentry-20260915.md",
@@ -85,5 +85,52 @@
     "The targeted sharing clipping audit does not establish a clean whole-screen accessibility audit.",
     "Sharing requests survive sheet navigation, but durable recovery across process termination or a lost server response remains later work."
   ],
-  "release": null
+  "release": {
+    "artifactDirectory": "/Users/haichang/tmp/review/pocket-release-polish-13",
+    "apple": {
+      "checkedAt": "2026-09-14T22:10:34.493Z",
+      "app_id": "6810920731",
+      "version": "0.1.0",
+      "build_number": 13,
+      "build_id": "3a1b86da-7476-40d8-b992-348ae7c33c79",
+      "processing_state": "VALID",
+      "internal_state": "IN_BETA_TESTING",
+      "internal_group": "Hackathon Internal",
+      "source_commit": "339ff9e5832fb4cc8fa24cde30aa2f72a811e581:e0237bc1e5b430dd09da66a201a246b580572cf936b027ad2e603a5ef60de4e7",
+      "release_origin": "local",
+      "run_url": null,
+      "independentlyVerified": true,
+      "internalStateReadback": "IN_BETA_TESTING"
+    },
+    "ipa": {
+      "ipaSHA256": "47e4fa3a37927a28ce4c2149513a2b3627104db1f170798121c288c766212b4e",
+      "bundleIdentifier": "com.haichang.pocketexplorer",
+      "version": "0.1.0",
+      "build": "13",
+      "xcodeBuild": "27A266a",
+      "sdkBuild": "24A430",
+      "signatureVerified": true,
+      "getTaskAllow": false,
+      "sourceUnchanged": true,
+      "sourceCommit": "339ff9e5832fb4cc8fa24cde30aa2f72a811e581",
+      "sourceSHA256": "e0237bc1e5b430dd09da66a201a246b580572cf936b027ad2e603a5ef60de4e7",
+      "testedApplicationSourceUnchanged": true,
+      "nonRuntimeChangesAfterTests": [
+        "ios/fastlane/TESTFLIGHT_NOTES.md"
+      ],
+      "temporarySigningKeychainRemoved": true,
+      "catalogs": {
+        "de.lproj": 322,
+        "ar.lproj": 322,
+        "zh-Hans.lproj": 322,
+        "ja.lproj": 322,
+        "en.lproj": 322,
+        "es.lproj": 322,
+        "ko.lproj": 322,
+        "zh-Hant.lproj": 322,
+        "pt-BR.lproj": 322,
+        "fr.lproj": 322
+      }
+    }
+  }
 }

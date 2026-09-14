@@ -25,6 +25,8 @@ Keep service credentials server-side. Installation ownership stays in Keychain. 
 
 ## Current implementation work
 
+TestFlight 0.1.0 (13) was published locally from source commit 339ff9e5832fb4cc8fa24cde30aa2f72a811e581. Independent Apple reads confirm Hackathon Internal availability. IPA, signature and source checks passed. Evidence: [sharing-reentry.json](docs/evidence/sharing-reentry.json).
+
 | ID | Outcome and concrete work | Completion evidence |
 | --- | --- | --- |
 | T20.1 | Extensible language selection, ten complete catalogs, locale-aware dates, RTL and content-language persistence. AppLanguage, Resources and domain records | Catalog parity, legacy decoding, language switching and actual screenshots. Native-speaker review remains open |
@@ -32,7 +34,7 @@ Keep service credentials server-side. Installation ownership stays in Keychain. 
 | T20.3 | Readable long text and accessible UI without breaking ordinary-size layouts | Small/large simulator screenshots, targeted accessibility checks and source-matched regression |
 | T21.1 | Artwork never traps the child. AIClient, ArtworkCoordinator and ArtworkProgress retain saved cards, show slow/failed states, bound waits and distinguish explicit retry | Timeout, offline, relaunch, duplicate work, invalid pixels and recovery checks. Neutral keepsake art preserves a complete card when generation is unavailable |
 | T21.3 | Polish question history, card reading, map, memories and sharing | Reproductions, actual UI inspection, changed-line coverage, critique and local release |
-| T21.3 sharing increment | SharePublisher retains one in-flight request and exact snapshot across page reentry, persists receipts, coalesces revocation and removes completed revocations. SharePreviewView uses scrollable published controls at accessibility text sizes | Duplicate-link and revocation baselines fail. Final source must pass delayed HTTP UI checks, failure/retry unit checks, French maximum-text clipping checks and live create/read/revoke |
+| T21.3 sharing increment | SharePublisher retains one in-flight request and exact snapshot across page reentry, persists receipts, coalesces revocation and removes completed revocations. SharePreviewView uses scrollable published controls at accessibility text sizes | Duplicate-link and revocation baselines fail. Final source passed delayed HTTP UI checks, failure/retry unit checks, French maximum-text clipping checks and live create/read/revoke, and was released in build 13 |
 | T21.4 | Ship a tested increment from this Mac and independently read it back | Signed IPA, source fingerprint, Apple VALID / IN_BETA_TESTING, expected internal group and signing-keychain cleanup |
 
 Backend B08/B09 implementation and deployment evidence remain in the sibling repository. Runtime 5dac559 is independently deployed. This native increment does not need a backend change.

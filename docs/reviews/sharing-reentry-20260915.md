@@ -1,6 +1,6 @@
 # Sharing continuity and accessibility review
 
-Status: final-source verification complete, awaiting local publication. Artifact directory: ~/tmp/review/pocket-polish-20260915. Base: d7cdec643b4eea6a6b57d1fe34d05da975fd96f1.
+Status: published locally as TestFlight 0.1.0 (13), independently confirmed VALID / IN_BETA_TESTING in Hackathon Internal. Source commit: 339ff9e5832fb4cc8fa24cde30aa2f72a811e581. Artifact directory: ~/tmp/review/pocket-polish-20260915. Base: d7cdec643b4eea6a6b57d1fe34d05da975fd96f1.
 
 ## Reproductions and behavior
 
@@ -18,7 +18,7 @@ The isolated revocation correction passed 18 unit and two delayed-HTTP UI checks
 
 The final accessibility correction passed its focused French maximum-text test on 375pt. Final integrated source also passed all three independent iOS 27 sharing checks in native-sharing-ios27-13.xcresult. Actual pending, completed, revoking, revoked and large-text screenshots were inspected, including the preserved complete revoke label.
 
-Final complete native-final-13.xcresult passed 154 tests with zero failures and two explicit skips: 98 unit and 56 UI passes. Changed Swift executable-line coverage is 133/133, with all three files at 100%. Source stayed unchanged during regression. Final original screenshots and native-final-13-visual-review.jpg were inspected. Live production sharing creation, independent reads and revocation passed. Skips are the unrepeated live AI call and the simulator microphone check that also fails on the released baseline. Publication remains pending in TODO.md.
+Final complete native-final-13.xcresult passed 154 tests with zero failures and two explicit skips: 98 unit and 56 UI passes. Changed Swift executable-line coverage is 133/133, with all three files at 100%. Source stayed unchanged during regression. Final original screenshots and native-final-13-visual-review.jpg were inspected. Live production sharing creation, independent reads and revocation passed. Skips are the unrepeated live AI call and the simulator microphone check that also fails on the released baseline. Publication is complete. apple-readback.json and ipa-readback.json in ~/tmp/review/pocket-release-polish-13 independently confirm Apple distribution, signing, get-task-allow:false, ten 322-entry catalogs, matching source and temporary signing-keychain cleanup. Consolidated evidence is in docs/evidence/sharing-reentry.json. External group availability has not been confirmed.
 
 ## Critique and corrections
 

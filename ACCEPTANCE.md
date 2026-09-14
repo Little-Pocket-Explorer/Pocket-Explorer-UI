@@ -2,7 +2,7 @@
 
 Date: 2026-09-11
 Plan: [Prototype plan](PLAN.md)
-Status: Acceptance criteria remain unchanged. Automated verification is in progress. See TODO.md for current evidence and unmet criteria.
+Status: Acceptance criteria remain unchanged. Build 13 complete regression passed 154 tests with two skips, and TestFlight internal distribution is confirmed. Physical-device and human acceptance remain open. See TODO.md for current evidence and limitations.
 
 ## Contract rules
 

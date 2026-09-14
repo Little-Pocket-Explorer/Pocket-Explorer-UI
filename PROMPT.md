@@ -18,13 +18,13 @@ Read [TODO.md](TODO.md) first for the live checkpoint, then [PLAN.md](PLAN.md) a
 - Keep preexisting untracked design/miro-sync work untouched.
 - Do not spawn ordinary agents. The user permits a bounded read-only Opus 5 review via cl -p. Its findings need independent validation.
 
-## Current delivery and candidate
+## Current delivery
 
-TestFlight 0.1.0 (12) is independently verified VALID / IN_BETA_TESTING in Hackathon Internal. Evidence: docs/evidence/memory-map.json. Backend runtime 5dac559 is independently deployed, with final documentation at 08b7558.
+TestFlight 0.1.0 (13) is independently verified VALID / IN_BETA_TESTING in Hackathon Internal. Source commit: 339ff9e5832fb4cc8fa24cde30aa2f72a811e581. Evidence: docs/evidence/sharing-reentry.json. External group availability has not been confirmed. Backend runtime 5dac559 is independently deployed, with deployment evidence at 08b7558.
 
-The uncommitted build 13 candidate fixes pending share creation and revocation across sheet reentry, preserves the exact public snapshot, adapts published controls for accessibility text sizes, and uses neutral keepsake art for terminal illustration failure. Ten UI catalogs have 322 entries.
+Released build 13 fixes pending share creation and revocation across sheet reentry, preserves the exact public snapshot, adapts published controls for accessibility text sizes, and uses neutral keepsake art for terminal illustration failure. Ten UI catalogs have 322 entries.
 
-An earlier complete regression passed 150 tests with no failures and two explicit skips. It predates final revocation, accessibility layout and keepsake changes. Final complete regression passed 154 tests with no failures and two explicit skips. Three independent iOS 27 sharing checks passed. Changed executable-line coverage is 133/133, each file at 100%. Actual screenshots, manual critique and source-freeze verification are complete. Next commit and publish locally, following TODO.
+An earlier complete regression passed 150 tests with no failures and two explicit skips. It predates final revocation, accessibility layout and keepsake changes. Final complete regression passed 154 tests with no failures and two explicit skips. Three independent iOS 27 sharing checks passed. Changed executable-line coverage is 133/133, each file at 100%. Actual screenshots, manual critique and source-freeze verification are complete. Apple, IPA, signing, ten catalogs and temporary-keychain cleanup were independently verified. Next finalize the evidence and physical-device acceptance guidance, following TODO.
 
 ## Execution rules
 
@@ -45,9 +45,9 @@ Native commits must include [skip ci]. The user prohibits GitHub iOS builds beca
 
 Use Xcode /Applications/Xcode-27-RC.app with build 27A266a and the existing local release scripts. Archive/upload only after final-source tests, coverage, screenshots and critique are complete. Keep ios, shared, scripts and HEAD frozen during publication.
 
-DEVELOPER_DIR=/Applications/Xcode-27-RC.app/Contents/Developer PATH="/opt/homebrew/opt/ruby/bin:$PATH" python3 scripts/release/local-testflight.py --expected-xcode-build 27A266a --output "$HOME/tmp/review/pocket-release-polish-13" --publish
+Build 13 is already published. Artifacts are in ~/tmp/review/pocket-release-polish-13. Do not upload it again. Only use scripts/release/local-testflight.py with a new output directory after a meaningful future application change and its verification.
 
-Then run node .local/testflight/verify-build.mjs with that absolute release directory. Independently inspect the IPA, signature, get-task-allow, version, catalog counts, source fingerprint and temporary signing-keychain removal.
+apple-readback.json and ipa-readback.json preserve the independent release-time evidence. Later documentation commits are not the published IPA source. Do not rerun the previous verification script unchanged after a documentation commit because it requires HEAD to match the release commit.
 
 ## Completion and limitations
 
