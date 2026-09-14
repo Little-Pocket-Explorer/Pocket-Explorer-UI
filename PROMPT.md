@@ -1,5 +1,12 @@
 # Pocket Explorer: Project Continuation Prompt
 
+## TestFlight 11 released (2026-09-15 05:17 AEST)
+
+- Published 0.1.0 (11) from this Mac. Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. Build ID af09f7fe-5c89-4111-aef0-a42ae1d6af32, source f26c017.
+- Independent IPA checks verify bundle/version, Xcode 27A266a, SDK 24A430, signature and unchanged source. IPA SHA256 is 814980ee3c404c41d619b09f170c63bab2c05acb50b7c975a85ccde02dd814e6. The temporary signing keychain is removed.
+- Next T21.3: use existing POCKET_TEST_JOURNAL input to reproduce five-second long-memory advancement and the visible opening after next/replay. Add failing tests before adapting duration and scrolling, with coverage, screenshots, review and local publication still required.
+- Backend WebKit source 008a213 is pushed and workflow 34885725856 is running. Production readback in both engines is pending. Continue through 08:39:34 AEST. Physical voice, microphone, camera and VoiceOver acceptance remains open.
+
 ## Local release candidate ready (2026-09-15 05:07 AEST)
 
 - Verified 85 unit and 44 distinct UI checks, with two explicit skips. The full run's French failure was a test tap on the tab bar. After correcting positioning, three independent French iterations and all 14 language flows passed. Application source remained unchanged.

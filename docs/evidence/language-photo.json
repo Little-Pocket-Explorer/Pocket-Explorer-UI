@@ -1,5 +1,5 @@
 {
-  "status": "verified-local-unpublished",
+  "status": "released",
   "baseCommit": "7907f02f5a2a0160ea092fb7275b889a42251b05",
   "tests": {
     "unitPassed": 85,
@@ -210,5 +210,33 @@
     "Physical microphone, camera, premium-voice naturalness and VoiceOver remain unverified.",
     "Internal QoS warnings are retained without an established application cause.",
     "Raw contrast findings need to be distinguished from the strict clipping/hit-target checks."
-  ]
+  ],
+  "appleReadback": {
+    "checkedAt": "2026-09-14T19:15:53.538Z",
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 11,
+    "build_id": "af09f7fe-5c89-4111-aef0-a42ae1d6af32",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "source_commit": "f26c0170bcc97a22f73ba70fecba4780551c0bb5:301747b83b2a75fbe2535bff8be6dcf2be2e5f731d668aa0cca7098a0c8563f4",
+    "release_origin": "local",
+    "run_url": null,
+    "independentlyVerified": true,
+    "internalStateReadback": "IN_BETA_TESTING"
+  },
+  "ipaReadback": {
+    "ipaSHA256": "814980ee3c404c41d619b09f170c63bab2c05acb50b7c975a85ccde02dd814e6",
+    "bundleIdentifier": "com.haichang.pocketexplorer",
+    "version": "0.1.0",
+    "build": "11",
+    "xcodeBuild": "27A266a",
+    "sdkBuild": "24A430",
+    "signatureVerified": true,
+    "sourceUnchanged": true,
+    "sourceCommit": "f26c0170bcc97a22f73ba70fecba4780551c0bb5",
+    "sourceSHA256": "301747b83b2a75fbe2535bff8be6dcf2be2e5f731d668aa0cca7098a0c8563f4",
+    "temporarySigningKeychainRemoved": true
+  }
 }

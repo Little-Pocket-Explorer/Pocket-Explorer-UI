@@ -1,6 +1,6 @@
 # Language and photo refinement review
 
-This candidate adds ten languages while preserving existing journals and public links. It also improves photo preparation, large-text reading and share failures. This is a pre-release review. Final local verification is complete. Local TestFlight publication is pending.
+This candidate adds ten languages while preserving existing journals and public links. It also improves photo preparation, large-text reading and share failures. This is a pre-release review. Final local verification is complete. TestFlight 0.1.0 (11) is published and independently verified.
 
 ## Reproduced defects and changes
 
@@ -24,7 +24,7 @@ The user-authorized cl -p review reported model databricks-claude-opus-5. Reprod
 
 ## Release constraints and remaining checks
 
-TestFlight remains 0.1.0 (10). New native code is unpublished. The ten-language backend viewer and compass fallback are deployed, with actual public content readback and revocation verified.
+TestFlight 0.1.0 (11) is VALID / IN_BETA_TESTING in Hackathon Internal. Independent IPA, signature and unchanged-source checks pass. Source f26c017 was published from this Mac, without a GitHub iOS runner. The ten-language backend viewer and compass fallback are deployed, with actual public content readback and revocation verified.
 
 Changed Swift executable-line coverage is 401/411 (97.57%), with every changed file above 80%. Application coverage is 4989/5193 (96.07%). A fresh scan of 275 repository files found none of the three checked configured service/owner values. An earlier 145-file scan additionally checked the reasoning credential. Publication must use this Mac without a GitHub iOS workflow. Internal QoS runtime warnings remain in the original result and are not yet attributed to application code.
 
