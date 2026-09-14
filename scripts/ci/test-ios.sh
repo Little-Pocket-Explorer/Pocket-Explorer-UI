@@ -5,8 +5,10 @@ set -euo pipefail
 repo_dir="$(cd "$(dirname "$0")/../.." && pwd)"
 simulator_id=""
 fixture_pid=""
+share_fixture_pid=""
 cleanup() {
   if [[ -n "$fixture_pid" ]]; then kill "$fixture_pid" || true; fi
+  if [[ -n "$share_fixture_pid" ]]; then kill "$share_fixture_pid" || true; fi
   if [[ -n "$simulator_id" ]]; then
     xcrun simctl shutdown "$simulator_id" || true
     xcrun simctl delete "$simulator_id" || true
@@ -25,6 +27,14 @@ for _attempt in {1..20}; do
   sleep 1
 done
 curl --fail --silent http://127.0.0.1:4197/health >/dev/null
+
+node "$repo_dir/scripts/testing/serve-share-fixture.mjs" > "$RUNNER_TEMP/share-fixture.log" 2>&1 &
+share_fixture_pid=$!
+for _attempt in {1..20}; do
+  if curl --fail --silent http://127.0.0.1:4201/health >/dev/null; then break; fi
+  sleep 1
+done
+curl --fail --silent http://127.0.0.1:4201/health >/dev/null
 
 cd "$repo_dir/ios"
 xcodegen generate

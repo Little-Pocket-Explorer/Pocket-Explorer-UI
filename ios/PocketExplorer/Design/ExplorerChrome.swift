@@ -54,13 +54,17 @@ struct DiscoveryArtwork: View {
             } else if discovery.ai != nil {
                 TimelineView(.periodic(from: .now, by: 5)) { timeline in
                     let progress = ArtworkProgress.resolve(discovery, error: coordinator?.errors[discovery.id], stopped: coordinator?.stopped.contains(discovery.id) == true, now: timeline.date)
-                    ZStack {
-                        LinearGradient(colors: [Theme.mint, Color(hex: 0xEAF8FE), Theme.paper], startPoint: .topLeading, endPoint: .bottomTrailing)
-                        VStack(spacing: 12) {
-                            Image(systemName: progress.symbol).font(.system(size: 42, weight: .light)).foregroundStyle(Theme.forest.opacity(0.7))
-                            Text(L10n.text(progress.title))
-                                .font(.system(.caption, design: .rounded, weight: .semibold)).multilineTextAlignment(.center)
-                        }.padding()
+                    if progress == .exhausted || progress == .unavailable {
+                        Image("keepsake").resizable().scaledToFit()
+                    } else {
+                        ZStack {
+                            LinearGradient(colors: [Theme.mint, Color(hex: 0xEAF8FE), Theme.paper], startPoint: .topLeading, endPoint: .bottomTrailing)
+                            VStack(spacing: 12) {
+                                Image(systemName: progress.symbol).font(.system(size: 42, weight: .light)).foregroundStyle(Theme.forest.opacity(0.7))
+                                Text(L10n.text(progress.title))
+                                    .font(.system(.caption, design: .rounded, weight: .semibold)).multilineTextAlignment(.center)
+                            }.padding()
+                        }
                     }
                 }
             } else {

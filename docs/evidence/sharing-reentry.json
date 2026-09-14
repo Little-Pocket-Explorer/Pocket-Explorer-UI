@@ -1,0 +1,89 @@
+{
+  "status": "verified-awaiting-local-publication",
+  "baseCommit": "d7cdec643b4eea6a6b57d1fe34d05da975fd96f1",
+  "artifactDirectory": "/Users/haichang/tmp/review/pocket-polish-20260915",
+  "review": "docs/reviews/sharing-reentry-20260915.md",
+  "tests": {
+    "finalRegression": {
+      "bundle": "native-final-13.xcresult",
+      "passed": 154,
+      "failed": 0,
+      "skipped": 2,
+      "unitPassed": 98,
+      "uiPassed": 56
+    },
+    "ios27": {
+      "bundle": "native-sharing-ios27-13.xcresult",
+      "passed": 3,
+      "failed": 0
+    },
+    "skips": [
+      "Live AI is opt-in and was not repeated for this change.",
+      "Simulator microphone initialization also aborts on the released baseline."
+    ]
+  },
+  "reproductions": [
+    "share-reentry-before.xcresult",
+    "share-pending-snapshot-before.xcresult",
+    "share-revoke-reentry-before.xcresult",
+    "share-footer-audit-before.xcresult"
+  ],
+  "coverage": {
+    "base": "d7cdec643b4eea6a6b57d1fe34d05da975fd96f1",
+    "result": "/Users/haichang/tmp/review/pocket-polish-20260915/native-final-13.xcresult",
+    "covered": 133,
+    "executable": 133,
+    "percent": 100.0,
+    "files": [
+      {
+        "path": "ios/PocketExplorer/Design/ExplorerChrome.swift",
+        "covered": 11,
+        "executable": 11,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "b51a994357e25e96cd8cd9b36c987865423a87c4a61bd47d30219efa2a7e9494"
+      },
+      {
+        "path": "ios/PocketExplorer/Sharing/SharePreviewView.swift",
+        "covered": 81,
+        "executable": 81,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "50f009a424a96257c522f0155115fe2790fcbee392632a29d80bd5176699ca95"
+      },
+      {
+        "path": "ios/PocketExplorer/Sharing/SharePublisher.swift",
+        "covered": 41,
+        "executable": 41,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "545290b4ebd2a66d16aedbf89eb6bf281362612e14c3392db35127171006d0cb"
+      }
+    ]
+  },
+  "sourceFrozenDuringRegression": true,
+  "visualEvidence": [
+    "native-final-13-visual-review.jpg",
+    "native-final-13-artifacts/71C99EA8-E4A7-404B-B210-29049B4F8D92.png",
+    "native-final-13-artifacts/02BCFAF0-D51C-4A8D-AC35-3C5665B4FCA3.png",
+    "native-sharing-ios27-13-artifacts/D57AA479-20B8-4052-A017-1E2E58CA472E.png"
+  ],
+  "reviewer": {
+    "tool": "cl -p / databricks-claude-opus-5",
+    "status": "no-usable-conclusion",
+    "reason": "error_max_budget_usd",
+    "result": "opus-sharing-review.json"
+  },
+  "locales": {
+    "catalogCount": 10,
+    "entriesPerCatalog": 322
+  },
+  "newLiveAIQuestions": 0,
+  "newLiveImageGenerations": 0,
+  "limitations": [
+    "Physical microphone, camera, premium voice, VoiceOver, Safari and human visual acceptance remain open.",
+    "The targeted sharing clipping audit does not establish a clean whole-screen accessibility audit.",
+    "Sharing requests survive sheet navigation, but durable recovery across process termination or a lost server response remains later work."
+  ],
+  "release": null
+}
