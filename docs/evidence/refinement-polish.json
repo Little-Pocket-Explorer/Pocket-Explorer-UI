@@ -1,5 +1,5 @@
 {
-  "status": "VERIFIED_CANDIDATE_RELEASE_PENDING",
+  "status": "RELEASED_PHYSICAL_REVIEW_PENDING",
   "native": {
     "unitTestsPassed": 68,
     "uiTestsPassed": 24,
@@ -60,8 +60,29 @@
     "Photo-selection lifecycle investigation"
   ],
   "testFlight": {
-    "latestVerifiedBuild": 9,
-    "candidateUploaded": false
+    "checkedAt": "2026-09-14T16:24:47.535Z",
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 10,
+    "build_id": "04b7d1e3-ec88-427b-8254-7618dc0cebcc",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "source_commit": "b8e1d1f5d5fc02fe62014fe998f1e99db71c4f5e:97a04cbcc74e75c5bb6a1a71bbc7f203cc0812de9d8165b6e505fef353e39603",
+    "release_origin": "local",
+    "run_url": null,
+    "independentlyVerified": true,
+    "internalStateReadback": "IN_BETA_TESTING"
   },
-  "githubIOSWorkflowTriggered": false
+  "githubIOSWorkflowTriggered": false,
+  "package": {
+    "build": "10",
+    "xcodeBuild": "27A266a",
+    "sdkBuild": "24A430",
+    "sourceUnchanged": true,
+    "ipaBytes": 2519975,
+    "ipaSHA256": "4091d3aedf853a6e4b0652dd067613e9be21041117173e93540f0163b4f1dbb5",
+    "signatureVerified": true,
+    "temporaryKeychainRemoved": true
+  }
 }

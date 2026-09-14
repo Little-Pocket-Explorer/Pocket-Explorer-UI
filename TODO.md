@@ -1,5 +1,11 @@
 # Pocket Explorer: Execution State
 
+## Local release checkpoint (2026-09-15 02:25 AEST)
+
+- Released TestFlight 0.1.0 (10) from this Mac. Independent Apple readback confirms VALID / IN_BETA_TESTING and Hackathon Internal assignment. Build ID: 04b7d1e3-ec88-427b-8254-7618dc0cebcc. Native source is b8e1d1f, pushed with [skip ci]. No GitHub iOS runner was used.
+- Actual IPA readback confirms RC 27A266a and SDK 24A430. Signature, unchanged source and temporary signing-keychain removal passed. IPA SHA256: 4091d3aedf853a6e4b0652dd067613e9be21041117173e93540f0163b4f1dbb5. Local artifacts: ~/tmp/review/pocket-release-polish-10/.
+- Continuing candidate two: ten-language Web drafts are integrated and under test/review. Four regressions reproduced against the released viewer: indefinite loading, old successful response restoring revoked content before/after body parsing, and browser storage failure trapping card reveal. Language changes are not deployed and are not yet available in iOS.
+
 ## Refinement checkpoint 05 (2026-09-15 02:11 AEST)
 
 - First candidate regression passed: 68 unit tests and 24 UI tests, zero failures. One actual recording integration test explicitly skips the reproduced simulator AudioUnit environment crash. It is not a physical-recording pass. Result: ~/tmp/review/pocket-polish-20260915/full-regression-2.xcresult.
