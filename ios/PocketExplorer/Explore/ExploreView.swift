@@ -2,11 +2,16 @@ import AVFoundation
 import PhotosUI
 import SwiftUI
 
+enum ExplorationEntry {
+    case compose, voice, camera, question
+}
+
 struct ExploreView: View {
     let store: TripStore
     let tripID: UUID?
     var initialQuestion = ""
     var recordID: UUID?
+    var entry: ExplorationEntry = .compose
     var onSave: (Discovery) -> Void
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage("explorer-age") private var age = 7
@@ -16,10 +21,19 @@ struct ExploreView: View {
     @State private var voice = VoiceSession()
     @State private var location = DiscoveryLocation()
     @State private var listening = false
+    @State private var startingListening = false
+    @State private var finishingListening = false
+    @State private var voiceToken = UUID()
+    @State private var voiceTask: Task<Void, Never>?
+    @State private var dictation = DictationDraft(original: "")
+    @State private var prepared = false
     @State private var recordingObservation = false
     @State private var speaking = false
     @State private var thinking = false
     @State private var error: String?
+    @State private var questionError: AIClientError?
+    @State private var questionStartedAt = Date()
+    @State private var requestToken = UUID()
     @State private var photo: Data?
     @State private var selection: PhotosPickerItem?
     @State private var cameraOpen = false
@@ -42,9 +56,10 @@ struct ExploreView: View {
                             Text("What did you notice? (optional)").font(.system(.subheadline, design: .rounded, weight: .semibold))
                             TextField("I noticed…", text: $observation, axis: .vertical).lineLimit(2...4)
                                 .padding(16).background(.white, in: RoundedRectangle(cornerRadius: 18)).accessibilityIdentifier("observation-input")
+                                .disabled(listening || startingListening || finishingListening)
                             Button { toggleRecording(forObservation: true) } label: {
                                 Label(L10n.text(listening && recordingObservation ? "Finish recording" : "Say what you noticed"), systemImage: listening && recordingObservation ? "stop.fill" : "mic.fill")
-                            }.frame(minHeight: 44).accessibilityIdentifier("observation-speak")
+                            }.frame(minHeight: 44).accessibilityIdentifier("observation-speak").disabled(finishingListening)
                             if let place = location.place {
                                 HStack { Label(place.name, systemImage: "location.fill"); Spacer(); Button("Remove") { location.remove() } }
                             } else {
@@ -60,7 +75,6 @@ struct ExploreView: View {
                     Text("Every discovery starts\nwith a question.").font(.system(.largeTitle, design: .rounded, weight: .black))
                     Text("Speak, type, or add a photo of something you notice.").foregroundStyle(Theme.muted)
                 }
-                if thinking { HStack { LeafBadge(); ProgressView("Your guide is thinking…") }.accessibilityIdentifier("thinking") }
                 if let photo, record?.reply == nil, let image = UIImage(data: photo) {
                     Image(uiImage: image).resizable().scaledToFit().frame(maxHeight: 220).clipShape(RoundedRectangle(cornerRadius: 18))
                     Button("Remove photo") { self.photo = nil; selection = nil }.frame(minHeight: 44)
@@ -71,11 +85,23 @@ struct ExploreView: View {
         .navigationTitle(record?.reply?.title ?? L10n.text("Let's explore")).navigationBarTitleDisplayMode(.inline)
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 0) {
+                if thinking {
+                    TimelineView(.periodic(from: .now, by: 1)) { timeline in
+                        HStack(spacing: 12) {
+                            ProgressView().accessibilityIdentifier("thinking")
+                            Text(L10n.text(timeline.date.timeIntervalSince(questionStartedAt) > 20 ? "Your guide is taking a little longer…" : "Your guide is thinking…"))
+                                .font(.subheadline).frame(maxWidth: .infinity, alignment: .leading)
+                            Button(action: pauseQuestion) { Text("Later").frame(minWidth: 44, minHeight: 44).contentShape(Rectangle()) }
+                                .buttonStyle(.plain).accessibilityIdentifier("pause-question")
+                        }.padding(.horizontal, 20).padding(.vertical, 8).background(Theme.paper)
+                    }
+                }
                 if let error {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(error).font(.callout).accessibilityIdentifier("exploration-error")
-                        if record?.reply == nil, !question.isEmpty {
-                            Button("Try again", action: ask).frame(minHeight: 44).accessibilityIdentifier("retry-answer")
+                        if record?.reply == nil, !question.isEmpty, questionError?.allowsImmediateRetry != false {
+                            Button(L10n.text(questionError == .pending || questionError == .timedOut ? "Check answer" : "Try again"), action: ask)
+                                .frame(minHeight: 44).accessibilityIdentifier("retry-answer")
                         }
                     }.padding(14).frame(maxWidth: .infinity, alignment: .leading).background(Theme.sun.opacity(0.25), in: RoundedRectangle(cornerRadius: 18)).padding(.horizontal, 12)
                 }
@@ -84,21 +110,24 @@ struct ExploreView: View {
                     Button(action: keep) { Label(L10n.text(record.cardID == nil ? "Make my card" : "View my card"), systemImage: "sparkles") }
                         .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("save-discovery")
                     Button("Ask another question") {
-                        voice.stop(); self.record = nil; question = ""; observation = ""; photo = nil; selection = nil; error = nil; location.remove()
+                        stopVoice(); self.record = nil; question = ""; observation = ""; photo = nil; selection = nil; error = nil; questionError = nil; location.remove(); focused = true
                     }.frame(minHeight: 44).accessibilityIdentifier("ask-another")
                 }.padding(.horizontal, 20).padding(.top, 12).background(Theme.paper)
                 } else { composer }
             }
         }
         .onAppear(perform: prepare)
-        .onDisappear { replyTask?.cancel(); voice.stop() }
+        .onDisappear { replyTask?.cancel(); stopVoice() }
         .onChange(of: scenePhase) { _, next in
-            if next != .active { replyTask?.cancel(); voice.stop(); listening = false; speaking = false; thinking = false }
+            if next == .background {
+                if thinking { pauseQuestion() }
+                stopVoice()
+            }
         }
         .onChange(of: selection) { _, item in
             Task {
                 do { photo = try await item?.loadTransferable(type: Data.self) }
-                catch { self.error = error.localizedDescription }
+                catch { self.error = L10n.text("This photo couldn't be opened. Try choosing another photo.") }
             }
         }
         .sheet(isPresented: $cameraOpen) {
@@ -111,7 +140,7 @@ struct ExploreView: View {
             LeafBadge()
             VStack(alignment: .leading, spacing: 16) {
                 Text(reply.answer).font(.system(.body, design: .rounded)).textSelection(.enabled).accessibilityIdentifier("live-answer")
-                Button { if speaking { voice.stop(); speaking = false } else { speak(reply.answer) } } label: {
+                Button { if speaking { stopVoice() } else { speak(reply.answer) } } label: {
                     Label(L10n.text(speaking ? "Stop reply" : "Listen"), systemImage: speaking ? "stop.fill" : "speaker.wave.2.fill")
                 }.frame(minHeight: 44).accessibilityIdentifier("listen-answer")
                 if let photo, let image = UIImage(data: photo) {
@@ -124,18 +153,24 @@ struct ExploreView: View {
 
     private var composer: some View {
         VStack(spacing: 10) {
-            if listening { Text("I'm listening…").font(.caption).accessibilityIdentifier("exploration-status") }
+            if listening || startingListening || finishingListening {
+                Text(L10n.text(startingListening ? "Getting the microphone ready…" : finishingListening ? "Keeping your last words…" : "I'm listening…"))
+                    .font(.caption).accessibilityIdentifier("exploration-status")
+            }
             TextField("Ask anything…", text: $question, axis: .vertical).lineLimit(1...4).focused($focused)
                 .padding(.horizontal, 16).padding(.top, 12).accessibilityIdentifier("exploration-input")
+                .disabled(listening || startingListening || finishingListening)
             HStack(spacing: 18) {
-                PhotosPicker(selection: $selection, matching: .images) { Image(systemName: "photo").frame(width: 44, height: 44) }.accessibilityLabel("Choose a photo")
+                PhotosPicker(selection: $selection, matching: .images) { Image(systemName: "photo").frame(width: 44, height: 44) }
+                    .accessibilityLabel("Choose a photo").disabled(listening || startingListening || finishingListening)
                 Button(action: openCamera) { Image(systemName: "camera").frame(width: 44, height: 44) }.accessibilityLabel("Take a photo")
                 Spacer()
                 Button { toggleRecording() } label: { Image(systemName: listening ? "stop.fill" : "mic.fill").frame(width: 44, height: 44).background(Theme.mint, in: Circle()) }
-                    .accessibilityLabel(L10n.text(listening ? "Finish recording" : "Tap to ask")).accessibilityIdentifier("speak-button").disabled(thinking)
+                    .accessibilityLabel(L10n.text(listening || startingListening ? "Finish recording" : "Speak your question"))
+                    .accessibilityIdentifier("speak-button").disabled(thinking || finishingListening)
                 Button(action: ask) { Image(systemName: "arrow.up").font(.title3.bold()).foregroundStyle(.white).frame(width: 44, height: 44).background(Theme.forest, in: Circle()) }
-                    .accessibilityLabel("Hear the answer").accessibilityIdentifier("ask-button")
-                    .disabled(thinking || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .accessibilityLabel("Send question").accessibilityIdentifier("ask-button")
+                    .disabled(thinking || startingListening || finishingListening || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             }.padding(.horizontal, 8)
             if photo != nil { Text("This photo will be sent to your AI guide with your question.").font(.caption2).foregroundStyle(Theme.muted).padding(.horizontal) }
         }.padding(.bottom, 10).background(.white, in: RoundedRectangle(cornerRadius: 26))
@@ -143,19 +178,38 @@ struct ExploreView: View {
     }
 
     private func prepare() {
-        voice.onTranscript = { if recordingObservation { observation = $0 } else { question = $0 } }
-        voice.onError = { error = $0; listening = false }
-        voice.onInterrupted = { listening = false; speaking = false }
+        guard !prepared else { return }
+        prepared = true
+        voice.onTranscript = { if recordingObservation { observation = dictation.applying($0) } else { question = dictation.applying($0) } }
+        voice.onError = { error = $0; listening = false; startingListening = false; finishingListening = false }
+        voice.onInterrupted = { listening = false; startingListening = false; finishingListening = false; speaking = false }
         voice.onFinishedSpeaking = { speaking = false }
+        voice.onFinishedListening = { listening = false; startingListening = false }
         if let recordID, let existing = store.questions.first(where: { $0.id == recordID }) {
             record = existing; question = existing.question
             photo = existing.photoFilename.flatMap { try? Data(contentsOf: store.mediaURL($0)) }
-        } else if question.isEmpty { question = initialQuestion }
+            if existing.reply == nil {
+                questionError = .pending
+                error = L10n.text("Your question is saved. Check the answer whenever you're ready.")
+            }
+            return
+        }
+        if question.isEmpty { question = initialQuestion }
+        switch entry {
+        case .compose: focused = true
+        case .voice: toggleRecording()
+        case .camera: openCamera()
+        case .question: ask()
+        }
     }
 
     private func ask() {
         guard !thinking, !question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-        focused = false; voice.stop(); listening = false; error = nil
+        if listening { finishRecording(then: ask); return }
+        guard !startingListening, !finishingListening else { return }
+        let previousID = record?.id
+        let readSavedAnswer = questionError != .answerFailed
+        focused = false; stopVoice(); error = nil; questionError = nil
         do {
             let priorPhoto = record?.photoFilename.flatMap { try? Data(contentsOf: store.mediaURL($0)) }
             if record?.question != question.trimmingCharacters(in: .whitespacesAndNewlines) || priorPhoto != photo {
@@ -165,51 +219,99 @@ struct ExploreView: View {
             guard let record else { return }
             if let reply = record.reply { speak(reply.answer); return }
             thinking = true
+            questionStartedAt = Date()
+            let token = UUID(); requestToken = token
             replyTask = Task { @MainActor in
-                defer { thinking = false }
+                defer { if requestToken == token { thinking = false } }
                 do {
                     let connection = try ConnectionVault().loadOrCreate()
                     let client = AIClient()
-                    var receipt = try await client.ask(record, photo: photo, connection: connection)
-                    for _ in 0..<20 where receipt.status == "thinking" {
-                        try await Task.sleep(for: .seconds(3))
-                        receipt = try await client.read(record.id, connection: connection)
-                    }
+                    let receipt = try await client.answer(record, photo: photo, connection: connection, resume: previousID == record.id && readSavedAnswer)
                     try Task.checkCancellation()
-                    guard receipt.id == record.id, let reply = receipt.reply, reply.quiz.isValid, receipt.status == "ready" else { throw AIClientError.pending }
+                    guard requestToken == token, let reply = receipt.reply else { throw AIClientError.invalidResponse }
                     try store.saveAnswer(reply, for: record.id)
                     self.record = store.questions.first { $0.id == record.id }
                     speak(reply.answer)
                 } catch is CancellationError {}
-                catch { if !Task.isCancelled { self.error = error.localizedDescription } }
+                catch {
+                    if !Task.isCancelled, requestToken == token {
+                        questionError = error as? AIClientError
+                        self.error = questionError?.localizedDescription ?? journalMessage(error)
+                    }
+                }
             }
-        } catch { self.error = error.localizedDescription }
+        } catch { self.error = journalMessage(error) }
+    }
+
+    private func pauseQuestion() {
+        replyTask?.cancel(); requestToken = UUID(); thinking = false
+        questionError = .pending
+        error = L10n.text("Your question is saved. Check the answer whenever you're ready.")
     }
 
     private func keep() {
         guard let record else { return }
-        voice.stop()
-        do { onSave(try store.keepQuestion(record.id, observation: observation, tripID: tripID, place: location.place)) }
-        catch { self.error = error.localizedDescription }
+        if listening { finishRecording(then: keep); return }
+        guard !startingListening, !finishingListening else { return }
+        stopVoice()
+        do {
+            let card = try store.keepQuestion(record.id, observation: observation, tripID: tripID, place: location.place)
+            self.record = store.questions.first { $0.id == record.id } ?? record
+            onSave(card)
+        }
+        catch { self.error = journalMessage(error) }
     }
 
     private func speak(_ text: String) {
-        listening = false
-        do { try voice.speak(text); speaking = true } catch { speaking = false; self.error = error.localizedDescription }
+        stopVoice()
+        do { try voice.speak(text, language: record?.language ?? AppLanguage.current.rawValue); speaking = true }
+        catch { speaking = false; self.error = L10n.text("The voice isn't available right now. You can read the answer or listen again later.") }
     }
 
     private func toggleRecording(forObservation: Bool = false) {
-        if listening { voice.stop(); listening = false; return }
-        focused = false; voice.stop(); speaking = false; error = nil; listening = true; recordingObservation = forObservation
-        Task {
-            do { try await voice.start() }
-            catch is CancellationError { listening = false }
-            catch { voice.stop(); listening = false; self.error = error.localizedDescription }
+        if startingListening { stopVoice(); return }
+        if listening { finishRecording(); return }
+        guard !finishingListening else { return }
+        focused = false; stopVoice(); error = nil; startingListening = true; recordingObservation = forObservation
+        dictation = DictationDraft(original: forObservation ? observation : question)
+        let token = UUID(); voiceToken = token
+        voiceTask = Task {
+            do {
+                try await voice.start(language: forObservation ? record?.language ?? AppLanguage.current.rawValue : AppLanguage.current.rawValue)
+                guard voiceToken == token else { return }
+                startingListening = false; listening = true
+            } catch {
+                guard voiceToken == token else { return }
+                stopVoice()
+                if !(error is CancellationError) { self.error = (error as? VoiceError)?.localizedDescription ?? VoiceError.unavailable.localizedDescription }
+            }
         }
     }
 
+    private func finishRecording(then action: (() -> Void)? = nil) {
+        guard !finishingListening else { return }
+        finishingListening = true; listening = false
+        let token = voiceToken
+        voiceTask = Task {
+            await voice.finish()
+            guard voiceToken == token, !Task.isCancelled else { return }
+            finishingListening = false
+            action?()
+        }
+    }
+
+    private func stopVoice() {
+        voiceTask?.cancel(); voiceToken = UUID(); voice.stop()
+        listening = false; startingListening = false; finishingListening = false; speaking = false
+    }
+
+    private func journalMessage(_ error: Error) -> String {
+        if let error = error as? JournalError { return error.localizedDescription }
+        return L10n.text("Your phone couldn't save this yet. Your words are still on this screen. Please try again.")
+    }
+
     private func openCamera() {
-        voice.stop(); listening = false
+        stopVoice()
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
             error = L10n.text("A camera is available when you explore on an iPhone. You can still keep a voice discovery here.")
             return

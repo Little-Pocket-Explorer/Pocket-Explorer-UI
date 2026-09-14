@@ -46,17 +46,20 @@ struct CardUnlockView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
+            VStack(spacing: 18) {
                 Eyebrow(text: "New discovery")
-                Text("You discovered a card!").font(.system(.largeTitle, design: .rounded, weight: .black)).multilineTextAlignment(.center)
-                DiscoveryCard(discovery: discovery, store: store).frame(maxWidth: 330)
+                Text("You discovered a card!").font(.system(.title, design: .rounded, weight: .black)).multilineTextAlignment(.center)
+                DiscoveryCard(discovery: discovery, store: store, compact: true).frame(maxWidth: 260)
                     .scaleEffect(unlocking && !reduceMotion ? 1.03 : 1)
                     .rotationEffect(.degrees(unlocking && !reduceMotion ? -2 : 0))
                     .accessibilityIdentifier("card-unlock-stage")
-                Text("Your collection grows with you.").font(.system(.body, design: .rounded, weight: .medium)).foregroundStyle(Theme.muted)
-                Button(action: reveal) { Label("View Card", systemImage: "sparkles") }
-                    .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("reveal-card").disabled(unlocking)
-            }.padding(26).padding(.top, 12)
+                if let store { ArtworkStatusView(discovery: discovery, store: store) }
+                Text("Your collection grows with you.").font(.system(.subheadline, design: .rounded, weight: .medium)).foregroundStyle(Theme.muted)
+            }.padding(22).padding(.top, 6)
+        }.safeAreaInset(edge: .bottom) {
+            Button(action: reveal) { Label("View Card", systemImage: "sparkles") }
+                .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("reveal-card").disabled(unlocking)
+                .padding(.horizontal, 26).padding(.vertical, 12).background(Theme.paper.opacity(0.97))
         }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink)
     }
 
@@ -75,7 +78,6 @@ struct CardDetailView: View {
     let discoveryID: UUID
     var isNew = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @Environment(ArtworkCoordinator.self) private var artwork: ArtworkCoordinator?
     @State private var reversed = false
     @State private var editing = false
     @State private var observation = ""
@@ -93,11 +95,7 @@ struct CardDetailView: View {
                     .buttonStyle(.plain).accessibilityLabel(L10n.text(reversed ? "Show card front" : "Flip card to read my observation")).accessibilityIdentifier("discovery-card")
                     if discovery.ai != nil {
                         Text("AI illustration · inspired by your discovery").font(.caption2).foregroundStyle(Theme.muted)
-                        if discovery.artwork?.status == "failed" || artwork?.errors[discoveryID] != nil {
-                            Text(artwork?.errors[discoveryID] ?? L10n.text("Your card is saved. Its illustration could not finish.")).font(.caption)
-                            Button("Try illustration again") { Task { await artwork?.update(discovery, store: store, retry: true) } }
-                                .buttonStyle(ExplorerButtonStyle(secondary: true)).accessibilityIdentifier("retry-artwork")
-                        }
+                        ArtworkStatusView(discovery: discovery, store: store)
                     }
                     Picker("Card details", selection: $section) {
                         Text("Story").tag(0); Text("Knowledge").tag(1); Text("Location").tag(2)
@@ -118,9 +116,11 @@ struct CardDetailView: View {
                             } else { Label("No location saved", systemImage: "location.slash") }
                         }
                     }.padding(20).frame(maxWidth: .infinity, alignment: .leading).background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 22))
-                    if let filename = discovery.photoFilename, let data = try? Data(contentsOf: store.mediaURL(filename)), let photo = UIImage(data: data) {
+                    if let filename = discovery.photoFilename {
                         Eyebrow(text: "My field photo · private")
-                        Image(uiImage: photo).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 20))
+                        CachedMediaImage(url: store.mediaURL(filename), contentMode: .fit) {
+                            Theme.mint.opacity(0.4).frame(height: 160)
+                        }.clipShape(RoundedRectangle(cornerRadius: 20))
                     }
                     if let trip = store.state.trips.first(where: { $0.id == discovery.tripID }) {
                         NavigationLink { SharePreviewView(trip: trip, discoveries: [discovery], store: store, singleCardID: discovery.id) } label: { Label("Preview & share", systemImage: "square.and.arrow.up") }
@@ -184,8 +184,10 @@ struct CollectionView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(["All", "Nature", "Science", "Animals", "Space", "History", "Culture"], id: \.self) { item in
-                            Button(L10n.text(item)) { category = item }.font(.system(.caption, design: .rounded, weight: .semibold))
-                                .padding(.horizontal, 16).frame(minHeight: 38).background(category == item ? Theme.mint : .white, in: Capsule())
+                            Button { category = item } label: {
+                                Text(L10n.text(item)).font(.system(.caption, design: .rounded, weight: .semibold))
+                                    .padding(.horizontal, 16).frame(minHeight: 44).background(category == item ? Theme.mint : .white, in: Capsule())
+                            }.buttonStyle(.plain).accessibilityAddTraits(category == item ? .isSelected : [])
                         }
                     }
                 }

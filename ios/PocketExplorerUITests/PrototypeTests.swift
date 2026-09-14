@@ -21,9 +21,9 @@ final class PrototypeTests: XCTestCase {
         app.buttons["language-chinese"].tap(); app.buttons["language-continue"].tap()
         XCTAssertTrue(app.tabBars.buttons["地图"].waitForExistence(timeout: 6))
         capture("home-zh")
-        app.buttons["home-ask"].tap()
+        app.buttons["home-question"].tap()
         XCTAssertTrue(app.buttons["speak-button"].waitForExistence(timeout: 6))
-        XCTAssertEqual(app.buttons["speak-button"].label, "点一下，说出问题")
+        XCTAssertEqual(app.buttons["speak-button"].label, "说出你的问题")
         capture("ask-zh")
         app.buttons["关闭"].tap()
         relaunch()
@@ -116,7 +116,7 @@ final class PrototypeTests: XCTestCase {
     }
 
     func testQuestionHistoryReopensTheSavedAnswer() {
-        app.buttons["home-ask"].tap()
+        app.buttons["home-question"].tap()
         let input = app.textFields["exploration-input"].exists ? app.textFields["exploration-input"] : app.textViews["exploration-input"]
         input.tap(); input.typeText("Why is the sky blue?"); app.buttons["ask-button"].tap()
         XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 10))
@@ -132,7 +132,7 @@ final class PrototypeTests: XCTestCase {
         app.terminate(); app.launchArguments += ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"]; app.launch()
         scrollTo(app.buttons["language-continue"]); app.buttons["language-continue"].tap()
         XCTAssertTrue(app.buttons["home-ask"].waitForExistence(timeout: 10))
-        app.buttons["home-ask"].tap()
+        app.buttons["home-question"].tap()
         XCTAssertTrue(app.buttons["speak-button"].waitForExistence(timeout: 5))
         XCTAssertGreaterThanOrEqual(app.buttons["speak-button"].frame.height, 44)
         let input = app.textFields["exploration-input"].exists ? app.textFields["exploration-input"] : app.textViews["exploration-input"]

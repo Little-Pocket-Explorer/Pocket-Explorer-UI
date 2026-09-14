@@ -3,9 +3,8 @@ import SwiftUI
 struct ChatHomeView: View {
     let store: TripStore
     var changeLanguage: () -> Void
-    @State private var question = ""
+    @State private var launch: ExplorationLaunch?
     @State private var selectedQuestion: ExplorationRecord?
-    @State private var exploring = false
     @State private var history = false
     @State private var profile = false
     @State private var pendingQuestion: ExplorationRecord?
@@ -46,16 +45,17 @@ struct ChatHomeView: View {
         .toolbar(.hidden, for: .navigationBar)
         .safeAreaInset(edge: .bottom) {
             HStack(spacing: 12) {
-                Button { exploring = true } label: { Image(systemName: "camera").foregroundStyle(Theme.forest).frame(width: 44, height: 44) }
-                    .accessibilityLabel("Explore with a photo")
-                TextField("Ask anything…", text: $question).submitLabel(.send).onSubmit { exploring = true }
-                    .accessibilityIdentifier("home-question")
-                Button { exploring = true } label: { LeafBadge(symbol: question.isEmpty ? "mic.fill" : "arrow.up").frame(width: 44, height: 44) }
-                    .accessibilityLabel("Ask your guide").accessibilityIdentifier("home-ask")
+                Button { open(.camera) } label: { Image(systemName: "camera").foregroundStyle(Theme.forest).frame(width: 44, height: 44) }
+                    .accessibilityLabel("Explore with a photo").accessibilityIdentifier("home-camera")
+                Button { open(.compose) } label: {
+                    Text("Ask anything…").foregroundStyle(Theme.muted).frame(maxWidth: .infinity, minHeight: 44, alignment: .leading).contentShape(Rectangle())
+                }.buttonStyle(.plain).accessibilityLabel("Type your question").accessibilityIdentifier("home-question")
+                Button { open(.voice) } label: { LeafBadge(symbol: "mic.fill").frame(width: 44, height: 44) }
+                    .accessibilityLabel("Speak your question").accessibilityIdentifier("home-ask")
             }.padding(12).background(.white, in: Capsule()).shadow(color: Theme.ink.opacity(0.07), radius: 12, y: 4)
                 .padding(.horizontal, 16).padding(.bottom, 6).background(Theme.paper.opacity(0.8))
         }
-        .sheet(isPresented: $exploring) { ExplorationFlow(store: store, tripID: nil, initialQuestion: question) }
+        .sheet(item: $launch) { launch in ExplorationFlow(store: store, tripID: nil, initialQuestion: launch.question, entry: launch.entry) }
         .sheet(item: $selectedQuestion) { record in ExplorationFlow(store: store, tripID: nil, recordID: record.id) }
         .sheet(isPresented: $history, onDismiss: { selectedQuestion = pendingQuestion; pendingQuestion = nil }) {
             NavigationStack {
@@ -91,7 +91,7 @@ struct ChatHomeView: View {
     }
 
     private func suggestion(_ title: String, symbol: String, color: Color) -> some View {
-        Button { question = L10n.text(title); exploring = true } label: {
+        Button { open(.question, question: L10n.text(title)) } label: {
             HStack(spacing: 14) {
                 Image(systemName: symbol).font(.system(size: 24)).foregroundStyle(color)
                     .frame(width: 44, height: 44).background(color.opacity(0.1), in: Circle())
@@ -101,4 +101,14 @@ struct ChatHomeView: View {
             }.padding(12).background(.white.opacity(0.95), in: Capsule())
         }.buttonStyle(.plain)
     }
+
+    private func open(_ entry: ExplorationEntry, question: String = "") {
+        launch = ExplorationLaunch(entry: entry, question: question)
+    }
+}
+
+private struct ExplorationLaunch: Identifiable {
+    let id = UUID()
+    let entry: ExplorationEntry
+    let question: String
 }

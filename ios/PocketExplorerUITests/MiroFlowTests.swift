@@ -33,7 +33,7 @@ final class MiroFlowTests: XCTestCase {
         if ProcessInfo.processInfo.environment["POCKET_EXPECT_REDUCED_MOTION"] == "1" {
             XCTAssertTrue(UIAccessibility.isReduceMotionEnabled, "The simulator must have the actual system setting enabled.")
         }
-        app.buttons["home-ask"].tap()
+        app.buttons["home-question"].tap()
         let input = field("exploration-input")
         XCTAssertTrue(input.waitForExistence(timeout: 8))
         input.tap(); input.typeText("Why is the sky blue?")
@@ -79,7 +79,7 @@ final class MiroFlowTests: XCTestCase {
     }
 
     func testFailedQuestionRemainsInTheHistoryAfterRelaunch() {
-        app.buttons["home-ask"].tap()
+        app.buttons["home-question"].tap()
         let input = field("exploration-input")
         XCTAssertTrue(input.waitForExistence(timeout: 8))
         input.tap(); input.typeText("network failure question")

@@ -22,15 +22,31 @@ createServer(async (request, response) => {
   try { input = text ? JSON.parse(text) : null; } catch { response.writeHead(400); response.end(); return; }
   function json(status, value) { response.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }); response.end(JSON.stringify(value)); }
   if (url.pathname === '/health') return json(200, { status: 'ok', fixture: true });
+  if (url.pathname === '/__fixture/answers/complete' && request.method === 'POST') {
+    for (const result of questions.values()) {
+      if (result.question === input.question) { result.status = 'ready'; result.reply = reply; }
+    }
+    return json(200, { completed: true });
+  }
   if (url.pathname === '/api/explorations' && request.method === 'POST') {
     if (input.question.includes('network failure')) return json(503, { error: 'fixture_failure' });
-    const result = { id: input.id, question: input.question, status: 'ready', reply };
+    if (input.question.includes('demo allowance')) return json(429, { error: 'demo_limit' });
+    const first = !questions.has(input.id);
+    const status = first && input.question.includes('slow answer') ? 'thinking' : first && input.question.includes('failed answer') ? 'failed' : 'ready';
+    const result = { id: input.id, question: input.question, status, reply: status === 'ready' ? reply : null };
     questions.set(input.id, result); return json(200, result);
   }
   const exploration = /^\/api\/explorations\/([^/]+)$/.exec(url.pathname);
   if (exploration) return json(questions.has(exploration[1]) ? 200 : 404, questions.get(exploration[1]));
-  if (/^\/api\/explorations\/[^/]+\/artwork$/.test(url.pathname)) {
-    const id = randomUUID(); const job = { id, status: 'ready', attempts: 1, imagePath: `/api/artwork/${id}/image` };
+  const createArtwork = /^\/api\/explorations\/([^/]+)\/artwork$/.exec(url.pathname);
+  if (createArtwork) {
+    const question = questions.get(createArtwork[1])?.question ?? '';
+    const slow = question.includes('slow illustration');
+    const failed = question.includes('failed illustration') || question.includes('exhausted illustration');
+    const attempts = question.includes('exhausted illustration') ? 2 : 1;
+    const id = randomUUID(); const job = { id, status: failed ? 'failed' : slow ? 'working' : 'ready', attempts,
+      updatedAt: Date.now() - (slow ? 35000 : 0), expiresAt: slow ? Date.now() + 180000 : null,
+      canRetry: failed && attempts < 2, imagePath: failed || slow ? null : `/api/artwork/${id}/image` };
     jobs.set(id, job); return json(202, job);
   }
   const art = /^\/api\/artwork\/([^/]+)(\/image|\/retry)?$/.exec(url.pathname);

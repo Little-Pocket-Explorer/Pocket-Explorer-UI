@@ -1,5 +1,24 @@
 # Pocket Explorer: Prototype Plan
 
+## Active eight-hour refinement (2026-09-15)
+
+The user now authorizes implementation and repeated refinement through 2026-09-15 08:39:34 Australia/Sydney. This supersedes the planning-only checkpoint below. Prioritize rough interactions, gentle child-friendly speech, and slow or stuck image generation, then advance global multilingual quality within the same core journeys. Accounts and friend chat remain deferred.
+
+- IN_PROGRESS T21.1 / B09.1: reproduce and fix artwork progress, deadlines, lost polling and safe retry. Preserve saved cards, avoid duplicate provider work, and test offline, timeout, relaunch and concurrent jobs.
+- NEXT T21.2 / B09.2: improve voice selection, pacing, content-language replay and speech lifecycle. Evaluate available natural speech capabilities before adding a provider dependency. Missing speech must retain reading and typing.
+- NEXT T21.3: inspect and polish the complete native flows, including loading/error/empty states, primary actions, scrolling, touch targets and image rendering. Then integrate T20/B08 language foundations as useful increments.
+- REQUIRED for each candidate version: meaningful reproduction, targeted tests, coverage gates, actual UI screenshots and critique, fixes, regression and independent release readback. Use the user-authorized cl -p Opus 5 CLI as an independent reviewer. Reviewer opinions require verification.
+- Current release remains 0.1.0 (9). Publish TestFlight only from local Xcode 27 RC build 27A266a. Preserve existing Cloudflare workflow, private credentials, journals, links and untracked Miro sync work. No teammate messages or new purchases.
+- Review artifacts: ~/tmp/review/pocket-polish-20260915/. The five-minute heartbeat is ACTIVE until the deadline. Continue useful independent work across increments, rather than stopping after one upload or repeating unchanged checks.
+
+## Global language requirement and next iteration (2026-09-15)
+
+The user explicitly requires a multilingual experience for children worldwide. The existing English/Chinese implementation is a starting point, not completed globalization. Visual appeal remains first, followed by feedback, and language expansion must preserve both.
+
+Recommend T20.1 language/content foundations, T20.2 multilingual speech and T20.3 visual/device acceptance, coordinated with backend B08.1/B08.2. Files, dependencies, failure behavior and completion criteria are in [Remaining work and language plan](docs/next-iteration.md). Candidate languages are proposed, not all selected or implemented.
+
+This request covers gap assessment and planning. Build 9 remains released, while T20/B08 are PLANNED. Accounts and friend chat remain deferred. Do not automatically start every listed extension.
+
 Release amendment: the user requires this TestFlight build to be archived and uploaded from this Mac because GitHub runner quota is exhausted. Run native checks locally and independently verify Apple processing. Do not trigger a GitHub TestFlight release for this iteration.
 
 ## Active implementation: Miro and live AI (2026-09-14)

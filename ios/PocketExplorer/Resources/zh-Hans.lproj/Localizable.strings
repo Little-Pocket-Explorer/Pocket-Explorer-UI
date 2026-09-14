@@ -241,3 +241,61 @@
 "Explore with a photo" = "用照片探索";
 
 "Say what you noticed" = "说说你的发现";
+
+"Your card is ready" = "你的卡片准备好了";
+"Your card is saved" = "小发现已经收藏好啦";
+"Adding a little colour" = "正在给小发现添点颜色";
+"A little more time for the picture" = "这张图还需要一点时间";
+"The picture couldn't finish" = "这次没能画好图片";
+"Keep exploring with this card" = "带着这张卡片继续探索";
+"Your illustration is ready to explore." = "你的探索图片准备好了。";
+"The picture will appear here when it's ready. You can keep exploring." = "图片画好后会出现在这里。你可以先去探索别的发现。";
+"This picture is taking longer. You can leave this screen and come back later." = "这张图画得有点慢。可以先离开这个页面，过会儿再来看。";
+"We couldn't check your illustration. Your card is safe. We'll check again when you're connected." = "暂时连不上网络，小卡片已经保存好了。连上网后，我们会继续看看图片画好了没有。";
+"Your words and discovery are saved. You can try the picture once more." = "你的话和小发现都保存好了。可以再试着画一次。";
+"Your discovery is still yours. You can read it, make a memory and share your words." = "小发现还是你的。可以阅读卡片、制作回忆，也可以分享你的故事。";
+"Check illustration" = "看看图片进度";
+
+"Your guide couldn't finish this answer. Your question is saved, and you can ask again." = "向导没能完成这次回答。问题已经保存，可以再问一次。";
+
+"You're offline. Your question is saved. Try again when you're connected." = "现在没有网络。问题已经保存，连上网络后再试试。";
+
+"The connection took too long. Your question is saved. Check again in a moment." = "连接等得有点久。问题已经保存，过一会儿再查看吧。";
+
+"Today's AI allowance is used. Your saved discoveries are still here." = "今天的 AI 体验次数用完了。已经保存的发现都还在。";
+
+"This demo's AI allowance is used. You can still enjoy your saved discoveries." = "这次测试的 AI 体验次数用完了。你仍然可以查看保存的发现。";
+
+"This picture can't be retried. Your discovery is still saved." = "这幅图暂时不能再试了。你的发现已经好好保存。";
+
+"This question has changed. Start a new question to explore it." = "这个问题已经变化了。可以新建一个问题，继续探索。";
+
+"Your guide is taking a little longer…" = "向导还需要一点时间……";
+
+"Later" = "稍后再看";
+
+"Send question" = "发送问题";
+
+"Your question is saved. Check the answer whenever you're ready." = "问题已经保存。想看的时候，再回来查看回答吧。";
+
+"Picture unavailable" = "图片暂时无法显示";
+
+"Getting the microphone ready…" = "正在准备麦克风……";
+
+"Keeping your last words…" = "正在记下最后几个字……";
+
+"Speak your question" = "说出你的问题";
+
+"We couldn't find this saved answer. You can ask the question again." = "没找到之前的回答，可以再问一次。";
+
+"This photo couldn't be opened. Try choosing another photo." = "这张照片打不开，换一张试试吧。";
+
+"The voice isn't available right now. You can read the answer or listen again later." = "现在暂时不能播放声音。可以先读一读回答，或者稍后再听。";
+
+"Your phone couldn't save this yet. Your words are still on this screen. Please try again." = "手机暂时没能保存。你写的话还在这个页面上，可以再试一次。";
+
+"Type your question" = "打字提问";
+
+"This illustration is unavailable. Your card and words are still saved." = "这幅插画暂时无法显示，卡片和你的发现都已保存。";
+
+"We couldn't check your illustration. Your card is safe. We'll check again shortly." = "暂时无法查看插画进度，卡片已经保存。我们会稍后再试。";

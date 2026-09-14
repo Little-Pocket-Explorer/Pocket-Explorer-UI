@@ -44,19 +44,24 @@ struct BotanicalFrame: ViewModifier {
 struct DiscoveryArtwork: View {
     let discovery: Discovery
     var store: TripStore?
+    @Environment(ArtworkCoordinator.self) private var coordinator: ArtworkCoordinator?
     var body: some View {
         Group {
-            if let filename = discovery.artworkFilename, let store,
-               let data = try? Data(contentsOf: store.mediaURL(filename)), let image = UIImage(data: data) {
-                Image(uiImage: image).resizable().scaledToFill()
+            if let filename = discovery.artworkFilename, let store {
+                CachedMediaImage(url: store.mediaURL(filename)) {
+                    LinearGradient(colors: [Theme.mint, Theme.paper], startPoint: .topLeading, endPoint: .bottomTrailing)
+                }
             } else if discovery.ai != nil {
-                ZStack {
-                    LinearGradient(colors: [Theme.mint, Color(hex: 0xEAF8FE), Theme.paper], startPoint: .topLeading, endPoint: .bottomTrailing)
-                    VStack(spacing: 12) {
-                        Image(systemName: "leaf.fill").font(.system(size: 48, weight: .light)).foregroundStyle(Theme.forest.opacity(0.7))
-                        Text(L10n.text(discovery.artwork?.status == "failed" ? "Your discovery is safe" : "Growing your illustration…"))
-                            .font(.system(.caption, design: .rounded, weight: .semibold)).multilineTextAlignment(.center)
-                    }.padding()
+                TimelineView(.periodic(from: .now, by: 5)) { timeline in
+                    let progress = ArtworkProgress.resolve(discovery, error: coordinator?.errors[discovery.id], stopped: coordinator?.stopped.contains(discovery.id) == true, now: timeline.date)
+                    ZStack {
+                        LinearGradient(colors: [Theme.mint, Color(hex: 0xEAF8FE), Theme.paper], startPoint: .topLeading, endPoint: .bottomTrailing)
+                        VStack(spacing: 12) {
+                            Image(systemName: progress.symbol).font(.system(size: 42, weight: .light)).foregroundStyle(Theme.forest.opacity(0.7))
+                            Text(L10n.text(progress.title))
+                                .font(.system(.caption, design: .rounded, weight: .semibold)).multilineTextAlignment(.center)
+                        }.padding()
+                    }
                 }
             } else {
                 Image(discovery.subject.rawValue).resizable().scaledToFit()

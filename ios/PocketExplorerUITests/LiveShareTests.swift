@@ -19,7 +19,7 @@ final class LiveShareTests: XCTestCase {
         app.launchEnvironment["POCKET_SHARE_BASE_URL"] = base
         app.launch()
         XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
-        app.buttons["language-continue"].tap(); app.buttons["home-ask"].tap()
+        app.buttons["language-continue"].tap(); app.buttons["home-question"].tap()
         let field = app.textViews["exploration-input"].exists ? app.textViews["exploration-input"] : app.textFields["exploration-input"]
         field.tap(); field.typeText("Why do shadows get longer in the evening?")
         app.buttons["ask-button"].tap()

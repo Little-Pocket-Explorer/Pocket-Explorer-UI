@@ -76,6 +76,7 @@ final class TripStore {
     func saveArtwork(_ job: ArtworkJob, discoveryID: UUID, image: Data? = nil) throws {
         guard let index = state.discoveries.firstIndex(where: { $0.id == discoveryID }) else { throw JournalError.missingDiscovery }
         guard UUID(uuidString: job.id) != nil else { throw JournalError.missingDiscovery }
+        if image == nil, state.discoveries[index].artwork == job { return }
         var next = state
         next.discoveries[index].artwork = job
         let filename = "artwork-\(job.id).png"

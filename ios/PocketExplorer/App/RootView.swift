@@ -6,6 +6,7 @@ struct RootView: View {
     @State private var tab = 0
     @State private var exploring = false
     @State private var artwork = ArtworkCoordinator()
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         TabView(selection: $tab) {
@@ -18,7 +19,9 @@ struct RootView: View {
         }
         .tint(Theme.forest)
         .environment(artwork)
-        .task { await artwork.resume(store: store) }
+        .task(id: scenePhase == .active ? store.state.discoveries.count : -1) {
+            if scenePhase == .active { await artwork.resume(store: store) }
+        }
         .sheet(isPresented: $exploring) { ExplorationFlow(store: store, tripID: nil) }
     }
 }
@@ -28,6 +31,7 @@ struct ExplorationFlow: View {
     let tripID: UUID?
     var initialQuestion = ""
     var recordID: UUID?
+    var entry: ExplorationEntry = .compose
     @Environment(\.dismiss) private var dismiss
     @State private var saved: Discovery?
     @State private var revealed = false
@@ -54,7 +58,7 @@ struct ExplorationFlow: View {
                         CardUnlockView(discovery: store.state.discoveries.first(where: { $0.id == saved.id }) ?? saved, onReveal: { revealed = true }, store: store)
                     }
                 }
-                else { ExploreView(store: store, tripID: tripID, initialQuestion: initialQuestion, recordID: recordID, onSave: { saved = $0 }) }
+                else { ExploreView(store: store, tripID: tripID, initialQuestion: initialQuestion, recordID: recordID, entry: entry, onSave: { saved = $0 }) }
             }
             .navigationDestination(isPresented: $showMemory) {
                 if let saved, let trip = store.state.trips.first(where: { $0.id == saved.tripID }) {

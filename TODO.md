@@ -1,5 +1,65 @@
 # Pocket Explorer: Execution State
 
+## Refinement checkpoint 05 (2026-09-15 02:11 AEST)
+
+- First candidate regression passed: 68 unit tests and 24 UI tests, zero failures. One actual recording integration test explicitly skips the reproduced simulator AudioUnit environment crash. It is not a physical-recording pass. Result: ~/tmp/review/pocket-polish-20260915/full-regression-2.xcresult.
+- App line coverage is 4480/4860 (92.18%). Changed/new native files total 2662/2835 (93.90%). VoiceSession whole-file coverage is 73.40%, while changed executable lines are 34/42 (80.95%). Hardware branches remain in the denominator.
+- Inspected final artwork recovery, live answer and maximum-size text screenshots. The visible live answer independently matches the latest D1 result. Scanned 122 candidate files without finding configured service credentials.
+- Next UI critique: at maximum accessibility text size, the answer's two fixed bottom actions consume too much reading space. Also investigate asynchronous photo-selection races and repeated full-data image decoding.
+- Preparing the first local TestFlight refinement release, not uploaded yet. Backend recovery is deployed, while new language contracts remain unpublished. Continue global languages and those interaction defects after publication through 08:39:34 AEST.
+
+## Refinement checkpoint 04 (2026-09-15 02:02 AEST)
+
+- Completed recording controls: current code aborts in AudioUnit RPC initialization on iOS 26.4 and iOS 27, after restarting simulator audio and with the built-in microphone selected. The temporary input change was independently restored to original device 107. Isolated worktree ~/Worktrees/Pocket-Explorer-UI-audio-baseline at released commit 3e9d144 reproduces the identical system crash stack. It cannot be attributed to this refinement. Physical recording remains unverified.
+- Retained the explicit POCKET_RUN_LIVE_MICROPHONE integration test. Ordinary regression reports its environment-specific skip rather than deleting it or claiming a pass. Fixed the independent review's interruption-type issue: handle began, ignoring ended and malformed notifications. The old handler reproduced unwanted callbacks, and the fixed unit test passes.
+- Native full-regression-2.xcresult is running, with 68 unit tests passed. Live production question verification without image generation and live sharing are enabled. One microphone environment skip is expected. Final coverage is not read yet and no new TestFlight is uploaded.
+- Backend reliability fixes are published through workflow and independently verified. Latest documentation commit is 1acb3af, with runtime source d1e01cd. B08.1 now adds ten-locale resolution, AI validation and original card/chapter language metadata while preserving old v1 shares and canonical protocol chapter titles. The stale JSON Schema is aligned. All 67 backend tests pass, 99.02% lines and 94.83% branches, with 100% in added locale and changed contract files. Language changes are unpublished and native/Web language interfaces remain outstanding.
+- Next: collect full native results and screenshots, verify coverage and the real answer, record review and publish the first polish build locally, then continue global languages and photo-input details. The existing fixture process on 4197 remains active. Do not start duplicates or trigger GitHub iOS workflows.
+
+## Refinement checkpoint 03 (2026-09-15 01:44 AEST)
+
+- Reproduced an additional real R2 upload race: an old upload finishing after a newer retry overwrote the newer picture. Conditional R2 writes now keep completed pictures immutable, verified against actual Miniflare R2. All 61 backend tests pass, with 99% lines and 94.63% branches. Build and final deployment checks are continuing.
+- Full native regression passed 65 unit tests. Of 23 UI tests, one live AI test was deliberately skipped and one microphone permission-reset test failed. The relaunch-after-reset fix passed independently. New actual speech playback completion and cancellation checks passed.
+- A deeper microphone test triggered an AudioUnit RPC timeout and abort on the iOS 26.4 simulator, at system input initialization. Investigation continues without attributing it to the physical app or claiming microphone acceptance. Missing-image fallback is visible in screenshots and coverage, while the UI assertion is being adjusted to inspect the separate accessible photo section.
+- Final Opus 5 review was read. The duplicate paid artwork claim contradicts the server unique constraint and concurrency tests and is not accepted. Card saving is idempotent, while its displayed state is being checked. Allowance exhaustion being mislabeled as a network issue is valid and now has a regression test under development. TestFlight remains build 9. Native changes are not committed, pushed or released.
+- Next: publish and independently verify the backend, resolve native audio environment and allowance feedback, obtain a clean regression and coverage result, then publish locally and continue language and UI refinement within the eight-hour window and five-minute checkpoints.
+
+## Refinement checkpoint 02 (2026-09-15 01:13 AEST)
+
+- Verified Opus review model `databricks-claude-opus-5`. Five additional regressions reproduced its stale-question, ambiguous queue acknowledgment and concurrent-create findings, then passed after fixes. Also verified concurrent explicit retries and POST recovery of abandoned questions. Backend now passes 60 tests, 99% lines / 94.63% branches, per-file gates and build. The two-minute queue deadline deliberately remains bounded, with explicit recovery after expiry rather than unlimited waiting.
+- Native voice selection now prefers available enhanced/premium female voices, excludes novelty/personal voices, retains the answer's saved language and adds gentle sentence pacing. Eighteen targeted voice/style/artwork tests passed. Actual English and Chinese synthesis produced non-silent audio and independent audio-file readback passed. Samples: `pocket-polish-20260915/gentle-system-en.wav` and `gentle-system-zh.wav`. The simulator only has basic voices, so subjective naturalness and enhanced voices on the iPhone remain unverified.
+- Azure model catalog is accessible, but an actual `gpt-4o-mini-tts` synthesis request returned 404 `DeploymentNotFound`. The previously tested reasoning speech route also returned 404. No cloud TTS dependency has been added and no unsupported-platform claim is made.
+- Added a true overall question deadline, cancellation, truthful failed-answer and quota messages, and saved-question pause/resume. Twelve client contract/recovery tests passed. First UI run caught a parent accessibility identifier overriding the Later button's identifier. Corrected it and its touch target. Seven unit and six UI checks with asynchronous cached image rendering are now running in `question-and-cache-2.xcresult`.
+- Next: inspect those screenshots and results, complete microphone finishing/input preservation and home entry intents, then run full native coverage and independent review before local TestFlight release. Current release is still build 9. Focused Opus voice/question review is running. No production deployment or additional image generation occurred.
+
+
+## Refinement checkpoint 01 (2026-09-15 00:59 AEST)
+
+- Reproduced and fixed permanent polling loss after a transient artwork read failure, repeated unchanged journal writes, and the off-screen primary action on the 375pt phone. Native targeted verification: 13 unit and three UI tests passed in `~/tmp/review/pocket-polish-20260915/artwork-after-3.xcresult`. Exported screenshots confirm a persistent View Card action. Waiting, failed and exhausted illustrations retain readable cards and memories.
+- Reproduced and fixed expired queue deliveries starting paid work and stale provider successes/failures overwriting explicit retries. Backend: 53 tests passed, 98.98% lines / 94.94% branches, per-file gates and build passed. No production deployment yet.
+- Independent Opus 5 review is running with a smaller focused source bundle. Continue with polling backoff, warm speech and input lifecycle, then full native coverage and UI review before release. Current TestFlight remains build 9.
+
+
+## Active eight-hour refinement (2026-09-15)
+
+The user now authorizes implementation and repeated refinement through 2026-09-15 08:39:34 Australia/Sydney. This supersedes the planning-only checkpoint below. Prioritize rough interactions, gentle child-friendly speech, and slow or stuck image generation, then advance global multilingual quality within the same core journeys. Accounts and friend chat remain deferred.
+
+- IN_PROGRESS T21.1 / B09.1: reproduce and fix artwork progress, deadlines, lost polling and safe retry. Preserve saved cards, avoid duplicate provider work, and test offline, timeout, relaunch and concurrent jobs.
+- NEXT T21.2 / B09.2: improve voice selection, pacing, content-language replay and speech lifecycle. Evaluate available natural speech capabilities before adding a provider dependency. Missing speech must retain reading and typing.
+- NEXT T21.3: inspect and polish the complete native flows, including loading/error/empty states, primary actions, scrolling, touch targets and image rendering. Then integrate T20/B08 language foundations as useful increments.
+- REQUIRED for each candidate version: meaningful reproduction, targeted tests, coverage gates, actual UI screenshots and critique, fixes, regression and independent release readback. Use the user-authorized cl -p Opus 5 CLI as an independent reviewer. Reviewer opinions require verification.
+- Current release remains 0.1.0 (9). Publish TestFlight only from local Xcode 27 RC build 27A266a. Preserve existing Cloudflare workflow, private credentials, journals, links and untracked Miro sync work. No teammate messages or new purchases.
+- Review artifacts: ~/tmp/review/pocket-polish-20260915/. The five-minute heartbeat is ACTIVE until the deadline. Continue useful independent work across increments, rather than stopping after one upload or repeating unchanged checks.
+
+## Latest request checkpoint (2026-09-15)
+
+- DONE: assessed implementation gaps and recorded global multilingual support as an accepted requirement. See [assessment](docs/next-iteration.md) for source evidence, local contract probes and task dependencies.
+- PLANNED: T20.1 extensible languages, complete copy and content-language metadata. Currently only English/Chinese have 239 localization keys each.
+- PLANNED: T20.2 speech following input/content language, available regional voices and explicit fallback.
+- PLANNED: T20.3 long text, RTL, translation quality, physical-device acceptance and subsequent local release. Depends on backend B08.1/B08.2.
+- REVIEW: build 9 physical iPhone microphone, speaker, camera, VoiceOver, mobile Safari and visual approval remain pending. No new physical-device success is claimed by this assessment.
+- Documents only: no runtime edits, provider calls, commits/pushes or releases. Continue from the next development instruction or specific device issue. Notifications, nearby destinations, achievements, tags, versions, accounts and social features form a later backlog, not an instruction to start them all.
+
 Release amendment: the user requires this TestFlight build to be archived and uploaded from this Mac because GitHub runner quota is exhausted. Run native checks locally and independently verify Apple processing. Do not trigger a GitHub TestFlight release for this iteration.
 
 ## Active implementation: Miro and live AI (2026-09-14)
