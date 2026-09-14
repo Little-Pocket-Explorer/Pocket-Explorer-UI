@@ -1,7 +1,7 @@
 import Foundation
 
 enum DiscoverySubject: String, Codable, CaseIterable, Identifiable {
-    case duck, leaf, shell
+    case duck, leaf, shell, discovery
 
     var id: String { rawValue }
     var title: String {
@@ -9,6 +9,7 @@ enum DiscoverySubject: String, Codable, CaseIterable, Identifiable {
         case .duck: return L10n.text("Duck paddles")
         case .leaf: return L10n.text("Leaf detectives")
         case .shell: return L10n.text("Tiny ocean homes")
+        case .discovery: return L10n.text("A new discovery")
         }
     }
     var category: String {
@@ -16,6 +17,7 @@ enum DiscoverySubject: String, Codable, CaseIterable, Identifiable {
         case .duck: return L10n.text("Pond discovery")
         case .leaf: return L10n.text("Garden discovery")
         case .shell: return L10n.text("Coastal discovery")
+        case .discovery: return L10n.text("Discovery")
         }
     }
     var sampleQuestion: String {
@@ -23,6 +25,7 @@ enum DiscoverySubject: String, Codable, CaseIterable, Identifiable {
         case .duck: return L10n.text("How do ducks swim?")
         case .leaf: return L10n.text("Are all leaves the same?")
         case .shell: return L10n.text("Who lived in this shell?")
+        case .discovery: return L10n.text("Why is the sky blue?")
         }
     }
 }
@@ -69,6 +72,24 @@ struct Discovery: Codable, Equatable, Identifiable {
     var unlockedAt: Date? = nil
     var origin: DiscoveryOrigin? = nil
     var tier: CardTier? = nil
+    var ai: AIReply? = nil
+    var explorationID: UUID? = nil
+    var artwork: ArtworkJob? = nil
+    var artworkFilename: String? = nil
+    var quizAnsweredAt: Date? = nil
+    var quizChoice: Int? = nil
+    var place: Place? = nil
+
+    var title: String { ai?.title ?? subject.title }
+    var category: String { ai.map { L10n.text($0.category.capitalized) } ?? subject.category }
+    var categoryID: String {
+        if let ai { return ai.category }
+        switch subject {
+        case .duck, .shell: return "animals"
+        case .leaf: return "nature"
+        case .discovery: return "science"
+        }
+    }
 }
 
 struct MemoryChapter: Codable, Equatable, Identifiable {
@@ -98,6 +119,7 @@ struct JournalState: Codable, Equatable {
     var version = 1
     var trips: [Trip]
     var discoveries: [Discovery]
+    var explorations: [ExplorationRecord]? = nil
 
     static func examples(now: Date = Date()) -> JournalState {
         let pond = UUID(uuidString: "10000000-0000-4000-8000-000000000001")!

@@ -15,6 +15,10 @@ enum MemoryBuilder {
 enum ReminderPolicy {
     static let interval: TimeInterval = 7 * 86_400
 
+    static func isEligible(_ discovery: Discovery, now: Date) -> Bool {
+        discovery.ai != nil && discovery.quizAnsweredAt == nil && now.timeIntervalSince(discovery.createdAt) >= 86400
+    }
+
     static func isEligible(_ trip: Trip, now: Date) -> Bool {
         guard let completed = trip.completedAt, trip.memory != nil else { return false }
         guard now >= completed.addingTimeInterval(interval) else { return false }

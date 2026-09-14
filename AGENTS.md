@@ -1,10 +1,15 @@
 # Pocket Explorer
 
+## Current design authority (2026-09-14)
+
+The user confirmed that [the Miro board](https://miro.com/app/board/uXjVHn9F6EQ=/) is the source of truth for UI design and flows. Figma Review 01 is an interaction example only. This decision supersedes conflicting visual baselines and Figma continuation instructions below, while explicit user decisions still take precedence over board content. The current phase is native implementation with live AI, authorized on 2026-09-14. Earlier design-only restrictions are superseded. Accounts and friend chat are deferred. Any new clickable prototype must follow Miro, and the existing Figma example does not establish completion of that work.
+
+
 The iPhone app is the primary product. Preserve the approved cream-paper, forest-green, sculptural visual direction. The website is the public story viewer and its implementation lives in the sibling Pocket-Explorer-Backend repository.
 
 Use the `codex-project` skill when installed. Otherwise follow the durable workflow in PLAN.md, PROMPT.md and TODO.md directly. Read PROMPT.md and TODO.md when resuming. PLAN.md owns the design and ACCEPTANCE.md owns the 79 product criteria. TODO.md owns current progress and evidence.
 
-Implement within this directory. Do not modify the sibling gaokao-kg project. Keep code, comments and repository documents in English. Maintain substantial Chinese review copies in `/Users/haichang/tmp` with the `pocket-explorer-` prefix and update those first when applying review feedback.
+Implement within this directory. Do not modify the sibling gaokao-kg project. Keep code, comments and repository documents in English. Maintain substantial Chinese review copies in `/Users/haichang/tmp/review` with the `pocket-explorer-` prefix and update those first when applying review feedback.
 
 SwiftUI is the app interface. Keep domain behavior separate from audio, camera, persistence and networking adapters. Keep the native public-story fixture and artwork compatible with the TypeScript website in Pocket-Explorer-Backend. Use original or appropriately licensed art instead of placeholder emoji.
 

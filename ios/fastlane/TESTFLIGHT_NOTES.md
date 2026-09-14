@@ -1,5 +1,5 @@
-Explore from the home screen, choose English or Simplified Chinese, and try a prepared duck, leaf or shell question. Save an observation, inspect the discovery card, create a trip memory, and create a sharing link without configuration.
+The Miro design now guides a native Chat, Map and Memories experience. Ask a question by speaking or typing, optionally add a photo, and keep the real AI answer as a discovery card. Card illustrations generate in the background and remain available after relaunch.
 
-Check voice and camera permissions on a real iPhone. Open a sharing link in Safari, then revoke it from the app and confirm that it no longer opens.
+Try English and Simplified Chinese from the profile language chooser. Save a broad place on your private map, revisit discoveries with a gentle quiz, create a memory, and share a public link. You can revoke a link from the app. A correct quiz answer is not required to keep a card.
 
-This prototype uses visibly prepared guide responses. A live generative AI service is not configured.
+Please check microphone, speaker and camera behavior on your iPhone. Accounts, friends and cross-account chat are planned for a later version.

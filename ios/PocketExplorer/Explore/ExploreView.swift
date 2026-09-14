@@ -1,245 +1,224 @@
 import AVFoundation
+import PhotosUI
 import SwiftUI
 
 struct ExploreView: View {
     let store: TripStore
     let tripID: UUID?
+    var initialQuestion = ""
+    var recordID: UUID?
     var onSave: (Discovery) -> Void
     @Environment(\.scenePhase) private var scenePhase
-    @State private var session = ExplorationState()
+    @AppStorage("explorer-age") private var age = 7
+    @State private var question = ""
+    @State private var observation = ""
+    @State private var record: ExplorationRecord?
     @State private var voice = VoiceSession()
+    @State private var location = DiscoveryLocation()
+    @State private var listening = false
+    @State private var recordingObservation = false
+    @State private var speaking = false
+    @State private var thinking = false
+    @State private var error: String?
     @State private var photo: Data?
+    @State private var selection: PhotosPickerItem?
     @State private var cameraOpen = false
-    @State private var submitting = false
-    @State private var savedID = UUID()
-    @State private var createdTripID: UUID?
     @State private var replyTask: Task<Void, Never>?
-    @FocusState private var inputFocused: Bool
+    @FocusState private var focused: Bool
 
     var body: some View {
-        ScrollViewReader { reader in
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    HStack(spacing: 16) {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Eyebrow(text: session.stage == .question ? "1 · Ask" : "2 · Look closer")
-                            Text(L10n.text(session.stage == .question ? "What are you curious about?" : "What did you notice?"))
-                                .font(.system(.title, design: .rounded, weight: .heavy))
+        ScrollView {
+            VStack(alignment: .leading, spacing: 22) {
+                if let record {
+                    HStack { Spacer(minLength: 36); Text(record.question).padding(16).background(Color(hex: 0xDEF1FB), in: RoundedRectangle(cornerRadius: 22)) }
+                    if let reply = record.reply {
+                        answer(reply)
+                        HStack(alignment: .top, spacing: 10) {
+                            LeafBadge()
+                            Text(reply.invitation).padding(16).frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Theme.mint.opacity(0.75), in: RoundedRectangle(cornerRadius: 22))
                         }
-                        Image((session.reply?.subject ?? .duck).rawValue)
-                            .resizable().scaledToFit().frame(width: 108)
-                            .clipShape(RoundedRectangle(cornerRadius: 24)).accessibilityHidden(true)
-                    }.id("step")
-                    if let reply = session.reply {
                         VStack(alignment: .leading, spacing: 12) {
-                            Text(session.question).font(.system(.subheadline, design: .rounded, weight: .semibold))
-                                .foregroundStyle(Theme.muted)
-                            Text(reply.answer).font(.system(.body, design: .rounded, weight: .semibold))
-                            Divider()
-                            Text(reply.invitation).font(.body)
-                        }
-                        .padding(20).background(Theme.surface, in: RoundedRectangle(cornerRadius: 24))
-                    } else {
-                        Text("Try a sample question, or ask your own.").font(.subheadline).foregroundStyle(Theme.muted)
-                        HStack(spacing: 10) {
-                            ForEach(DiscoverySubject.allCases) { subject in
-                                Button {
-                                    session.question = subject.sampleQuestion
-                                    ask()
-                                } label: {
-                                    VStack(spacing: 6) {
-                                        Image(subject.rawValue).resizable().scaledToFit().frame(height: 48).accessibilityHidden(true)
-                                        Text(L10n.text(subject.rawValue.capitalized)).font(.system(.caption, design: .rounded, weight: .bold))
-                                    }
-                                    .frame(maxWidth: .infinity, minHeight: 80)
-                                    .background(Theme.surface, in: RoundedRectangle(cornerRadius: 18))
-                                }
-                                .buttonStyle(.plain)
-                                .accessibilityLabel(L10n.text("Try a sample question") + ": " + subject.sampleQuestion)
-                                .accessibilityIdentifier("sample-\(subject.rawValue)")
-                                .disabled(session.phase == .listening || session.phase == .thinking)
+                            Text("What did you notice? (optional)").font(.system(.subheadline, design: .rounded, weight: .semibold))
+                            TextField("I noticed…", text: $observation, axis: .vertical).lineLimit(2...4)
+                                .padding(16).background(.white, in: RoundedRectangle(cornerRadius: 18)).accessibilityIdentifier("observation-input")
+                            Button { toggleRecording(forObservation: true) } label: {
+                                Label(L10n.text(listening && recordingObservation ? "Finish recording" : "Say what you noticed"), systemImage: listening && recordingObservation ? "stop.fill" : "mic.fill")
+                            }.frame(minHeight: 44).accessibilityIdentifier("observation-speak")
+                            if let place = location.place {
+                                HStack { Label(place.name, systemImage: "location.fill"); Spacer(); Button("Remove") { location.remove() } }
+                            } else {
+                                Button { location.request() } label: { Label(L10n.text(location.isLoading ? "Finding your place…" : "Add this place (optional)"), systemImage: "location") }
+                                    .frame(minHeight: 44).disabled(location.isLoading)
                             }
-                        }
+                            if let error = location.error { Text(error).font(.caption).foregroundStyle(Theme.muted) }
+                            Text("Your question is already a discovery. Keep it whenever you are ready.").font(.caption).foregroundStyle(Theme.muted)
+                        }.padding(.leading, 48)
                     }
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(L10n.text(session.stage == .question ? "Your question · speak or type" : "Your observation · speak or type"))
-                            .font(.system(.subheadline, design: .rounded, weight: .bold))
-                        TextField(L10n.text(session.stage == .question ? "What would you like to explore?" : "I noticed…"), text: transcript, axis: .vertical)
-                            .lineLimit(2...4).focused($inputFocused)
-                            .padding(15).background(.white, in: RoundedRectangle(cornerRadius: 16))
-                            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Theme.line))
-                            .accessibilityIdentifier("exploration-input")
-                        if session.stage == .observation {
-                            Text("Your own words will appear on your card.").font(.caption).foregroundStyle(Theme.muted)
-                        }
-                    }
-                    if let error = session.error {
-                        Text(error).font(.callout).padding(14)
-                            .background(Theme.sun.opacity(0.25), in: RoundedRectangle(cornerRadius: 14))
-                            .accessibilityIdentifier("exploration-error")
-                    }
-                    Button(action: openCamera) {
-                        Label(L10n.text(photo == nil ? "Add a photo (optional)" : "Retake my photo"), systemImage: "camera")
-                    }.frame(minHeight: 44)
-                    if let photo, let image = UIImage(data: photo) {
-                        Image(uiImage: image).resizable().scaledToFit().frame(maxHeight: 160).clipShape(RoundedRectangle(cornerRadius: 14))
-                        Button("Remove photo") { self.photo = nil }.frame(minHeight: 44)
-                    }
-                    Text("Prepared demo: ducks, leaves and shells. Photos stay in your journal.")
-                        .font(.caption).foregroundStyle(Theme.muted)
-                }.padding(24)
-            }
-            .onChange(of: session.stage) { _, _ in reader.scrollTo("step", anchor: .top) }
+                } else {
+                    Image("explorer-hero").resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 26)).accessibilityHidden(true)
+                    Text("Every discovery starts\nwith a question.").font(.system(.largeTitle, design: .rounded, weight: .black))
+                    Text("Speak, type, or add a photo of something you notice.").foregroundStyle(Theme.muted)
+                }
+                if thinking { HStack { LeafBadge(); ProgressView("Your guide is thinking…") }.accessibilityIdentifier("thinking") }
+                if let photo, record?.reply == nil, let image = UIImage(data: photo) {
+                    Image(uiImage: image).resizable().scaledToFit().frame(maxHeight: 220).clipShape(RoundedRectangle(cornerRadius: 18))
+                    Button("Remove photo") { self.photo = nil; selection = nil }.frame(minHeight: 44)
+                }
+            }.padding(20)
         }
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            VStack(spacing: 8) {
-                Text(L10n.text(statusText)).font(.system(.caption, design: .rounded, weight: .semibold))
-                    .foregroundStyle(Theme.muted).accessibilityIdentifier("exploration-status")
-                Button(action: performPrimaryAction) {
-                    Label(L10n.text(primaryTitle), systemImage: primaryIcon)
+        .background(ExplorerBackdrop()).foregroundStyle(Theme.ink)
+        .navigationTitle(record?.reply?.title ?? L10n.text("Let's explore")).navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .bottom) {
+            VStack(spacing: 0) {
+                if let error {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(error).font(.callout).accessibilityIdentifier("exploration-error")
+                        if record?.reply == nil, !question.isEmpty {
+                            Button("Try again", action: ask).frame(minHeight: 44).accessibilityIdentifier("retry-answer")
+                        }
+                    }.padding(14).frame(maxWidth: .infinity, alignment: .leading).background(Theme.sun.opacity(0.25), in: RoundedRectangle(cornerRadius: 18)).padding(.horizontal, 12)
                 }
-                .buttonStyle(ExplorerButtonStyle())
-                .accessibilityIdentifier(primaryIdentifier)
-                .disabled(session.primaryAction == .wait || submitting)
-                if session.primaryAction == .ask || session.primaryAction == .save {
-                    Button(action: toggleRecording) { Label("Record again", systemImage: "mic") }
-                        .frame(minHeight: 44).accessibilityIdentifier("speak-button")
-                }
-                if session.phase == .thinking {
-                    Button("Cancel") { replyTask?.cancel(); session.stop() }.frame(minHeight: 44)
-                }
+                if let record, record.reply != nil {
+                VStack(spacing: 6) {
+                    Button(action: keep) { Label(L10n.text(record.cardID == nil ? "Make my card" : "View my card"), systemImage: "sparkles") }
+                        .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("save-discovery")
+                    Button("Ask another question") {
+                        voice.stop(); self.record = nil; question = ""; observation = ""; photo = nil; selection = nil; error = nil; location.remove()
+                    }.frame(minHeight: 44).accessibilityIdentifier("ask-another")
+                }.padding(.horizontal, 20).padding(.top, 12).background(Theme.paper)
+                } else { composer }
             }
-            .padding(.horizontal, 24).padding(.top, 12).padding(.bottom, 8)
-            .frame(maxWidth: .infinity).background(Theme.paper)
         }
-        .background(Theme.paper).foregroundStyle(Theme.ink)
-        .navigationTitle("Let's explore").navigationBarTitleDisplayMode(.inline)
-        .onAppear(perform: connectVoice)
+        .onAppear(perform: prepare)
         .onDisappear { replyTask?.cancel(); voice.stop() }
         .onChange(of: scenePhase) { _, next in
-            if next != .active { replyTask?.cancel(); voice.stop(); session.stop() }
+            if next != .active { replyTask?.cancel(); voice.stop(); listening = false; speaking = false; thinking = false }
+        }
+        .onChange(of: selection) { _, item in
+            Task {
+                do { photo = try await item?.loadTransferable(type: Data.self) }
+                catch { self.error = error.localizedDescription }
+            }
         }
         .sheet(isPresented: $cameraOpen) {
             CameraCapture(onPhoto: { photo = $0; cameraOpen = false }, onCancel: { cameraOpen = false }).ignoresSafeArea()
         }
     }
 
-    private var primaryTitle: String {
-        switch session.primaryAction {
-        case .record: return session.stage == .question ? "Tap to ask" : "Tell me what you noticed"
-        case .finishQuestion: return "Done · hear the answer"
-        case .finishObservation: return "Done · check my words"
-        case .ask: return "Hear the answer"
-        case .save: return "Make my card"
-        case .stopReply: return "I'm ready to look closer"
-        case .wait: return "Thinking…"
-        }
-    }
-    private var primaryIcon: String {
-        switch session.primaryAction {
-        case .record: return "mic.fill"
-        case .finishQuestion, .finishObservation: return "stop.fill"
-        case .ask: return "arrow.up"
-        case .save: return "sparkles"
-        case .stopReply: return "arrow.right"
-        case .wait: return "ellipsis"
-        }
-    }
-    private var primaryIdentifier: String {
-        switch session.primaryAction {
-        case .record, .finishQuestion, .finishObservation: return "speak-button"
-        case .ask: return "ask-button"
-        case .save: return "save-discovery"
-        case .stopReply: return "stop-reply"
-        case .wait: return "thinking"
-        }
-    }
-    private func performPrimaryAction() {
-        inputFocused = false
-        switch session.primaryAction {
-        case .record: toggleRecording()
-        case .finishQuestion:
-            voice.stop(); session.stop()
-            if !session.question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { ask() }
-        case .finishObservation: voice.stop(); session.stop()
-        case .ask: ask()
-        case .save: save()
-        case .stopReply: voice.stop(); session.beginObservation()
-        case .wait: break
+    private func answer(_ reply: AIReply) -> some View {
+        HStack(alignment: .top, spacing: 10) {
+            LeafBadge()
+            VStack(alignment: .leading, spacing: 16) {
+                Text(reply.answer).font(.system(.body, design: .rounded)).textSelection(.enabled).accessibilityIdentifier("live-answer")
+                Button { if speaking { voice.stop(); speaking = false } else { speak(reply.answer) } } label: {
+                    Label(L10n.text(speaking ? "Stop reply" : "Listen"), systemImage: speaking ? "stop.fill" : "speaker.wave.2.fill")
+                }.frame(minHeight: 44).accessibilityIdentifier("listen-answer")
+                if let photo, let image = UIImage(data: photo) {
+                    Image(uiImage: image).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 18))
+                }
+            }.padding(18).background(.white.opacity(0.97), in: RoundedRectangle(cornerRadius: 24))
+                .shadow(color: Theme.ink.opacity(0.05), radius: 12, y: 3)
         }
     }
 
-    private var transcript: Binding<String> {
-        Binding(get: { session.stage == .question ? session.question : session.observation }, set: { session.receiveTranscript($0) })
+    private var composer: some View {
+        VStack(spacing: 10) {
+            if listening { Text("I'm listening…").font(.caption).accessibilityIdentifier("exploration-status") }
+            TextField("Ask anything…", text: $question, axis: .vertical).lineLimit(1...4).focused($focused)
+                .padding(.horizontal, 16).padding(.top, 12).accessibilityIdentifier("exploration-input")
+            HStack(spacing: 18) {
+                PhotosPicker(selection: $selection, matching: .images) { Image(systemName: "photo").frame(width: 44, height: 44) }.accessibilityLabel("Choose a photo")
+                Button(action: openCamera) { Image(systemName: "camera").frame(width: 44, height: 44) }.accessibilityLabel("Take a photo")
+                Spacer()
+                Button { toggleRecording() } label: { Image(systemName: listening ? "stop.fill" : "mic.fill").frame(width: 44, height: 44).background(Theme.mint, in: Circle()) }
+                    .accessibilityLabel(L10n.text(listening ? "Finish recording" : "Tap to ask")).accessibilityIdentifier("speak-button").disabled(thinking)
+                Button(action: ask) { Image(systemName: "arrow.up").font(.title3.bold()).foregroundStyle(.white).frame(width: 44, height: 44).background(Theme.forest, in: Circle()) }
+                    .accessibilityLabel("Hear the answer").accessibilityIdentifier("ask-button")
+                    .disabled(thinking || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            }.padding(.horizontal, 8)
+            if photo != nil { Text("This photo will be sent to your AI guide with your question.").font(.caption2).foregroundStyle(Theme.muted).padding(.horizontal) }
+        }.padding(.bottom, 10).background(.white, in: RoundedRectangle(cornerRadius: 26))
+            .shadow(color: Theme.ink.opacity(0.08), radius: 12, y: -2).padding(.horizontal, 12).padding(.bottom, 6)
     }
-    private var statusText: String {
-        switch session.phase {
-        case .listening: return "I'm listening…"
-        case .thinking: return "A little moment to think…"
-        case .speaking: return "Let's look a little closer"
-        case .failed: return "Your words are still here"
-        case .idle: return session.stage == .question ? "Tap below to speak, or try a sample above." : "Notice one thing, then make it into your card."
-        }
+
+    private func prepare() {
+        voice.onTranscript = { if recordingObservation { observation = $0 } else { question = $0 } }
+        voice.onError = { error = $0; listening = false }
+        voice.onInterrupted = { listening = false; speaking = false }
+        voice.onFinishedSpeaking = { speaking = false }
+        if let recordID, let existing = store.questions.first(where: { $0.id == recordID }) {
+            record = existing; question = existing.question
+            photo = existing.photoFilename.flatMap { try? Data(contentsOf: store.mediaURL($0)) }
+        } else if question.isEmpty { question = initialQuestion }
     }
-    private func connectVoice() {
-        voice.onTranscript = { session.receiveTranscript($0) }
-        voice.onError = { session.fail($0) }
-        voice.onFinishedSpeaking = { session.beginObservation() }
-        voice.onInterrupted = { session.stop() }
+
+    private func ask() {
+        guard !thinking, !question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        focused = false; voice.stop(); listening = false; error = nil
+        do {
+            let priorPhoto = record?.photoFilename.flatMap { try? Data(contentsOf: store.mediaURL($0)) }
+            if record?.question != question.trimmingCharacters(in: .whitespacesAndNewlines) || priorPhoto != photo {
+                record = try store.beginQuestion(question, age: age, photo: photo)
+                observation = ""
+            }
+            guard let record else { return }
+            if let reply = record.reply { speak(reply.answer); return }
+            thinking = true
+            replyTask = Task { @MainActor in
+                defer { thinking = false }
+                do {
+                    let connection = try ConnectionVault().loadOrCreate()
+                    let client = AIClient()
+                    var receipt = try await client.ask(record, photo: photo, connection: connection)
+                    for _ in 0..<20 where receipt.status == "thinking" {
+                        try await Task.sleep(for: .seconds(3))
+                        receipt = try await client.read(record.id, connection: connection)
+                    }
+                    try Task.checkCancellation()
+                    guard receipt.id == record.id, let reply = receipt.reply, reply.quiz.isValid, receipt.status == "ready" else { throw AIClientError.pending }
+                    try store.saveAnswer(reply, for: record.id)
+                    self.record = store.questions.first { $0.id == record.id }
+                    speak(reply.answer)
+                } catch is CancellationError {}
+                catch { if !Task.isCancelled { self.error = error.localizedDescription } }
+            }
+        } catch { self.error = error.localizedDescription }
     }
-    private func toggleRecording() {
-        if session.phase == .listening { voice.stop(); session.stop(); return }
-        inputFocused = false
+
+    private func keep() {
+        guard let record else { return }
         voice.stop()
-        session.startListening()
+        do { onSave(try store.keepQuestion(record.id, observation: observation, tripID: tripID, place: location.place)) }
+        catch { self.error = error.localizedDescription }
+    }
+
+    private func speak(_ text: String) {
+        listening = false
+        do { try voice.speak(text); speaking = true } catch { speaking = false; self.error = error.localizedDescription }
+    }
+
+    private func toggleRecording(forObservation: Bool = false) {
+        if listening { voice.stop(); listening = false; return }
+        focused = false; voice.stop(); speaking = false; error = nil; listening = true; recordingObservation = forObservation
         Task {
             do { try await voice.start() }
-            catch is CancellationError {}
-            catch { voice.stop(); session.fail(error.localizedDescription) }
+            catch is CancellationError { listening = false }
+            catch { voice.stop(); listening = false; self.error = error.localizedDescription }
         }
     }
-    private func ask() {
-        inputFocused = false
-        voice.stop()
-        replyTask?.cancel()
-        session.think()
-        replyTask = Task { @MainActor in
-            do { try await Task.sleep(for: .milliseconds(350)) } catch { return }
-            guard !Task.isCancelled else { return }
-            session.answer()
-            guard let reply = session.reply, session.phase == .speaking else { return }
-            do { try voice.speak(reply.answer + " " + reply.invitation) }
-            catch { session.fail(error.localizedDescription); session.beginObservation() }
-        }
-    }
-    private func save() {
-        guard session.canSave, let reply = session.reply, !submitting else { return }
-        submitting = true
-        voice.stop()
-        do {
-            let target: UUID
-            if let existing = tripID ?? createdTripID { target = existing }
-            else {
-                target = try store.createTrip(title: L10n.text("A day of little wonders"), place: nil)
-                createdTripID = target
-            }
-            let record = try store.addDiscovery(tripID: target, subject: reply.subject, question: session.question, observation: session.observation, explanation: reply.answer, photo: photo, id: savedID)
-            onSave(record)
-        } catch { submitting = false; session.fail(error.localizedDescription) }
-    }
+
     private func openCamera() {
-        voice.stop(); session.stop()
+        voice.stop(); listening = false
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-            session.fail(L10n.text("A camera is available when you explore on an iPhone. You can still keep a voice discovery here."))
+            error = L10n.text("A camera is available when you explore on an iPhone. You can still keep a voice discovery here.")
             return
         }
         Task {
             let status = AVCaptureDevice.authorizationStatus(for: .video)
-            let allowed: Bool
-            if status == .notDetermined { allowed = await AVCaptureDevice.requestAccess(for: .video) }
-            else { allowed = status == .authorized }
+            let allowed = status == .notDetermined ? await AVCaptureDevice.requestAccess(for: .video) : status == .authorized
             if allowed { cameraOpen = true }
-            else { session.fail(L10n.text("Camera access is off. Enable it in Settings. Voice exploration still works.")) }
+            else { error = L10n.text("Camera access is off. Enable it in Settings. Voice exploration still works.") }
         }
     }
 }

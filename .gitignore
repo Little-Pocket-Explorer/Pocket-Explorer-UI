@@ -35,3 +35,4 @@ ios/fastlane/README.md
 *.cer
 *.pem
 *.key
+__pycache__/

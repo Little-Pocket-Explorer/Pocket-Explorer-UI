@@ -1,5 +1,36 @@
 # Pocket Explorer: Project Continuation Prompt
 
+Release amendment: the user requires this TestFlight build to be archived and uploaded from this Mac because GitHub runner quota is exhausted. Run native checks locally and independently verify Apple processing. Do not trigger a GitHub TestFlight release for this iteration.
+
+## Active implementation: Miro and live AI (2026-09-14)
+
+The user now authorizes real native implementation, including live question answering and generated card artwork. This supersedes all earlier design-only restrictions and optional-AI statements below. Miro remains the visual and flow authority. Figma contains all 40 source screens and 189 hotspots, verified by native plugin readback. Older one-screen and blocked-delivery statements are historical.
+
+Current scope is exploration, cards, maps, memories and public link sharing. Real accounts, friend relationships and cross-account chat are explicitly deferred. Preserve English, Simplified Chinese, the language chooser, existing journals and existing public links. Do not add parental keys, approval gates or controls. Use real SwiftUI controls and layouts, with decorative artwork. Full-screen source screenshots are references, not the app implementation.
+
+Execute the active implementation plan above all historical continuation notes below. Continue through implementation, regression, visual inspection, authorized Cloudflare delivery and local TestFlight upload. Do not use GitHub runners for this TestFlight release. Keep TODO current. Do not restart completed Figma import work.
+
+## Delivery status amendment (2026-09-14)
+
+Production AI, R2 artwork, queue consumption, generated public stories and revocation are now independently verified. Persistent total allowances are 120 question attempts and 18 image attempts. The user directed implementation and publication to proceed without further pricing investigation. Current release evidence and remaining checks are in TODO.md.
+
+This iteration uses local TestFlight publication because the user reported exhausted iOS runner quota. Backend delivery continues through the existing automatic Cloudflare workflow after an initial local rollout. Preserve both workflows for future use. Do not dispatch a GitHub iOS build or release. Accounts and friend chat remain deferred.
+
+## Historical plan and evidence
+
+## Current design authority (2026-09-14)
+
+The user confirmed that [the Miro board](https://miro.com/app/board/uXjVHn9F6EQ=/) is the source of truth for UI design and flows. Figma Review 01 is an interaction example only. This decision supersedes conflicting visual baselines and Figma continuation instructions below, while explicit user decisions still take precedence over board content. The current phase is design and prototype review. Any new clickable prototype must follow Miro, and the existing Figma example does not establish completion of that work.
+
+
+## Current priority: T18 Miro to Figma synchronization
+
+Read `design/miro-sync/README.md`, `PROMPT.md`, and `TODO.md` first. The accepted approach is complete Miro images with transparent hotspots. Do not resume extraction. The local 40-screen, 189-hotspot preview is at http://127.0.0.1:4186/preview.html. The official Figma plugin has successfully authenticated, written nodes, uploaded images, and independently read the resulting layers. Further calls are currently rejected by the Starter MCP tool-call quota. The new source page contains one verified assembled screen, not a complete import. Preserve `design/miro-sync/manifest.json` and resume its existing nodes after access is restored. Do not use foreground browser automation or purchase an upgrade.
+
+## Earlier T17 example
+
+The user now wants design discussion before real application development. Read PLAN.md, PROMPT.md and TODO.md in /Users/haichang/.gstack/projects/pocket-explorer/designs/figma-review-20260911 first. Do not automatically modify or deploy the App or Backend based on older implementation tasks. The editable Figma file and clickable presentation are delivered. See TODO.md for URLs and verification. Continue with team design feedback and avoid duplicate imports. Do not request passwords or tokens.
+
 Complete Pocket Explorer using the codex-project workflow. Implement and verify the required iPhone app and public sharing experience. Keep TODO.md current and continue across task boundaries while required actionable work remains.
 
 ## Product and user intent
@@ -38,7 +69,7 @@ Use one persistent sharing service with owner-authenticated writes, public read-
 
 The paired development device is Hai's iPhone 17 Pro Max. Xcode 27.0, XcodeGen, Swift, Node and npm were checked on 2026-09-11. The user has an Apple Developer account and a valid development certificate. Recheck actual signing/device availability when installing. Never copy private keys into the repository.
 
-Project root: /Users/haichang/Documents/ChatGPT/Hai/pocket-explorer.
+Project root: /Users/haichang/Projects/Pocket-Explorer-UI.
 New skill: /Users/haichang/.codex/skills/codex-project/SKILL.md.
 The unrelated gaokao-kg project is outside scope.
 
@@ -96,7 +127,7 @@ The user authorized creating an iOS UI repository under Little-Pocket-Explorer a
 
 ## Future AI integration
 
-The user selected image deployment gpt-image-2.5-sunburst. PLAN T12 records its endpoint and the source of earlier test evidence. The image key exists only in ignored local ../pocket-explorer-backend/.local/ai/providers.json. Reuse the existing gpt-6-astra / copilot-proxy / xhigh configuration from ~/.codex/config.toml for GPT-6. Credentials must be used server-side and never copied into the app, website, repository or logs. Finish T15 first. This provider selection does not implement live AI, and the prepared demonstration responses remain in place.
+The user selected image deployment gpt-image-2.5-sunburst. PLAN T12 records its endpoint and the source of earlier test evidence. The image key exists only in ignored local ../Pocket-Explorer-Backend/.local/ai/providers.json. Reuse the existing gpt-6-astra / copilot-proxy / xhigh configuration from ~/.codex/config.toml for GPT-6. Credentials must be used server-side and never copied into the app, website, repository or logs. Finish T15 first. This provider selection does not implement live AI, and the prepared demonstration responses remain in place.
 
 External status update: independent API and public-page checks on 2026-09-11 confirm build 2 is IN_BETA_TESTING and public enrollment is available. Earlier pending-review statements are historical. CI automatically updates the internal group, while the external group currently retains build 2. See TODO's external status refresh.
 
@@ -107,7 +138,20 @@ T15 is complete: all three jobs in GitHub run 34571657181 succeeded and automati
 
 ## T16: Backend extraction and automatic Cloudflare delivery
 
-Current authorized task: T16 extracts the website and sharing API to ../pocket-explorer-backend and https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend. Follow its PLAN/PROMPT/TODO for deployment setup. Preserve existing Cloudflare resources and domain. Finish a real GitHub-to-Cloudflare release and update native CI to test against deployed Cloudflare. The user authorized commits, pushes and workflow deployment for this setup. Live AI remains future work.
+Current authorized task: T16 extracts the website and sharing API to ../Pocket-Explorer-Backend and https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend. Follow its PLAN/PROMPT/TODO for deployment setup. Preserve existing Cloudflare resources and domain. Finish a real GitHub-to-Cloudflare release and update native CI to test against deployed Cloudflare. The user authorized commits, pushes and workflow deployment for this setup. Live AI remains future work.
 
 
-T16 is complete. Website/backend source lives in ../pocket-explorer-backend, where main automatically deploys to Cloudflare after checks. UI CI directly verifies the production sharing API. All 39 native tests passed and automatically released 0.1.0 (7), with independent Apple state and group verification. See docs/evidence/backend-extraction.json. No extraction blocker remains. Future AI work and physical-device acceptance are separate.
+T16 is complete. Website/backend source lives in ../Pocket-Explorer-Backend, where main automatically deploys to Cloudflare after checks. UI CI directly verifies the production sharing API. All 39 native tests passed and automatically released 0.1.0 (7), with independent Apple state and group verification. See docs/evidence/backend-extraction.json. No extraction blocker remains. Future AI work and physical-device acceptance are separate.
+
+## Ordinary Figma plugin route (2026-09-14)
+
+The user authorized an ordinary development plugin using the official Plugin API instead of the quota-blocked MCP write route.
+Importing and launching the plugin in the desktop app is authorized. Canvas operations remain API driven.
+Reuse sync.js, hotspots.js, the 40 complete source images, and 189 hotspots.
+A loopback-only companion serves this sync package and images and records verification using a fresh per-process credential.
+Independently read each mutation batch before saving external manifest.json checkpoints. Stop on manual-edit conflicts.
+The companion cannot execute arbitrary code. Account and model credentials are never included in the plugin.
+Acceptance includes at least 80% changed-code coverage, actual Figma import, independent readback, reruns, and visual inspection.
+Current status: native import, readback, unchanged rerun, export, and staging cleanup are complete. Design review continues.
+
+Current amendment: Figma Beta contains 40 screens and 189 hotspots. All 39 JavaScript tests pass, and the native unchanged rerun made zero changes. The 81 hidden staging layers are removed with formal screen signatures unchanged. Actual clicking is verified. Native source-update/conflict checks and alignment of the observed share hotspot remain pending. See design/miro-sync/TODO.md.

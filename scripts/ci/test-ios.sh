@@ -4,7 +4,9 @@ set -euo pipefail
 : "${RUNNER_TEMP:?Run this script on a GitHub macOS runner.}"
 repo_dir="$(cd "$(dirname "$0")/../.." && pwd)"
 simulator_id=""
+fixture_pid=""
 cleanup() {
+  if [[ -n "$fixture_pid" ]]; then kill "$fixture_pid" || true; fi
   if [[ -n "$simulator_id" ]]; then
     xcrun simctl shutdown "$simulator_id" || true
     xcrun simctl delete "$simulator_id" || true
@@ -15,6 +17,14 @@ trap cleanup EXIT
 share_base_url="${POCKET_SHARE_BASE_URL:-https://pocket.changhai.me}"
 curl --fail --silent --show-error --retry 3 \
   --retry-delay 1 --max-time 5 "${share_base_url%/}/health"
+
+node "$repo_dir/scripts/testing/serve-ai-fixture.mjs" > "$RUNNER_TEMP/native-fixture.log" 2>&1 &
+fixture_pid=$!
+for _attempt in {1..20}; do
+  if curl --fail --silent http://127.0.0.1:4197/health >/dev/null; then break; fi
+  sleep 1
+done
+curl --fail --silent http://127.0.0.1:4197/health >/dev/null
 
 cd "$repo_dir/ios"
 xcodegen generate

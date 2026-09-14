@@ -23,6 +23,8 @@ On first launch, choose device language, Simplified Chinese or English. The save
 
 The project uses the local codex-project skill. Keep implementation, tests and TODO current within the same Codex task.
 
+This iteration releases TestFlight from the Mac because GitHub quota is exhausted. See [local release operations](docs/local-release.md).
+
 ## Repository and releases
 
 This repository owns the native iOS UI and its native shared resources. [Pocket-Explorer-Backend](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend) owns the website, Worker API, D1 migrations and web tests. Backend main pushes automatically update Cloudflare after checks.
@@ -31,7 +33,7 @@ Pull requests run workflow checks, native regression and integration with the de
 
 ## What is real
 
-The journal, camera adapter, microphone adapter, transcription, speech playback, card collection, trip map, memory playback, reminder policy, sharing API, SQLite persistence, revocation and web viewer are implemented. The guide responses are explicitly prepared duck, leaf and shell content. A live generative AI service is optional and is not configured.
+The journal, camera adapter, microphone adapter, transcription, speech playback, card collection, trip map, memory playback, reminder policy, sharing API, SQLite persistence, revocation and web viewer are implemented. The current code uses real GPT-6 answers, asynchronous generated illustrations and persisted recall quizzes. The live Cloudflare rollout is verified. Current TestFlight delivery and remaining physical-device checks are recorded in TODO.
 
 Simulator and browser verification do not constitute real-iPhone acceptance. Check TODO for actual signing, device, hosting and human visual-review status before presenting this as a completed demo.
 

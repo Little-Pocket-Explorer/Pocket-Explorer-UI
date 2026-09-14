@@ -3,6 +3,8 @@ import SwiftUI
 struct SharePreviewView: View {
     let trip: Trip
     let discoveries: [Discovery]
+    var store: TripStore?
+    var singleCardID: UUID?
     @Environment(\.dismiss) private var dismiss
     @State private var includeName = false
     @State private var firstName = ""
@@ -12,7 +14,7 @@ struct SharePreviewView: View {
     @State private var error: String?
     @State private var message: String?
     private var story: PublicStory { published?.story ?? PublicStory.make(trip: trip, discoveries: discoveries, firstName: includeName ? firstName : nil, includeCity: includeCity) }
-    private var receiptKey: String { "share-receipt-\(trip.id)" }
+    private var receiptKey: String { "share-receipt-\(trip.id)" + (singleCardID.map { "-card-\($0)" } ?? "") }
 
     var body: some View {
         NavigationStack {
@@ -35,7 +37,7 @@ struct SharePreviewView: View {
                         if let city = story.city { Text(city) }
                         ForEach(story.cards) { card in
                             VStack(alignment: .leading, spacing: 10) {
-                                Image(card.subject.rawValue).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 20))
+                                publicArtwork(card).aspectRatio(1, contentMode: .fit).clipped().clipShape(RoundedRectangle(cornerRadius: 20))
                                 Text(card.title).font(.system(.headline, design: .rounded))
                                 Text(card.question).font(.subheadline)
                                 Text(card.observation).font(.system(.body, design: .rounded, weight: .bold))
@@ -53,6 +55,21 @@ struct SharePreviewView: View {
             .task {
                 if let data = ShareStorageScope.preferences.data(forKey: receiptKey) { published = try? JSONDecoder().decode(PublishedShare.self, from: data) }
             }
+        }
+    }
+
+    @ViewBuilder private func publicArtwork(_ card: PublicCard) -> some View {
+        if let artworkID = card.artworkID,
+           let discovery = discoveries.first(where: { $0.artwork?.id == artworkID }),
+           discovery.artworkFilename != nil, store != nil {
+            DiscoveryArtwork(discovery: discovery, store: store)
+        } else if let artworkID = card.artworkID, let published {
+            AsyncImage(url: published.receipt.url.deletingLastPathComponent().deletingLastPathComponent()
+                .appendingPathComponent("api/shares/\(published.receipt.token)/artwork/\(artworkID)")) { image in
+                    image.resizable().scaledToFill()
+                } placeholder: { Image("leaf").resizable().scaledToFit() }
+        } else {
+            Image(card.subject == .discovery ? "leaf" : card.subject.rawValue).resizable().scaledToFit()
         }
     }
     private var shareActions: some View {

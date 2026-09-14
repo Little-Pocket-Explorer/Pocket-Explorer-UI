@@ -1,16 +1,18 @@
 # Two-minute demonstration
 
-Before presenting, finish the real-iPhone checks and enter the family owner key in the parent sharing settings. The deployed viewer is https://pocket.changhai.me. TODO records outstanding device and human checks.
+Use the installed iPhone build after the live backend rollout recorded in TODO. Complete microphone, speaker and camera checks on the phone before presenting. The public viewer is https://pocket.changhai.me. No parent key or approval step is required.
 
-1. 0:00–0:15: Open the installed iPhone app. Choose device language, Chinese or English on first launch, then tap Start exploring. The home language button can change the saved choice later.
-2. 0:15–0:35: Tap to ask a question about ducks, leaves or shells. Tap Done to hear the short prepared answer. Alternatively, tap one of the three sample pictures to try a sample question. The interface labels the prepared source.
-3. 0:35–0:55: Observe the real world, then speak what you noticed. Optionally take a field photo. Correct the transcript if necessary and keep the discovery without a quiz.
-4. 0:55–1:10: Reveal and turn over the card. Show the child's own words and the saved photo on the private detail screen.
-5. 1:10–1:30: Tap Make a memory directly from the new card. Use the bottom controls to play, pause and move between question, observation and discovery chapters.
-6. 1:30–2:00: Tap Preview & share with family. Leave first name and city off. Create a sharing link and open it in an independent browser. Turn over the card there. Show how the parent can stop sharing.
+1. Open Pocket Explorer. On first launch choose device language, Chinese or English. The profile language option changes the saved choice later.
+2. Tap the microphone entry on Chat, speak a real question, review the transcript and send it with the arrow. You can also type or select a suggested question. Add a photo when it helps explain what you are asking about.
+3. Listen to the short AI answer. Look at the world and optionally record something you noticed. Keep the discovery using the fixed Make my card action. The card is saved while its illustration generates.
+4. Reveal the card, inspect the generated illustration and turn it over to read your words. A field photo remains private. The card can be revisited after relaunch.
+5. Tap Make a memory. Play, pause, replay and move between its question, observation and discovery chapters.
+6. Open Preview & share, leave first name and city off, and create a link. Open it in an independent browser without installing the app. Revoke it in the app and verify that both the story and its image become unavailable.
 
-Seven-day resurfacing can be demonstrated separately with the DEBUG time controls. Dismissing an invitation postpones it for seven days without deleting the memory.
+The Map tab shows saved trips as illustrated location markers. Trips without a saved place remain in the list. Collection is available from the map header and supports search and categories.
 
-Implemented: native microphone, transcription, speaker and camera adapters, local persistence, map, deterministic memories, authenticated sharing, Cloudflare D1 and public viewer. Prepared: guide replies and initial sample trips. Optional and absent: a live generative model service. Device acceptance remains separate from implementation.
+After one day, a saved AI discovery can offer a short recall quiz. Both correct and incorrect answers keep the card. Incorrect answers explain the idea without removing anything. Seven-day trip memories can also resurface without background push notifications.
 
-A recording can support the presentation, but cannot substitute for the required real-device checks. Preserve actual input on failures and show the relevant error. Do not describe a localhost-only URL as publicly available.
+Accounts, friends and cross-account chat are deferred. The initial three sample trips are fictional. AI responses and artwork are live only when the deployed backend has its provider secrets, D1, Queue and R2 bindings configured. A local fixture server must be identified as a test fixture.
+
+A recording supports a presentation but does not replace real-device verification. Preserve actual input on failures and show the recovery message. A localhost URL is not a public sharing link.

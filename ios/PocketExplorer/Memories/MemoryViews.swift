@@ -10,13 +10,15 @@ struct MemoriesView: View {
                 Text("Small moments.\nBig feelings.").font(.system(.largeTitle, design: .rounded, weight: .heavy))
                 Text("The questions, the adventures, the things you noticed. All yours to keep.").foregroundStyle(Theme.muted)
                 ForEach(store.state.trips.filter { $0.memory != nil }) { trip in
-                    NavigationLink { MemoryPlayer(trip: trip) } label: {
+                    NavigationLink { MemoryPlayer(trip: trip, store: store) } label: {
                         VStack(alignment: .leading, spacing: 0) {
-                            Image((store.discoveries(in: trip.id).first?.subject ?? .duck).rawValue).resizable().scaledToFit()
+                            if let discovery = store.discoveries(in: trip.id).first {
+                            DiscoveryArtwork(discovery: discovery, store: store).aspectRatio(1.35, contentMode: .fit).clipped()
                                 .overlay(alignment: .bottomTrailing) {
                                     Image(systemName: "play.fill").foregroundStyle(Theme.paper)
                                         .frame(width: 54, height: 54).background(Theme.forest, in: Circle()).padding(20)
                                 }
+                            }
                             VStack(alignment: .leading, spacing: 9) {
                                 Eyebrow(text: "A memory, made by you")
                                 Text(trip.title).font(.system(.title2, design: .rounded, weight: .heavy))
@@ -24,26 +26,28 @@ struct MemoriesView: View {
                             }.padding(22)
                         }.background(.white.opacity(0.8)).clipShape(RoundedRectangle(cornerRadius: 29))
                     }.buttonStyle(.plain).accessibilityIdentifier("memory-\(trip.id)")
-                    NavigationLink("Preview & share") { SharePreviewView(trip: trip, discoveries: store.discoveries(in: trip.id)) }
+                    NavigationLink("Preview & share") { SharePreviewView(trip: trip, discoveries: store.discoveries(in: trip.id), store: store) }
                         .buttonStyle(ExplorerButtonStyle(secondary: true))
                 }
                 if !store.state.trips.contains(where: { $0.memory != nil }) {
                     ContentUnavailableView("A memory is waiting to happen", systemImage: "sparkles", description: Text("Finish an adventure to keep its story here."))
                 }
             }.padding(26)
-        }.background(Theme.paper).foregroundStyle(Theme.ink).toolbar(.hidden, for: .navigationBar)
+        }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink).toolbar(.hidden, for: .navigationBar)
     }
 }
 
 struct MemoryPlayer: View {
     let trip: Trip
+    var store: TripStore?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
     @State private var playback: MemoryPlayback
     @State private var timerTask: Task<Void, Never>?
 
-    init(trip: Trip) {
+    init(trip: Trip, store: TripStore? = nil) {
         self.trip = trip
+        self.store = store
         _playback = State(initialValue: MemoryPlayback(count: trip.memory?.chapters.count ?? 0))
     }
 
@@ -59,7 +63,11 @@ struct MemoryPlayer: View {
                             Capsule().fill(index <= playback.index ? Theme.forest : Theme.line).frame(height: 5)
                         }
                     }.accessibilityLabel("Chapter \(playback.index + 1) of \(chapters.count)")
-                    Image(chapter.subject.rawValue).resizable().scaledToFit().frame(maxWidth: .infinity, maxHeight: 170)
+                    Group {
+                        if let discovery = store?.discoveries(in: trip.id).first(where: { chapter.id.hasPrefix($0.id.uuidString) }) {
+                            DiscoveryArtwork(discovery: discovery, store: store)
+                        } else { Image(chapter.subject == .discovery ? "explorer-hero" : chapter.subject.rawValue).resizable().scaledToFit() }
+                    }.frame(maxWidth: .infinity).frame(height: 210).clipped()
                         .background(Theme.surface, in: RoundedRectangle(cornerRadius: 24))
                         .clipShape(RoundedRectangle(cornerRadius: 24))
                     VStack(alignment: .leading, spacing: 15) {

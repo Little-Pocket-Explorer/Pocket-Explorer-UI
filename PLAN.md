@@ -1,5 +1,48 @@
 # Pocket Explorer: Prototype Plan
 
+Release amendment: the user requires this TestFlight build to be archived and uploaded from this Mac because GitHub runner quota is exhausted. Run native checks locally and independently verify Apple processing. Do not trigger a GitHub TestFlight release for this iteration.
+
+## Active implementation: Miro and live AI (2026-09-14)
+
+The user now authorizes real native implementation, including live question answering and generated card artwork. This supersedes all earlier design-only restrictions and optional-AI statements below. Miro remains the visual and flow authority. Figma contains all 40 source screens and 189 hotspots, verified by native plugin readback. Older one-screen and blocked-delivery statements are historical.
+
+Current scope is exploration, cards, maps, memories and public link sharing. Real accounts, friend relationships and cross-account chat are explicitly deferred. Preserve English, Simplified Chinese, the language chooser, existing journals and existing public links. Do not add parental keys, approval gates or controls. Use real SwiftUI controls and layouts, with decorative artwork. Full-screen source screenshots are references, not the app implementation.
+
+### T19 delivery plan
+
+| Task | Files and outcome | Verification |
+| --- | --- | --- |
+| T19.1 | Domain/Models, Data/TripStore, Explore/AIClient: additive card metadata, durable AI job identity, scoped backend contract | Legacy journal decoding, atomic write rollback, retry and relaunch tests |
+| T19.2 | App/RootView, Design, Explore: Miro-inspired illustrated Chat home, real speech/camera/text input and live answers | Native interaction tests, EN/ZH, small screen and large text screenshots |
+| T19.3 | Cards, World, Memories: illustrated collection, card detail/reveal, satellite map, later quiz and memories | Persist/reopen, absent location, incorrect quiz answer, actual generated artwork |
+| T19.4 | Sharing and sibling web viewer: generated card title/artwork in revocable public snapshots | Independent browser read, same card content, no private location or credentials |
+| T19.5 | Local XCTest, signed archive and local TestFlight delivery | At least 80% changed Swift line coverage, local release evidence and Apple readback |
+
+Dependency: T19.1 uses backend B05. T19.4 uses backend B06. Credentials remain in Cloudflare secrets. An API failure retains the question and allows explicit retry. Never replace live failures with prepared answers. Image generation continues as a durable job and a saved card remains accessible while artwork is pending. Source-only social controls are omitted in this release. Memories remain accessible without social accounts. Human visual and physical microphone/camera checks remain REVIEW until performed.
+
+## Delivery status amendment (2026-09-14)
+
+Production AI, R2 artwork, queue consumption, generated public stories and revocation are now independently verified. Persistent total allowances are 120 question attempts and 18 image attempts. The user directed implementation and publication to proceed without further pricing investigation. Current release evidence and remaining checks are in TODO.md.
+
+This iteration uses local TestFlight publication because the user reported exhausted iOS runner quota. Backend delivery continues through the existing automatic Cloudflare workflow after an initial local rollout. Preserve both workflows for future use. Do not dispatch a GitHub iOS build or release. Accounts and friend chat remain deferred.
+
+## Historical plan and evidence
+
+## Current design authority (2026-09-14)
+
+The user confirmed that [the Miro board](https://miro.com/app/board/uXjVHn9F6EQ=/) is the source of truth for UI design and flows. Figma Review 01 is an interaction example only. This decision supersedes conflicting visual baselines and Figma continuation instructions below, while explicit user decisions still take precedence over board content. The current phase is design and prototype review. Any new clickable prototype must follow Miro, and the existing Figma example does not establish completion of that work.
+
+
+## T18: Miro to Figma synchronization
+
+Use `design/miro-sync/PLAN.md`, `PROMPT.md`, and `TODO.md` for the active design-tooling work. The user accepted complete source images with transparent hotspots and stopped raster extraction. The current local prototype has 40 source screens and 189 hotspots. The user requires the official Figma API or MCP, mandatory fidelity, complete originals for uncertain extraction, and repeatable updates. The original Figma example remains separate. This work does not authorize product implementation, deployment, or a paid Figma upgrade.
+
+## T17: Figma design review before further implementation
+
+The current addition is a design-for-discussion task. Do not resume production app or website feature development for it. Use the user's outline and AI meeting summary, preserve the approved cream, forest-green and original-art direction, and cover exploration, later reflection, collection, maps, sharing and text chat. The summary is not an original transcript. Keep unsettled rules identified in the separate design plan.
+
+Delivery requires a real editable Figma file, native prototype connections and an independently verified presentation link. Local previews and import files are preparation, not completed Figma delivery. Do not reintroduce parental keys or approval gates. Design records: /Users/haichang/.gstack/projects/pocket-explorer/designs/figma-review-20260911.
+
 Date: 2026-09-11
 Status: The iPhone app is confirmed as the primary product, with web sharing in the first demo. The visual direction is approved. Implementation is authorized. Current progress is maintained in TODO.md.
 Companion: [Acceptance contract](ACCEPTANCE.md)
@@ -120,7 +163,7 @@ Use the iPhone app as the primary product, supported by a public web viewer and 
 
 The user has confirmed an Apple Developer account. At implementation start, inspect Xcode, the target iOS version, demonstration iPhone, associated developer team, signing, and installation path. Select direct device installation or TestFlight based on the actual configuration. Record signing expiry and any reinstallation steps. If real-device execution is blocked, report the specific missing prerequisite. Simulator execution cannot satisfy real-device acceptance.
 
-Proposed implementation directory: `/Users/haichang/Documents/ChatGPT/Hai/pocket-explorer/`. This is a new project directory and must not modify the unrelated `gaokao-kg` project.
+Proposed implementation directory: `/Users/haichang/Projects/Pocket-Explorer-UI/`. This is a new project directory and must not modify the unrelated `gaokao-kg` project.
 
 Use SwiftUI for the app and system audio, camera, and speech capabilities for device interaction. Verify transcription for the target language and iOS version first. If server transcription is selected, document its data path and credential boundary. Use React and TypeScript for the public card and memory viewer only. Both clients share artwork, design tokens, and a versioned story format while rendering their own interfaces.
 
@@ -383,7 +426,7 @@ T15 is complete: all three jobs in GitHub run 34571657181 succeeded and automati
 
 - On 2026-09-11 the user selected https://xuche-mohicupb-westus3.services.ai.azure.com/openai/v1/images/generations with Azure deployment gpt-image-2.5-sunburst. The user supplied earlier test evidence of HTTP 200 in 20.8 seconds with 1024×1024 and quality=low. This setup task records that evidence without repeating image generation.
 - Future GPT-6 integration should reuse the existing ~/.codex/config.toml provider configuration. Read-only inspection confirmed gpt-6-astra, copilot-proxy and xhigh reasoning. Do not modify global Codex settings.
-- The image credential is stored in ignored ../pocket-explorer-backend/.local/ai/providers.json, with directory mode 0700 and file mode 0600. GPT-6 credentials remain in their original configuration. Future deployment must inject server-side secrets and keep them out of iOS, browser bundles, Git and logs.
+- The image credential is stored in ignored ../Pocket-Explorer-Backend/.local/ai/providers.json, with directory mode 0700 and file mode 0600. GPT-6 credentials remain in their original configuration. Future deployment must inject server-side secrets and keep them out of iOS, browser bundles, Git and logs.
 - Complete T15 automated TestFlight delivery before larger product changes or AI integration. Provider selection does not mean the app is connected. Integration must verify real image/text requests, failure recovery and the approved visual style.
 
 ## Accepted Cloudflare AI backend direction
@@ -407,3 +450,16 @@ Verification: actionlint, build, existing unit/integration coverage thresholds, 
 
 
 T16 is complete: Backend run 34575491870 deployed and verified Cloudflare, and UI run 34575779608 passed 39 native tests and released internal TestFlight 0.1.0 (7). See docs/evidence/backend-extraction.json and Backend cloudflare-migration.json. Repository ownership is separated. Live AI remains unimplemented.
+
+## Ordinary Figma plugin route (2026-09-14)
+
+The user authorized an ordinary development plugin using the official Plugin API instead of the quota-blocked MCP write route.
+Importing and launching the plugin in the desktop app is authorized. Canvas operations remain API driven.
+Reuse sync.js, hotspots.js, the 40 complete source images, and 189 hotspots.
+A loopback-only companion serves this sync package and images and records verification using a fresh per-process credential.
+Independently read each mutation batch before saving external manifest.json checkpoints. Stop on manual-edit conflicts.
+The companion cannot execute arbitrary code. Account and model credentials are never included in the plugin.
+Acceptance includes at least 80% changed-code coverage, actual Figma import, independent readback, reruns, and visual inspection.
+Current status: native import, readback, unchanged rerun, export, and staging cleanup are complete. Design review continues.
+
+Current amendment: Figma Beta contains 40 screens and 189 hotspots. All 39 JavaScript tests pass, and the native unchanged rerun made zero changes. The 81 hidden staging layers are removed with formal screen signatures unchanged. Actual clicking is verified. Native source-update/conflict checks and alignment of the observed share hotspot remain pending. See design/miro-sync/TODO.md.

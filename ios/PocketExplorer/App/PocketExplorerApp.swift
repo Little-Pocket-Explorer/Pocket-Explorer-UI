@@ -63,7 +63,12 @@ struct PocketExplorerApp: App {
             #endif
             let initial: JournalState
             #if DEBUG
-            initial = ProcessInfo.processInfo.arguments.contains("--empty-journal") ? JournalState(trips: [], discoveries: []) : .examples()
+            if ProcessInfo.processInfo.arguments.contains("--ui-testing"),
+               let fixture = ProcessInfo.processInfo.environment["POCKET_TEST_JOURNAL"]?.data(using: .utf8) {
+                initial = try JSONDecoder().decode(JournalState.self, from: fixture)
+            } else {
+                initial = ProcessInfo.processInfo.arguments.contains("--empty-journal") ? JournalState(trips: [], discoveries: []) : .examples()
+            }
             #else
             initial = .examples()
             #endif

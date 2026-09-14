@@ -1,0 +1,430 @@
+{
+  "updatedAt": "2026-09-14T13:31:03.303945+00:00",
+  "designAuthority": "https://miro.com/app/board/uXjVHn9F6EQ=/",
+  "status": "RELEASED_HUMAN_REVIEW_PENDING",
+  "native": {
+    "fullRegression": {
+      "passed": 54,
+      "failed": 0,
+      "skipped": 0,
+      "device": "375pt, iOS 26.4",
+      "lineCoverage": 90.87,
+      "coveredLines": 3753,
+      "executableLines": 4130,
+      "resultBundle": "/Users/haichang/tmp/review/pocket-native-t19/final-regression.xcresult"
+    },
+    "largeScreen": {
+      "device": "iPhone 17 Pro Max, iOS 27",
+      "passed": 48,
+      "failed": 0,
+      "systemReduceMotionEnabled": true,
+      "homeTouchFixPassed": true,
+      "resultBundle": "/Users/haichang/tmp/review/pocket-native-t19/large-motion-01.xcresult"
+    },
+    "liveAI": {
+      "passed": true,
+      "backend": "local Cloudflare workerd",
+      "upstream": "live GPT-6",
+      "question": "Why do shadows get longer in the evening?",
+      "answer": "A shadow forms when something blocks sunlight. In the evening, the Sun is low in the sky, so its light comes in at a slant and stretches shadows farther along the ground. It\u2019s like shining a flashlight at a toy from the side instead of from above!",
+      "nativeJournalMatchesD1": true,
+      "savedCardCount": 4,
+      "newImageRequested": false
+    },
+    "archive": {
+      "bundle": "com.haichang.pocketexplorer",
+      "version": "0.1.0",
+      "build": "9",
+      "sdk": "iphoneos27.0",
+      "xcodeBuild": "27A266a",
+      "sdkBuild": "24A430",
+      "team": "5B858997A3",
+      "getTaskAllow": false,
+      "signed": true,
+      "ipaBytes": 2371055,
+      "ipaSHA256": "b1fa9cafebe7807fa09f660398958708a75748154b9f19ca7138b1587af0ebe0",
+      "sourceSHA256": "5c3f60ac02cea8e8266b4badccc4affa45091244a25b708da5f2680e18d48770",
+      "sourceUnchanged": true,
+      "temporaryKeychainRemoved": true,
+      "uploaded": true
+    },
+    "credentialScan": {
+      "filesChecked": 74,
+      "credentialNames": [
+        "OWNER_KEY",
+        "REASONING_API_KEY",
+        "AZURE_IMAGE_API_KEY",
+        "CLOUDFLARE_API_TOKEN"
+      ],
+      "matches": [],
+      "passed": true
+    },
+    "failedUpload": {
+      "build": 8,
+      "errorCode": "90534",
+      "xcodeBuild": "27A5194q",
+      "actualReleaseCandidate": "27A266a",
+      "uploadID": "84cac540-a788-477c-a389-97f88866aa8b",
+      "temporaryKeychainRemoved": true
+    },
+    "releaseCandidateRegression": {
+      "xcodeBuild": "27A266a",
+      "passed": 54,
+      "failed": 0,
+      "skipped": 0,
+      "unitTests": 41,
+      "uiTests": 13,
+      "lineCoverage": 90.87,
+      "coveredLines": 3753,
+      "executableLines": 4130,
+      "includesProductionNativeShareReadRevoke": true,
+      "resultBundle": "/Users/haichang/tmp/review/pocket-native-rc/regression.xcresult"
+    },
+    "releaseScripts": {
+      "testsPassed": 6,
+      "lineCoverage": 97,
+      "actualAppleNextBuildCheck": 9
+    },
+    "testFlight": {
+      "app_id": "6810920731",
+      "version": "0.1.0",
+      "build_number": 9,
+      "build_id": "8d4ac344-cfc6-4350-be18-72c40d65b32c",
+      "processing_state": "VALID",
+      "internal_state": "IN_BETA_TESTING",
+      "internal_group": "Hackathon Internal",
+      "source_commit": "b0f3e7e9f82449e2968d36de4adbe42b73d93fdd:5c3f60ac02cea8e8266b4badccc4affa45091244a25b708da5f2680e18d48770",
+      "release_origin": "local",
+      "run_url": null,
+      "independentlyVerified": true,
+      "uploadState": {
+        "errors": [],
+        "warnings": [],
+        "infos": [],
+        "state": "COMPLETE"
+      }
+    }
+  },
+  "backend": {
+    "testsPassed": 48,
+    "existingBrowserTestsPassed": 7,
+    "artworkBrowserTestsPassed": 2,
+    "coverage": {
+      "lines": {
+        "total": 475,
+        "covered": 470,
+        "skipped": 0,
+        "pct": 98.94
+      },
+      "statements": {
+        "total": 625,
+        "covered": 612,
+        "skipped": 0,
+        "pct": 97.92
+      },
+      "functions": {
+        "total": 116,
+        "covered": 115,
+        "skipped": 0,
+        "pct": 99.13
+      },
+      "branches": {
+        "total": 492,
+        "covered": 471,
+        "skipped": 0,
+        "pct": 95.73
+      },
+      "branchesTrue": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "liveWorkerd": {
+      "status": "passed",
+      "answerSeconds": 7.391,
+      "image": {
+        "id": "ba893873-56b9-49d8-9d7d-76f9b9a4bafc",
+        "bytes": 1496102,
+        "sha256": "9cb771590b0d80c7322a02dfcf1e5399436389e2d03c5241bc5bc9cc923b3051",
+        "attempts": 1
+      },
+      "revoked": true
+    },
+    "wranglerDryRun": "passed",
+    "production": {
+      "version": "1db2b9bd-29b4-46af-9782-c95eae7a4f6d",
+      "trafficPercent": 100,
+      "baseURL": "https://pocket.changhai.me",
+      "live": {
+        "startedAt": "2026-09-14T13:02:25.482Z",
+        "deployment": "https://pocket.changhai.me",
+        "upstream": "live",
+        "explorationID": "b5b446c5-5e30-4cb4-aca2-8f2259980a63",
+        "answerSeconds": 8.735,
+        "answer": {
+          "id": "b5b446c5-5e30-4cb4-aca2-8f2259980a63",
+          "question": "Why do butterflies have patterns on their wings?",
+          "status": "ready",
+          "createdAt": 1789390945634,
+          "reply": {
+            "title": "Butterfly Wing Wonders",
+            "answer": "Butterfly wing patterns can do different jobs. Some help butterflies blend into leaves, like wearing camouflage. Others warn hungry animals that the butterfly tastes bad, or help butterflies recognize a mate. Some butterflies even have spots that look like eyes and may scare away attackers!",
+            "invitation": "If you spot a butterfly, watch from a distance: does its pattern help it blend in or stand out?",
+            "category": "animals",
+            "artworkPrompt": "Illustration of butterflies with varied wing patterns, including leaflike camouflage, bright warning colors, and large eyespots, among leafy plants and flowers",
+            "quiz": {
+              "question": "How can a leaflike wing pattern help a butterfly?",
+              "choices": [
+                "It helps the butterfly blend into leaves.",
+                "It helps the butterfly carry leaves.",
+                "It makes the butterfly grow bigger."
+              ],
+              "correctIndex": 0,
+              "explanation": "A leaflike pattern acts like camouflage, making the butterfly harder for hungry animals to spot."
+            }
+          }
+        },
+        "idempotent": true,
+        "image": {
+          "id": "06bb3553-5d3a-4c4b-9ab8-a075d1e4ebe1",
+          "bytes": 2034195,
+          "sha256": "2ec5dedeb86092f37af77902f4784667b2640125da82524c42322301346b1cc6",
+          "width": 1024,
+          "height": 1024,
+          "attempts": 1,
+          "waitSeconds": 43.745
+        },
+        "ownershipIsolated": true,
+        "sharedToken": "goH5JhGzoPfRr8Rc6lKRNt99Qs6OplZ-",
+        "publicImageMatches": true,
+        "browser": {
+          "widths": [
+            390,
+            1440
+          ],
+          "decodedImage": true,
+          "pageErrors": []
+        },
+        "revoked": true,
+        "status": "passed"
+      },
+      "existingBrowserTestsPassed": 1,
+      "databaseReadback": {
+        "jobs": [
+          {
+            "id": "06bb3553-5d3a-4c4b-9ab8-a075d1e4ebe1",
+            "status": "ready",
+            "attempts": 1,
+            "created_at": 1789390954277,
+            "updated_at": 1789390995807
+          }
+        ],
+        "usage": [
+          {
+            "bucket": "demo:question:global",
+            "used": 1
+          },
+          {
+            "bucket": "demo:image:global",
+            "used": 1
+          }
+        ],
+        "migrations": [
+          {
+            "name": "0001_shares.sql"
+          },
+          {
+            "name": "0002_share_ownership.sql"
+          },
+          {
+            "name": "0003_explorations.sql"
+          }
+        ]
+      },
+      "consumer": {
+        "consumer": [
+          {
+            "script": "pocket-explorer",
+            "settings": {
+              "batch_size": 1,
+              "max_retries": 3,
+              "max_wait_time_ms": 1000,
+              "max_concurrency": 2,
+              "retry_delay": 60
+            },
+            "type": "worker",
+            "queue_name": "pocket-explorer-artwork",
+            "queue_id": "4720432927cd4b89a9bb34898f63f6a1",
+            "consumer_id": "2cb62e7a60b7421d9c7cee76590c0162",
+            "created_on": "2026-09-14T13:01:59.110171Z"
+          }
+        ],
+        "workerSubdomain": {
+          "enabled": false,
+          "previews_enabled": false
+        }
+      },
+      "preflight": "passed",
+      "visualInspection": "Mobile share layout and generated illustration inspected after the browser checks.",
+      "sourceCommit": "f5a41585ed6488bc22d099cefd43345e01eb2c83",
+      "workflow": {
+        "url": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/34847308507",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      "finalVerificationReusingArtwork": {
+        "startedAt": "2026-09-14T13:11:16.123Z",
+        "deployment": "https://pocket.changhai.me",
+        "upstream": "live",
+        "explorationID": "b5b446c5-5e30-4cb4-aca2-8f2259980a63",
+        "answerSeconds": 0,
+        "answer": {
+          "id": "b5b446c5-5e30-4cb4-aca2-8f2259980a63",
+          "question": "Why do butterflies have patterns on their wings?",
+          "status": "ready",
+          "createdAt": 1789390945634,
+          "reply": {
+            "title": "Butterfly Wing Wonders",
+            "answer": "Butterfly wing patterns can do different jobs. Some help butterflies blend into leaves, like wearing camouflage. Others warn hungry animals that the butterfly tastes bad, or help butterflies recognize a mate. Some butterflies even have spots that look like eyes and may scare away attackers!",
+            "invitation": "If you spot a butterfly, watch from a distance: does its pattern help it blend in or stand out?",
+            "category": "animals",
+            "artworkPrompt": "Illustration of butterflies with varied wing patterns, including leaflike camouflage, bright warning colors, and large eyespots, among leafy plants and flowers",
+            "quiz": {
+              "question": "How can a leaflike wing pattern help a butterfly?",
+              "choices": [
+                "It helps the butterfly blend into leaves.",
+                "It helps the butterfly carry leaves.",
+                "It makes the butterfly grow bigger."
+              ],
+              "correctIndex": 0,
+              "explanation": "A leaflike pattern acts like camouflage, making the butterfly harder for hungry animals to spot."
+            }
+          }
+        },
+        "idempotent": true,
+        "image": {
+          "id": "06bb3553-5d3a-4c4b-9ab8-a075d1e4ebe1",
+          "bytes": 2034195,
+          "sha256": "2ec5dedeb86092f37af77902f4784667b2640125da82524c42322301346b1cc6",
+          "width": 1024,
+          "height": 1024,
+          "attempts": 1,
+          "waitSeconds": 0.149
+        },
+        "ownershipIsolated": true,
+        "sharedToken": "gAZFjUFDlAd0XR1lPbK2CUcBSot0cl4t",
+        "publicImageMatches": true,
+        "browser": {
+          "widths": [
+            390,
+            1440
+          ],
+          "decodedImage": true,
+          "pageErrors": []
+        },
+        "revoked": true,
+        "status": "passed"
+      },
+      "finalReadback": {
+        "checkedAt": "2026-09-14T13:12:08.518Z",
+        "source": "f5a41585ed6488bc22d099cefd43345e01eb2c83",
+        "assets": [
+          {
+            "path": "/assets/index-Ck4u1Oay.js",
+            "bytes": 288579,
+            "sha256": "68a2f37a7ad2cdb14f7e3aaf2be5b1382ab2d9ab5cae796ffe09504c62fbd24f"
+          },
+          {
+            "path": "/assets/index-CeVjUOkN.css",
+            "bytes": 10814,
+            "sha256": "98c17866de7b493d96e6548a353b46cbd72efe0d0dd7fc201729180feadd3747"
+          }
+        ],
+        "/health": 200,
+        "/api/shares/DmprLZx_BvlA75rki9n7MqFdl1b4U4hn": 200,
+        "workerSubdomain": {
+          "enabled": false,
+          "previews_enabled": false
+        },
+        "usage": [
+          {
+            "bucket": "demo:question:global",
+            "used": 1
+          },
+          {
+            "bucket": "demo:image:global",
+            "used": 1
+          }
+        ]
+      }
+    },
+    "upstreamIntegration": {
+      "commit": "5951bf235d0db5cb9cc069da38f6264d2acf07aa",
+      "preservedWebDemo": true,
+      "typeCheck": "passed",
+      "tests": "48 unit/integration, 7 browser, 2 artwork browser passed",
+      "fixes": [
+        "Scope prepared guide subjects separately from generated discovery cards.",
+        "Isolate browser storage in unit tests instead of Node global storage.",
+        "Align the production root-page assertion with the upstream Web demo."
+      ]
+    },
+    "credentialScan": {
+      "filesChecked": 78,
+      "credentialNames": [
+        "OWNER_KEY",
+        "REASONING_API_KEY",
+        "AZURE_IMAGE_API_KEY",
+        "CLOUDFLARE_API_TOKEN",
+        "LEGACY_OWNER"
+      ],
+      "matches": [],
+      "passed": true
+    }
+  },
+  "r2": {
+    "status": "enabled",
+    "bucket": {
+      "name": "pocket-explorer-artwork",
+      "creation_date": "2026-09-14T12:58:43.251Z",
+      "location": "OC",
+      "storage_class": "Standard",
+      "jurisdiction": "default"
+    },
+    "managedDomainEnabled": false,
+    "customDomains": []
+  },
+  "publication": {
+    "newCloudflareVersionDeployed": true,
+    "testFlightUploaded": true,
+    "githubReleaseTriggered": false,
+    "backendCommitted": true,
+    "backendPushed": true,
+    "nativeSourceSHA256": "5c3f60ac02cea8e8266b4badccc4affa45091244a25b708da5f2680e18d48770"
+  },
+  "reviewRemaining": [
+    "physical iPhone microphone, speaker and camera",
+    "human visual approval and VoiceOver",
+    "mobile Safari"
+  ],
+  "deferred": [
+    "accounts",
+    "friend relationships",
+    "cross-account chat",
+    "card version history"
+  ],
+  "screenshotNote": "The live shadow answer uses the actual GPT-6 provider. Card screenshots reuse a previously generated Azure image through a test fixture. The independent live workerd image flow is separate.",
+  "credentialScan": {
+    "credentialNames": [
+      "OWNER_KEY",
+      "REASONING_API_KEY",
+      "AZURE_IMAGE_API_KEY"
+    ],
+    "filesChecked": 298,
+    "matches": [],
+    "passed": true,
+    "archive": "pocket-release-final-archive"
+  }
+}

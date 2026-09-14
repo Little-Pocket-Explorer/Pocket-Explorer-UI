@@ -14,11 +14,28 @@ platform :ios do
     UI.user_error!("Release only from main on GitHub Actions") unless
       ENV["GITHUB_ACTIONS"] == "true" && ENV["GITHUB_REF"] == "refs/heads/main"
 
+    release_beta(local: false)
+  end
+
+  desc "Archive and upload from this Mac without a GitHub runner"
+  lane :beta_local do
+    UI.user_error!("Use beta for GitHub releases") if ENV["GITHUB_ACTIONS"] == "true"
+    UI.user_error!("Set an absolute local release directory") unless ENV.fetch("POCKET_RELEASE_DIR").start_with?("/")
+    release_beta(local: true)
+  end
+
+  private_lane :release_beta do |options|
+    local_release = options[:local]
+    source_id = ENV.fetch(local_release ? "POCKET_RELEASE_SOURCE" : "GITHUB_SHA")
+    original_keychains = nil
+    installed_profile = nil
+    profile_backup = nil
+    keychain = nil
     app_id = ENV.fetch("APP_STORE_CONNECT_APP_ID")
     team_id = ENV.fetch("APPLE_TEAM_ID")
     bundle_id = "com.haichang.pocketexplorer"
     group_id = "61f0eb50-fc33-4ee4-93fd-2844342c7584"
-    temp = ENV.fetch("RUNNER_TEMP")
+    temp = ENV.fetch(local_release ? "POCKET_RELEASE_DIR" : "RUNNER_TEMP")
     signing = File.join(temp, "pocket-signing")
     FileUtils.mkdir_p(signing, mode: 0700)
 
@@ -36,6 +53,8 @@ platform :ios do
 
     builds = Spaceship::ConnectAPI::Build.all(app_id: app_id, platform: "IOS")
     numbers = builds.map { |build| Integer(build.version, 10) }
+    uploads = Spaceship::ConnectAPI.get_build_uploads(app_id: app_id, limit: 200).all_pages.flat_map(&:to_models)
+    numbers += uploads.map { |upload| Integer(upload.cf_build_version, 10) }
     build_number = ([5] + numbers).max + 1
     version = get_version_number(xcodeproj: "PocketExplorer.xcodeproj", target: "PocketExplorer")
 
@@ -50,11 +69,17 @@ platform :ios do
       profile["Entitlements"]["application-identifier"] == "#{team_id}.#{bundle_id}" &&
       profile["ExpirationDate"].to_time > Time.now && !profile.key?("ProvisionedDevices")
     installed_profile = File.expand_path("~/Library/Developer/Xcode/UserData/Provisioning Profiles/#{profile.fetch('UUID')}.mobileprovision")
+    profile_backup = File.binread(installed_profile) if local_release && File.exist?(installed_profile)
     FileUtils.mkdir_p(File.dirname(installed_profile))
     File.write(File.join(signing, "profile-path"), installed_profile, perm: 0600)
     FileUtils.cp(profile_file, installed_profile)
 
     keychain = File.join(temp, "pocket-signing.keychain-db")
+    if local_release
+      listed, _error, status = Open3.capture3("security", "list-keychains", "-d", "user")
+      UI.user_error!("Cannot preserve the local keychain search list") unless status.success?
+      original_keychains = Shellwords.shellsplit(listed)
+    end
     keychain_password = SecureRandom.hex(32)
     create_keychain(path: keychain, password: keychain_password, default_keychain: false,
                     unlock: true, timeout: 3600, add_to_search_list: true)
@@ -78,8 +103,14 @@ platform :ios do
         provisioningProfiles: { bundle_id => profile.fetch("Name") }
       }
     )
+    if local_release && ENV["POCKET_ARCHIVE_ONLY"] == "1"
+      File.write(File.join(temp, "archive-result.json"), JSON.pretty_generate({
+        version: version, build_number: build_number, source_commit: source_id, ipa: ipa, uploaded: false
+      }) + "\n")
+      next ipa
+    end
     notes = File.read(File.join(__dir__, "TESTFLIGHT_NOTES.md")).strip
-    notes += "\n\nSource: #{ENV.fetch('GITHUB_SHA')}"
+    notes += "\n\nSource: #{source_id}"
     upload_to_testflight(
       api_key: api_key, app_identifier: bundle_id, apple_id: app_id, ipa: ipa,
       app_version: version, build_number: build_number.to_s, changelog: notes,
@@ -98,13 +129,27 @@ platform :ios do
       app_id: app_id, version: version, build_number: build_number, build_id: verified.id,
       processing_state: verified.processing_state,
       internal_state: verified.build_beta_detail&.internal_build_state,
-      internal_group: group.name, source_commit: ENV.fetch("GITHUB_SHA"),
-      run_url: "#{ENV.fetch('GITHUB_SERVER_URL')}/#{ENV.fetch('GITHUB_REPOSITORY')}/actions/runs/#{ENV.fetch('GITHUB_RUN_ID')}"
+      internal_group: group.name, source_commit: source_id,
+      release_origin: local_release ? "local" : "github",
+      run_url: local_release ? nil : "#{ENV.fetch('GITHUB_SERVER_URL')}/#{ENV.fetch('GITHUB_REPOSITORY')}/actions/runs/#{ENV.fetch('GITHUB_RUN_ID')}"
     }
     File.write(File.join(temp, "release-result.json"), JSON.pretty_generate(result) + "\n")
-    File.open(ENV.fetch("GITHUB_STEP_SUMMARY"), "a") do |summary|
+    summary_path = local_release ? File.join(temp, "release-summary.md") : ENV.fetch("GITHUB_STEP_SUMMARY")
+    File.open(summary_path, "a") do |summary|
       summary.puts("TestFlight #{version} (#{build_number}) is valid and assigned to #{group.name}.")
-      summary.puts("\nSource: `#{ENV.fetch('GITHUB_SHA')}`. External review is managed separately.")
+      summary.puts("\nSource: `#{source_id}`. External review is managed separately.")
+    end
+  ensure
+    if local_release
+      if installed_profile
+        if profile_backup
+          File.binwrite(installed_profile, profile_backup)
+        else
+          FileUtils.rm_f(installed_profile)
+        end
+      end
+      Open3.capture3("security", "delete-keychain", keychain) if keychain && File.exist?(keychain)
+      Open3.capture3("security", "list-keychains", "-d", "user", "-s", *original_keychains) if original_keychains
     end
   end
 end

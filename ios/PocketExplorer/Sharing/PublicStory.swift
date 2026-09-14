@@ -7,6 +7,7 @@ struct PublicCard: Codable, Equatable, Identifiable {
     var question: String
     var observation: String
     var explanation: String
+    var artworkID: String? = nil
 }
 
 struct PublicStory: Codable, Equatable {
@@ -22,7 +23,7 @@ struct PublicStory: Codable, Equatable {
         let cleanName = firstName?.trimmingCharacters(in: .whitespacesAndNewlines)
         return PublicStory(title: trip.title, firstName: cleanName?.isEmpty == false ? cleanName : nil,
                            city: includeCity ? trip.place?.name : nil,
-                           cards: selected.map { PublicCard(id: $0.id.uuidString, subject: $0.subject, title: $0.subject.title, question: $0.question, observation: $0.observation, explanation: $0.explanation) },
+                           cards: selected.map { PublicCard(id: $0.id.uuidString, subject: $0.subject, title: $0.title, question: $0.question, observation: $0.observation, explanation: $0.explanation, artworkID: $0.artwork?.status == "ready" ? $0.artwork?.id : nil) },
                            chapters: MemoryBuilder.build(tripID: trip.id, discoveries: selected).chapters)
     }
 }

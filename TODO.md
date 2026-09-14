@@ -1,6 +1,82 @@
 # Pocket Explorer: Execution State
 
-Updated: 2026-09-11.
+Release amendment: the user requires this TestFlight build to be archived and uploaded from this Mac because GitHub runner quota is exhausted. Run native checks locally and independently verify Apple processing. Do not trigger a GitHub TestFlight release for this iteration.
+
+## Active implementation: Miro and live AI (2026-09-14)
+
+The user now authorizes real native implementation, including live question answering and generated card artwork. This supersedes all earlier design-only restrictions and optional-AI statements below. Miro remains the visual and flow authority. Figma contains all 40 source screens and 189 hotspots, verified by native plugin readback. Older one-screen and blocked-delivery statements are historical.
+
+Current scope is exploration, cards, maps, memories and public link sharing. Real accounts, friend relationships and cross-account chat are explicitly deferred. Preserve English, Simplified Chinese, the language chooser, existing journals and existing public links. Do not add parental keys, approval gates or controls. Use real SwiftUI controls and layouts, with decorative artwork. Full-screen source screenshots are references, not the app implementation.
+
+## Current delivery checkpoint (2026-09-14, 23:30 AEST)
+
+- RELEASED: TestFlight 0.1.0 (9), built and uploaded from this Mac using Xcode 27 RC (27A266a). Apple independently confirms COMPLETE / VALID / IN_BETA_TESTING and Hackathon Internal assignment. Build ID: 8d4ac344-cfc6-4350-be18-72c40d65b32c.
+- VERIFIED: 41 unit and 13 UI tests under the actual RC, zero failures or skips, 90.87% application line coverage. The suite includes the native App using production Cloudflare sharing, an independent read and revocation. Physical iPhone acceptance remains separate.
+- RELEASED: Cloudflare Worker 1db2b9bd-29b4-46af-9782-c95eae7a4f6d at 100% traffic, source f5a41585ed6488bc22d099cefd43345e01eb2c83. GitHub run 34847308507 passed checks, deployment and live verification. Litian's upstream Web demo is preserved.
+- VERIFIED: 48 backend unit/integration tests, seven browser tests and two artwork browser tests. Coverage is 98.94% lines and 95.73% branches, with every source-file gate passing. Production question, generated image, private ownership, public image byte equality, desktop/mobile browser display and revocation passed. Final asset hashes match and existing links survive.
+- Server-side AI secrets, private R2, Queue and additive D1 migration are deployed. The cumulative allowances remain 120 questions and 18 image attempts. Independent readback shows one production question and one image used. No new subscription was purchased, and no GitHub iOS runner was used.
+- Release package signature, bundle/team, expected RC build, source hash 5c3f60ac02cea8e8266b4badccc4affa45091244a25b708da5f2680e18d48770 and absence of configured credentials were independently verified. The temporary signing keychain is removed. Native test fixtures are stopped and the test simulator is shut down.
+- Corrected a toolchain mismatch: build 8 used the system's Xcode 27 Beta 1 and was rejected with 90534. The downloaded RC now resides at /Applications/Xcode-27-RC.app. Local releases require an expected Xcode build and include failed uploads when choosing the next build number. Six release-helper tests passed with 97% executable-line coverage.
+- REVIEW: physical iPhone microphone, speaker, camera, VoiceOver, mobile Safari and human visual approval. Accounts, friend chat and card version history remain deferred. V1 is a visual badge. No further provider calls or releases are needed without a new issue or requested change.
+- The five-minute heartbeat remains available through 2026-09-15 09:41 AEST for new failures or feedback. With automatic delivery verified, stay quiet while only human review is pending. Do not repeat the completed tests or publish another build merely to remain busy.
+
+Next: use TestFlight build 9 for the remaining physical-device review. Current evidence is docs/evidence/miro-live-ai.json. Local release artifacts are under ~/tmp/review/pocket-release-rc-upload/, RC regression under ~/tmp/review/pocket-native-rc/, and production evidence under ~/tmp/review/pocket-production-release/.
+
+## Historical release checkpoint (2026-09-14, 23:00 AEST)
+
+- IN_PROGRESS: local TestFlight archive/upload and Apple processing verification. Production live AI, generated artwork and sharing are verified. The user explicitly directed delivery to proceed without more pricing investigation.
+- DONE: read-only Cloudflare preflight implementation and atomic persistent allowances. All 42 backend tests passed, with 99.01% lines and 97.15% branches. Three new guard tests reproduced the old failures before passing after the fix. Native regression remains 41 unit plus 13 UI tests, 90.87% app lines.
+- DONE: R2 is active. Created and independently read the private pocket-explorer-artwork bucket and queue. R2 managed domain is disabled and there are no custom bucket domains. Expanded the existing scoped deployment token with R2 and Queues rights without changing its value. Provisioned the two AI Worker secrets and preserved OWNER_KEY.
+- DONE: additive D1 migration and Worker/assets deployed, version ab41bcce-aca5-4562-bff5-8dc2db0c1f96 at 100% traffic. Queue consumer setup initially returned error 10063 because this account lacked a workers.dev subdomain. Registered pocket-explorer-changhai and independently verified the consumer binding. The Worker workers.dev endpoint and previews remain disabled.
+- DONE: production GPT-6 question in 8.735 seconds, one real 1024x1024 Azure image in 43.745 seconds, D1 job readback, private ownership isolation, public image byte equality, mobile/desktop browser display and revocation. Existing links and the production browser regression passed. Production counters show one question and one image used.
+- DONE: integrated Litian's upstream Web card demo (5951bf2), retaining its prepared questions and collection. Corrected the prepared-subject type mismatch and browser-storage unit-test setup. Merged build, 48 unit/integration tests, seven browser tests and two artwork browser tests passed. Coverage: 98.94% lines and 95.73% branches, all per-file gates passed. GitHub run 34847308507 passed and deployed f5a41585ed6488bc22d099cefd43345e01eb2c83 as Worker version 1db2b9bd-29b4-46af-9782-c95eae7a4f6d. Final generated-story verification reused the existing image and passed. Assets match the local build, old links remain live and AI counters remain at one each.
+- DONE: local 0.1.0 (8) package uploaded successfully to Apple at 23:05 AEST. Signature, distribution identity, unchanged source hash and client credential scan independently passed. Apple build processing and internal group confirmation remain in progress.
+- Current total allowances are 120 question attempts and 18 image attempts across the demo. Existing daily and installation limits also apply. These limits are not a verified monetary hard cap. Do not reset the counters or generate unnecessary images.
+- The user-requested five-minute heartbeat pocket-explorer-5 remains active until 2026-09-15 09:41 AEST. Pause early only on verified completion. Do not trigger GitHub iOS builds or releases. Preserve preexisting staged documents and untracked Miro sync work.
+- REVIEW: physical iPhone speech, speaker, camera, VoiceOver, mobile Safari and human visual approval. Accounts and friend chat remain deferred.
+
+## Historical local checkpoint (2026-09-14, 22:33 AEST)
+
+- DONE: final native regression, 41 unit plus 13 UI tests, zero failures or skips. App line coverage is 90.87% (3753/4130). Evidence: pocket-native-t19/final-regression.xcresult, final-summary.json and final-coverage.json.
+- DONE: iOS 27 large-screen checks, 41 unit plus seven UI tests, actual system Reduce Motion, both languages, large text, map selection and card/answer/share journey. This subset is not the aggregate coverage gate. A subsequent focused test reproduced the 38pt home action, then verified the 44pt fix for the microphone and profile buttons. The duplicate home action was removed.
+- DONE: one native UI test connected directly to local workerd and the real GPT-6 provider. The displayed shadow answer was independently read from the app journal and D1 and matched exactly. No additional image was requested. Evidence: native-live-worker.xcresult and native-live-independent.json.
+- DONE: final local signed archive, version 0.1.0 (8), SDK iphoneos27.0. Independent IPA signature, bundle/team, get-task-allow:false, source hash and temporary-keychain removal passed. The final source hash is bf3147961f69af5c720063ae455459522cddfde552365c7e29e7d37985f818b9. The earlier archive is superseded by ~/tmp/review/pocket-release-final-archive/.
+- DONE: backend 34 tests, six existing browser tests, two generated-artwork browser tests, 98.91% lines and 96.86% branches. Actual local workerd completed question, queued generation, private image, public share and revocation. Three image calls total. The final source and client credential scan found no configured secrets.
+- BLOCKED: production AI rollout and TestFlight upload. The final R2 read at 22:23 AEST still returned HTTP 403 / error 10042, Please enable R2 through the Cloudflare Dashboard. Existing sharing remains deployed. No new production resources, secret changes, deployment, commit, push or TestFlight upload occurred.
+- REVIEW: physical iPhone speech, speaker, camera, VoiceOver, human visual approval and mobile Safari. Accounts and friends remain deferred. V1 is a visual badge, not version history.
+- The user authorized dismissing future crash dialogs with Ignore, Cancel or Close while retaining diagnostics. No dialog was present at the last check. The 21:40 PocketExplorer report points to the old guide unit test assertion, which was corrected and passed later runs.
+- A subsequent CUA check was denied by tool safety policy for com.apple.UserNotificationCenter. No system crash dialog was inspected or dismissed in that attempt. Do not bypass the restriction. If such a dialog blocks work, the user must close it manually.
+- Final overview: design/review/miro-native-overview.png. Formal evidence: docs/evidence/miro-live-ai.json. Local walkthrough: docs/implementation-review.md and its Chinese review copy. Test-only servers on 4197/4199 are stopped and both test simulators are shut down. The original design preview is preserved. No background loop or heartbeat was created.
+
+Current next action: follow the running local upload in ~/tmp/review/pocket-testflight-upload.log and ~/tmp/review/pocket-release-upload/. Independently verify Apple VALID plus Hackathon Internal assignment, finalize documentation and publish the source without a GitHub iOS run. Do not use GitHub TestFlight runners. Preserve the existing staged documents and untracked Miro sync work.
+
+## Historical plan and evidence
+
+## Current design authority (2026-09-14)
+
+The user confirmed that [the Miro board](https://miro.com/app/board/uXjVHn9F6EQ=/) is the source of truth for UI design and flows. Figma Review 01 is an interaction example only. This decision supersedes conflicting visual baselines and Figma continuation instructions below, while explicit user decisions still take precedence over board content. The current phase is design and prototype review. Any new clickable prototype must follow Miro, and the existing Figma example does not establish completion of that work.
+
+
+## T18 BLOCKED: Figma delivery, local hotspot prototype ready
+
+- The user accepted whole Miro images with transparent hotspots. Raster extraction is out of scope.
+- Latest source snapshot: 40 images, 146 frame items, and 47 connectors. Two images were added and two replaced.
+- Local prototype: http://127.0.0.1:4186/preview.html. All 189 hotspots were clicked in browser tests. All 39 interactive screens are reachable from Chat home. Screen 33 is reference only.
+- JavaScript: 25 tests passed, 100% lines in sync.js and hotspots.js. Python: 12 tests passed, prepare.py 96% lines. Mobile layout, keyboard, back navigation, and zero browser errors were verified.
+- The latest read-only Figma API call still reports the Starter MCP tool-call limit. The remote page still contains only the older six-layer Chat home. No remote update occurred.
+- Preserve design/miro-sync/manifest.json. It retains the real mapped nodes, 81 uploaded assets, and 81 hidden staging nodes.
+- Continue from design/miro-sync/TODO.md for actual Figma import, navigation, real-file rerun checks, and recorded design gaps.
+- No App or Backend implementation, deployment, commit, push, or scheduled automation occurred.
+
+## T17: Figma prototype delivered for team review
+
+- [Editable design file](https://www.figma.com/design/Q0JYCcihpvABSCsPnnz4bw/Pocket-Explorer-%C2%B7-Review-01?node-id=1-3), in Hai Chang's team / Team project.
+- [Clickable presentation](https://www.figma.com/proto/Q0JYCcihpvABSCsPnnz4bw/Pocket-Explorer-%C2%B7-Review-01?node-id=1-3&scaling=min-zoom&content-scaling=fixed&page-id=1%3A2&starting-point-node-id=1%3A3&show-proto-sidebar=1): 48 screens, 170 native navigation links and five flow starts.
+- Independent native read confirmed 474 editable text layers, zero invalid navigation destinations and zero text-bound overflows. Eight same-state targets intentionally have no native navigation.
+- Fixed native font rewrapping. Five importer/specification tests passed with 100% line and 95.08% branch coverage.
+- Actual Figma presentation checks covered question to saved journal, incorrect answer to card, map to memory and public sharing, and friend card gifting. The desktop public story was visually inspected. The browser preview additionally covered both quiz outcomes and every disclosure combination.
+- Figma access is currently limited to the team. No new collaborators were invited. Speech, AI, messages and copy actions use design states.
+- Design and evidence directory: /Users/haichang/.gstack/projects/pocket-explorer/designs/figma-review-20260911. Human visual and product-rule review remains pending. Application code and deployments were not changed.
 
 ## T17 in progress: earned card unlock loop
 
@@ -44,8 +120,8 @@ States: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, DEFERRED. DONE requires eviden
 - Current stage: T17 card unlock loop is implemented in both SwiftUI and Web. Web checks pass; native changes await macOS CI.
 - New skill: /Users/haichang/.codex/skills/codex-project passed structural validation. Legacy codex-bootstrap is preserved.
 - Local preview: http://127.0.0.1:4174/s/EDYeU5SzHaXpMEy1XAx9WqvE1Grjrmv3. This is accessible on this Mac only.
-- Running processes: UI GitHub run 34575779608 and its local watcher exited successfully. The preview on port 4174 now runs from ../pocket-explorer-backend (PID 17900). Its existing story was independently read before and after migration with identical SHA-256. The original SQLite file remains as a local backup.
-- Next action: run the native PR workflow before TestFlight review, inspect the Web demo on an iPhone browser, then select the next card-system increment. Live AI integration has not started.
+- Running processes: UI GitHub run 34575779608 and its local watcher exited successfully. The preview on port 4174 now runs from ../Pocket-Explorer-Backend (PID 17900). Its existing story was independently read before and after migration with identical SHA-256. The original SQLite file remains as a local backup.
+- Next action: continue Miro-based design and prototype review. Retain native PR validation, TestFlight review and iPhone-browser Web testing as implementation follow-ups when requested. Live AI integration has not started. Phone sharing, speech and camera acceptance remain separate.
 - Prerequisites: external build 2 is now confirmed IN_BETA_TESTING and public enrollment is available. External distribution of later builds is managed separately. Physical-device and human acceptance remain open.
 - Human checks: Visual approval, VoiceOver, actual device speech/camera, mobile Safari and the two-minute full rehearsal.
 
@@ -193,7 +269,7 @@ Final build 5 has uploaded and finished App Store Connect processing. Save its t
 ## Future AI configuration checkpoint
 
 - Recorded the user's gpt-image-2.5-sunburst image endpoint and existing GPT-6 configuration in PLAN T12. Earlier image success is user-provided evidence and was not independently retested in this task.
-- Saved the image key in ../pocket-explorer-backend/.local/ai/providers.json. An independent read verified the deployment and 0600/0700 permissions, and git check-ignore confirmed exclusion. No GPT-6 key was copied and no global settings were changed.
+- Saved the image key in ../Pocket-Explorer-Backend/.local/ai/providers.json. An independent read verified the deployment and 0600/0700 permissions, and git check-ignore confirmed exclusion. No GPT-6 key was copied and no global settings were changed.
 - T12 remains DEFERRED. T15 delivery is verified. Larger product changes and AI integration have not started.
 
 ## External testing status refresh (2026-09-11)
@@ -219,3 +295,23 @@ Final build 5 has uploaded and finished App Store Connect processing. Save its t
 - Local migration: copied SQLite through its backup API, preserved the existing preview response, and restarted the preview from Backend. Image provider configuration and the legacy Cloudflare owner key moved into Backend .local with restrictive permissions. Old local preview database/key remain as migration backups, outside Git.
 
 - Native extraction regression passed: 26 unit tests and 13 UI tests, zero failures. The deployed Cloudflare create/read/relaunch/copy/revoke test passed. The 80% application line coverage gate passed. TestFlight release 0.1.0 (7) passed in run 34575779608 and was independently verified in Apple.
+
+## Local repository relocation (2026-09-12)
+
+- DONE: moved the UI checkout to /Users/haichang/Projects/Pocket-Explorer-UI and the backend checkout to /Users/haichang/Projects/Pocket-Explorer-Backend, matching their GitHub names. The old directories no longer exist.
+- Independent reads confirmed unchanged checkout and Git-directory inodes, HEAD revisions, origin URLs, working-tree status and pre-existing diff hashes immediately after the moves. Updated local path references afterward. No application code, commits, pushes or deployments were made.
+- Restarted the existing backend preview from its new directory on port 4174, PID 38735. The existing SQLite records and public-story response are unchanged. Website HTML and both linked assets return HTTP 200. The design preview on port 4176 remains available.
+- Updated the design verification helper's Playwright import and verified that it resolves from the new backend path. Continue with design feedback using the existing Figma file.
+
+## Ordinary Figma plugin route (2026-09-14)
+
+The user authorized an ordinary development plugin using the official Plugin API instead of the quota-blocked MCP write route.
+Importing and launching the plugin in the desktop app is authorized. Canvas operations remain API driven.
+Reuse sync.js, hotspots.js, the 40 complete source images, and 189 hotspots.
+A loopback-only companion serves this sync package and images and records verification using a fresh per-process credential.
+Independently read each mutation batch before saving external manifest.json checkpoints. Stop on manual-edit conflicts.
+The companion cannot execute arbitrary code. Account and model credentials are never included in the plugin.
+Acceptance includes at least 80% changed-code coverage, actual Figma import, independent readback, reruns, and visual inspection.
+Current status: native import, readback, unchanged rerun, export, and staging cleanup are complete. Design review continues.
+
+Current amendment: Figma Beta contains 40 screens and 189 hotspots. All 39 JavaScript tests pass, and the native unchanged rerun made zero changes. The 81 hidden staging layers are removed with formal screen signatures unchanged. Actual clicking is verified. Native source-update/conflict checks and alignment of the observed share hotspot remain pending. See design/miro-sync/TODO.md.

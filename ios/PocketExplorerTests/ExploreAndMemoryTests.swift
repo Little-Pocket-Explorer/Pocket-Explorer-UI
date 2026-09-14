@@ -88,7 +88,7 @@ final class ExploreAndMemoryTests: XCTestCase {
     }
 
     func testGuideMatchesSubjectsAndRejectsUnrelatedQuestions() {
-        for subject in DiscoverySubject.allCases {
+        for subject in [DiscoverySubject.duck, .leaf, .shell] {
             let reply = DemoGuide.reply(to: subject.sampleQuestion)
             XCTAssertEqual(reply?.subject, subject)
             XCTAssertFalse(reply!.answer.isEmpty)

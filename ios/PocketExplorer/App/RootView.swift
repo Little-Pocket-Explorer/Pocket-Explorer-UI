@@ -5,17 +5,20 @@ struct RootView: View {
     var changeLanguage: () -> Void
     @State private var tab = 0
     @State private var exploring = false
+    @State private var artwork = ArtworkCoordinator()
 
     var body: some View {
         TabView(selection: $tab) {
+            NavigationStack { ChatHomeView(store: store, changeLanguage: changeLanguage) }
+                .tabItem { Label("Chat", systemImage: "bubble.left.fill") }.tag(0)
             NavigationStack { WorldView(store: store, explore: { exploring = true }, changeLanguage: changeLanguage) }
-                .tabItem { Label("My world", systemImage: "globe.europe.africa.fill") }.tag(0)
-            NavigationStack { CollectionView(store: store, explore: { exploring = true }) }
-                .tabItem { Label("My finds", systemImage: "rectangle.stack.fill") }.tag(1)
+                .tabItem { Label("Map", systemImage: "map.fill") }.tag(1)
             NavigationStack { MemoriesView(store: store) }
                 .tabItem { Label("Memories", systemImage: "sparkles.tv.fill") }.tag(2)
         }
         .tint(Theme.forest)
+        .environment(artwork)
+        .task { await artwork.resume(store: store) }
         .sheet(isPresented: $exploring) { ExplorationFlow(store: store, tripID: nil) }
     }
 }
@@ -23,6 +26,8 @@ struct RootView: View {
 struct ExplorationFlow: View {
     let store: TripStore
     let tripID: UUID?
+    var initialQuestion = ""
+    var recordID: UUID?
     @Environment(\.dismiss) private var dismiss
     @State private var saved: Discovery?
     @State private var revealed = false
@@ -46,17 +51,17 @@ struct ExplorationFlow: View {
                                 }.padding(20).background(Theme.paper)
                             }
                     } else {
-                        CardUnlockView(discovery: saved) { revealed = true }
+                        CardUnlockView(discovery: store.state.discoveries.first(where: { $0.id == saved.id }) ?? saved, onReveal: { revealed = true }, store: store)
                     }
                 }
-                else { ExploreView(store: store, tripID: tripID, onSave: { saved = $0 }) }
+                else { ExploreView(store: store, tripID: tripID, initialQuestion: initialQuestion, recordID: recordID, onSave: { saved = $0 }) }
             }
             .navigationDestination(isPresented: $showMemory) {
                 if let saved, let trip = store.state.trips.first(where: { $0.id == saved.tripID }) {
-                    MemoryPlayer(trip: trip)
+                    MemoryPlayer(trip: trip, store: store)
                         .safeAreaInset(edge: .bottom) {
                             NavigationLink {
-                                SharePreviewView(trip: trip, discoveries: store.discoveries(in: trip.id))
+                                SharePreviewView(trip: trip, discoveries: store.discoveries(in: trip.id), store: store)
                             } label: { Label("Preview & share", systemImage: "square.and.arrow.up") }
                             .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("memory-share-preview")
                             .padding(20).background(Theme.paper)
