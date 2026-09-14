@@ -45,6 +45,7 @@ struct MemoryPlayer: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var playback: MemoryPlayback
     @State private var timerTask: Task<Void, Never>?
+    @State private var replayGeneration = 0
 
     init(trip: Trip, store: TripStore? = nil) {
         self.trip = trip
@@ -53,52 +54,59 @@ struct MemoryPlayer: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 18) {
-                Eyebrow(text: "A memory, made by you")
-                Text(trip.title).font(.system(.title2, design: .rounded, weight: .heavy))
-                if let chapters = trip.memory?.chapters, chapters.indices.contains(playback.index) {
-                    let chapter = chapters[playback.index]
-                    HStack(spacing: 5) {
-                        ForEach(chapters.indices, id: \.self) { index in
-                            Capsule().fill(index <= playback.index ? Theme.forest : Theme.line).frame(height: 5)
-                        }
-                    }.accessibilityHidden(true)
-                    Group {
-                        if let discovery = store?.discoveries(in: trip.id).first(where: { chapter.id.hasPrefix($0.id.uuidString) }) {
-                            DiscoveryArtwork(discovery: discovery, store: store)
-                        } else { Image(chapter.subject == .discovery ? "explorer-hero" : chapter.subject.rawValue).resizable().scaledToFit() }
-                    }.frame(maxWidth: .infinity).frame(height: 210).clipped()
-                        .background(Theme.surface, in: RoundedRectangle(cornerRadius: 24))
-                        .clipShape(RoundedRectangle(cornerRadius: 24))
-                    VStack(alignment: .leading, spacing: 15) {
-                        Eyebrow(text: chapter.title)
-                        Text(chapter.text).font(.system(.title2, design: .rounded, weight: .bold))
-                            .accessibilityIdentifier("memory-chapter")
-                            .accessibilityValue("Chapter \(playback.index + 1) of \(chapters.count)")
-                    }.id(chapter.id).transition(.opacity)
-                }
-            }.padding(26)
-        }
-        .safeAreaInset(edge: .bottom) {
-            if let chapters = trip.memory?.chapters, !chapters.isEmpty {
-                Group {
-                    if dynamicTypeSize.isAccessibilitySize {
-                        VStack(spacing: 2) {
-                            playButton
-                            HStack { previousButton; Spacer(); replayButton; Spacer(); nextButton(count: chapters.count) }
-                        }
-                    } else {
-                        HStack(spacing: 8) { previousButton; playButton; nextButton(count: chapters.count); replayButton }
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(alignment: .leading, spacing: 18) {
+                    Eyebrow(text: "A memory, made by you")
+                    Text(trip.title).font(.system(.title2, design: .rounded, weight: .heavy))
+                    if let chapters = trip.memory?.chapters, chapters.indices.contains(playback.index) {
+                        let chapter = chapters[playback.index]
+                        HStack(spacing: 5) {
+                            ForEach(chapters.indices, id: \.self) { index in
+                                Capsule().fill(index <= playback.index ? Theme.forest : Theme.line).frame(height: 5)
+                            }
+                        }.accessibilityHidden(true)
+                        Group {
+                            if let discovery = store?.discoveries(in: trip.id).first(where: { chapter.id.hasPrefix($0.id.uuidString) }) {
+                                DiscoveryArtwork(discovery: discovery, store: store)
+                            } else { Image(chapter.subject == .discovery ? "explorer-hero" : chapter.subject.rawValue).resizable().scaledToFit() }
+                        }.frame(maxWidth: .infinity).frame(height: 210).clipped()
+                            .background(Theme.surface, in: RoundedRectangle(cornerRadius: 24))
+                            .clipShape(RoundedRectangle(cornerRadius: 24))
+                        VStack(alignment: .leading, spacing: 0) {
+                            VStack(alignment: .leading, spacing: 15) {
+                                Eyebrow(text: chapter.title)
+                                Text(chapter.text).font(.system(.title2, design: .rounded, weight: .bold))
+                                    .accessibilityIdentifier("memory-chapter")
+                                    .accessibilityValue("Chapter \(playback.index + 1) of \(chapters.count)")
+                            }.id(chapter.id).transition(.opacity)
+                        }.id("memory-reading-start")
                     }
-                }.font(.system(size: 22))
-                .padding(.horizontal, 20).padding(.vertical, 10).background(Theme.paper)
+                }.padding(26)
+            }
+            .safeAreaInset(edge: .bottom) {
+                if let chapters = trip.memory?.chapters, !chapters.isEmpty {
+                    Group {
+                        if dynamicTypeSize.isAccessibilitySize {
+                            VStack(spacing: 2) {
+                                playButton
+                                HStack { previousButton; Spacer(); replayButton; Spacer(); nextButton(count: chapters.count) }
+                            }
+                        } else {
+                            HStack(spacing: 8) { previousButton; playButton; nextButton(count: chapters.count); replayButton }
+                        }
+                    }.font(.system(size: 22))
+                    .padding(.horizontal, 20).padding(.vertical, 10).background(Theme.paper)
+                }
+            }
+            .background(Theme.paper).foregroundStyle(Theme.ink)
+            .navigationTitle("My little memory").navigationBarTitleDisplayMode(.inline)
+            .onDisappear { stopTimer(); playback.pause() }
+            .onChange(of: scenePhase) { _, next in if next != .active { stopTimer(); playback.pause() } }
+            .onChange(of: [playback.index, replayGeneration]) { _, _ in
+                proxy.scrollTo("memory-reading-start", anchor: .top)
             }
         }
-        .background(Theme.paper).foregroundStyle(Theme.ink)
-        .navigationTitle("My little memory").navigationBarTitleDisplayMode(.inline)
-        .onDisappear { stopTimer(); playback.pause() }
-        .onChange(of: scenePhase) { _, next in if next != .active { stopTimer(); playback.pause() } }
     }
 
     private var playButton: some View {
@@ -120,15 +128,17 @@ struct MemoryPlayer: View {
     }
 
     private var replayButton: some View {
-        Button { playback.replay(); startTimer() } label: { Image(systemName: "arrow.counterclockwise").frame(width: 44, height: 50) }
+        Button { playback.replay(); replayGeneration += 1; startTimer() } label: { Image(systemName: "arrow.counterclockwise").frame(width: 44, height: 50) }
             .accessibilityLabel("Replay from the beginning").accessibilityIdentifier("memory-replay")
     }
 
     private func startTimer() {
         stopTimer()
         timerTask = Task { @MainActor in
+            let chapters = trip.memory?.chapters ?? []
             while !Task.isCancelled && playback.isPlaying {
-                do { try await Task.sleep(for: .seconds(5)) } catch { return }
+                guard chapters.indices.contains(playback.index) else { playback.pause(); return }
+                do { try await Task.sleep(for: .seconds(MemoryReading.duration(for: chapters[playback.index].text))) } catch { return }
                 guard !Task.isCancelled else { return }
                 withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) { playback.tick() }
             }

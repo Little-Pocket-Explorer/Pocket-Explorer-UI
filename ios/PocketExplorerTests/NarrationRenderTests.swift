@@ -23,12 +23,27 @@ final class NarrationRenderTests: XCTestCase {
         await fulfillment(of: [cancelled], timeout: 1)
     }
 
-    func testEnglishAndChineseNarrationRenderNonSilentAudio() async throws {
+    func testAllSupportedLanguagesRenderNonSilentAudio() async throws {
         let synthesizer = AVSpeechSynthesizer()
-        for (language, text) in [("en", "A leaf catches sunlight, a little like a tiny solar panel."),
-                                 ("zh-Hans", "叶子会接住阳光，就像一块小小的太阳能板。") ] {
+        let samples = [
+            ("en", "A leaf catches sunlight, a little like a tiny solar panel."),
+            ("zh-Hans", "叶子会接住阳光，就像一块小小的太阳能板。"),
+            ("zh-Hant", "葉子會接住陽光，就像一塊小小的太陽能板。"),
+            ("es", "Una hoja recoge la luz del sol, un poco como un pequeño panel solar."),
+            ("fr", "Une feuille capte la lumière du soleil, un peu comme un petit panneau solaire."),
+            ("de", "Ein Blatt fängt Sonnenlicht ein, ein bisschen wie ein kleines Solarmodul."),
+            ("pt-BR", "Uma folha capta a luz do sol, um pouco como um pequeno painel solar."),
+            ("ja", "葉っぱは、小さな太陽光パネルのように、太陽の光を受け止めます。"),
+            ("ko", "나뭇잎은 작은 태양 전지판처럼 햇빛을 받아요."),
+            ("ar", "تلتقط الورقة ضوء الشمس، مثل لوح شمسي صغير.")
+        ]
+        XCTAssertEqual(Set(samples.map { $0.0 }), Set(AppLanguage.allCases.map(\.rawValue)))
+        for (language, text) in samples {
             let utterance = try XCTUnwrap(NarrationStyle.utterances(text, language: language).first)
-            XCTAssertNotNil(utterance.voice)
+            let selected = try XCTUnwrap(utterance.voice)
+            XCTAssertEqual(selected.language.split(separator: "-").first, NarrationStyle.locale(for: language).split(separator: "-").first)
+            let metadata = XCTAttachment(string: "language=\(language)\nvoice=\(selected.identifier)\nlocale=\(selected.language)\nquality=\(selected.quality.rawValue)\ngender=\(selected.gender.rawValue)\nrate=\(utterance.rate)\ntext=\(text)")
+            metadata.name = "rendered-voice-\(language)"; metadata.lifetime = .keepAlways; add(metadata)
             let destination = FileManager.default.temporaryDirectory.appendingPathComponent("pocket-voice-\(language)-\(UUID()).caf")
             defer { try? FileManager.default.removeItem(at: destination) }
             let rendered = expectation(description: "Rendered \(language) narration")

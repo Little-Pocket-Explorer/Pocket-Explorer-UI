@@ -106,7 +106,7 @@ struct AIClient {
     func image(_ job: ArtworkJob, connection: ShareConnection) async throws -> Data {
         guard UUID(uuidString: job.id) != nil, job.status == "ready", job.imagePath == "/api/artwork/\(job.id)/image" else { throw AIClientError.invalidResponse }
         let data = try await send(path: "api/artwork/\(job.id)/image", method: "GET", body: nil, connection: connection, timeout: 45)
-        guard data.count <= 12000000, let image = UIImage(data: data), image.size.width == 1024, image.size.height == 1024 else { throw AIClientError.invalidResponse }
+        guard data.count <= 12000000, let image = UIImage(data: data), image.size.width == 1024, image.size.height == 1024 else { throw AIClientError.invalidArtwork }
         return data
     }
 
@@ -161,13 +161,14 @@ struct AIClient {
 
 enum AIClientError: LocalizedError, Equatable {
     case unavailable, invalidResponse, rateLimited, pending, photoUnreadable
-    case answerFailed, offline, timedOut, dailyLimit, demoLimit, artworkLimit, requestConflict, notFound
+    case answerFailed, offline, timedOut, dailyLimit, demoLimit, artworkLimit, requestConflict, notFound, invalidArtwork
 
     var allowsImmediateRetry: Bool { ![.dailyLimit, .demoLimit, .artworkLimit, .requestConflict].contains(self) }
     var errorDescription: String? {
         switch self {
         case .unavailable: return L10n.text("Your question is saved. We could not reach your guide. Please try again.")
         case .invalidResponse: return L10n.text("The answer did not arrive correctly. Your question is safe. Please try again.")
+        case .invalidArtwork: return L10n.text("This illustration is unavailable. Your card and words are still saved.")
         case .rateLimited: return L10n.text("Your guide needs a little break. Please try again later.")
         case .pending: return L10n.text("Your guide is still thinking. Open this question again in a moment.")
         case .photoUnreadable: return L10n.text("This photo could not be prepared. Choose another photo or remove it to ask with words.")

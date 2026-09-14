@@ -58,7 +58,7 @@ struct ExplorationFlow: View {
                         CardUnlockView(discovery: store.state.discoveries.first(where: { $0.id == saved.id }) ?? saved, onReveal: { revealed = true }, store: store)
                     }
                 }
-                else { ExploreView(store: store, tripID: tripID, initialQuestion: initialQuestion, recordID: recordID, entry: entry, onSave: { saved = $0 }) }
+                else { ExploreView(store: store, tripID: tripID, initialQuestion: initialQuestion, recordID: recordID, entry: entry, onSave: { discovery, isNew in saved = discovery; revealed = !isNew }) }
             }
             .navigationDestination(isPresented: $showMemory) {
                 if let saved, let trip = store.state.trips.first(where: { $0.id == saved.tripID }) {

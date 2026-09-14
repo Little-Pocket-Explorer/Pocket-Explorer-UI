@@ -6,10 +6,25 @@ final class ArtworkFlowTests: XCTestCase {
     override func setUp() {
         continueAfterFailure = false
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
-        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = "http://127.0.0.1:4197"
+        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = ProcessInfo.processInfo.environment["POCKET_ARTWORK_FIXTURE_URL"] ?? "http://127.0.0.1:4197"
         app.launch()
         XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
         app.buttons["language-continue"].tap()
+    }
+
+    func testCorruptCompletedArtworkStopsWaitingAndStillOpensTheSavedCard() {
+        makeCard("corrupt illustration of the sky")
+        let title = app.staticTexts["artwork-status-title"]
+        let stopped = XCTNSPredicateExpectation(predicate: NSPredicate(format: "label == %@", "Keep exploring with this card"), object: title)
+        XCTAssertEqual(XCTWaiter.wait(for: [stopped], timeout: 10), .completed)
+        XCTAssertTrue(app.staticTexts["This illustration is unavailable. Your card and words are still saved."].exists)
+        XCTAssertFalse(app.buttons["retry-artwork"].exists)
+        capture("corrupt-artwork-card-is-kept")
+        app.buttons["reveal-card"].tap()
+        XCTAssertTrue(app.buttons["discovery-card"].waitForExistence(timeout: 8))
+        app.buttons["discovery-card"].tap()
+        XCTAssertEqual(app.staticTexts["card-observation"].label, "corrupt illustration of the sky")
+        capture("corrupt-artwork-observation-is-readable")
     }
 
     func testSlowArtworkKeepsTheCardUsableAndOffersAStatusCheck() {

@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 @testable import PocketExplorer
 
 @MainActor
@@ -25,6 +26,30 @@ final class ArtworkRecoveryTests: XCTestCase {
     override func tearDown() async throws {
         MockShareProtocol.reply = nil
         try? FileManager.default.removeItem(at: directory)
+    }
+
+    func testAnUndecodableCompletedPictureStopsAutomaticDownloadsAndKeepsTheCard() async throws {
+        let id = UUID().uuidString.lowercased()
+        let job = ArtworkJob(id: id, status: "ready", attempts: 1, imagePath: "/api/artwork/\(id)/image")
+        try store.saveArtwork(job, discoveryID: discovery.id)
+        var reads = 0
+        MockShareProtocol.reply = { request in
+            reads += 1
+            XCTAssertEqual(request.httpMethod, "GET")
+            return (200, request.url!.path.hasSuffix("/image") ? Data("truncated picture".utf8) : try JSONEncoder().encode(job))
+        }
+        let now = Date()
+        await coordinator.refresh(store: store, now: now)
+        XCTAssertEqual(reads, 2)
+        XCTAssertTrue(coordinator.stopped.contains(discovery.id), "A corrupt completed picture is not a temporary connection failure.")
+        XCTAssertEqual(coordinator.errors[discovery.id], "This illustration is unavailable. Your card and words are still saved.")
+        await coordinator.refresh(store: store, now: now.addingTimeInterval(300))
+        XCTAssertEqual(reads, 2, "Do not download the same unusable completed picture forever.")
+        let saved = try TripStore(fileURL: store.fileURL).state.discoveries[0]
+        XCTAssertEqual(saved.question, discovery.question)
+        XCTAssertNil(saved.artworkFilename)
+        XCTAssertEqual(saved.artwork?.id, id)
+        XCTAssertFalse(coordinator.busy.contains(discovery.id))
     }
 
     func testAReadFailureDoesNotPermanentlyStopArtworkRecovery() async throws {
@@ -187,16 +212,36 @@ final class ArtworkRecoveryTests: XCTestCase {
     }
 
     func testACompletedJobIdentitySurvivesAnInterruptedImageDownload() async throws {
-        let job = ArtworkJob(id: UUID().uuidString.lowercased(), status: "ready", attempts: 1)
+        let id = UUID().uuidString.lowercased()
+        let job = ArtworkJob(id: id, status: "ready", attempts: 1, imagePath: "/api/artwork/\(id)/image")
+        var downloads = 0
         MockShareProtocol.reply = { request in
-            if request.url!.path.hasSuffix("/artwork") { return (202, try JSONEncoder().encode(job)) }
+            if !request.url!.path.hasSuffix("/image") { return (200, try JSONEncoder().encode(job)) }
+            downloads += 1
             return (503, Data())
         }
-        await coordinator.update(discovery, store: store)
+        let now = Date()
+        await coordinator.update(discovery, store: store, now: now)
         let persisted = try TripStore(fileURL: store.fileURL).state.discoveries[0]
         XCTAssertEqual(persisted.artwork?.id, job.id)
         XCTAssertNil(persisted.artworkFilename)
         XCTAssertNotNil(coordinator.errors[discovery.id])
         XCTAssertFalse(coordinator.busy.contains(discovery.id))
+        XCTAssertFalse(coordinator.stopped.contains(discovery.id))
+        XCTAssertEqual(downloads, 1, "The test must reach an actual image request.")
+        let format = UIGraphicsImageRendererFormat(); format.scale = 1
+        let png = UIGraphicsImageRenderer(size: CGSize(width: 1024, height: 1024), format: format).pngData { context in
+            UIColor.green.setFill(); context.fill(CGRect(x: 0, y: 0, width: 1024, height: 1024))
+        }
+        MockShareProtocol.reply = { request in
+            XCTAssertEqual(request.httpMethod, "GET")
+            if !request.url!.path.hasSuffix("/image") { return (200, try JSONEncoder().encode(job)) }
+            downloads += 1
+            return (200, png)
+        }
+        await coordinator.refresh(store: store, now: now.addingTimeInterval(10))
+        XCTAssertEqual(downloads, 2)
+        XCTAssertNotNil(try TripStore(fileURL: store.fileURL).state.discoveries[0].artworkFilename)
+        XCTAssertNil(coordinator.errors[discovery.id])
     }
 }

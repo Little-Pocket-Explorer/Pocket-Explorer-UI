@@ -93,6 +93,10 @@ import XCTest
         for language in AppLanguage.allCases {
             let messages = try dictionary("Localizable", language)
             XCTAssertEqual(Set(messages.keys), Set(english.keys), language.rawValue)
+            for key in ["Card details", "My question", "From your discoveries"] {
+                XCTAssertNotNil(messages[key], "\(language.rawValue): \(key)")
+                if language != .english { XCTAssertNotEqual(L10n.text(key, language: language), key) }
+            }
             for (key, value) in messages {
                 XCTAssertFalse(value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, "\(language.rawValue): \(key)")
                 XCTAssertEqual(placeholders(value), placeholders(key), "\(language.rawValue): \(key)")

@@ -38,7 +38,7 @@ final class ArtworkCoordinator {
         } catch is CancellationError {}
         catch {
             if !Task.isCancelled {
-                if let reason = error as? AIClientError, [.dailyLimit, .demoLimit, .artworkLimit, .notFound, .requestConflict].contains(reason) {
+                if let reason = error as? AIClientError, [.dailyLimit, .demoLimit, .artworkLimit, .notFound, .requestConflict, .invalidArtwork].contains(reason) {
                     stopped.insert(discovery.id)
                     errors[discovery.id] = [.notFound, .requestConflict].contains(reason)
                         ? L10n.text("This illustration is unavailable. Your card and words are still saved.") : reason.localizedDescription

@@ -1,5 +1,58 @@
 # Pocket Explorer: Prototype Plan
 
+## Final-source verification (2026-09-15 06:50 AEST)
+
+- Complete native-final-12.xcresult passed 143 tests, failed none and skipped two. Changed-line coverage is 174/178 (97.75%), with every file above 80%. Preserve raw Apple contrast/QoS reports and the characterized German hyphenation exception rather than claiming an empty audit.
+- Copied the five independently verified corrupt-image recovery files from the artwork-result worktree into the primary checkout and verified byte equality. Final-source unit plus artwork, card, memory and saved-question UI checks are running in native-final-source-12.xcresult, session 86500, using fixture 4199. Keep source frozen.
+- Cloudflare source 5dac559 is independently verified. Backend evidence commit 08b7558 is pushed. Fictional production shares are revoked, the old link remains available and no new live AI calls were made.
+- Next read final results and coverage, inspect screenshots, update release evidence, commit with [skip ci] and publish from this Mac. TestFlight remains 11. Continue through 08:39:34 AEST.
+
+## Artwork recovery checkpoint (2026-09-15 06:42 AEST)
+
+- Primary native-final-12.xcresult is still running the complete regression, session 60891. All 91 unit and completed UI checks passed so far. Keep source frozen. Scope includes memories, map rendering, card-section translations and direct viewing of saved cards.
+- ~/Worktrees/Pocket-Explorer-UI-artwork-result contains a verified, unintegrated corrupted-image correction. invalid-artwork-before.xcresult reproduced three failures. All subsequent 17 unit and five UI checks passed. After correcting a legacy test's missing imagePath, all 17 unit checks passed again. Three changed executable lines have 100% coverage. Actual failure-state and retained-card screenshots are inspected.
+- Native changes are AIClient.swift, ArtworkCoordinator.swift, ArtworkRecoveryTests.swift, ArtworkFlowTests.swift and scripts/testing/serve-ai-fixture.mjs. Independent fixture 4199 runs in session 85640. Existing fixture 4197 was not restarted. After integration, use TEST_RUNNER_POCKET_ARTWORK_FIXTURE_URL=http://127.0.0.1:4199 for affected tests, rather than running the new corrupt-image case against the old 4197 fixture.
+- Backend 5dac559 is pushed. Workflow 34894033434 is publishing, watched by session 88448. Passed 96 unit/integration, four artwork browser tests, build/dry run and 100% PNG/provider line and branch coverage. Independently read the deployed version, images and legacy share before updating formal release evidence.
+- Next finish the primary full regression, integrate the tested artwork correction, then verify final-source coverage, UI and publication. TestFlight remains 11 and all new native changes remain unpublished. Continue through 08:39:34 AEST.
+
+## Final integrated candidate 12 (2026-09-15 06:26 AEST)
+
+- The original native-combined-12.xcresult full run passed 141 tests, failed one and skipped two, including 91 unit and 50 UI passes. Its only failure is the German hyphenation audit characterized against exact audit-time full-screen and element pixels. The narrow exception retains the raw report, with other findings still failing. All three final primary-checkout card checks passed in native-final-card-12.xcresult.
+- Original combined changed-line coverage against fa793c0 is 155/156 (99.36%), with every file over 80%. Actual map, memory, card and multilingual screenshots are reviewed. Production Cloudflare sharing creation, independent read and revocation passed without additional live AI or image requests.
+- A new reproduction failed two assertions: reopening an already saved question still offered an observation editor whose changes were discarded, and viewing its card repeated the new-card reveal. The correction opens the existing card and retains its observation. Five question/history UI checks passed, with 19/22 changed lines covered (86.36%). The isolated worktree is ~/Worktrees/Pocket-Explorer-UI-saved-question.
+- That correction is integrated in the primary checkout for the same release as the memory, map and card-section changes. Final native-final-12.xcresult is running the complete 375pt regression, session 60891. Keep native source frozen. Final integrated coverage and screenshots remain to collect.
+- TestFlight remains 0.1.0 (11), with the new candidate unpublished. Next finish results, critique, [skip ci] commit and local upload, then continue refinement through 08:39:34 AEST.
+
+## Small-screen card checkpoint (2026-09-15 06:16 AEST)
+
+- All nine targeted combined iOS 27 UI tests passed. The full 375pt/iOS 26.4 regression is still running, with 91 unit tests passed. The German maximum-text card has a textClipped audit failure, while the remaining tests continue.
+- The finding identifies the card-front question, Wie schwimmen Enten?. Inspected pixels show complete hyphenated text. Actual pixel clipping is not established. An independent run reproduced the audit, and an intrinsic-height fixedSize experiment did not resolve it. That ineffective experiment is removed from the isolated worktree.
+- Preserve the raw finding, hierarchy and screenshots in pocket-polish-20260915/card-small-clipping-artifacts. Keep the audit strict rather than silently filtering it. Next check stable card selection, the exact audit-time screenshot and the full regression result before fixing or explicitly characterizing this limitation.
+- TestFlight remains 0.1.0 (11). The combined candidate is unpublished. Continue through 08:39:34 AEST.
+
+## Combined candidate 12 (2026-09-15 06:02 AEST)
+
+- The memory-only full native-candidate-12.xcresult run passed 135 tests, failed none and skipped three: 88 unit and 47 UI passes. Changed-line coverage is 59/59. Live sharing was not enabled in that run. The other skips are live AI and the known simulator microphone issue. All 23 supplementary iOS 27 UI checks passed.
+- Map commit e0df57d is integrated in the primary checkout as dbadd25, not pushed. Preserve uncommitted memory/document work and the preexisting design/miro-sync directory. ~/Worktrees/Pocket-Explorer-UI-map-rendering retains experiment copies. Do not edit the current candidate there.
+- New card-reading-defects-before.xcresult contains two failed tests and four failed assertions: untranslated German/Arabic headings and place text at y=930/983 below the tab bar starting at y=873. Fixes passed six language unit and two card UI checks. A literal-source audit also found Card details and From your discoveries. All three phrases now appear in ten 321-entry catalogs. The scan excludes interpolated and computed strings.
+- Memory, map and card changes are integrated in the primary checkout. Full native-combined-12.xcresult is running on the 375pt simulator, with all 91 unit tests passed. Live sharing/readback/revocation is enabled, with no new live AI question or simulator recording enabled. Session 55123. Independent targeted iOS 27 UI verification is native-combined-ios27.xcresult, session 30426, with separate DerivedData.
+- Next collect both runs and screenshots, correct failures if needed, calculate all changed-line coverage against fa793c0, update critique/evidence, commit/push with [skip ci] and publish locally. Freeze native source during the two runs. TestFlight remains 0.1.0 (11). Continue through 08:39:34 AEST.
+
+## Memory and map checkpoint (2026-09-15 05:45 AEST)
+
+- Four native memory reading UI checks passed. All 23 iOS 27 large-screen checks passed, covering ten languages, maximum text and memories. The 375pt full regression continues, with all 88 unit tests passed. No full-suite completion is claimed yet.
+- The independent ~/Worktrees/Pocket-Explorer-UI-map-rendering checkout reproduces repeated map decoding: 100 identical updates rendered 100 images in 0.248434 seconds. Cached thumbnails reuse all 100 updates in 0.015147 seconds. Six unit and two UI checks passed. Six unit checks passed again after accurate cache-cost accounting. Changed Swift coverage is 35/35. Actual screenshots are inspected.
+- Map changes are committed on codex/map-rendering as e0df57d, not pushed. Next collect the main memory regression and coverage, then integrate that commit and run final combined regression. Combine both improvements into the next TestFlight version rather than consecutive near-identical uploads.
+- A focused Opus 5 request again returned no usable conclusion before its invocation budget limit. It is not a passed review. Manual code critique and screenshot review are complete. Do not blindly retry this route.
+- TestFlight remains 0.1.0 (11). Backend 008a213 is deployed and verified. Preserve the physical iPhone's TestFlight installation. Continue through 08:39:34 AEST, with physical voice/camera/VoiceOver/Safari checks still open.
+
+## Memory reading checkpoint (2026-09-15 05:32 AEST)
+
+- IN_PROGRESS T21.3: reproduced five-second long-memory advancement and a maximum-text chapter opening hidden behind the navigation bar on released source. Current changes give 5–45 seconds based on text length and reveal the reading opening after next/replay.
+- Initial fixes passed 12 unit and three UI checks. A later run using actual chapter titles passed three unit, five accessibility and three reading UI checks. A new pause test failed during setup: normal-size text was fully visible, so one swipe could not reach its assumed position. The failure video is inspected. Maximum text and position-based scrolling now exercise pause/resume preservation and same-chapter replay.
+- Backend source 008a213 is deployed as Worker 2ae56910-76b4-4351-8e02-ca4d8e250486, workflow 34885725856 succeeded. Independent production Chromium/WebKit reads at 375/1440px passed, fictional shares are revoked and the old link returns 200. Documentation ca77486 is pushed and matches remote main.
+- TestFlight remains 0.1.0 (11). Native memory changes are unpublished. Next resolve the pause check, inspect screenshots, run full regression and changed-line coverage, then publish locally. Continue through 08:39:34 AEST. Physical speech, camera and VoiceOver remain unverified.
+
 ## TestFlight 11 released (2026-09-15 05:17 AEST)
 
 - Published 0.1.0 (11) from this Mac. Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. Build ID af09f7fe-5c89-4111-aef0-a42ae1d6af32, source f26c017.

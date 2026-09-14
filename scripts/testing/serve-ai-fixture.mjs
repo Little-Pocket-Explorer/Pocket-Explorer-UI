@@ -6,6 +6,7 @@ const port = Number(process.env.POCKET_FIXTURE_PORT || 4197);
 const image = readFileSync(process.env.POCKET_FIXTURE_IMAGE || new URL('../../shared/fixtures/generated-card.png', import.meta.url));
 const questions = new Map();
 const jobs = new Map();
+const corruptPictures = new Set();
 const shares = new Map();
 const reply = {
   title: 'Blue sky', answer: 'Air scatters blue light more than red light. That is why the daytime sky looks blue.',
@@ -47,11 +48,12 @@ createServer(async (request, response) => {
     const id = randomUUID(); const job = { id, status: failed ? 'failed' : slow ? 'working' : 'ready', attempts,
       updatedAt: Date.now() - (slow ? 35000 : 0), expiresAt: slow ? Date.now() + 180000 : null,
       canRetry: failed && attempts < 2, imagePath: failed || slow ? null : `/api/artwork/${id}/image` };
+    if (question.includes('corrupt illustration')) corruptPictures.add(id);
     jobs.set(id, job); return json(202, job);
   }
   const art = /^\/api\/artwork\/([^/]+)(\/image|\/retry)?$/.exec(url.pathname);
   if (art) {
-    if (art[2] === '/image') { response.writeHead(200, { 'Content-Type': 'image/png' }); response.end(image); return; }
+    if (art[2] === '/image') { response.writeHead(200, { 'Content-Type': 'image/png' }); response.end(corruptPictures.has(art[1]) ? Buffer.from('truncated picture') : image); return; }
     if (art[2] === '/retry') jobs.set(art[1], { id: art[1], status: 'ready', attempts: 2, imagePath: `/api/artwork/${art[1]}/image` });
     return json(jobs.has(art[1]) ? 200 : 404, jobs.get(art[1]) || { error: 'not_found' });
   }

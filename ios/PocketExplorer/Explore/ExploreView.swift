@@ -12,7 +12,7 @@ struct ExploreView: View {
     var initialQuestion = ""
     var recordID: UUID?
     var entry: ExplorationEntry = .compose
-    var onSave: (Discovery) -> Void
+    var onSave: (_ discovery: Discovery, _ isNew: Bool) -> Void
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage("explorer-age") private var age = 7
     @State private var question = ""
@@ -54,23 +54,25 @@ struct ExploreView: View {
                             Text(reply.invitation).padding(16).frame(maxWidth: .infinity, alignment: .leading)
                                 .background(Theme.mint.opacity(0.75), in: RoundedRectangle(cornerRadius: 22))
                         }
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("What did you notice? (optional)").font(.system(.subheadline, design: .rounded, weight: .semibold))
-                            TextField("I noticed…", text: $observation, axis: .vertical).lineLimit(2...4)
-                                .padding(16).background(.white, in: RoundedRectangle(cornerRadius: 18)).accessibilityIdentifier("observation-input")
-                                .disabled(thinking || listening || startingListening || finishingListening)
-                            Button { toggleRecording(forObservation: true) } label: {
-                                Label(L10n.text(listening && recordingObservation ? "Finish recording" : "Say what you noticed"), systemImage: listening && recordingObservation ? "stop.fill" : "mic.fill")
-                            }.frame(minHeight: 44).accessibilityIdentifier("observation-speak").disabled(finishingListening)
-                            if let place = location.place {
-                                HStack { Label(place.name, systemImage: "location.fill"); Spacer(); Button("Remove") { location.remove() } }
-                            } else {
-                                Button { location.request() } label: { Label(L10n.text(location.isLoading ? "Finding your place…" : "Add this place (optional)"), systemImage: "location") }
-                                    .frame(minHeight: 44).disabled(location.isLoading)
-                            }
-                            if let error = location.error { Text(error).font(.caption).foregroundStyle(Theme.muted) }
-                            Text("Your question is already a discovery. Keep it whenever you are ready.").font(.caption).foregroundStyle(Theme.muted)
-                        }.padding(.leading, 48)
+                        if record.cardID == nil {
+                            VStack(alignment: .leading, spacing: 12) {
+                                Text("What did you notice? (optional)").font(.system(.subheadline, design: .rounded, weight: .semibold))
+                                TextField("I noticed…", text: $observation, axis: .vertical).lineLimit(2...4)
+                                    .padding(16).background(.white, in: RoundedRectangle(cornerRadius: 18)).accessibilityIdentifier("observation-input")
+                                    .disabled(thinking || listening || startingListening || finishingListening)
+                                Button { toggleRecording(forObservation: true) } label: {
+                                    Label(L10n.text(listening && recordingObservation ? "Finish recording" : "Say what you noticed"), systemImage: listening && recordingObservation ? "stop.fill" : "mic.fill")
+                                }.frame(minHeight: 44).accessibilityIdentifier("observation-speak").disabled(finishingListening)
+                                if let place = location.place {
+                                    HStack { Label(place.name, systemImage: "location.fill"); Spacer(); Button("Remove") { location.remove() } }
+                                } else {
+                                    Button { location.request() } label: { Label(L10n.text(location.isLoading ? "Finding your place…" : "Add this place (optional)"), systemImage: "location") }
+                                        .frame(minHeight: 44).disabled(location.isLoading)
+                                }
+                                if let error = location.error { Text(error).font(.caption).foregroundStyle(Theme.muted) }
+                                Text("Your question is already a discovery. Keep it whenever you are ready.").font(.caption).foregroundStyle(Theme.muted)
+                            }.padding(.leading, 48)
+                        }
                         Button("Ask another question") {
                             stopVoice(); self.record = nil; question = ""; observation = ""; photoDraft.clear(); selection = nil; error = nil; questionError = nil; location.remove(); focused = true
                         }.frame(minHeight: 44).frame(maxWidth: .infinity).accessibilityIdentifier("ask-another")
@@ -289,9 +291,10 @@ struct ExploreView: View {
         guard !startingListening, !finishingListening else { return }
         stopVoice()
         do {
+            let isNew = record.cardID == nil
             let card = try store.keepQuestion(record.id, observation: observation, tripID: tripID, place: location.place)
             self.record = store.questions.first { $0.id == record.id } ?? record
-            onSave(card)
+            onSave(card, isNew)
         }
         catch { self.error = journalMessage(error) }
     }

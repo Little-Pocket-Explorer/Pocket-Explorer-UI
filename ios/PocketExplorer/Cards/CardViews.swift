@@ -90,66 +90,70 @@ struct CardDetailView: View {
     private var discovery: Discovery? { store.state.discoveries.first { $0.id == discoveryID } }
 
     var body: some View {
-        ScrollView {
-            if let discovery {
-                VStack(alignment: .leading, spacing: 24) {
-                    Button {
-                        withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) { reversed.toggle() }
-                    } label: { DiscoveryCard(discovery: discovery, reversed: reversed, store: store) }
-                    .buttonStyle(.plain).accessibilityLabel(L10n.text(reversed ? "Show card front" : "Flip card to read my observation")).accessibilityIdentifier("discovery-card")
-                    if discovery.ai != nil {
-                        Text("AI illustration · inspired by your discovery").font(.caption2).foregroundStyle(Theme.muted)
-                        ArtworkStatusView(discovery: discovery, store: store)
-                    }
-                    Picker("Card details", selection: $section) {
-                        Text("Story").tag(0); Text("Knowledge").tag(1); Text("Location").tag(2)
-                    }.pickerStyle(.segmented)
-                    VStack(alignment: .leading, spacing: 14) {
-                        if section == 0 {
-                            Eyebrow(text: "My question")
-                            Text(discovery.question).font(.system(.title3, design: .rounded, weight: .bold))
-                            if discovery.observation != discovery.question { Text(discovery.observation) }
-                            Button("Add to my story") { observation = discovery.observation; editing = true }.frame(minHeight: 44)
-                        } else if section == 1 {
-                            Text(discovery.explanation).font(.system(.body, design: .rounded))
-                            if let reply = discovery.ai { Text(reply.invitation).foregroundStyle(Theme.forest) }
-                        } else {
-                            if let place = discovery.place ?? store.state.trips.first(where: { $0.id == discovery.tripID })?.place {
-                                Label(place.name, systemImage: "mappin.and.ellipse")
-                                Text("Exact coordinates stay in your journal.").font(.caption).foregroundStyle(Theme.muted)
-                            } else { Label("No location saved", systemImage: "location.slash") }
+        ScrollViewReader { proxy in
+            ScrollView {
+                if let discovery {
+                    VStack(alignment: .leading, spacing: 24) {
+                        Button {
+                            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) { reversed.toggle() }
+                        } label: { DiscoveryCard(discovery: discovery, reversed: reversed, store: store) }
+                        .buttonStyle(.plain).accessibilityLabel(L10n.text(reversed ? "Show card front" : "Flip card to read my observation")).accessibilityIdentifier("discovery-card")
+                        if discovery.ai != nil {
+                            Text("AI illustration · inspired by your discovery").font(.caption2).foregroundStyle(Theme.muted)
+                            ArtworkStatusView(discovery: discovery, store: store)
                         }
-                    }.padding(20).frame(maxWidth: .infinity, alignment: .leading).background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 22))
-                    if let filename = discovery.photoFilename {
-                        Eyebrow(text: "My field photo · private")
-                        CachedMediaImage(url: store.mediaURL(filename), contentMode: .fit) {
-                            Theme.mint.opacity(0.4).frame(height: 160)
-                        }.clipShape(RoundedRectangle(cornerRadius: 20))
-                    }
-                    if let trip = store.state.trips.first(where: { $0.id == discovery.tripID }) {
-                        NavigationLink { SharePreviewView(trip: trip, discoveries: [discovery], store: store, singleCardID: discovery.id) } label: { Label("Preview & share", systemImage: "square.and.arrow.up") }
-                            .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("card-share-preview")
-                        NavigationLink("See this adventure") { TripDetailView(store: store, tripID: discovery.tripID) }.frame(maxWidth: .infinity, minHeight: 44)
-                    }
-                }.padding(24)
-            }
-        }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink)
-        .navigationTitle(discovery?.title ?? L10n.text("My discovery")).navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $editing) {
-            NavigationStack {
-                Form {
-                    Section("In my own words") { TextEditor(text: $observation).frame(minHeight: 160).accessibilityIdentifier("edit-observation") }
-                    if let error { Text(error) }
-                }.navigationTitle("Look a little closer")
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) { Button("Cancel") { editing = false } }
-                        ToolbarItem(placement: .confirmationAction) {
-                            Button("Save") {
-                                do { try store.updateObservation(discoveryID: discoveryID, observation: observation); editing = false }
-                                catch { self.error = error.localizedDescription }
-                            }.disabled(observation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        Picker("Card details", selection: $section) {
+                            Text("Story").tag(0); Text("Knowledge").tag(1); Text("Location").tag(2)
+                        }.pickerStyle(.segmented).id("card-section-start")
+                        VStack(alignment: .leading, spacing: 14) {
+                            if section == 0 {
+                                Eyebrow(text: "My question")
+                                Text(discovery.question).font(.system(.title3, design: .rounded, weight: .bold))
+                                if discovery.observation != discovery.question { Text(discovery.observation) }
+                                Button("Add to my story") { observation = discovery.observation; editing = true }.frame(minHeight: 44)
+                            } else if section == 1 {
+                                Text(discovery.explanation).font(.system(.body, design: .rounded))
+                                if let reply = discovery.ai { Text(reply.invitation).foregroundStyle(Theme.forest) }
+                            } else {
+                                if let place = discovery.place ?? store.state.trips.first(where: { $0.id == discovery.tripID })?.place {
+                                    Label(place.name, systemImage: "mappin.and.ellipse")
+                                    Text("Exact coordinates stay in your journal.").font(.caption).foregroundStyle(Theme.muted)
+                                } else { Label("No location saved", systemImage: "location.slash") }
+                            }
+                        }.padding(20).frame(maxWidth: .infinity, alignment: .leading).background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 22))
+                        if let filename = discovery.photoFilename {
+                            Eyebrow(text: "My field photo · private")
+                            CachedMediaImage(url: store.mediaURL(filename), contentMode: .fit) {
+                                Theme.mint.opacity(0.4).frame(height: 160)
+                            }.clipShape(RoundedRectangle(cornerRadius: 20))
                         }
-                    }
+                        if let trip = store.state.trips.first(where: { $0.id == discovery.tripID }) {
+                            NavigationLink { SharePreviewView(trip: trip, discoveries: [discovery], store: store, singleCardID: discovery.id) } label: { Label("Preview & share", systemImage: "square.and.arrow.up") }
+                                .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("card-share-preview")
+                            NavigationLink("See this adventure") { TripDetailView(store: store, tripID: discovery.tripID) }.frame(maxWidth: .infinity, minHeight: 44)
+                        }
+                    }.padding(24)
+                }
+            }.onChange(of: section) { _, _ in
+                proxy.scrollTo("card-section-start", anchor: .top)
+            }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink)
+            .navigationTitle(discovery?.title ?? L10n.text("My discovery")).navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $editing) {
+                NavigationStack {
+                    Form {
+                        Section("In my own words") { TextEditor(text: $observation).frame(minHeight: 160).accessibilityIdentifier("edit-observation") }
+                        if let error { Text(error) }
+                    }.navigationTitle("Look a little closer")
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) { Button("Cancel") { editing = false } }
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Save") {
+                                    do { try store.updateObservation(discoveryID: discoveryID, observation: observation); editing = false }
+                                    catch { self.error = error.localizedDescription }
+                                }.disabled(observation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                            }
+                        }
+                }
             }
         }
     }
