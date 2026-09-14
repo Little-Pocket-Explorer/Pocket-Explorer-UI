@@ -1,5 +1,6 @@
 import MapKit
 import SwiftUI
+import ImageIO
 
 struct WorldMap: UIViewRepresentable {
     let trips: [Trip]
@@ -24,7 +25,12 @@ struct WorldMap: UIViewRepresentable {
 
     final class Coordinator: NSObject, MKMapViewDelegate {
         var parent: WorldMap
-        init(parent: WorldMap) { self.parent = parent }
+        private let markerImages = NSCache<NSString, UIImage>()
+        init(parent: WorldMap) {
+            self.parent = parent
+            markerImages.totalCostLimit = 2 * 1024 * 1024
+            markerImages.countLimit = 128
+        }
 
         func synchronize(_ map: MKMapView) {
             let located = parent.trips.filter { $0.place != nil }
@@ -59,13 +65,8 @@ struct WorldMap: UIViewRepresentable {
         }
         func configure(_ view: MKAnnotationView, annotation: TripAnnotation) {
             let discovery = parent.store?.discoveries(in: annotation.trip.id).first
-            let image = discovery?.artworkFilename.flatMap { parent.store?.mediaURL($0) }
-                .flatMap { UIImage(contentsOfFile: $0.path) } ?? UIImage(named: discovery?.subject.rawValue ?? "leaf") ?? UIImage(named: "leaf")
-            view.image = UIGraphicsImageRenderer(size: CGSize(width: 54, height: 54)).image { context in
-                UIColor.white.setFill(); context.cgContext.fillEllipse(in: CGRect(x: 0, y: 0, width: 54, height: 54))
-                context.cgContext.addEllipse(in: CGRect(x: 4, y: 4, width: 46, height: 46)); context.cgContext.clip()
-                image?.draw(in: CGRect(x: 4, y: 4, width: 46, height: 46))
-            }
+            let url = discovery?.artworkFilename.flatMap { parent.store?.mediaURL($0) }
+            view.image = markerImage(url: url, subject: discovery?.subject.rawValue ?? "leaf", scale: max(1, view.traitCollection.displayScale))
             view.layer.shadowOpacity = 0.22; view.layer.shadowRadius = 5; view.layer.shadowOffset = CGSize(width: 0, height: 3)
             view.displayPriority = .required
             view.collisionMode = .circle
@@ -73,6 +74,34 @@ struct WorldMap: UIViewRepresentable {
             view.accessibilityTraits = .button
             view.accessibilityIdentifier = "map-trip-\(annotation.trip.id)"
             view.accessibilityLabel = annotation.trip.title + ", " + (annotation.trip.place?.name ?? "")
+        }
+
+        private func markerImage(url: URL?, subject: String, scale: CGFloat) -> UIImage {
+            let attributes = url.flatMap { try? FileManager.default.attributesOfItem(atPath: $0.path) }
+            let modified = (attributes?[.modificationDate] as? Date)?.timeIntervalSince1970 ?? 0
+            let sourceKey: String
+            if let url, let attributes {
+                sourceKey = "\(url.absoluteString)|\(modified)|\(attributes[.size] ?? 0)|\(attributes[.systemFileNumber] ?? 0)"
+            } else { sourceKey = "asset:\(subject)" }
+            let key = "\(sourceKey)|\(subject)|\(scale)" as NSString
+            if let cached = markerImages.object(forKey: key) { return cached }
+            var image: UIImage?
+            if let url, attributes != nil, let source = CGImageSourceCreateWithURL(url as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary),
+               let thumbnail = CGImageSourceCreateThumbnailAtIndex(source, 0, [
+                kCGImageSourceCreateThumbnailFromImageAlways: true,
+                kCGImageSourceCreateThumbnailWithTransform: true,
+                kCGImageSourceShouldCacheImmediately: true,
+                kCGImageSourceThumbnailMaxPixelSize: Int(54 * scale)
+               ] as CFDictionary) { image = UIImage(cgImage: thumbnail) }
+            let artwork = image ?? UIImage(named: subject) ?? UIImage(named: "leaf")
+            let format = UIGraphicsImageRendererFormat(); format.scale = scale
+            let marker = UIGraphicsImageRenderer(size: CGSize(width: 54, height: 54), format: format).image { context in
+                UIColor.white.setFill(); context.cgContext.fillEllipse(in: CGRect(x: 0, y: 0, width: 54, height: 54))
+                context.cgContext.addEllipse(in: CGRect(x: 4, y: 4, width: 46, height: 46)); context.cgContext.clip()
+                artwork?.draw(in: CGRect(x: 4, y: 4, width: 46, height: 46))
+            }
+            markerImages.setObject(marker, forKey: key, cost: marker.cgImage.map { $0.bytesPerRow * $0.height } ?? 0)
+            return marker
         }
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
             guard let annotation = view.annotation as? TripAnnotation else { return }
