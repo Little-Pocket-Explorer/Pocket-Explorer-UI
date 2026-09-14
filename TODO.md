@@ -1,6 +1,6 @@
 # Pocket Explorer: Current Execution State
 
-Updated 2026-09-15 after build 13 publication. Continue useful refinement through 08:39:34 AEST.
+Updated 2026-09-15. The eight-hour refinement window ended at 08:39:34 AEST. Build 13 is released and the five-minute checkpoint is paused.
 
 ## Delivery
 
@@ -21,7 +21,7 @@ Published application source is 339ff9e5832fb4cc8fa24cde30aa2f72a811e581, pushed
 | T21.4 publication | DONE | [skip ci] commit/push, local upload and independent Apple/IPA reads complete |
 | T20.2 / T21.2 physical speech | REVIEW | Physical naturalness and recording remain unverified |
 | Physical camera, VoiceOver and Safari | REVIEW | Post-release device read still shows disconnection. Preserve TestFlight installation |
-| Final checkpoint | IN_PROGRESS | Synchronize evidence and Chinese copies, check/commit documents, pause checkpoint at deadline |
+| Final checkpoint | DONE | Evidence, Chinese copies and guides synchronized, checked and pushed. Checkpoint paused after the deadline with independent readback |
 | Accounts, friends and chat | DEFERRED | Explicitly outside this iteration |
 
 ## Final verification and release
@@ -58,4 +58,4 @@ Provider duration remains variable. Preserve existing 120/18 safeguards. No new 
 
 Earlier T00 through T21 work, releases and checkpoints are retained in [the execution archive](docs/history/20260915-pre-final-TODO.md). Preserve the product criteria in [ACCEPTANCE.md](ACCEPTANCE.md). Simulator checks do not replace human visual approval or physical-device acceptance.
 
-The five-minute heartbeat is pocket-explorer-5. At 08:39:34 AEST, record the final checkpoint and pause it through the automation tool. Do not create another.
+The five-minute heartbeat pocket-explorer-5 was paused at 08:39:56 AEST and independently read back as PAUSED. No tests or uploads remain active. UI documentation evidence commit 72b3392 and Backend guide commit 83db0fb were independently confirmed on remote main. This final checkpoint-state commit does not change the published application source.

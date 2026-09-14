@@ -1,6 +1,6 @@
 # Pocket Explorer: Implementation Plan
 
-Updated 2026-09-15 during the authorized refinement session ending at 08:39:34 Australia/Sydney.
+Updated 2026-09-15. The authorized eight-hour refinement window ended at 08:39:34 Australia/Sydney, and the five-minute checkpoint is paused. Outstanding acceptance remains open.
 
 ## Product decisions
 

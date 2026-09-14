@@ -1,6 +1,6 @@
 # Pocket Explorer: Current Capabilities and Remaining Work
 
-Updated 2026-09-15. The user authorizes continued refinement through 08:39:34 AEST. This replaces the earlier language-assessment-only plan. TODO.md owns current execution and the latest release.
+Updated 2026-09-15 after the eight-hour refinement window ended at 08:39:34 AEST. This records delivered capabilities, open acceptance and future work. TODO.md owns the latest execution evidence.
 
 ## Current delivery
 

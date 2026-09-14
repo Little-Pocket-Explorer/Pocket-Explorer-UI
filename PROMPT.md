@@ -2,7 +2,7 @@
 
 ## Current objective
 
-Continue the user-authorized refinement through 2026-09-15 08:39:34 Australia/Sydney. Improve rough UI transitions, stiff narration and slow illustration feedback. Every meaningful version needs tests, actual UI inspection, written critique and independent delivery verification. Do not stop at an intermediate build. Do not manufacture activity through unchanged tests, extra provider calls or near-identical uploads.
+The user-authorized eight-hour refinement window ended at 2026-09-15 08:39:34 Australia/Sydney. Released build 13 includes improvements to UI transitions, narration pacing and slow-illustration feedback. When the user continues the project, resume from the current delivery and unresolved work. Every meaningful future version still needs tests, actual UI inspection, written critique and independent verification. Do not repeat unchanged tests, provider calls or near-identical uploads.
 
 Read [TODO.md](TODO.md) first for the live checkpoint, then [PLAN.md](PLAN.md) and applicable AGENTS.md. Earlier checkpoints are in docs/history/20260915-pre-final-*.md. They are historical evidence, not current execution instructions.
 
@@ -24,7 +24,7 @@ TestFlight 0.1.0 (13) is independently verified VALID / IN_BETA_TESTING in Hacka
 
 Released build 13 fixes pending share creation and revocation across sheet reentry, preserves the exact public snapshot, adapts published controls for accessibility text sizes, and uses neutral keepsake art for terminal illustration failure. Ten UI catalogs have 322 entries.
 
-An earlier complete regression passed 150 tests with no failures and two explicit skips. It predates final revocation, accessibility layout and keepsake changes. Final complete regression passed 154 tests with no failures and two explicit skips. Three independent iOS 27 sharing checks passed. Changed executable-line coverage is 133/133, each file at 100%. Actual screenshots, manual critique and source-freeze verification are complete. Apple, IPA, signing, ten catalogs and temporary-keychain cleanup were independently verified. Next finalize the evidence and physical-device acceptance guidance, following TODO.
+An earlier complete regression passed 150 tests with no failures and two explicit skips. It predates final revocation, accessibility layout and keepsake changes. Final complete regression passed 154 tests with no failures and two explicit skips. Three independent iOS 27 sharing checks passed. Changed executable-line coverage is 133/133, each file at 100%. Actual screenshots, manual critique and source-freeze verification are complete. Apple, IPA, signing, ten catalogs and temporary-keychain cleanup were independently verified. Evidence, physical-device acceptance guidance and document pushes are complete. Next work is physical acceptance and the reproduced lost-response correction, following TODO.
 
 ## Execution rules
 
@@ -53,4 +53,4 @@ apple-readback.json and ipa-readback.json preserve the independent release-time 
 
 Physical microphone, camera, premium narration, VoiceOver and Safari remain open. Available simulator voices rendered non-silent audio in ten languages, but Arabic used a male voice and French a Canadian French voice. Do not describe every locale as natural female narration. Cloud TTS was unavailable.
 
-The current five-minute heartbeat is pocket-explorer-5. Reuse it, do not create another. At the agreed deadline, record the final delivered versions and unresolved checks, pause the heartbeat through the automation tool, and give a concise Chinese report. Use the remaining time for useful independent work while tests or Apple processing run.
+The five-minute heartbeat pocket-explorer-5 was paused through the automation tool after the deadline and independently read back. No tests, uploads or automatic continuation remain active. Preserve this evidence and continue according to the user’s next instructions.
