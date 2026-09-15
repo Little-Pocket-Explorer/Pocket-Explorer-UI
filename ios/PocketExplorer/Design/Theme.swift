@@ -10,6 +10,7 @@ enum Theme {
     static let land = Color(hex: 0xE1E8B7)
     static let line = Color(hex: 0xC8D79B)
     static let sun = Color(hex: 0xFFD76B)
+    static let mint = Color(hex: 0xD9F9EC)
     static let shimmer = LinearGradient(colors: [Color(hex: 0xD1EED7), Color(hex: 0xF8D999), Color(hex: 0xF4BFAE), Color(hex: 0xE2D8FC), Color(hex: 0xADE3D3)], startPoint: .topLeading, endPoint: .bottomTrailing)
 }
 
@@ -24,10 +25,13 @@ struct ExplorerButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.system(.subheadline, design: .rounded, weight: .bold))
-            .frame(maxWidth: .infinity, minHeight: 50)
+            .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
             .padding(.horizontal, 14)
-            .background(secondary ? Theme.surface : Theme.forest, in: RoundedRectangle(cornerRadius: 18))
-            .foregroundStyle(secondary ? Theme.ink : Theme.paper)
+            .padding(.vertical, 12)
+            .frame(maxWidth: .infinity, minHeight: 50)
+            .background(LinearGradient(colors: secondary ? [Color.white, Theme.mint.opacity(0.4)] : [Color(hex: 0xBEFCE1), Color(hex: 0x68DDB3)], startPoint: .top, endPoint: .bottom), in: Capsule())
+            .foregroundStyle(Theme.ink)
+            .shadow(color: Theme.forest.opacity(configuration.isPressed ? 0 : 0.1), radius: 8, y: 4)
             .opacity(configuration.isPressed ? 0.8 : 1)
     }
 }
@@ -35,6 +39,8 @@ struct ExplorerButtonStyle: ButtonStyle {
 struct Eyebrow: View {
     let text: String
     var body: some View {
-        Text(L10n.text(text).uppercased()).font(.system(.caption2, design: .rounded, weight: .bold)).tracking(2).foregroundStyle(Theme.muted)
+        Text(L10n.text(text).uppercased()).font(.system(.caption2, design: .rounded, weight: .bold))
+            .kerning(AppLanguage.current.isRightToLeft ? 0 : 2).foregroundStyle(Theme.muted)
+            .accessibilityLabel(Text(L10n.text(text)))
     }
 }

@@ -1,0 +1,4 @@
+"NSMicrophoneUsageDescription" = "Enregistre tes questions et tes découvertes quand tu touches le bouton pour parler.";
+"NSSpeechRecognitionUsageDescription" = "Transforme tes questions et tes observations parlées en mots sur tes cartes.";
+"NSCameraUsageDescription" = "Photographie tes découvertes. Une photo n’est envoyée au guide IA que lorsque tu envoies la question qui l’accompagne.";
+"NSLocationWhenInUseUsageDescription" = "Enregistre une découverte sur ta carte privée uniquement quand tu choisis d’ajouter son lieu.";

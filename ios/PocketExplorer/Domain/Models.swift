@@ -1,14 +1,16 @@
 import Foundation
 
 enum DiscoverySubject: String, Codable, CaseIterable, Identifiable {
-    case duck, leaf, shell
+    case duck, leaf, shell, discovery
 
     var id: String { rawValue }
-    var title: String {
+    var title: String { title(language: .current) }
+    func title(language: AppLanguage) -> String {
         switch self {
-        case .duck: return L10n.text("Duck paddles")
-        case .leaf: return L10n.text("Leaf detectives")
-        case .shell: return L10n.text("Tiny ocean homes")
+        case .duck: return L10n.text("Duck paddles", language: language)
+        case .leaf: return L10n.text("Leaf detectives", language: language)
+        case .shell: return L10n.text("Tiny ocean homes", language: language)
+        case .discovery: return L10n.text("A new discovery", language: language)
         }
     }
     var category: String {
@@ -16,6 +18,7 @@ enum DiscoverySubject: String, Codable, CaseIterable, Identifiable {
         case .duck: return L10n.text("Pond discovery")
         case .leaf: return L10n.text("Garden discovery")
         case .shell: return L10n.text("Coastal discovery")
+        case .discovery: return L10n.text("Discovery")
         }
     }
     var sampleQuestion: String {
@@ -23,6 +26,7 @@ enum DiscoverySubject: String, Codable, CaseIterable, Identifiable {
         case .duck: return L10n.text("How do ducks swim?")
         case .leaf: return L10n.text("Are all leaves the same?")
         case .shell: return L10n.text("Who lived in this shell?")
+        case .discovery: return L10n.text("Why is the sky blue?")
         }
     }
 }
@@ -69,6 +73,25 @@ struct Discovery: Codable, Equatable, Identifiable {
     var unlockedAt: Date? = nil
     var origin: DiscoveryOrigin? = nil
     var tier: CardTier? = nil
+    var ai: AIReply? = nil
+    var explorationID: UUID? = nil
+    var artwork: ArtworkJob? = nil
+    var artworkFilename: String? = nil
+    var quizAnsweredAt: Date? = nil
+    var quizChoice: Int? = nil
+    var place: Place? = nil
+    var language: String? = nil
+
+    var title: String { ai?.title ?? subject.title(language: language.flatMap(AppLanguage.init(rawValue:)) ?? .current) }
+    var category: String { ai.map { L10n.text($0.category.capitalized) } ?? subject.category }
+    var categoryID: String {
+        if let ai { return ai.category }
+        switch subject {
+        case .duck, .shell: return "animals"
+        case .leaf: return "nature"
+        case .discovery: return "science"
+        }
+    }
 }
 
 struct MemoryChapter: Codable, Equatable, Identifiable {
@@ -76,6 +99,7 @@ struct MemoryChapter: Codable, Equatable, Identifiable {
     var title: String
     var text: String
     var subject: DiscoverySubject
+    var language: String? = nil
 }
 
 struct TripMemory: Codable, Equatable, Identifiable {
@@ -92,26 +116,29 @@ struct Trip: Codable, Equatable, Identifiable {
     var memory: TripMemory?
     var dismissedUntil: Date?
     var isExample: Bool
+    var language: String? = nil
 }
 
 struct JournalState: Codable, Equatable {
     var version = 1
     var trips: [Trip]
     var discoveries: [Discovery]
+    var explorations: [ExplorationRecord]? = nil
 
-    static func examples(now: Date = Date()) -> JournalState {
+    static func examples(now: Date = Date(), language: AppLanguage = .current) -> JournalState {
+        func text(_ key: String) -> String { L10n.text(key, language: language) }
         let pond = UUID(uuidString: "10000000-0000-4000-8000-000000000001")!
         let garden = UUID(uuidString: "10000000-0000-4000-8000-000000000002")!
         let coast = UUID(uuidString: "10000000-0000-4000-8000-000000000003")!
         let old = now.addingTimeInterval(-9 * 86_400)
         let records = [
-            Discovery(id: UUID(uuidString: "20000000-0000-4000-8000-000000000001")!, tripID: pond, subject: .duck, question: "How do ducks swim?", observation: "Their feet push the water like little paddles!", explanation: "Webbed feet help ducks push against the water.", createdAt: old),
-            Discovery(id: UUID(uuidString: "20000000-0000-4000-8000-000000000002")!, tripID: pond, subject: .leaf, question: "Are all leaves the same?", observation: "One had smooth edges. Another had tiny teeth.", explanation: "Leaf shapes and edges can help us notice differences between plants.", createdAt: old.addingTimeInterval(600)),
-            Discovery(id: UUID(uuidString: "20000000-0000-4000-8000-000000000003")!, tripID: garden, subject: .leaf, question: "Why does this leaf have lines?", observation: "The little lines branch out like roads.", explanation: "Leaf veins carry water and other materials through the leaf.", createdAt: old),
-            Discovery(id: UUID(uuidString: "20000000-0000-4000-8000-000000000004")!, tripID: coast, subject: .shell, question: "Who lived in this shell?", observation: "I could see a little doorway and a spiral.", explanation: "Many molluscs grow shells that protect their soft bodies.", createdAt: old)
+            Discovery(id: UUID(uuidString: "20000000-0000-4000-8000-000000000001")!, tripID: pond, subject: .duck, question: text("How do ducks swim?"), observation: text("Their feet push the water like little paddles!"), explanation: text("Webbed feet help ducks push against the water."), createdAt: old, language: language.rawValue),
+            Discovery(id: UUID(uuidString: "20000000-0000-4000-8000-000000000002")!, tripID: pond, subject: .leaf, question: text("Are all leaves the same?"), observation: text("One had smooth edges. Another had tiny teeth."), explanation: text("Leaf shapes and edges can help us notice differences between plants."), createdAt: old.addingTimeInterval(600), language: language.rawValue),
+            Discovery(id: UUID(uuidString: "20000000-0000-4000-8000-000000000003")!, tripID: garden, subject: .leaf, question: text("Why does this leaf have lines?"), observation: text("The little lines branch out like roads."), explanation: text("Leaf veins carry water and other materials through the leaf."), createdAt: old, language: language.rawValue),
+            Discovery(id: UUID(uuidString: "20000000-0000-4000-8000-000000000004")!, tripID: coast, subject: .shell, question: text("Who lived in this shell?"), observation: text("I could see a little doorway and a spiral."), explanation: text("Many molluscs grow shells that protect their soft bodies."), createdAt: old, language: language.rawValue)
         ]
-        let trips = [(pond, "The day we met the ducks", Place.sydney), (garden, "A garden full of little wonders", Place.melbourne), (coast, "Treasures by the sea", Place.brisbane)].map { id, title, place in
-            Trip(id: id, title: title, startedAt: old, place: place, completedAt: old.addingTimeInterval(3600), memory: MemoryBuilder.build(tripID: id, discoveries: records.filter { $0.tripID == id }), isExample: true)
+        let trips = [(pond, text("The day we met the ducks"), Place.sydney), (garden, text("A garden full of little wonders"), Place.melbourne), (coast, text("Treasures by the sea"), Place.brisbane)].map { id, title, place in
+            Trip(id: id, title: title, startedAt: old, place: place, completedAt: old.addingTimeInterval(3600), memory: MemoryBuilder.build(tripID: id, discoveries: records.filter { $0.tripID == id }), isExample: true, language: language.rawValue)
         }
         return JournalState(trips: trips, discoveries: records)
     }
@@ -122,12 +149,12 @@ enum JournalError: LocalizedError, Equatable {
 
     var errorDescription: String? {
         switch self {
-        case .emptyObservation: return "Tell us one thing you noticed first."
-        case .emptyQuestion: return "Add your question first."
-        case .missingTrip: return "This adventure could not be found."
-        case .missingDiscovery: return "This discovery could not be found."
-        case .emptyTrip: return "Make one discovery before creating a memory."
-        case .invalidVersion: return "This journal needs a newer version of Pocket Explorer."
+        case .emptyObservation: return L10n.text("Tell us one thing you noticed first.")
+        case .emptyQuestion: return L10n.text("Add your question first.")
+        case .missingTrip: return L10n.text("This adventure could not be found.")
+        case .missingDiscovery: return L10n.text("This discovery could not be found.")
+        case .emptyTrip: return L10n.text("Make one discovery before creating a memory.")
+        case .invalidVersion: return L10n.text("This journal needs a newer version of Pocket Explorer.")
         }
     }
 }

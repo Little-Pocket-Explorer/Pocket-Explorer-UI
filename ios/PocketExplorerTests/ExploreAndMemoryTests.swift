@@ -4,7 +4,7 @@ import XCTest
 final class ExploreAndMemoryTests: XCTestCase {
     func testLanguageSelectionAndSpeechLocales() throws {
         XCTAssertEqual(AppLanguage.resolve(["zh-Hans-CN", "en"]), .chinese)
-        XCTAssertEqual(AppLanguage.resolve(["zh-Hant-TW"]), .chinese)
+        XCTAssertEqual(AppLanguage.resolve(["zh-Hant-TW"]), .traditionalChinese)
         XCTAssertEqual(AppLanguage.resolve(["en-AU", "zh-Hans"]), .english)
         XCTAssertEqual(AppLanguage.resolve([]), .english)
         XCTAssertEqual(AppLanguage.chinese.speechLocale, "zh-CN")
@@ -99,7 +99,7 @@ final class ExploreAndMemoryTests: XCTestCase {
     }
 
     func testGuideMatchesSubjectsAndRejectsUnrelatedQuestions() {
-        for subject in DiscoverySubject.allCases {
+        for subject in [DiscoverySubject.duck, .leaf, .shell] {
             let reply = DemoGuide.reply(to: subject.sampleQuestion)
             XCTAssertEqual(reply?.subject, subject)
             XCTAssertFalse(reply!.answer.isEmpty)

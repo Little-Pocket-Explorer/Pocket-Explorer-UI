@@ -1,0 +1,4 @@
+"NSMicrophoneUsageDescription" = "말하기 버튼을 누르면 질문과 발견을 녹음해요.";
+"NSSpeechRecognitionUsageDescription" = "말로 한 질문과 관찰을 발견 카드의 글자로 바꿔요.";
+"NSCameraUsageDescription" = "발견한 것을 사진으로 남겨요. 사진은 함께 첨부한 질문을 보낼 때만 AI 가이드에게 보내져요.";
+"NSLocationWhenInUseUsageDescription" = "장소 추가를 선택할 때만 나만의 지도에 발견을 저장해요.";

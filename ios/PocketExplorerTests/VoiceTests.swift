@@ -7,6 +7,7 @@ final class FakeVoiceTransport: VoiceTransport {
     var onTranscript: ((String) -> Void)?
     var onError: ((String) -> Void)?
     var onFinishedSpeaking: (() -> Void)?
+    var onFinishedListening: (() -> Void)?
     var onInterrupted: (() -> Void)?
     var microphone = true
     var speech = true
@@ -15,6 +16,9 @@ final class FakeVoiceTransport: VoiceTransport {
     var starts = 0
     var stops = 0
     var spoken = ""
+    var spokenLanguage = ""
+    var recognitionLanguage = ""
+    var finishing: (() -> Void)?
     var pendingMicrophone: CheckedContinuation<Bool, Never>?
     var pendingSpeech: CheckedContinuation<Bool, Never>?
     var delayMicrophone = false
@@ -27,13 +31,73 @@ final class FakeVoiceTransport: VoiceTransport {
         if delaySpeech { return await withCheckedContinuation { pendingSpeech = $0 } }
         return speech
     }
-    func startRecognition() throws { if startError { throw VoiceError.unavailable }; starts += 1 }
-    func speak(_ text: String) throws { if speakError { throw VoiceError.unavailable }; spoken = text }
+    func startRecognition(language: String) throws { if startError { throw VoiceError.unavailable }; starts += 1; recognitionLanguage = language }
+    func speak(_ text: String, language: String) throws { if speakError { throw VoiceError.unavailable }; spoken = text; spokenLanguage = language }
     func stop() { stops += 1 }
+    func finishRecognition() async { finishing?() }
 }
 
 @MainActor
 final class VoiceTests: XCTestCase {
+    func testInterruptionEndDoesNotInterruptANewSession() async {
+        let hardware = SystemVoiceTransport()
+        let unexpected = expectation(description: "Ended and malformed interruptions are ignored")
+        unexpected.isInverted = true
+        unexpected.assertForOverFulfill = false
+        hardware.onInterrupted = { unexpected.fulfill() }
+        NotificationCenter.default.post(name: AVAudioSession.interruptionNotification, object: nil,
+                                        userInfo: [AVAudioSessionInterruptionTypeKey: AVAudioSession.InterruptionType.ended.rawValue])
+        NotificationCenter.default.post(name: AVAudioSession.interruptionNotification, object: nil)
+        await fulfillment(of: [unexpected], timeout: 0.2)
+    }
+
+    func testFinishingAcceptsTheLastTranscriptAndPreservesTheTypedPrefix() async throws {
+        let hardware = FakeVoiceTransport()
+        let voice = VoiceSession(transport: hardware)
+        let draft = DictationDraft(original: "I wonder why")
+        var text = draft.original
+        var finished = 0
+        voice.onTranscript = { text = draft.applying($0) }
+        voice.onFinishedListening = { finished += 1 }
+        try await voice.start()
+        hardware.onTranscript?("the sky")
+        XCTAssertEqual(text, "I wonder why the sky")
+        hardware.finishing = { hardware.onTranscript?("the sky is blue") }
+        await voice.finish()
+        XCTAssertEqual(text, "I wonder why the sky is blue")
+        XCTAssertEqual(finished, 1)
+        hardware.onTranscript?("an obsolete result")
+        XCTAssertEqual(text, "I wonder why the sky is blue")
+        XCTAssertEqual(DictationDraft(original: "").applying(" hello "), "hello")
+        XCTAssertEqual(DictationDraft(original: "Keep these words").applying("  "), "Keep these words")
+        try await voice.start()
+        hardware.onFinishedListening?()
+        XCTAssertEqual(finished, 2)
+    }
+
+    func testCancellingARecordingDuringFinishDoesNotReportAStaleCompletion() async throws {
+        let hardware = FakeVoiceTransport()
+        let voice = VoiceSession(transport: hardware)
+        var completed = 0
+        voice.onFinishedListening = { completed += 1 }
+        try await voice.start()
+        hardware.finishing = { voice.stop() }
+        await voice.finish()
+        XCTAssertEqual(completed, 0)
+        let system = SystemVoiceTransport()
+        await system.finishRecognition()
+        system.stop()
+    }
+    func testSavedContentLanguageReachesTheVoiceRegardlessOfTheInterfaceLanguage() async throws {
+        let hardware = FakeVoiceTransport()
+        let voice = VoiceSession(transport: hardware)
+        try voice.speak("天空像一张蓝色的画布。", language: "zh-Hans")
+        XCTAssertEqual(hardware.spokenLanguage, "zh-Hans")
+        try voice.speak("The sky is blue.", language: "en")
+        XCTAssertEqual(hardware.spokenLanguage, "en")
+        try await voice.start(language: "fr-FR")
+        XCTAssertEqual(hardware.recognitionLanguage, "fr-FR")
+    }
     func testPermissionErrorsExplainRecoveryAndUnavailableSpeechOffersTyping() {
         for error in [VoiceError.microphoneDenied, .speechDenied] {
             let message = error.localizedDescription
@@ -115,7 +179,8 @@ final class VoiceTests: XCTestCase {
         let hardware = SystemVoiceTransport()
         let interrupted = expectation(description: "System interruption forwarded")
         hardware.onInterrupted = { interrupted.fulfill() }
-        NotificationCenter.default.post(name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
+        NotificationCenter.default.post(name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance(),
+                                        userInfo: [AVAudioSessionInterruptionTypeKey: AVAudioSession.InterruptionType.began.rawValue])
         await fulfillment(of: [interrupted], timeout: 3)
         hardware.stop()
         var imageData: Data?

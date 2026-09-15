@@ -21,7 +21,7 @@ final class JournalTests: XCTestCase {
         XCTAssertEqual(first.discoveries(in: first.state.trips[0].id).count, 2)
         let second = try TripStore(fileURL: fileURL, initial: JournalState(trips: [], discoveries: []))
         XCTAssertEqual(second.state, first.state)
-        XCTAssertEqual(Set(second.state.discoveries.map(\.subject)), Set(DiscoverySubject.allCases))
+        XCTAssertEqual(Set(second.state.discoveries.map(\.subject)), Set([DiscoverySubject.duck, .leaf, .shell]))
     }
 
     func testCreateSavePhotoEditAndFinishSurviveReload() throws {

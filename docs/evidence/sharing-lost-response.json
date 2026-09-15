@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-09-14T22:19:15.985Z",
+  "scope": "Actual Worker route, real local D1 and a dropped HTTP response after commit. No production requests.",
+  "sourceCommit": "08b755882d339cca7a3079663b7c5e1b2fdeab9b",
+  "outcome": "REPRODUCED_UNRESOLVED",
+  "firstClientError": "UND_ERR_SOCKET",
+  "firstReceiptAvailableToClient": false,
+  "createRequests": 2,
+  "persistedBeforeRetry": 1,
+  "persistedAfterRetry": 2,
+  "distinctTokens": true,
+  "retriedLinkAfterRevocation": 410,
+  "firstLinkAfterRetryRevocation": 200,
+  "activeAfterCleanup": 0,
+  "artifactDirectory": "/Users/haichang/tmp/review/pocket-polish-20260915",
+  "reproductionScript": "share-lost-response-reproduction.mts",
+  "nativeReleasedSource": "339ff9e5832fb4cc8fa24cde30aa2f72a811e581",
+  "fixed": false
+}

@@ -7,7 +7,9 @@ struct ShareClient {
     func create(_ story: PublicStory, connection: ShareConnection) async throws -> ShareReceipt {
         let (data, response) = try await send(path: "api/shares", method: "POST", body: JSONEncoder().encode(story), connection: connection)
         guard response.statusCode == 201 else { throw ShareError.unavailable }
-        let receipt = try JSONDecoder().decode(ShareReceipt.self, from: data)
+        let receipt: ShareReceipt
+        do { receipt = try JSONDecoder().decode(ShareReceipt.self, from: data) }
+        catch { throw ShareError.invalidResponse }
         guard valid(receipt, connection: connection) else { throw ShareError.invalidResponse }
         return receipt
     }
@@ -31,7 +33,13 @@ struct ShareClient {
         request.httpBody = body
         request.setValue("Bearer \(connection.ownerKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let (data, response) = try await session.data(for: request)
+        let data: Data
+        let response: URLResponse
+        do { (data, response) = try await session.data(for: request) }
+        catch {
+            if Task.isCancelled || error is CancellationError || (error as? URLError)?.code == .cancelled { throw CancellationError() }
+            throw ShareError.unavailable
+        }
         guard let http = response as? HTTPURLResponse else { throw ShareError.invalidResponse }
         if http.statusCode == 401 || http.statusCode == 403 { throw ShareError.unauthorized }
         if http.statusCode == 429 { throw ShareError.rateLimited }

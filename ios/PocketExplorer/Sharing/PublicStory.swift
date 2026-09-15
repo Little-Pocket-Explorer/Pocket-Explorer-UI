@@ -7,6 +7,8 @@ struct PublicCard: Codable, Equatable, Identifiable {
     var question: String
     var observation: String
     var explanation: String
+    var artworkID: String? = nil
+    var language: String? = nil
 }
 
 struct PublicStory: Codable, Equatable {
@@ -16,14 +18,15 @@ struct PublicStory: Codable, Equatable {
     var city: String?
     var cards: [PublicCard]
     var chapters: [MemoryChapter]
+    var language: String? = nil
 
     static func make(trip: Trip, discoveries: [Discovery], firstName: String? = nil, includeCity: Bool = false) -> PublicStory {
         let selected = discoveries.filter { $0.tripID == trip.id }
         let cleanName = firstName?.trimmingCharacters(in: .whitespacesAndNewlines)
         return PublicStory(title: trip.title, firstName: cleanName?.isEmpty == false ? cleanName : nil,
                            city: includeCity ? trip.place?.name : nil,
-                           cards: selected.map { PublicCard(id: $0.id.uuidString, subject: $0.subject, title: $0.subject.title, question: $0.question, observation: $0.observation, explanation: $0.explanation) },
-                           chapters: MemoryBuilder.build(tripID: trip.id, discoveries: selected).chapters)
+                           cards: selected.map { PublicCard(id: $0.id.uuidString, subject: $0.subject, title: $0.title, question: $0.question, observation: $0.observation, explanation: $0.explanation, artworkID: $0.artwork?.status == "ready" ? $0.artwork?.id : nil, language: $0.language) },
+                           chapters: MemoryBuilder.build(tripID: trip.id, discoveries: selected).chapters, language: trip.language)
     }
 }
 

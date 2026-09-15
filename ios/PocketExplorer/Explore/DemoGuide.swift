@@ -8,24 +8,17 @@ struct GuideReply: Equatable {
 
 enum DemoGuide {
     static func reply(to question: String, language: AppLanguage = .current) -> GuideReply? {
-        let text = question.lowercased()
-        if text.contains("duck") || text.contains("鸭") || text.contains("鴨") {
-            if language == .chinese {
-                return GuideReply(subject: .duck, answer: "鸭子的脚趾之间有蹼，像小船桨一样向后推水，让身体向前游。", invitation: "仔细看看鸭子游泳时的脚，你发现了什么？")
-            }
-            return GuideReply(subject: .duck, answer: "Ducks use their webbed feet to push against the water.", invitation: "Watch a duck for a moment. What do its feet do when it moves?")
-        }
-        if text.contains("leaf") || text.contains("leaves") || text.contains("叶") || text.contains("葉") {
-            if language == .chinese {
-                return GuideReply(subject: .leaf, answer: "树叶有不同的形状、边缘和叶脉，就像每片叶子都有自己的花纹。", invitation: "找两片落叶，比一比它们的边缘，有什么不同？")
-            }
-            return GuideReply(subject: .leaf, answer: "Leaves come in many shapes, with different edges and patterns of veins.", invitation: "Find two fallen leaves. What is different about their edges?")
-        }
-        if text.contains("shell") || text.contains("贝壳") || text.contains("貝殼") || text.contains("海螺") {
-            if language == .chinese {
-                return GuideReply(subject: .shell, answer: "许多身体柔软的海洋动物会长出壳，保护自己的身体。", invitation: "看看贝壳的形状和开口，你发现了哪些细节？")
-            }
-            return GuideReply(subject: .shell, answer: "Many soft-bodied sea animals grow shells to protect themselves.", invitation: "Look at its shape and opening. What details can you spot?")
+        let text = question.precomposedStringWithCompatibilityMapping.lowercased()
+        let subjects: [(DiscoverySubject, String, String, String)] = [
+            (.duck, #"duck|鸭|鴨|pato|canard|\benten?\b|アヒル|あひる|오리|البط|بطة"#,
+             "Ducks use their webbed feet to push against the water.", "Watch a duck for a moment. What do its feet do when it moves?"),
+            (.leaf, #"leaf|leaves|叶|葉|hoja|feuille|blatt|blätter|folha|잎|أوراق|ورقة"#,
+             "Leaves come in many shapes, with different edges and patterns of veins.", "Find two fallen leaves. What is different about their edges?"),
+            (.shell, #"shell|贝壳|貝殼|海螺|concha|coquill|muschel|貝|かいがら|조개|صدف|أصداف"#,
+             "Many soft-bodied sea animals grow shells to protect themselves.", "Look at its shape and opening. What details can you spot?")
+        ]
+        for (subject, pattern, answer, invitation) in subjects where text.range(of: pattern, options: .regularExpression) != nil {
+            return GuideReply(subject: subject, answer: L10n.text(answer, language: language), invitation: L10n.text(invitation, language: language))
         }
         return nil
     }

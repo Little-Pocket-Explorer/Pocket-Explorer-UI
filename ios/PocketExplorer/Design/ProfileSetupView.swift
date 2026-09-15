@@ -10,7 +10,7 @@ struct ProfileSetupView: View {
         ScrollView {
             VStack(spacing: 0) {
                 ZStack(alignment: .bottom) {
-                    Image("duck").resizable().scaledToFill().frame(height: 330).clipped()
+                    Image("explorer-hero").resizable().scaledToFill().frame(height: 330).clipped()
                     LinearGradient(colors: [.clear, Theme.paper], startPoint: .top, endPoint: .bottom).frame(height: 130)
                 }
                 VStack(spacing: 14) {

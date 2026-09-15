@@ -1,0 +1,88 @@
+{
+  "status": "RELEASED_PHYSICAL_REVIEW_PENDING",
+  "native": {
+    "unitTestsPassed": 68,
+    "uiTestsPassed": 24,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Actual recording aborts in simulator AudioUnit RPC initialization, also reproduced on released baseline.",
+    "resultBundle": "/Users/haichang/tmp/review/pocket-polish-20260915/full-regression-2.xcresult",
+    "appCoverage": {
+      "coveredLines": 4480,
+      "executableLines": 4860,
+      "percent": 92.18
+    },
+    "changedFileCoverage": {
+      "coveredLines": 2662,
+      "executableLines": 2835,
+      "percent": 93.9
+    },
+    "voiceWholeFileCoveragePercent": 73.4,
+    "voiceChangedLineCoverage": {
+      "coveredLines": 34,
+      "executableLines": 42,
+      "percent": 80.95
+    },
+    "liveAnswer": {
+      "checkedAt": "2026-09-14T16:10:51.990Z",
+      "question": "Why do shadows get longer in the evening?",
+      "language": "en",
+      "status": "ready",
+      "createdAt": 1789401596854,
+      "displayedAnswerMatchesD1": true,
+      "answer": "A shadow forms where something blocks sunlight. In the evening, the Sun is low in the sky, so its light comes in sideways and your shadow stretches farther across the ground. It\u2019s like shining a flashlight at a toy from low down\u2014the toy makes a long shadow.",
+      "imageRequested": false
+    },
+    "credentialScan": {
+      "filesChecked": 122,
+      "credentialNames": [
+        "OWNER_KEY",
+        "REASONING_API_KEY",
+        "AZURE_IMAGE_API_KEY",
+        "CLOUDFLARE_API_TOKEN"
+      ],
+      "matches": [],
+      "passed": true
+    }
+  },
+  "backend": {
+    "source": "d1e01cd3c10bbd1759f7e55ef60a6fbb942174ab",
+    "workerVersion": "662c39d2-26cc-403a-a904-a014a783a5a5",
+    "url": "https://pocket.changhai.me",
+    "testsPassed": 61,
+    "lineCoveragePercent": 99,
+    "branchCoveragePercent": 94.63
+  },
+  "reviewRemaining": [
+    "Physical iPhone microphone, camera, speaker naturalness and VoiceOver",
+    "Human visual approval",
+    "Maximum accessibility text reading space",
+    "Photo-selection lifecycle investigation"
+  ],
+  "testFlight": {
+    "checkedAt": "2026-09-14T16:24:47.535Z",
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 10,
+    "build_id": "04b7d1e3-ec88-427b-8254-7618dc0cebcc",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "source_commit": "b8e1d1f5d5fc02fe62014fe998f1e99db71c4f5e:97a04cbcc74e75c5bb6a1a71bbc7f203cc0812de9d8165b6e505fef353e39603",
+    "release_origin": "local",
+    "run_url": null,
+    "independentlyVerified": true,
+    "internalStateReadback": "IN_BETA_TESTING"
+  },
+  "githubIOSWorkflowTriggered": false,
+  "package": {
+    "build": "10",
+    "xcodeBuild": "27A266a",
+    "sdkBuild": "24A430",
+    "sourceUnchanged": true,
+    "ipaBytes": 2519975,
+    "ipaSHA256": "4091d3aedf853a6e4b0652dd067613e9be21041117173e93540f0163b4f1dbb5",
+    "signatureVerified": true,
+    "temporaryKeychainRemoved": true
+  }
+}

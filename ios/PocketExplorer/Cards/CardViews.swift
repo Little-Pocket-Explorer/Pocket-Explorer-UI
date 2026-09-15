@@ -3,114 +3,76 @@ import SwiftUI
 struct DiscoveryCard: View {
     let discovery: Discovery
     var reversed = false
+    var store: TripStore?
+    var compact = false
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack {
-                Label(discovery.subject.category, systemImage: "sparkle")
-                Spacer()
-                Image(systemName: "seal.fill")
-            }
-            .font(.system(.caption2, design: .rounded, weight: .bold))
-            .padding(16)
             if reversed {
                 VStack(alignment: .leading, spacing: 16) {
                     Eyebrow(text: "In my own words")
-                    Text(discovery.observation)
-                        .font(.system(.title2, design: .rounded, weight: .bold))
-                        .accessibilityIdentifier("card-observation")
-                    Divider().overlay(Theme.line)
+                    Text(discovery.observation).font(.system(.title2, design: .rounded, weight: .bold)).accessibilityIdentifier("card-observation")
+                    Divider()
                     Text(discovery.explanation).font(.system(.body, design: .rounded))
-                }
-                .padding(22).frame(maxWidth: .infinity, minHeight: 230, alignment: .leading)
+                }.padding(22).frame(maxWidth: .infinity, minHeight: 230, alignment: .leading)
             } else {
-                Image(discovery.subject.rawValue).resizable().scaledToFit().frame(maxWidth: .infinity, maxHeight: 220)
-                    .accessibilityLabel(discovery.subject.title)
+                DiscoveryArtwork(discovery: discovery, store: store).aspectRatio(1, contentMode: .fit)
+                    .clipped().clipShape(RoundedRectangle(cornerRadius: 19))
+                    .overlay(alignment: .topLeading) {
+                        Label("V1", systemImage: "leaf.fill").font(.system(.caption2, design: .rounded, weight: .bold))
+                            .padding(8).background(Theme.paper.opacity(0.95), in: UnevenRoundedRectangle(bottomTrailingRadius: 10))
+                    }.padding(4)
             }
-            VStack(alignment: .leading, spacing: 7) {
-                Text(discovery.subject.title).font(.system(.title2, design: .rounded, weight: .heavy))
-                Text(discovery.question).font(.system(.subheadline, design: .rounded)).foregroundStyle(Theme.muted)
-                HStack {
-                    Label((discovery.tier ?? .fieldFind).title.uppercased(), systemImage: "sparkles")
-                    Spacer()
-                    Text((discovery.origin ?? .exploration).title.uppercased())
+            VStack(alignment: .leading, spacing: 8) {
+                Text(discovery.title).font(.system(compact ? .subheadline : .title2, design: .rounded, weight: .heavy))
+                    .lineLimit(compact && !dynamicTypeSize.isAccessibilitySize ? 2 : nil).fixedSize(horizontal: false, vertical: true)
+                Label {
+                    Text(discovery.category).fixedSize(horizontal: false, vertical: true)
+                } icon: { Image(systemName: "leaf.fill") }
+                    .font(.system(.caption2, design: .rounded, weight: .semibold))
+                    .padding(.horizontal, 9).padding(.vertical, 5).background(Theme.mint, in: Capsule())
+                if !compact {
+                    Text(discovery.question).font(.system(.subheadline, design: .rounded)).foregroundStyle(Theme.muted)
+                    Text(L10n.date(discovery.createdAt)).font(.caption2).foregroundStyle(Theme.muted)
                 }
-                .font(.system(.caption2, design: .rounded, weight: .bold)).padding(.top, 10)
-                if let unlockedAt = discovery.unlockedAt {
-                    Text(unlockedAt.formatted(date: .abbreviated, time: .omitted))
-                        .font(.system(.caption2, design: .rounded)).foregroundStyle(Theme.muted)
-                }
-            }.padding(20)
-        }
-        .foregroundStyle(Theme.ink)
-        .background(Theme.paper, in: RoundedRectangle(cornerRadius: 25))
-        .padding(7)
-        .background(Theme.shimmer, in: RoundedRectangle(cornerRadius: 31))
-        .overlay(RoundedRectangle(cornerRadius: 31).stroke(.white.opacity(0.85), lineWidth: 1))
-        .shadow(color: Theme.ink.opacity(0.12), radius: 18, x: 0, y: 9)
+            }.padding(compact ? 10 : 18).frame(maxWidth: .infinity, alignment: .leading)
+        }.foregroundStyle(Theme.ink).modifier(BotanicalFrame())
     }
 }
 
 struct CardUnlockView: View {
     let discovery: Discovery
     var onReveal: () -> Void
+    var store: TripStore?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var unlocking = false
 
     var body: some View {
-        VStack(spacing: 24) {
-            Spacer(minLength: 20)
-            Eyebrow(text: "Discovery complete")
-            Text("A new card is waiting.")
-                .font(.system(.largeTitle, design: .rounded, weight: .heavy))
-                .multilineTextAlignment(.center)
-            ZStack {
-                RoundedRectangle(cornerRadius: 31)
-                    .fill(Theme.shimmer)
-                RoundedRectangle(cornerRadius: 25)
-                    .fill(Theme.forest)
-                    .padding(7)
-                VStack(spacing: 18) {
-                    Image(systemName: unlocking ? "sparkles" : "lock.fill")
-                        .font(.system(size: 44, weight: .bold))
-                    Image(discovery.subject.rawValue)
-                        .resizable().scaledToFit().frame(height: 150)
-                        .opacity(unlocking ? 1 : 0.3)
-                    Text(discovery.subject.category)
-                        .font(.system(.headline, design: .rounded, weight: .bold))
-                }
-                .foregroundStyle(Theme.paper)
-            }
-            .frame(maxWidth: 330, minHeight: 390)
-            .scaleEffect(unlocking && !reduceMotion ? 1.04 : 1)
-            .rotation3DEffect(.degrees(unlocking && !reduceMotion ? 8 : 0), axis: (x: 0, y: 1, z: 0))
-            .shadow(color: Theme.ink.opacity(0.18), radius: 22, y: 12)
-            .accessibilityIdentifier("card-unlock-stage")
-            Text("You asked, looked closer, and made this discovery your own.")
-                .font(.system(.body, design: .rounded, weight: .semibold))
-                .foregroundStyle(Theme.muted).multilineTextAlignment(.center)
-            Button(action: reveal) {
-                Label(unlocking ? L10n.text("Unlocking…") : L10n.text("Reveal my card"), systemImage: unlocking ? "sparkles" : "lock.open.fill")
-            }
-            .buttonStyle(ExplorerButtonStyle())
-            .accessibilityIdentifier("reveal-card")
-            .disabled(unlocking)
-            Spacer(minLength: 12)
-        }
-        .padding(26).background(Theme.paper).foregroundStyle(Theme.ink)
+        ScrollView {
+            VStack(spacing: 18) {
+                Eyebrow(text: "New discovery")
+                Text("You discovered a card!").font(.system(.title, design: .rounded, weight: .black)).multilineTextAlignment(.center)
+                DiscoveryCard(discovery: discovery, store: store, compact: true).frame(maxWidth: 260)
+                    .scaleEffect(unlocking && !reduceMotion ? 1.03 : 1)
+                    .rotationEffect(.degrees(unlocking && !reduceMotion ? -2 : 0))
+                    .accessibilityIdentifier("card-unlock-stage")
+                if let store { ArtworkStatusView(discovery: discovery, store: store) }
+                Text("Your collection grows with you.").font(.system(.subheadline, design: .rounded, weight: .medium)).foregroundStyle(Theme.muted)
+            }.padding(22).padding(.top, 6)
+        }.safeAreaInset(edge: .bottom) {
+            Button(action: reveal) { Label("View Card", systemImage: "sparkles") }
+                .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("reveal-card").disabled(unlocking)
+                .padding(.horizontal, 26).padding(.vertical, 12).background(Theme.paper.opacity(0.97))
+        }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink)
     }
 
     private func reveal() {
         guard !unlocking else { return }
-        if reduceMotion {
-            unlocking = true
-            onReveal()
-            return
-        }
-        withAnimation(.spring(duration: 0.55, bounce: 0.35)) { unlocking = true }
+        if reduceMotion { unlocking = true; onReveal(); return }
+        withAnimation(.spring(duration: 0.4, bounce: 0.2)) { unlocking = true }
         Task { @MainActor in
-            try? await Task.sleep(for: .milliseconds(650))
-            onReveal()
+            do { try await Task.sleep(for: .milliseconds(350)); onReveal() } catch {}
         }
     }
 }
@@ -121,58 +83,76 @@ struct CardDetailView: View {
     var isNew = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var reversed = false
-    @State private var revealed = false
     @State private var editing = false
     @State private var observation = ""
     @State private var error: String?
-
+    @State private var section = 0
     private var discovery: Discovery? { store.state.discoveries.first { $0.id == discoveryID } }
 
     var body: some View {
-        ScrollView {
-            if let discovery {
-                VStack(alignment: .leading, spacing: 24) {
-                    Eyebrow(text: isNew ? "You found a little wonder" : "From your collection")
-                    Text(L10n.text(isNew ? "Your very own discovery" : "Every find has\na story."))
-                        .font(.system(isNew ? .title2 : .largeTitle, design: .rounded, weight: .heavy))
-                    Text("Tap your card to turn it over.").font(.footnote).foregroundStyle(Theme.muted)
-                    Button {
-                        withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) { reversed.toggle() }
-                    } label: { DiscoveryCard(discovery: discovery, reversed: reversed) }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(reversed ? "Show card front" : "Flip card to read my observation")
-                    .accessibilityIdentifier("discovery-card")
-                    .scaleEffect(revealed || reduceMotion ? 1 : 0.9)
-                    .opacity(revealed || reduceMotion ? 1 : 0)
-                    .onAppear { withAnimation(reduceMotion ? nil : .spring(duration: 0.6)) { revealed = true } }
-                    Button("Add to my story") { observation = discovery.observation; editing = true }
-                        .buttonStyle(ExplorerButtonStyle(secondary: true))
-                    if let filename = discovery.photoFilename, let data = try? Data(contentsOf: store.mediaURL(filename)), let photo = UIImage(data: data) {
-                        Eyebrow(text: "My field photo · private")
-                        Image(uiImage: photo).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 20))
-                    }
-                    NavigationLink("See this adventure") { TripDetailView(store: store, tripID: discovery.tripID) }
-                        .buttonStyle(ExplorerButtonStyle())
-                }.padding(26)
-            }
-        }
-        .background(Theme.paper).foregroundStyle(Theme.ink)
-        .navigationTitle(L10n.text(isNew ? "Your new discovery" : "My discovery")).navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $editing) {
-            NavigationStack {
-                Form {
-                    Section("In my own words") { TextEditor(text: $observation).frame(minHeight: 160).accessibilityIdentifier("edit-observation") }
-                    if let error { Text(error) }
+        ScrollViewReader { proxy in
+            ScrollView {
+                if let discovery {
+                    VStack(alignment: .leading, spacing: 24) {
+                        Button {
+                            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) { reversed.toggle() }
+                        } label: { DiscoveryCard(discovery: discovery, reversed: reversed, store: store) }
+                        .buttonStyle(.plain).accessibilityLabel(L10n.text(reversed ? "Show card front" : "Flip card to read my observation")).accessibilityIdentifier("discovery-card")
+                        if discovery.ai != nil {
+                            Text("AI illustration · inspired by your discovery").font(.caption2).foregroundStyle(Theme.muted)
+                            ArtworkStatusView(discovery: discovery, store: store)
+                        }
+                        Picker("Card details", selection: $section) {
+                            Text("Story").tag(0); Text("Knowledge").tag(1); Text("Location").tag(2)
+                        }.pickerStyle(.segmented).id("card-section-start")
+                        VStack(alignment: .leading, spacing: 14) {
+                            if section == 0 {
+                                Eyebrow(text: "My question")
+                                Text(discovery.question).font(.system(.title3, design: .rounded, weight: .bold))
+                                if discovery.observation != discovery.question { Text(discovery.observation) }
+                                Button("Add to my story") { observation = discovery.observation; editing = true }.frame(minHeight: 44)
+                            } else if section == 1 {
+                                Text(discovery.explanation).font(.system(.body, design: .rounded))
+                                if let reply = discovery.ai { Text(reply.invitation).foregroundStyle(Theme.forest) }
+                            } else {
+                                if let place = discovery.place ?? store.state.trips.first(where: { $0.id == discovery.tripID })?.place {
+                                    Label(place.name, systemImage: "mappin.and.ellipse")
+                                    Text("Exact coordinates stay in your journal.").font(.caption).foregroundStyle(Theme.muted)
+                                } else { Label("No location saved", systemImage: "location.slash") }
+                            }
+                        }.padding(20).frame(maxWidth: .infinity, alignment: .leading).background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 22))
+                        if let filename = discovery.photoFilename {
+                            Eyebrow(text: "My field photo · private")
+                            CachedMediaImage(url: store.mediaURL(filename), contentMode: .fit) {
+                                Theme.mint.opacity(0.4).frame(height: 160)
+                            }.clipShape(RoundedRectangle(cornerRadius: 20))
+                        }
+                        if let trip = store.state.trips.first(where: { $0.id == discovery.tripID }) {
+                            NavigationLink { SharePreviewView(trip: trip, discoveries: [discovery], store: store, singleCardID: discovery.id) } label: { Label("Preview & share", systemImage: "square.and.arrow.up") }
+                                .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("card-share-preview")
+                            NavigationLink("See this adventure") { TripDetailView(store: store, tripID: discovery.tripID) }.frame(maxWidth: .infinity, minHeight: 44)
+                        }
+                    }.padding(24)
                 }
-                .navigationTitle("Look a little closer")
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) { Button("Cancel") { editing = false } }
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("Save") {
-                            do { try store.updateObservation(discoveryID: discoveryID, observation: observation); editing = false }
-                            catch { self.error = error.localizedDescription }
-                        }.disabled(observation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                    }
+            }.onChange(of: section) { _, _ in
+                proxy.scrollTo("card-section-start", anchor: .top)
+            }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink)
+            .navigationTitle(discovery?.title ?? L10n.text("My discovery")).navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $editing) {
+                NavigationStack {
+                    Form {
+                        Section("In my own words") { TextEditor(text: $observation).frame(minHeight: 160).accessibilityIdentifier("edit-observation") }
+                        if let error { Text(error) }
+                    }.navigationTitle("Look a little closer")
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) { Button("Cancel") { editing = false } }
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Save") {
+                                    do { try store.updateObservation(discoveryID: discoveryID, observation: observation); editing = false }
+                                    catch { self.error = error.localizedDescription }
+                                }.disabled(observation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                            }
+                        }
                 }
             }
         }
@@ -182,37 +162,83 @@ struct CardDetailView: View {
 struct CollectionView: View {
     let store: TripStore
     var explore: () -> Void
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @State private var query = ""
+    @State private var category = "All"
+    @State private var newestFirst = true
+    private var discoveries: [Discovery] {
+        let filtered = store.state.discoveries.filter {
+            (category == "All" || $0.categoryID == category.lowercased()) &&
+            (query.isEmpty || ($0.title + " " + $0.question).localizedCaseInsensitiveContains(query))
+        }.sorted { $0.createdAt < $1.createdAt }
+        return newestFirst ? filtered.reversed() : filtered
+    }
+
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                BrandHeader()
-                Eyebrow(text: "Tiny treasures. Big discoveries.")
-                Text("Look what\nyou found.").font(.system(.largeTitle, design: .rounded, weight: .heavy))
-                Text("\(store.state.discoveries.count) discoveries, each with a story only you can tell.")
-                    .foregroundStyle(Theme.muted).accessibilityIdentifier("journal-count")
-                if store.state.discoveries.isEmpty {
-                    Image("duck").resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 24))
-                    Text("Your first little wonder is out there.").font(.title3)
+            VStack(alignment: .leading, spacing: 18) {
+                if dynamicTypeSize.isAccessibilitySize {
+                    collectionHeading
+                } else {
+                    HStack {
+                        LeafBadge(symbol: "rectangle.stack.fill")
+                        collectionHeading
+                        Spacer(); ExplorerAvatar()
+                    }
                 }
-                ForEach(store.state.discoveries.reversed()) { discovery in
-                    NavigationLink { CardDetailView(store: store, discoveryID: discovery.id) } label: {
-                        DiscoveryCard(discovery: discovery)
-                    }.buttonStyle(.plain)
+                HStack {
+                    Image(systemName: "magnifyingglass").font(.system(size: 20)).foregroundStyle(Theme.muted).accessibilityHidden(true)
+                    TextField(L10n.text(dynamicTypeSize.isAccessibilitySize ? "Search" : "Search discoveries"), text: $query)
+                        .accessibilityLabel("Search discoveries").accessibilityIdentifier("collection-search")
+                    Button { newestFirst.toggle() } label: { Image(systemName: "arrow.up.arrow.down").font(.system(size: 22)).frame(width: 44, height: 44) }.accessibilityLabel("Reverse sort order")
+                }.padding(.leading, 14).background(.white, in: Capsule())
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(["All", "Nature", "Science", "Animals", "Space", "History", "Culture"], id: \.self) { item in
+                            Button { category = item } label: {
+                                Text(L10n.text(item)).font(.system(.caption, design: .rounded, weight: .semibold))
+                                    .fixedSize(horizontal: true, vertical: false)
+                                    .padding(.horizontal, 16).frame(minHeight: 44).background(category == item ? Theme.mint : .white, in: Capsule())
+                            }.buttonStyle(.plain).accessibilityAddTraits(category == item ? .isSelected : [])
+                        }
+                    }
+                }
+                if discoveries.isEmpty {
+                    ContentUnavailableView("Your next wonder is waiting", systemImage: "leaf", description: Text("Ask a question to grow your collection, or try another search."))
+                }
+                LazyVGrid(columns: dynamicTypeSize.isAccessibilitySize ? [GridItem(.flexible())] : [GridItem(.flexible(), spacing: 14), GridItem(.flexible())], spacing: 18) {
+                    ForEach(discoveries) { discovery in
+                        NavigationLink { CardDetailView(store: store, discoveryID: discovery.id) } label: {
+                            DiscoveryCard(discovery: discovery, store: store, compact: true)
+                        }.buttonStyle(.plain).accessibilityIdentifier("collection-card-\(discovery.id)")
+                    }
                 }
                 Button("Find another wonder", action: explore).buttonStyle(ExplorerButtonStyle())
-            }.padding(26)
-        }
-        .background(Theme.paper).foregroundStyle(Theme.ink).toolbar(.hidden, for: .navigationBar)
+            }.padding(20)
+        }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink).navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink { DiscoveryRemindersView(store: store) } label: { Label("Discovery Quiz", systemImage: "leaf.arrow.triangle.circlepath") }
+                        .accessibilityIdentifier("collection-reminders")
+                }
+            }
+    }
+
+    private var collectionHeading: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("Collection").font(.system(dynamicTypeSize.isAccessibilitySize ? .title2 : .largeTitle, design: .rounded, weight: .black))
+                .fixedSize(horizontal: false, vertical: true).accessibilityAddTraits(.isHeader)
+            Text("\(store.state.discoveries.count) discoveries").font(.subheadline).foregroundStyle(Theme.muted).accessibilityIdentifier("journal-count")
+        }.frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
 struct BrandHeader: View {
     var body: some View {
-        HStack {
-            Image(systemName: "safari.fill").font(.title2).foregroundStyle(Theme.forest)
-            Text("pocket explorer").font(.system(.headline, design: .rounded, weight: .heavy))
+        HStack(spacing: 9) {
+            Image(systemName: "leaf.fill").font(.title2).foregroundStyle(Theme.forest)
+            Text("Pocket Explorer").font(.system(.headline, design: .rounded, weight: .black))
             Spacer()
-            Image(systemName: "sparkle").foregroundStyle(Theme.forest)
         }.accessibilityElement(children: .combine).padding(.bottom, 10)
     }
 }

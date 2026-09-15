@@ -25,7 +25,9 @@ final class SharingTests: XCTestCase {
         return ShareClient(session: URLSession(configuration: config))
     }
     private var story: PublicStory {
-        let state = JournalState.examples()
+        var state = JournalState.examples(language: .english)
+        state.trips[0].language = nil
+        state.discoveries[0].language = nil
         return .make(trip: state.trips[0], discoveries: [state.discoveries[0]])
     }
 
@@ -83,6 +85,30 @@ final class SharingTests: XCTestCase {
         let token = String(repeating: "b", count: 32)
         MockShareProtocol.reply = { _ in (500, Data()) }
         do { try await client.revoke(ShareReceipt(token: token, url: URL(string: "https://stories.example/s/\(token)")!), connection: connection); XCTFail() } catch {}
+    }
+
+    func testSharingFailuresFollowTheChosenLanguageAndKeepCancellationDistinct() async {
+        let defaults = LanguageSettings.preferences
+        let previous = defaults.object(forKey: "app-language")
+        defer { if let previous { defaults.set(previous, forKey: "app-language") } else { defaults.removeObject(forKey: "app-language") } }
+        LanguageSettings.save(.spanish)
+        for failure in [URLError.timedOut, .notConnectedToInternet, .networkConnectionLost] {
+            MockShareProtocol.reply = { _ in throw URLError(failure) }
+            do { _ = try await client.create(story, connection: connection); XCTFail("Expected network failure") }
+            catch {
+                XCTAssertTrue(error is ShareError)
+                XCTAssertEqual(error.localizedDescription, L10n.text("Your story is safe on this iPhone. Sharing could not finish. Please try again.", language: .spanish))
+            }
+        }
+        MockShareProtocol.reply = { _ in (201, Data("not a receipt".utf8)) }
+        do { _ = try await client.create(story, connection: connection); XCTFail("Expected invalid receipt") }
+        catch {
+            XCTAssertTrue(error is ShareError)
+            XCTAssertEqual(error.localizedDescription, ShareError.invalidResponse.localizedDescription)
+        }
+        MockShareProtocol.reply = { _ in throw URLError(.cancelled) }
+        do { _ = try await client.create(story, connection: connection); XCTFail("Expected cancellation") }
+        catch { XCTAssertTrue(error is CancellationError) }
     }
 
     func testConnectionValidationAndActualKeychainRoundTrip() throws {

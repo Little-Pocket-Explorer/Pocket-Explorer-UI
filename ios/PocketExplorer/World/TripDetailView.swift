@@ -14,11 +14,11 @@ struct TripDetailView: View {
             if let trip {
                 VStack(alignment: .leading, spacing: 24) {
                     Eyebrow(text: trip.place?.name ?? "Somewhere wonderful")
-                    Text(trip.title).font(.system(.largeTitle, design: .rounded, weight: .heavy))
-                    Text(trip.startedAt.formatted(date: .abbreviated, time: .omitted)).foregroundStyle(Theme.muted)
+                    Text(trip.title).font(.system(.largeTitle, design: .rounded, weight: .heavy)).accessibilityIdentifier("trip-title")
+                    Text(L10n.date(trip.startedAt)).foregroundStyle(Theme.muted)
                     if trip.isExample { Text("A fictional sample adventure to explore the demo.").font(.footnote).foregroundStyle(Theme.muted) }
                     ForEach(store.discoveries(in: tripID)) { discovery in
-                        NavigationLink { CardDetailView(store: store, discoveryID: discovery.id) } label: { DiscoveryCard(discovery: discovery) }.buttonStyle(.plain)
+                        NavigationLink { CardDetailView(store: store, discoveryID: discovery.id) } label: { DiscoveryCard(discovery: discovery, store: store) }.buttonStyle(.plain)
                     }
                     Button("Discover something else") { exploring = true }.buttonStyle(ExplorerButtonStyle(secondary: true))
                     Button(L10n.text(trip.memory == nil ? "Finish adventure & make a memory" : "Play this memory")) {
@@ -38,11 +38,11 @@ struct TripDetailView: View {
         .sheet(isPresented: $exploring) { ExplorationFlow(store: store, tripID: tripID) }
         .sheet(isPresented: $showMemory) {
             if let trip {
-                NavigationStack { MemoryPlayer(trip: trip).toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Done") { showMemory = false } } } }
+                NavigationStack { MemoryPlayer(trip: trip, store: store).toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Done") { showMemory = false } } } }
             }
         }
         .sheet(isPresented: $showShare) {
-            if let trip { SharePreviewView(trip: trip, discoveries: store.discoveries(in: tripID)) }
+            if let trip { SharePreviewView(trip: trip, discoveries: store.discoveries(in: tripID), store: store) }
         }
     }
 }

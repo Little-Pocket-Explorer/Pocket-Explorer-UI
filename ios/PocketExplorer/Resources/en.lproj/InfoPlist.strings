@@ -1,0 +1,4 @@
+"NSMicrophoneUsageDescription" = "Record your questions and discoveries when you tap to speak.";
+"NSSpeechRecognitionUsageDescription" = "Turn your spoken questions and observations into words on your discovery cards.";
+"NSCameraUsageDescription" = "Take photos of things you discover. A photo is sent to your AI guide only when you send its question.";
+"NSLocationWhenInUseUsageDescription" = "Save a discovery on your private map only when you choose to add its place.";

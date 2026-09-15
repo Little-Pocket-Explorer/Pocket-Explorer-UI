@@ -1,0 +1,180 @@
+{
+  "status": "released",
+  "baseCommit": "fa793c0fec79843ce2cba562e423fe2ae260a6d9",
+  "artifactDirectory": "/Users/haichang/tmp/review/pocket-polish-20260915",
+  "review": "docs/reviews/memory-map-20260915.md",
+  "tests": {
+    "fullRegression": {
+      "bundle": "native-final-12.xcresult",
+      "passed": 143,
+      "failed": 0,
+      "skipped": 2,
+      "scope": "Before the three-line invalid-image correction."
+    },
+    "finalSource": {
+      "bundle": "native-final-source-12.xcresult",
+      "passed": 105,
+      "failed": 0,
+      "skipped": 0,
+      "unitPassed": 92,
+      "uiPassed": 13
+    },
+    "finalEditorAndNarration": {
+      "bundle": "native-final-editor-12.xcresult",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "ios27FinalFlows": {
+      "bundle": "native-final-source-ios27.xcresult",
+      "passed": 2,
+      "failed": 0
+    },
+    "globalVoiceAudit": {
+      "bundle": "global-narration-audit.xcresult",
+      "passed": 15,
+      "renderedLanguages": 10
+    }
+  },
+  "coverage": {
+    "base": "fa793c0fec79843ce2cba562e423fe2ae260a6d9",
+    "results": [
+      "/Users/haichang/tmp/review/pocket-polish-20260915/native-final-source-12.xcresult",
+      "/Users/haichang/tmp/review/pocket-polish-20260915/native-final-editor-12.xcresult"
+    ],
+    "scope": "Union of executable-line coverage from final application source. The second run additionally includes the independently tested all-language audio test.",
+    "files": [
+      {
+        "path": "ios/PocketExplorer/App/RootView.swift",
+        "sourceSHA256": "b563e093cc35c45fcae790ac0af5ff4d618213d3942497346768c3fda11aca5a",
+        "covered": 1,
+        "executable": 1,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Cards/CardViews.swift",
+        "sourceSHA256": "9a7b8469ec351f1be97fc033622d47967979496bf3b1b782e008f5128f80a295",
+        "covered": 61,
+        "executable": 62,
+        "percent": 98.39,
+        "uncovered": [
+          146
+        ]
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/AIClient.swift",
+        "sourceSHA256": "967a8a8cb83af6a60aefb5dac4bb65f5e6d7dcd19e7881c088034176493bdf9f",
+        "covered": 2,
+        "executable": 2,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/ArtworkCoordinator.swift",
+        "sourceSHA256": "320357a09548c229260c0ed81a9fa41eba75b70a5e12f791ec69fdb3a347bfc2",
+        "covered": 1,
+        "executable": 1,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/ExploreView.swift",
+        "sourceSHA256": "1734d63161f80b315cc1201fd0fc8b7833a4e3decec328fa2f0540eefb8b295d",
+        "covered": 18,
+        "executable": 21,
+        "percent": 85.71,
+        "uncovered": [
+          67,
+          73,
+          74
+        ]
+      },
+      {
+        "path": "ios/PocketExplorer/Memories/MemoryReading.swift",
+        "sourceSHA256": "af5339a55ca1184010be94e0b73ece03f51c8c6ffcc6bce8eade79e82dde3517",
+        "covered": 6,
+        "executable": 6,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Memories/MemoryViews.swift",
+        "sourceSHA256": "66cdf66e68382d242df16d0eb55a3ebfdd316dba41d6e316e1255caa604b1ef6",
+        "covered": 53,
+        "executable": 53,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/World/WorldMap.swift",
+        "sourceSHA256": "239be02fd9da7b81bac60083ad2c6d90f346d9ba2da26f1b31f3b3624eaecefb",
+        "covered": 35,
+        "executable": 35,
+        "percent": 100.0,
+        "uncovered": []
+      }
+    ],
+    "covered": 177,
+    "executable": 181,
+    "percent": 97.79
+  },
+  "visualEvidence": [
+    "native-final-12-visual-review.jpg",
+    "native-final-source-12-artifacts/AC527F26-036F-476F-99EF-68EF7E94545A.png",
+    "native-final-source-12-artifacts/FD8FAD8D-6EF8-4706-9E0C-50D52361EF66.png"
+  ],
+  "locales": {
+    "catalogCount": 10,
+    "entriesPerCatalog": 321
+  },
+  "newLiveAIQuestions": 0,
+  "newLiveImageGenerations": 0,
+  "limitations": [
+    "Physical microphone, camera, premium narration, VoiceOver and Safari remain open.",
+    "The pixel-reviewed German maximum-text hyphenation finding is narrowly characterized, not a zero-audit result.",
+    "Map timing is a simulator microbenchmark, not measured physical frame rate.",
+    "Voice render checks do not establish naturalness or female voices for every language."
+  ],
+  "release": {
+    "checkedAt": "2026-09-14T21:03:56.304Z",
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 12,
+    "build_id": "96bf2c3e-9c6b-477c-9b67-470a9dd3a16c",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "source_commit": "5ebdde049c1c99d0c41a147f049469508370f52b:6d3c8a43cdbd46e86cc7c8184e4a51c763c61a863ef6d0e6e2c5c3f165f58248",
+    "release_origin": "local",
+    "run_url": null,
+    "independentlyVerified": true,
+    "internalStateReadback": "IN_BETA_TESTING"
+  },
+  "ipa": {
+    "ipaSHA256": "c1a56f52506bf1b864080183758819db913993c5793925944d9985e129e349e3",
+    "bundleIdentifier": "com.haichang.pocketexplorer",
+    "version": "0.1.0",
+    "build": "12",
+    "xcodeBuild": "27A266a",
+    "sdkBuild": "24A430",
+    "signatureVerified": true,
+    "getTaskAllow": false,
+    "sourceUnchanged": true,
+    "sourceCommit": "5ebdde049c1c99d0c41a147f049469508370f52b",
+    "sourceSHA256": "6d3c8a43cdbd46e86cc7c8184e4a51c763c61a863ef6d0e6e2c5c3f165f58248",
+    "temporarySigningKeychainRemoved": true,
+    "catalogs": {
+      "de.lproj": 321,
+      "ar.lproj": 321,
+      "zh-Hans.lproj": 321,
+      "ja.lproj": 321,
+      "en.lproj": 321,
+      "es.lproj": 321,
+      "ko.lproj": 321,
+      "zh-Hant.lproj": 321,
+      "pt-BR.lproj": 321,
+      "fr.lproj": 321
+    }
+  }
+}
