@@ -42,6 +42,7 @@ import XCTest
         try store.saveAnswer(answer, for: question.id)
         LanguageSettings.save(.arabic)
         let card = try store.keepQuestion(question.id, observation: "緑色の葉っぱを見た。")
+        try store.answerQuiz(discoveryID: card.id, choice: 0)
         XCTAssertEqual(card.language, "es")
         XCTAssertEqual(card.title, answer.title)
         try store.finishTrip(card.tripID)

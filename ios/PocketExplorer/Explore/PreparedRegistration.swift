@@ -31,7 +31,12 @@ final class PreparedRegistration {
 
     func prepareShare(_ snapshot: PublicStory, store: TripStore, connection: ShareConnection) async throws -> PublicStory {
         var result = snapshot
+        await store.recall.synchronize(store: store, connection: connection)
         for index in result.cards.indices {
+            if let discovery = store.state.discoveries.first(where: { $0.id.uuidString == result.cards[index].id }) {
+                guard discovery.isUnlocked else { throw CollectibleError.pending }
+                guard discovery.isVerified else { throw CollectibleError.unavailable }
+            }
             guard let discovery = store.state.discoveries.first(where: { $0.id.uuidString == result.cards[index].id }),
                   let id = discovery.explorationID,
                   store.questions.first(where: { $0.id == id })?.preparedContent != nil else { continue }

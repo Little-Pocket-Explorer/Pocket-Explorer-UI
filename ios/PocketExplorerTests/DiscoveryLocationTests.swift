@@ -30,7 +30,7 @@ final class DiscoveryLocationTests: XCTestCase {
         location.request()
         XCTAssertEqual(manager.requests, 1)
         location.locationManager(manager, didUpdateLocations: [CLLocation(latitude: -33.87, longitude: 151.21)])
-        try await settle { location.place != nil }
+        try await settle { location.place?.name == "Sydney" }
         XCTAssertEqual(location.place?.name, "Sydney")
         XCTAssertEqual(location.place?.latitude, -33.87)
         XCTAssertFalse(location.isLoading)
@@ -72,6 +72,18 @@ final class DiscoveryLocationTests: XCTestCase {
         try await Task.sleep(for: .milliseconds(40))
         XCTAssertNil(delayed.place)
         XCTAssertFalse(delayed.isLoading)
+    }
+
+    func testEventCoordinatesDoNotWaitForReverseGeocoding() async throws {
+        let manager = TestLocationManager(authorized: true)
+        let location = DiscoveryLocation(manager: manager, geocode: { _ in
+            try await Task.sleep(for: .milliseconds(100)); return "Sydney"
+        })
+        location.request()
+        location.locationManager(manager, didUpdateLocations: [CLLocation(coordinate: CLLocationCoordinate2D(latitude: -33.87, longitude: 151.21), altitude: 0, horizontalAccuracy: 20, verticalAccuracy: -1, timestamp: .now)])
+        XCTAssertNotNil(location.reading)
+        XCTAssertFalse(location.isLoading)
+        try await settle { location.place?.name == "Sydney" }
     }
 
     private func settle(_ predicate: () -> Bool) async throws {

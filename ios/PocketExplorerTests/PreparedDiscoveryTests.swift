@@ -219,7 +219,7 @@ final class PreparedDiscoveryTests: XCTestCase {
     func testRegistrationDeduplicatesAndShareUsesReadyArtworkWithoutChangingWords() async throws {
         let store = try TripStore(fileURL: directory.appendingPathComponent("journal.json"), initial: JournalState(trips: [], discoveries: []))
         let content = item(), question = try store.beginPrepared(item(), age: 7, now: now)
-        let card = try store.keepQuestion(question.id, preparedImage: Self.image())
+        let card = try store.verifyTestCard(store.keepQuestion(question.id, preparedImage: Self.image()))
         let snapshot = PublicStory.make(trip: store.state.trips[0], discoveries: [card])
         let registration = PreparedRegistration(); registration.client = AIClient(session: session)
         let job = ArtworkJob(id: UUID().uuidString.lowercased(), status: "ready", attempts: 0, imagePath: nil)
@@ -284,7 +284,7 @@ final class PreparedDiscoveryTests: XCTestCase {
     func testWithdrawnRegistrationPersistsWithoutAutomaticRetryOrLosingTheCard() async throws {
         let store = try TripStore(fileURL: directory.appendingPathComponent("journal.json"), initial: JournalState(trips: [], discoveries: []))
         let question = try store.beginPrepared(item(), age: 7, now: now)
-        let card = try store.keepQuestion(question.id, observation: "My own discovery", preparedImage: Self.image())
+        let card = try store.verifyTestCard(store.keepQuestion(question.id, observation: "My own discovery", preparedImage: Self.image()))
         XCTAssertFalse(store.preparedContentNeedsUpdate(question.id))
         XCTAssertFalse(store.preparedContentNeedsUpdate(nil))
         let registration = PreparedRegistration(); registration.client = AIClient(session: session)

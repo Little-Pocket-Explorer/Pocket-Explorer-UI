@@ -7,12 +7,19 @@ final class TripStore {
     let fileURL: URL
     let recommendations: RecommendationStore
     let demo: DemoStore
+    let events: EventStore
+    let social: SocialStore
+    let family: FamilyStore
+    let recall = RecallCoordinator()
     private let write: (Data, URL) throws -> Void
 
     init(fileURL: URL, initial: JournalState = .examples(), writer: ((Data, URL) throws -> Void)? = nil, bundledContent: [PreparedContent]? = nil) throws {
         self.fileURL = fileURL
         self.recommendations = RecommendationStore(file: fileURL.deletingLastPathComponent().appendingPathComponent("recommendations.json"), bundled: bundledContent)
         self.demo = DemoStore(file: fileURL.deletingLastPathComponent().appendingPathComponent("demo.json"))
+        self.events = EventStore(file: fileURL.deletingLastPathComponent().appendingPathComponent("events.json"))
+        self.social = try SocialStore(file: fileURL.deletingLastPathComponent().appendingPathComponent("social.json"))
+        self.family = try FamilyStore(file: fileURL.deletingLastPathComponent().appendingPathComponent("family.json"))
         self.write = writer ?? { data, url in try data.write(to: url, options: .atomic) }
         try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
         if FileManager.default.fileExists(atPath: fileURL.path) {
@@ -79,12 +86,15 @@ final class TripStore {
     }
 
     @discardableResult
-    func beginQuestion(_ question: String, age: Int, photo: Data?, id: UUID = UUID(), now: Date = Date()) throws -> ExplorationRecord {
+    func beginQuestion(_ question: String, age: Int, photo: Data?, id: UUID = UUID(), now: Date = Date(), parentID: UUID? = nil, evolveFrom: String? = nil) throws -> ExplorationRecord {
         let cleaned = question.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !cleaned.isEmpty else { throw JournalError.emptyQuestion }
         if let existing = questions.first(where: { $0.id == id }) { return existing }
         let filename = photo.map { _ in "question-\(id.uuidString).jpg" }
-        let record = ExplorationRecord(id: id, question: cleaned, language: AppLanguage.current.rawValue, age: min(18, max(5, age)), createdAt: now, photoFilename: filename)
+        let parent = questions.first { $0.id == parentID }
+        if parentID != nil && parent?.reply == nil { throw JournalError.missingDiscovery }
+        let record = ExplorationRecord(id: id, question: cleaned, language: AppLanguage.current.rawValue, age: min(18, max(5, family.family?.profile.age ?? age)), createdAt: now, photoFilename: filename,
+            conversationID: parent.map { $0.conversationID ?? $0.id }, parentID: parentID, evolveFrom: evolveFrom)
         var next = state
         next.explorations = [record] + questions
         if let photo, let filename { try photo.write(to: mediaURL(filename), options: .atomic) }
@@ -108,8 +118,8 @@ final class TripStore {
         let tripID = existingTripID ?? UUID()
         var record = Discovery(id: UUID(), tripID: tripID, subject: .discovery, question: question.question,
             observation: observation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? question.question : observation,
-            explanation: reply.answer, createdAt: now, photoFilename: question.photoFilename, unlockedAt: now, origin: .exploration, tier: .fieldFind,
-            ai: reply, explorationID: id, artwork: question.preparedArtwork, place: place, language: question.language)
+            explanation: reply.answer, createdAt: now, photoFilename: question.photoFilename, unlockedAt: nil, origin: .exploration, tier: .common,
+            ai: reply, explorationID: id, artwork: question.preparedArtwork, place: place, language: question.language, unlockRequired: true, evolvesFrom: question.evolveFrom)
         if let preparedImage, let asset = question.preparedContent?.artwork {
             guard PreparedAssets().valid(preparedImage, for: asset) else { throw AIClientError.invalidArtwork }
             let filename = "prepared-\(asset.sha256).png"
@@ -148,13 +158,98 @@ final class TripStore {
         }
     }
 
-    func answerQuiz(discoveryID: UUID, choice: Int, now: Date = Date()) throws {
+    func answerQuiz(discoveryID: UUID, choice: Int, now: Date = Date(), attemptID: UUID = UUID()) throws {
         guard let index = state.discoveries.firstIndex(where: { $0.id == discoveryID }),
               let quiz = state.discoveries[index].ai?.quiz, quiz.choices.indices.contains(choice) else { throw JournalError.missingDiscovery }
         var next = state
-        next.discoveries[index].quizAnsweredAt = now
         next.discoveries[index].quizChoice = choice
+        let discovery = state.discoveries[index]
+        if discovery.unlockRequired != true {
+            next.discoveries[index].quizAnsweredAt = now
+        } else {
+            if discovery.quizAnsweredAt != nil { return }
+            if let previous = (state.recallAttempts ?? []).first(where: { $0.id == attemptID }) {
+                guard previous.discoveryID == discoveryID, previous.choice == choice else { throw CollectibleError.requestConflict }
+                return
+            }
+            if choice == quiz.correctIndex && (discovery.evolvesFrom == nil || discovery.ai?.advancesCard == true) {
+                next.discoveries[index].quizAnsweredAt = now
+                next.discoveries[index].unlockedAt = now
+            }
+            guard let explorationID = discovery.explorationID else { throw JournalError.missingDiscovery }
+            next.recallAttempts = (next.recallAttempts ?? []) + [RecallAttempt(id: attemptID, discoveryID: discoveryID, explorationID: explorationID, choice: choice, createdAt: now)]
+        }
         try commit(next)
+    }
+
+    func applyRecall(_ receipt: RecallReceipt, attemptID: UUID) throws {
+        guard let attempt = state.recallAttempts?.first(where: { $0.id == attemptID }) else { return }
+        guard let discovery = state.discoveries.first(where: { $0.id == attempt.discoveryID }),
+              receipt.correctIndex == discovery.ai?.quiz.correctIndex,
+              receipt.correct == (attempt.choice == receipt.correctIndex) else { throw CollectibleError.invalidResponse }
+        var next = state
+        if let card = receipt.collectible {
+            guard receipt.correct, card.isValid, card.id == discovery.collectionID,
+                  let version = card.versions.first(where: { $0.explorationID == attempt.explorationID.uuidString.lowercased() }),
+                  version.reply == discovery.ai else { throw CollectibleError.invalidResponse }
+            for index in next.discoveries.indices where next.discoveries[index].collectionID == card.id {
+                next.discoveries[index].collectible = card
+                next.discoveries[index].tier = card.tier
+                if next.discoveries[index].id == discovery.id {
+                    next.discoveries[index].unlockedAt = Date(timeIntervalSince1970: version.awardedAt / 1000)
+                    next.discoveries[index].quizAnsweredAt = attempt.createdAt
+                }
+            }
+        } else if receipt.correct { throw CollectibleError.invalidResponse }
+        next.recallAttempts?.removeAll { $0.id == attemptID }
+        try commit(next)
+    }
+
+    func failRecall(_ id: UUID, code: String) throws {
+        guard let index = state.recallAttempts?.firstIndex(where: { $0.id == id }) else { return }
+        var next = state
+        next.recallAttempts?[index].failure = code
+        if let attempt = next.recallAttempts?[index],
+           let found = next.discoveries.firstIndex(where: { $0.id == attempt.discoveryID }),
+           next.discoveries[found].unlockRequired == true,
+           !next.discoveries[found].isVerified {
+            next.discoveries[found].unlockedAt = nil
+            next.discoveries[found].quizAnsweredAt = nil
+        }
+        try commit(next)
+    }
+
+    func saveCardStyle(_ card: KnowledgeCard) throws {
+        guard card.isValid, state.discoveries.contains(where: { $0.collectible?.id == card.id }) else { throw CollectibleError.invalidResponse }
+        var next = state
+        for index in next.discoveries.indices where next.discoveries[index].collectible?.id == card.id { next.discoveries[index].collectible = card }
+        try commit(next)
+    }
+
+    @discardableResult
+    func receiveCard(_ card: KnowledgeCard, place: Place? = nil) throws -> Discovery {
+        guard card.isValid, let latest = card.versions.last, let explorationID = UUID(uuidString: latest.explorationID) else { throw CollectibleError.invalidResponse }
+        if let existing = state.discoveries.first(where: { $0.collectionID == card.id && $0.explorationID == explorationID }) {
+            try saveCardStyle(card)
+            return state.discoveries.first { $0.id == existing.id }!
+        }
+        let awarded = Date(timeIntervalSince1970: card.createdAt / 1000), tripID = UUID()
+        let artwork = latest.artworkID.map { ArtworkJob(id: $0, status: "ready", attempts: 0, imagePath: "/api/artwork/\($0)/image") }
+        let discovery = Discovery(id: UUID(), tripID: tripID, subject: .discovery, question: latest.question, observation: latest.question,
+            explanation: latest.reply.answer, createdAt: awarded, unlockedAt: awarded, origin: card.origin?.kind == "event" ? .exploration : .gift,
+            tier: card.tier, ai: latest.reply, explorationID: explorationID, artwork: artwork, quizAnsweredAt: awarded, place: place,
+            language: latest.language, unlockRequired: true, collectible: card, evolvesFrom: card.id)
+        var next = state
+        next.trips.insert(Trip(id: tripID, title: card.origin?.displayLabel ?? latest.reply.title, startedAt: awarded, place: place, isExample: false, language: latest.language), at: 0)
+        next.discoveries.append(discovery)
+        if !questions.contains(where: { $0.id == explorationID }) {
+            let record = ExplorationRecord(id: explorationID, question: latest.question, language: latest.language, age: family.family?.profile.age ?? 7,
+                createdAt: awarded, reply: latest.reply, cardID: discovery.id)
+            next.explorations = [record] + questions
+        }
+        refreshMemory(in: &next, tripID: tripID)
+        try commit(next)
+        return discovery
     }
 
     @discardableResult

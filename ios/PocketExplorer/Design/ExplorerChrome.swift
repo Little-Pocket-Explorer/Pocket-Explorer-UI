@@ -11,8 +11,9 @@ struct ExplorerBackdrop: View {
 
 struct ExplorerAvatar: View {
     var size: CGFloat = 42
+    var avatar: String?
     var body: some View {
-        Image("explorer-avatar").resizable().scaledToFill().frame(width: size, height: size)
+        Image(avatar.map { "avatar-\($0)" } ?? "explorer-avatar").resizable().scaledToFill().frame(width: size, height: size)
             .clipShape(Circle()).overlay(Circle().strokeBorder(.white, lineWidth: 3))
             .shadow(color: Theme.forest.opacity(0.1), radius: 5, y: 2).accessibilityHidden(true)
     }
@@ -27,11 +28,19 @@ struct LeafBadge: View {
 }
 
 struct BotanicalFrame: ViewModifier {
+    var style: CardStyle = .forest
+    private var colors: [Color] {
+        switch style {
+        case .forest: [.white, Color(hex: 0xFFF1B5), .white, Color(hex: 0xE7F3B7)]
+        case .ocean: [.white, Color(hex: 0xA6DAEF), .white, Color(hex: 0xC2EEE5)]
+        case .cosmos: [.white, Color(hex: 0xCEC0F2), .white, Color(hex: 0xBFCDF5)]
+        }
+    }
     func body(content: Content) -> some View {
         content
             .background(Theme.paper, in: RoundedRectangle(cornerRadius: 24))
             .padding(5)
-            .background(LinearGradient(colors: [.white, Color(hex: 0xFFF1B5), .white, Color(hex: 0xE7F3B7)], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 29))
+            .background(LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 29))
             .overlay(RoundedRectangle(cornerRadius: 29).stroke(Color(hex: 0xE8CC71), lineWidth: 1.5))
             .overlay(alignment: .topTrailing) {
                 Image(systemName: "leaf.fill").font(.system(size: 19)).rotationEffect(.degrees(90))

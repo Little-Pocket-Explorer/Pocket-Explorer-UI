@@ -8,6 +8,9 @@ const narration = readFileSync(new URL('../../shared/fixtures/narration-en.wav',
 const narrationCounts = new Map();
 const questions = new Map();
 const jobs = new Map();
+const artworkForQuestion = new Map();
+const collectibles = new Map();
+const recalls = new Map();
 const corruptPictures = new Set();
 const shares = new Map();
 const reply = {
@@ -89,6 +92,22 @@ createServer(async (request, response) => {
     response.writeHead(200, { 'Content-Type': isImage ? 'image/png' : 'audio/wav' }); response.end(isImage ? image : narration); return;
   }
   if (url.pathname === '/health') return json(200, { status: 'ok', fixture: true });
+  if (url.pathname === '/api/family') return json(200, { family: null });
+  if (url.pathname === '/api/collectibles/recall' && request.method === 'POST') {
+    if (recalls.has(input.id)) return json(200, recalls.get(input.id));
+    const question = questions.get(input.explorationID);
+    if (!question?.reply) return json(409, { error: 'exploration_not_ready' });
+    const correct = input.choice === question.reply.quiz.correctIndex;
+    if (correct && !collectibles.has(question.id)) {
+      const now = Date.now();
+      collectibles.set(question.id, { id: question.id, style: 'forest', tier: 'common', createdAt: now, updatedAt: now,
+        versions: [{ version: 1, explorationID: question.id, question: question.question, language: question.language ?? 'en',
+          reply: question.reply, awardedAt: now, artworkID: artworkForQuestion.get(question.id) ?? null, audience: 'public' }] });
+    }
+    const result = { correct, correctIndex: question.reply.quiz.correctIndex, explanation: question.reply.quiz.explanation, collectible: correct ? collectibles.get(question.id) : null };
+    recalls.set(input.id, result); return json(200, result);
+  }
+  if (url.pathname === '/api/collectibles') return json(200, { items: [], next: null });
   if (url.pathname === '/__fixture/answers/complete' && request.method === 'POST') {
     for (const result of questions.values()) {
       if (result.question === input.question) { result.status = 'ready'; result.reply = reply; }
@@ -101,7 +120,7 @@ createServer(async (request, response) => {
       const item = [...daily, ...demoItems].find(item => item.id === input.prepared.id && item.version === input.prepared.version);
       if (questions.has(input.id)) return json(200, questions.get(input.id));
       if (!item || dailyWithdrawals.some(ref => ref.id === item.id && ref.version === item.version)) return json(409, { error: 'prepared_content_unavailable' });
-      const result = { id: input.id, question: input.question, status: 'ready', reply: item.reply, prepared: input.prepared };
+      const result = { id: input.id, question: input.question, language: input.language, status: 'ready', reply: item.reply, prepared: input.prepared };
       questions.set(input.id, result); return json(200, result);
     }
     generatedQuestions++;
@@ -110,7 +129,7 @@ createServer(async (request, response) => {
     const first = !questions.has(input.id);
     const status = first && input.question.includes('slow answer') ? 'thinking' : first && input.question.includes('failed answer') ? 'failed' : 'ready';
     const answer = input.question.includes('narration') ? { ...reply, answer: reply.answer + ' ' + input.question } : reply;
-    const result = { id: input.id, question: input.question, status, reply: status === 'ready' ? answer : null };
+    const result = { id: input.id, question: input.question, language: input.language, status, reply: status === 'ready' ? answer : null };
     questions.set(input.id, result); return json(200, result);
   }
   const audio = /^\/api\/narration\/([^/]+)$/.exec(url.pathname);
@@ -134,7 +153,7 @@ createServer(async (request, response) => {
       updatedAt: Date.now() - (slow ? 35000 : 0), expiresAt: slow ? Date.now() + 180000 : null,
       canRetry: failed && attempts < 2, imagePath: failed || slow ? null : `/api/artwork/${id}/image` };
     if (question.includes('corrupt illustration')) corruptPictures.add(id);
-    jobs.set(id, job); return json(202, job);
+    jobs.set(id, job); artworkForQuestion.set(createArtwork[1], id); return json(202, job);
   }
   const art = /^\/api\/artwork\/([^/]+)(\/image|\/retry)?$/.exec(url.pathname);
   if (art) {

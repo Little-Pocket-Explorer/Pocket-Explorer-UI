@@ -35,7 +35,7 @@ final class AnswerPresentationFlowTests: XCTestCase {
         listen.tap()
         XCTAssertEqual(listen.label, "Listen")
         app.buttons["save-discovery"].tap()
-        XCTAssertTrue(app.buttons["reveal-card"].waitForExistence(timeout: 8))
+        XCTAssertTrue(app.buttons["pending-quiz"].waitForExistence(timeout: 8))
     }
 
     func testCachedOfflinePlaybackStopsInBackgroundAndHistoryDoesNotAutoplay() throws {
@@ -58,8 +58,7 @@ final class AnswerPresentationFlowTests: XCTestCase {
         capture("cached-answer-after-background")
         app.buttons["exploration-close"].tap()
         app.buttons["question-history"].tap()
-        let saved = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "Blue sky")).firstMatch
-        XCTAssertTrue(saved.waitForExistence(timeout: 5)); saved.tap()
+        app.openLatestSavedQuestion()
         XCTAssertTrue(listen.waitForExistence(timeout: 5))
         XCTAssertEqual(listen.label, "Listen")
         XCTAssertFalse(app.buttons["show-full-answer"].exists)

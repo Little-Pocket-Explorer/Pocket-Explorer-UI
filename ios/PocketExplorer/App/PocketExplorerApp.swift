@@ -8,6 +8,7 @@ struct PocketExplorerApp: App {
     @State private var language: LanguagePreference?
     @State private var choosingLanguage = false
     @State private var demoActivation: DemoActivation?
+    @State private var discoveryLink: DiscoveryLink?
     @State private var deviceLanguage = AppLanguage.resolve(Locale.preferredLanguages)
     @Environment(\.scenePhase) private var scenePhase
     private var resolvedLanguage: AppLanguage { language?.language ?? deviceLanguage }
@@ -29,6 +30,7 @@ struct PocketExplorerApp: App {
                 } else if let store {
                     RootView(store: store, changeLanguage: { choosingLanguage = true })
                         .sheet(item: $demoActivation) { activation in DemoActivationView(activation: activation, demo: store.demo) }
+                        .sheet(item: $discoveryLink) { link in DiscoveryLinkView(store: store, link: link).id(link.id) }
                 } else if let loadError {
                     ContentUnavailableView("Your journal needs a moment", systemImage: "book.closed", description: Text(loadError))
                 } else {
@@ -43,6 +45,7 @@ struct PocketExplorerApp: App {
             .task(id: language) { openJournal() }
             .onOpenURL { url in
                 if let activation = DemoActivation(url: url) { demoActivation = activation }
+                else if let link = DiscoveryLink(url: url) { discoveryLink = link }
             }
             .onReceive(NotificationCenter.default.publisher(for: NSLocale.currentLocaleDidChangeNotification)) { _ in
                 deviceLanguage = AppLanguage.resolve(Locale.preferredLanguages)

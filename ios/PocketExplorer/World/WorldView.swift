@@ -8,6 +8,7 @@ struct WorldView: View {
     @State private var selectedTripID: UUID?
     @State private var expanded = false
     @State private var showReminders = false
+    @State private var nearby = false
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -25,6 +26,7 @@ struct WorldView: View {
         }
         .foregroundStyle(Theme.ink).toolbar(.hidden, for: .navigationBar)
         .navigationDestination(item: $selectedTripID) { id in TripDetailView(store: store, tripID: id) }
+        .sheet(isPresented: $nearby) { NearbyDiscoveryView(store: store) }
         .sheet(isPresented: $showReminders) { NavigationStack { DiscoveryRemindersView(store: store) } }
     }
 
@@ -64,6 +66,7 @@ struct WorldView: View {
             }
             if dynamicTypeSize.isAccessibilitySize { tripRows }
             else { ScrollView { tripRows }.frame(maxHeight: expanded ? 370 : 105) }
+            Button { nearby = true } label: { Label("Nearby events & discoveries", systemImage: "map") }.frame(minHeight: 44).accessibilityIdentifier("open-nearby")
             Button(action: explore) { Label("Find another wonder", systemImage: "mic.fill") }.buttonStyle(ExplorerButtonStyle())
         }.padding(18)
     }

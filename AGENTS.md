@@ -1,5 +1,9 @@
 # Pocket Explorer
 
+## Current product authority (2026-09-15)
+
+The user explicitly made the eight roadshow slides authoritative for conflicting product decisions and requested all described product features in this iteration. Follow docs/plans/pitch-alignment.md. This supersedes earlier restrictions against parent controls, correct-answer unlocks, accounts/profiles, friends and text chat. Miro remains the compatible visual reference. Preserve legacy data, ten languages and private demo isolation. Native releases remain local with [skip ci]. Backend releases use the existing workflow. Older design-authority text below is historical where it conflicts.
+
 ## Current design authority (2026-09-14)
 
 The user confirmed that [the Miro board](https://miro.com/app/board/uXjVHn9F6EQ=/) is the source of truth for UI design and flows. Figma Review 01 is an interaction example only. This decision supersedes conflicting visual baselines and Figma continuation instructions below, while explicit user decisions still take precedence over board content. The current phase is native implementation with live AI, authorized on 2026-09-14. Earlier design-only restrictions are superseded. Accounts and friend chat are deferred. Any new clickable prototype must follow Miro, and the existing Figma example does not establish completion of that work.

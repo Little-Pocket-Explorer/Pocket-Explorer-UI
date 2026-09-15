@@ -17,6 +17,7 @@ struct AIReply: Codable, Equatable {
     var category: String
     var artworkPrompt: String
     var quiz: DiscoveryQuiz
+    var advancesCard: Bool? = nil
 }
 
 struct ArtworkJob: Codable, Equatable, Identifiable {
@@ -45,6 +46,9 @@ struct ExplorationRecord: Codable, Equatable, Identifiable {
     var preparedRegistered: Bool? = nil
     var preparedArtwork: ArtworkJob? = nil
     var preparedUnavailable: Bool? = nil
+    var conversationID: UUID? = nil
+    var parentID: UUID? = nil
+    var evolveFrom: String? = nil
 }
 
 struct AIReceipt: Codable, Equatable {
@@ -86,11 +90,15 @@ struct AIClient {
     }
 
     func ask(_ record: ExplorationRecord, photo: Data?, connection: ShareConnection) async throws -> AIReceipt {
-        struct Input: Encodable { var id: String; var question: String; var language: String; var age: Int; var photo: String?; var prepared: PreparedReference? }
+        struct Input: Encodable {
+            var id: String; var question: String; var language: String; var age: Int; var photo: String?; var prepared: PreparedReference?
+            var conversationID: String?; var parentID: String?; var evolveFrom: String?
+        }
         guard record.photoFilename == nil || photo != nil else { throw AIClientError.photoUnreadable }
         let photoInput = photo.flatMap(Self.imageInput)
         if photo != nil && photoInput == nil { throw AIClientError.photoUnreadable }
-        let input = Input(id: record.id.uuidString.lowercased(), question: record.question, language: record.language, age: record.age, photo: photoInput, prepared: record.preparedContent?.reference)
+        let input = Input(id: record.id.uuidString.lowercased(), question: record.question, language: record.language, age: record.age, photo: photoInput, prepared: record.preparedContent?.reference,
+            conversationID: record.conversationID?.uuidString.lowercased(), parentID: record.parentID?.uuidString.lowercased(), evolveFrom: record.evolveFrom)
         return try await decode(AIReceipt.self, path: "api/explorations", method: "POST", body: JSONEncoder().encode(input), connection: connection, timeout: 105)
     }
 

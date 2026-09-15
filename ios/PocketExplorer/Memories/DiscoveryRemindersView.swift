@@ -39,9 +39,12 @@ struct DiscoveryRemindersView: View {
 struct DiscoveryQuizView: View {
     let store: TripStore
     let discoveryID: UUID
+    var close: (() -> Void)? = nil
     @State private var choice: Int?
     @State private var checked = false
     @State private var error: String?
+    @State private var reveal = false
+    @State private var revealed = false
     private var discovery: Discovery? { store.state.discoveries.first { $0.id == discoveryID } }
     var body: some View {
         ScrollView {
@@ -67,13 +70,26 @@ struct DiscoveryQuizView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             Text(L10n.text(choice == quiz.correctIndex ? "You remembered!" : "A new little thing to remember.")).font(.title3.bold())
                             Text(quiz.explanation)
-                            Text("Your card is yours to keep.").font(.caption).foregroundStyle(Theme.muted)
+                            Text(L10n.text(discovery.isUnlocked ? "Your card is yours to keep." : "Your observation is safe. Try the question again.")).font(.caption).foregroundStyle(Theme.muted)
                         }.padding(20).background(Theme.mint, in: RoundedRectangle(cornerRadius: 24)).accessibilityIdentifier("quiz-feedback")
-                        NavigationLink { CardDetailView(store: store, discoveryID: discovery.id) } label: { Text("View my card") }.buttonStyle(ExplorerButtonStyle())
+                        if discovery.isUnlocked {
+                            if discovery.unlockRequired == true {
+                                Button("Reveal my card") { reveal = true }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("quiz-reveal")
+                                if !discovery.isVerified { Text("Your answer is saved. We will sync your card when you are online.").font(.caption).foregroundStyle(Theme.muted) }
+                            } else {
+                                NavigationLink { CardDetailView(store: store, discoveryID: discovery.id) } label: { Text("View my card") }.buttonStyle(ExplorerButtonStyle())
+                            }
+                        } else {
+                            if choice == quiz.correctIndex && discovery.evolvesFrom != nil { Text(CollectibleError.newDiscovery.localizedDescription).font(.subheadline) }
+                            Button("Try the question again") { checked = false; choice = nil }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("quiz-retry")
+                        }
                     } else {
                         Button("Check answer") {
                             guard let choice else { return }
-                            do { try store.answerQuiz(discoveryID: discoveryID, choice: choice); checked = true }
+                            do {
+                                try store.answerQuiz(discoveryID: discoveryID, choice: choice); checked = true
+                                Task { if let connection = try? ConnectionVault().loadOrCreate() { await store.recall.synchronize(store: store, connection: connection) } }
+                            }
                             catch { self.error = error.localizedDescription }
                         }.buttonStyle(ExplorerButtonStyle()).disabled(choice == nil).accessibilityIdentifier("quiz-check")
                     }
@@ -81,5 +97,14 @@ struct DiscoveryQuizView: View {
                 }.padding(24)
             }
         }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink).navigationTitle("Discovery Quiz").navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(isPresented: $reveal) {
+                if let discovery {
+                    if revealed { NewCardView(store: store, discoveryID: discoveryID, close: close) }
+                    else { CardUnlockView(discovery: discovery, onReveal: { revealed = true }, store: store) }
+                }
+            }
+            .toolbar {
+                if let close { ToolbarItem(placement: .topBarTrailing) { Button("Done", action: close).accessibilityIdentifier("exploration-close") } }
+            }
     }
 }

@@ -28,7 +28,7 @@ final class NarrationFlowTests: XCTestCase {
         XCTAssertEqual(listen.label, "Stop reply")
         let screenshot = XCTAttachment(screenshot: app.screenshot()); screenshot.name = "cloud-narration-playback"; screenshot.lifetime = .keepAlways; add(screenshot)
         app.buttons["save-discovery"].tap()
-        XCTAssertTrue(app.buttons["reveal-card"].waitForExistence(timeout: 8))
+        XCTAssertTrue(app.buttons["pending-quiz"].waitForExistence(timeout: 8))
     }
     func testCancelledSlowNarrationNeverRestartsAfterAnotherQuestion() {
         ask("slow narration " + UUID().uuidString)
@@ -54,7 +54,7 @@ final class NarrationFlowTests: XCTestCase {
         app.buttons["listen-answer"].tap()
         XCTAssertEqual(app.buttons["listen-answer"].label, "Listen")
         app.buttons["save-discovery"].tap()
-        XCTAssertTrue(app.buttons["reveal-card"].waitForExistence(timeout: 8))
+        XCTAssertTrue(app.buttons["pending-quiz"].waitForExistence(timeout: 8))
     }
     private var input: XCUIElement {
         if app.textViews["exploration-input"].exists { return app.textViews["exploration-input"] }

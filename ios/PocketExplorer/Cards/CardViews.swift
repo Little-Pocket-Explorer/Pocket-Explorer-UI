@@ -22,10 +22,12 @@ struct DiscoveryCard: View {
                         GeometryReader { geometry in
                             DiscoveryArtwork(discovery: discovery, store: store)
                                 .frame(width: geometry.size.width, height: geometry.size.height).clipped()
+                                .blur(radius: discovery.isUnlocked ? 0 : 6)
+                                .overlay { if !discovery.isUnlocked { Image(systemName: "lock.fill").font(.system(size: 30)).padding(16).background(Theme.paper.opacity(0.9), in: Circle()) } }
                         }
                     }
                     .overlay(alignment: .topLeading) {
-                        Label("V1", systemImage: "leaf.fill").font(.system(.caption2, design: .rounded, weight: .bold))
+                        Label("V\(discovery.cardVersion)", systemImage: "leaf.fill").font(.system(.caption2, design: .rounded, weight: .bold))
                             .padding(8).background(Theme.paper.opacity(0.95), in: UnevenRoundedRectangle(bottomTrailingRadius: 10))
                     }.clipShape(RoundedRectangle(cornerRadius: 19)).padding(4)
             }
@@ -43,11 +45,12 @@ struct DiscoveryCard: View {
                     .font(.system(.caption2, design: .rounded, weight: .semibold))
                     .padding(.horizontal, 9).padding(.vertical, 5).background(Theme.mint, in: Capsule())
                 if !compact {
+                    if let tier = discovery.tier, tier != .fieldFind { Text(tier.title).font(.caption.bold()).foregroundStyle(Theme.forest) }
                     Text(discovery.question).font(.system(.subheadline, design: .rounded)).foregroundStyle(Theme.muted)
                     Text(L10n.date(discovery.createdAt)).font(.caption2).foregroundStyle(Theme.muted)
                 }
             }.padding(compact ? 10 : 18).frame(maxWidth: .infinity, alignment: .leading)
-        }.foregroundStyle(Theme.ink).modifier(BotanicalFrame())
+        }.foregroundStyle(Theme.ink).modifier(BotanicalFrame(style: discovery.collectible?.style ?? .forest))
     }
 }
 
@@ -97,6 +100,9 @@ struct CardDetailView: View {
     @State private var observation = ""
     @State private var error: String?
     @State private var section = 0
+    @State private var evolving = false
+    @State private var styling = false
+    @State private var mapSharing = false
     private var discovery: Discovery? { store.state.discoveries.first { $0.id == discoveryID } }
 
     var body: some View {
@@ -104,6 +110,11 @@ struct CardDetailView: View {
             ScrollView {
                 if let discovery {
                     VStack(alignment: .leading, spacing: 24) {
+                        if !discovery.isUnlocked {
+                            Text("Your discovery is saved").font(.title2.bold())
+                            NavigationLink { DiscoveryQuizView(store: store, discoveryID: discovery.id) } label: { Label("Quiz me now", systemImage: "sparkles") }
+                                .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("pending-quiz")
+                        }
                         if store.preparedContentNeedsUpdate(discovery.explorationID) {
                             Label("This discovery needs an update. Your card and memories are safe.", systemImage: "info.circle")
                                 .font(.subheadline).fixedSize(horizontal: false, vertical: true)
@@ -146,8 +157,26 @@ struct CardDetailView: View {
                         }
                         if let trip = store.state.trips.first(where: { $0.id == discovery.tripID }) {
                             NavigationLink { SharePreviewView(trip: trip, discoveries: [discovery], store: store, singleCardID: discovery.id) } label: { Label("Preview & share", systemImage: "square.and.arrow.up") }
-                                .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("card-share-preview")
+                                .buttonStyle(ExplorerButtonStyle()).disabled(!discovery.isUnlocked).accessibilityIdentifier("card-share-preview")
                             NavigationLink("See this adventure") { TripDetailView(store: store, tripID: discovery.tripID) }.frame(maxWidth: .infinity, minHeight: 44)
+                        }
+                        if let origin = discovery.collectible?.origin { Label(origin.displayLabel, systemImage: origin.kind == "event" ? "mappin.and.ellipse" : "gift").font(.headline) }
+                        if let card = discovery.collectible, discovery.isUnlocked {
+                            VStack(alignment: .leading, spacing: 14) {
+                                NavigationLink { CardHistoryView(card: card) } label: { Label("Card history", systemImage: "clock.arrow.circlepath") }.accessibilityIdentifier("card-history")
+                                Button("Share on map") { mapSharing = true }.frame(minHeight: 44).accessibilityIdentifier("card-map-sharing")
+                                Button("Help this card grow") { evolving = true }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("evolve-card")
+                                    .disabled(!store.family.allows(.exploration))
+                                Picker("Card style", selection: Binding(get: { card.style }, set: { style in
+                                    styling = true; error = nil
+                                    Task {
+                                        defer { styling = false }
+                                        do { try store.saveCardStyle(await CollectibleClient().style(style, id: card.id, connection: ConnectionVault().loadOrCreate())) }
+                                        catch { self.error = error.localizedDescription }
+                                    }
+                                })) { ForEach(CardStyle.allCases) { style in Text(style.title).tag(style) } }.disabled(styling).accessibilityIdentifier("card-style")
+                                if let error { Text(error).font(.caption) }
+                            }.padding(20).background(.white.opacity(0.9), in: RoundedRectangle(cornerRadius: 22))
                         }
                     }.padding(24)
                 }
@@ -155,6 +184,10 @@ struct CardDetailView: View {
                 proxy.scrollTo("card-section-start", anchor: .top)
             }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink)
             .navigationTitle(discovery?.title ?? L10n.text("My discovery")).navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $mapSharing) { if let discovery { MapSharingView(store: store, discovery: discovery) } }
+            .sheet(isPresented: $evolving) {
+                if let discovery { ExplorationFlow(store: store, tripID: discovery.tripID, parentQuestionID: discovery.explorationID, evolveFrom: discovery.collectible?.id) }
+            }
             .sheet(isPresented: $editing) {
                 NavigationStack {
                     Form {
@@ -184,7 +217,11 @@ struct CollectionView: View {
     @State private var category = "All"
     @State private var newestFirst = true
     private var discoveries: [Discovery] {
-        let filtered = store.state.discoveries.filter {
+        var seen = Set<String>()
+        let latest = store.state.discoveries.sorted {
+            $0.isUnlocked == $1.isUnlocked ? $0.createdAt > $1.createdAt : $0.isUnlocked
+        }.filter { seen.insert($0.collectionID).inserted }
+        let filtered = latest.filter {
             (category == "All" || $0.categoryID == category.lowercased()) &&
             (query.isEmpty || ($0.title + " " + $0.question).localizedCaseInsensitiveContains(query))
         }.sorted { $0.createdAt < $1.createdAt }

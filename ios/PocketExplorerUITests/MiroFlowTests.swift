@@ -52,6 +52,7 @@ final class MiroFlowTests: XCTestCase {
         capture("miro-live-answer")
         scrollTo(app.buttons["save-discovery"])
         app.buttons["save-discovery"].tap()
+        app.unlockSavedObservation()
         XCTAssertTrue(app.buttons["reveal-card"].waitForExistence(timeout: 8))
         capture("miro-card-reveal")
         scrollTo(app.buttons["reveal-card"]); app.buttons["reveal-card"].tap()

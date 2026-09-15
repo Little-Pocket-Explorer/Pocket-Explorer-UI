@@ -110,6 +110,7 @@ final class ArtworkFlowTests: XCTestCase {
         app.buttons["ask-button"].tap()
         XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 12))
         app.buttons["save-discovery"].tap()
+        app.unlockSavedObservation()
         XCTAssertTrue(app.buttons["reveal-card"].waitForExistence(timeout: 8))
         XCTAssertTrue(app.buttons["reveal-card"].isHittable, "The primary card action must be visible without scrolling, even while artwork is pending.")
         capture("card-unlock-primary-action-visible")

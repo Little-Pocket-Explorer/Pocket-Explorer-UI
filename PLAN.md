@@ -1,5 +1,13 @@
 # Pocket Explorer: Implementation Plan
 
+## Active roadshow implementation (2026-09-15)
+
+The eight roadshow slides now govern conflicting product decisions. The user explicitly requests all described product features this iteration. Follow docs/plans/pitch-alignment.md and the active TODO checkpoint. Parent controls, correct-answer unlocks, personalized exploration, event/location discovery, evolving cards, real friendships and text chat are in scope. Preserve old cards and links, ten languages, live AI, prepared content and private demo isolation.
+
+Proceed through the complete acceptance matrix without treating an increment as overall completion. Update TODO after implementation and verification. Use the new hai/pitch-alignment worktrees. Native publishing is local with [skip ci], Backend through its workflow. Do not restart expired timers. Commercial transaction scope awaits the user's answer.
+
+The earlier checkpoints and exclusions below are historical where they conflict with this scope. Build 17 remains the last verified release until a new release is independently confirmed.
+
 ## Current delivery: cached-answer presentation and private demo (2026-09-15 20:28 AEST)
 
 This is the current state. Older dated checkpoints below are historical and must not trigger another release or resume expired automation.

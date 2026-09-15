@@ -33,9 +33,9 @@ struct SharePreviewView: View {
                         Text("Preview the words everyone with your link will see. Field photos and exact locations are not included in the link.").foregroundStyle(Theme.muted)
                         if published == nil && pendingStory == nil {
                             VStack(alignment: .leading, spacing: 14) {
-                                Toggle("Include a first name", isOn: $includeName).accessibilityIdentifier("share-include-name")
+                                Toggle("Include a first name", isOn: $includeName).disabled(store?.family.family?.policy.nameSharing == false).accessibilityIdentifier("share-include-name")
                                 if includeName { TextField("First name", text: $firstName).textContentType(.givenName).padding(12).background(Theme.paper, in: RoundedRectangle(cornerRadius: 12)) }
-                                Toggle("Include the city", isOn: $includeCity).disabled(trip.place == nil).accessibilityIdentifier("share-include-city")
+                                Toggle("Include the city", isOn: $includeCity).disabled(trip.place == nil || store?.family.family?.policy.citySharing == false).accessibilityIdentifier("share-include-city")
                             }.padding(20).background(Theme.surface, in: RoundedRectangle(cornerRadius: 22)).disabled(busy)
                         }
                         if inlineActions { shareActions.id("share-actions") }
@@ -98,23 +98,25 @@ struct SharePreviewView: View {
         VStack(spacing: 10) {
             if let error { Text(error).font(.callout).foregroundStyle(Theme.ink).accessibilityIdentifier("share-error") }
             if let message { Text(L10n.text(message)).font(.footnote).accessibilityIdentifier("share-message") }
+            if store?.family.allows(.sharing) == false { Text(FamilyError.disabled.localizedDescription).font(.footnote) }
             if let published {
                 if busy {
                     HStack { ProgressView(); Text("Stopping sharing…") }.font(.footnote).accessibilityIdentifier("revoking-share")
                 }
                 Text(published.receipt.url.absoluteString).font(.caption2).lineLimit(1).textSelection(.enabled).accessibilityIdentifier("share-url")
-                ShareLink(item: published.receipt.url) { Label("Share my adventure", systemImage: "square.and.arrow.up") }.buttonStyle(ExplorerButtonStyle()).disabled(busy)
+                ShareLink(item: published.receipt.url) { Label("Share my adventure", systemImage: "square.and.arrow.up") }.buttonStyle(ExplorerButtonStyle()).disabled(busy || store?.family.allows(.sharing) == false)
                 (inlineActions ? AnyLayout(VStackLayout(spacing: 10)) : AnyLayout(HStackLayout())) {
-                    Button("Copy link") { UIPasteboard.general.url = published.receipt.url; message = "Link copied." }.frame(maxWidth: .infinity, minHeight: 44)
+                    Button("Copy link") { UIPasteboard.general.url = published.receipt.url; message = "Link copied." }.frame(maxWidth: .infinity, minHeight: 44).disabled(store?.family.allows(.sharing) == false)
                     Button("Stop sharing this story", action: revoke).frame(maxWidth: .infinity, minHeight: 44).accessibilityIdentifier("revoke-share")
                 }.font(.footnote).disabled(busy)
             } else {
                 Button(L10n.text(busy ? "Creating your link…" : "Create a sharing link"), action: create)
-                    .buttonStyle(ExplorerButtonStyle()).disabled(busy || story.cards.isEmpty).accessibilityIdentifier("create-share")
+                    .buttonStyle(ExplorerButtonStyle()).disabled(busy || story.cards.isEmpty || store?.family.allows(.sharing) == false).accessibilityIdentifier("create-share")
             }
         }.padding(.horizontal, inlineActions ? 0 : 24).padding(.vertical, 12).background(Theme.paper)
     }
     private func create() {
+        guard store?.family.allows(.sharing) != false else { error = FamilyError.disabled.localizedDescription; return }
         busy = true; error = nil; message = nil
         let snapshot = story
         let request = SharePublisher.shared.publish(snapshot, key: receiptKey, prepare: {

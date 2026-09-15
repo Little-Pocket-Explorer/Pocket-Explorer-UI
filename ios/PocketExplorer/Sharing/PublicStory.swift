@@ -21,7 +21,7 @@ struct PublicStory: Codable, Equatable {
     var language: String? = nil
 
     static func make(trip: Trip, discoveries: [Discovery], firstName: String? = nil, includeCity: Bool = false) -> PublicStory {
-        let selected = discoveries.filter { $0.tripID == trip.id }
+        let selected = discoveries.filter { $0.tripID == trip.id && $0.isUnlocked }
         let cleanName = firstName?.trimmingCharacters(in: .whitespacesAndNewlines)
         return PublicStory(title: trip.title, firstName: cleanName?.isEmpty == false ? cleanName : nil,
                            city: includeCity ? trip.place?.name : nil,

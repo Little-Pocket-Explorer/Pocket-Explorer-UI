@@ -1,0 +1,50 @@
+[
+  {
+    "character": "mimi",
+    "source": "Pocket-Explorer-Marketing/production/characters/mimi/front.png",
+    "sourceSHA256": "f5eb581a909d9e6f38cfd5371ea59de14d4c7d410f6640f64b0da779ae4c8131",
+    "crop": [
+      170,
+      0,
+      854,
+      684
+    ],
+    "size": [
+      384,
+      384
+    ],
+    "outputSHA256": "65ca87384fc18b62978c5d3607a3b8e04bb837226f40e9a91a4964b36c20a54a"
+  },
+  {
+    "character": "dou-dou",
+    "source": "Pocket-Explorer-Marketing/production/characters/dou-dou/front.png",
+    "sourceSHA256": "0d53677992c5ba8a463ccda844d35109ef61e2cb93e90d3e38b436c0fa29eb31",
+    "crop": [
+      170,
+      0,
+      854,
+      684
+    ],
+    "size": [
+      384,
+      384
+    ],
+    "outputSHA256": "7bd89c51b79751d858ee8c9abcb02630300f432a8f4918af452f27e3d4cf37cd"
+  },
+  {
+    "character": "aj",
+    "source": "Pocket-Explorer-Marketing/production/characters/aj/front.png",
+    "sourceSHA256": "c1c7fcea3f7e65b78c81cc6062b01bdee9519765ad1aa66084001896c3ed7238",
+    "crop": [
+      240,
+      0,
+      784,
+      544
+    ],
+    "size": [
+      384,
+      384
+    ],
+    "outputSHA256": "59a8fd3f818118347c9054ee168d6457aa9a0e9cf8013e5565a7b397cc3d6455"
+  }
+]

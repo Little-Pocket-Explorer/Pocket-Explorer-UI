@@ -3,6 +3,7 @@ import Observation
 
 @MainActor @Observable
 final class DiscoveryLocation: NSObject, @preconcurrency CLLocationManagerDelegate {
+    private(set) var reading: LocationReading?
     private(set) var place: Place?
     private(set) var isLoading = false
     private(set) var error: String?
@@ -26,7 +27,7 @@ final class DiscoveryLocation: NSObject, @preconcurrency CLLocationManagerDelega
 
     func request() {
         guard !isLoading else { return }
-        error = nil; isLoading = true; requestID = UUID()
+        error = nil; reading = nil; isLoading = true; requestID = UUID()
         switch manager.authorizationStatus {
         case .notDetermined: manager.requestWhenInUseAuthorization()
         case .authorizedAlways, .authorizedWhenInUse: manager.requestLocation()
@@ -38,7 +39,7 @@ final class DiscoveryLocation: NSObject, @preconcurrency CLLocationManagerDelega
         }
     }
 
-    func remove() { place = nil; requestID = nil; isLoading = false; timeout?.cancel(); error = nil }
+    func remove() { reading = nil; place = nil; requestID = nil; isLoading = false; timeout?.cancel(); error = nil }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         guard isLoading else { return }
@@ -48,11 +49,14 @@ final class DiscoveryLocation: NSObject, @preconcurrency CLLocationManagerDelega
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let id = requestID, let location = locations.last, location.horizontalAccuracy >= 0 else { return }
+        reading = LocationReading(coordinate: ExplorerCoordinate(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), accuracy: location.horizontalAccuracy, observedAt: location.timestamp)
+        place = Place(name: L10n.text("My discovery"), latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        isLoading = false; timeout?.cancel()
         Task { @MainActor in
             let name = (try? await geocode(location)) ?? L10n.text("My discovery")
-            guard requestID == id else { return }
+            guard requestID == id, reading?.observedAt == location.timestamp else { return }
             place = Place(name: name, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            isLoading = false; requestID = nil; timeout?.cancel()
+            requestID = nil
         }
     }
 

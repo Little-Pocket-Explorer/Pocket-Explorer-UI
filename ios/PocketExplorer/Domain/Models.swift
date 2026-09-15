@@ -57,8 +57,9 @@ enum DiscoveryOrigin: String, Codable, Equatable {
 
 enum CardTier: String, Codable, Equatable {
     case fieldFind
+    case common, rare, epic
 
-    var title: String { L10n.text("Field find") }
+    var title: String { L10n.text(self == .fieldFind ? "Field find" : rawValue.capitalized) }
 }
 
 struct Discovery: Codable, Equatable, Identifiable {
@@ -81,6 +82,16 @@ struct Discovery: Codable, Equatable, Identifiable {
     var quizChoice: Int? = nil
     var place: Place? = nil
     var language: String? = nil
+    var unlockRequired: Bool? = nil
+    var collectible: KnowledgeCard? = nil
+    var evolvesFrom: String? = nil
+
+    var isUnlocked: Bool { unlockRequired != true || unlockedAt != nil }
+    var isVerified: Bool {
+        unlockRequired != true || collectible?.versions.contains(where: { $0.explorationID == explorationID?.uuidString.lowercased() }) == true
+    }
+    var collectionID: String { evolvesFrom ?? explorationID?.uuidString.lowercased() ?? id.uuidString.lowercased() }
+    var cardVersion: Int { collectible?.versions.first(where: { $0.explorationID == explorationID?.uuidString.lowercased() })?.version ?? 1 }
 
     var title: String { ai?.title ?? subject.title(language: language.flatMap(AppLanguage.init(rawValue:)) ?? .current) }
     var category: String { ai.map { L10n.text($0.category.capitalized) } ?? subject.category }
@@ -124,6 +135,7 @@ struct JournalState: Codable, Equatable {
     var trips: [Trip]
     var discoveries: [Discovery]
     var explorations: [ExplorationRecord]? = nil
+    var recallAttempts: [RecallAttempt]? = nil
 
     static func examples(now: Date = Date(), language: AppLanguage = .current) -> JournalState {
         func text(_ key: String) -> String { L10n.text(key, language: language) }

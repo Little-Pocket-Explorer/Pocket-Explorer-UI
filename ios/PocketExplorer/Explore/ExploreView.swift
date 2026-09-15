@@ -13,6 +13,8 @@ struct ExploreView: View {
     var recordID: UUID?
     var presentAnswerOnOpen = false
     var entry: ExplorationEntry = .compose
+    var parentQuestionID: UUID?
+    var evolveFrom: String?
     var onSave: (_ discovery: Discovery, _ isNew: Bool) -> Void
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -21,6 +23,7 @@ struct ExploreView: View {
     @State private var question = ""
     @State private var observation = ""
     @State private var record: ExplorationRecord?
+    @State private var followupID: UUID?
     @State private var voice = VoiceSession()
     @State private var location = DiscoveryLocation()
     @State private var listening = false
@@ -78,6 +81,7 @@ struct ExploreView: View {
                             }.padding(.leading, 48)
                         }
                         Button("Ask another question") {
+                            followupID = record.id
                             answerPresentation.finish(); stopVoice(); self.record = nil; question = ""; observation = ""; photoDraft.clear(); selection = nil; error = nil; questionError = nil; location.remove(); focused = true
                         }.frame(minHeight: 44).frame(maxWidth: .infinity).accessibilityIdentifier("ask-another")
                     }
@@ -85,6 +89,10 @@ struct ExploreView: View {
                     Image("explorer-hero").resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 26)).accessibilityHidden(true)
                     Text("Every discovery starts\nwith a question.").font(.system(.largeTitle, design: .rounded, weight: .black))
                     Text("Speak, type, or add a photo of something you notice.").foregroundStyle(Theme.muted)
+                    if let parent = store.questions.first(where: { $0.id == (followupID ?? parentQuestionID) }) {
+                        Text(parent.question).font(.headline).padding(16).frame(maxWidth: .infinity, alignment: .leading).background(Theme.mint, in: RoundedRectangle(cornerRadius: 20))
+                        Text(evolveFrom == nil ? L10n.text("Keep exploring this idea.") : L10n.text("Ask something new about this card. New understanding helps it grow.")).font(.subheadline).foregroundStyle(Theme.muted)
+                    }
                 }
                 if record?.reply == nil, let image = photoDraft.image {
                     Image(uiImage: image).resizable().scaledToFit().frame(maxHeight: 220).clipShape(RoundedRectangle(cornerRadius: 18)).accessibilityIdentifier("exploration-photo")
@@ -138,6 +146,9 @@ struct ExploreView: View {
                 if thinking { pauseQuestion() }
                 photoDraft.cancel(); answerPresentation.finish(); stopVoice()
             }
+        }
+        .onChange(of: store.family.allows(.exploration)) { _, allowed in
+            if !allowed { if thinking { pauseQuestion() }; cameraOpen = false; photoPickerOpen = false; stopVoice() }
         }
         .onChange(of: selection) { _, item in
             if let item {
@@ -260,6 +271,7 @@ struct ExploreView: View {
     }
 
     private func ask() {
+        guard store.family.allows(.exploration) else { error = FamilyError.disabled.localizedDescription; return }
         guard !thinking, !photoDraft.isLoading, !question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         if listening { finishRecording(then: ask); return }
         guard !startingListening, !finishingListening else { return }
@@ -268,7 +280,7 @@ struct ExploreView: View {
         focused = false; stopVoice(); error = nil; questionError = nil
         do {
             if record?.question != question.trimmingCharacters(in: .whitespacesAndNewlines) || photoDraft.hasChanges {
-                record = try store.beginQuestion(question, age: age, photo: photo)
+                record = try store.beginQuestion(question, age: age, photo: photo, parentID: followupID ?? parentQuestionID, evolveFrom: evolveFrom)
                 photoDraft.markSaved()
                 observation = ""
             }

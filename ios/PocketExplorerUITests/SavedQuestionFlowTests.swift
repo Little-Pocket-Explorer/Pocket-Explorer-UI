@@ -4,7 +4,7 @@ final class SavedQuestionFlowTests: XCTestCase {
     private let app = XCUIApplication()
 
     func testSavedAnswerKeepsItsObservationAndOpensTheExistingCardDirectly() {
-        continueAfterFailure = true
+        continueAfterFailure = false
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
         app.launchEnvironment["POCKET_SHARE_BASE_URL"] = FixtureServer.base
         app.launch()
@@ -18,12 +18,13 @@ final class SavedQuestionFlowTests: XCTestCase {
         scrollTo(observation)
         observation.tap(); observation.typeText("The sky is lighter near the clouds.")
         app.buttons["save-discovery"].tap()
+        app.unlockSavedObservation()
         XCTAssertTrue(app.buttons["reveal-card"].waitForExistence(timeout: 8), "A new card should still receive its first reveal.")
         app.buttons["reveal-card"].tap()
         XCTAssertTrue(app.buttons["discovery-card"].waitForExistence(timeout: 8))
         app.buttons["exploration-close"].tap()
         app.buttons["question-history"].tap()
-        app.buttons.matching(NSPredicate(format: "label CONTAINS 'Blue sky'")).firstMatch.tap()
+        app.openLatestSavedQuestion()
         XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 8))
         XCTAssertEqual(app.buttons["save-discovery"].label, "View my card")
         capture("saved-answer-reopened")
