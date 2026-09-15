@@ -16,12 +16,14 @@ struct PreparedAssets {
         return nil
     }
 
-    func load(_ asset: PreparedAsset, base: URL, bundled: String? = nil) async throws -> Data {
+    func load(_ asset: PreparedAsset, base: URL, bundled: String? = nil, authorization: String? = nil) async throws -> Data {
         if let data = cached(asset, bundled: bundled) { return data }
         let image = asset.path.hasSuffix(".png")
         guard asset.isValid(extension: image ? "png" : "wav") else { throw RecommendationError.invalidAsset }
         let url = base.appendingPathComponent(String(asset.path.dropFirst()))
-        let (data, response) = try await session.data(for: URLRequest(url: url, timeoutInterval: 20))
+        var request = URLRequest(url: url, timeoutInterval: 20)
+        if let authorization { request.setValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization") }
+        let (data, response) = try await session.data(for: request)
         try Task.checkCancellation()
         guard let response = response as? HTTPURLResponse, response.statusCode == 200,
               response.mimeType == (image ? "image/png" : "audio/wav"), valid(data, for: asset) else { throw RecommendationError.invalidAsset }

@@ -28,7 +28,18 @@ final class HomeEntryTests: XCTestCase {
     }
 
     func testHomeCameraOpensTheCameraPathDirectly() {
+        app.resetAuthorizationStatus(for: .camera)
+        app.launch()
+        XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
+        app.buttons["language-continue"].tap()
         app.buttons["home-camera"].tap()
+        let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let permission = system.alerts.containing(NSPredicate(format: "label CONTAINS[c] 'camera'")).firstMatch
+        if permission.waitForExistence(timeout: 5) {
+            let allow = permission.buttons["Allow"]
+            XCTAssertTrue(allow.exists)
+            allow.tap()
+        }
         if app.buttons["PhotoCapture"].waitForExistence(timeout: 5) {
             capture("home-camera-open")
             app.buttons.matching(NSPredicate(format: "identifier IN %@", ["DismissImagePickerButton", "DismissButton"])).firstMatch.tap()

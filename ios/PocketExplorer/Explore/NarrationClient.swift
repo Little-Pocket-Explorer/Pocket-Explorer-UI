@@ -15,7 +15,7 @@ struct NarrationClient {
         guard let base = connection.validatedURL, let answer = record.reply?.answer else { throw VoiceError.unavailable }
         if let prepared = record.preparedContent {
             guard let narration = prepared.narration else { throw VoiceError.unavailable }
-            do { return try await preparedAssets.load(narration, base: base) }
+            do { return try await preparedAssets.load(narration, base: base, authorization: connection.ownerKey) }
             catch is CancellationError { throw CancellationError() }
             catch { if record.preparedRegistered != true { throw error } }
         }

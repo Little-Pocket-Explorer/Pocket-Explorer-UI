@@ -331,3 +331,43 @@
 "This discovery needs an update. Your card and memories are safe." = "هذا الاكتشاف يحتاج إلى تحديث. بطاقتك وذكرياتك محفوظة بأمان.";
 
 "This saved discovery can no longer be shared. Your card and memories are safe." = "لم يعد من الممكن مشاركة هذا الاكتشاف المحفوظ. بطاقتك وذكرياتك محفوظة بأمان.";
+
+"This demo invitation has expired or has already been used." = "انتهت صلاحية دعوة العرض أو استُخدمت من قبل.";
+
+"Demo access has ended on this iPhone." = "انتهى إذن العرض التجريبي على هذا الـ iPhone.";
+
+"Demo content could not be downloaded. Please try again." = "تعذّر تنزيل محتوى العرض. حاول مرة أخرى.";
+
+"This demo content needs an update. Please try again." = "يحتاج هذا العرض إلى تحديث. حاول مرة أخرى.";
+
+"Demo access is ready" = "العرض التجريبي جاهز";
+
+"Activate demo access?" = "هل تريد تفعيل العرض التجريبي؟";
+
+"Turn on Demo mode in My profile when you are ready to present." = "عندما تستعد للعرض، فعّل وضع العرض التجريبي من ملفي الشخصي.";
+
+"This private invitation enables demo controls only on this iPhone." = "تُفعّل هذه الدعوة الخاصة أدوات العرض على هذا الـ iPhone فقط.";
+
+"Activate this iPhone" = "تفعيل هذا الـ iPhone";
+
+"Demo mode" = "وضع العرض التجريبي";
+
+"Ready to present offline" = "جاهز للعرض دون اتصال";
+
+"Prepare content before presenting" = "حضّر المحتوى قبل العرض";
+
+"Preparing your demo…" = "جارٍ تحضير العرض…";
+
+"Refresh demo content" = "تحديث محتوى العرض";
+
+"Demo access ends: %@" = "ينتهي إذن العرض: %@";
+
+"Private demo" = "عرض خاص";
+
+"Prepared content stays in order until you refresh. Your daily discoveries are kept separately." = "يبقى ترتيب المحتوى ثابتًا حتى تُحدّثه. تُحفظ اكتشافاتك اليومية بشكل منفصل.";
+
+"No demo discoveries in this language yet." = "لا توجد اكتشافات تجريبية بهذه اللغة بعد.";
+
+"All demo discoveries" = "كل اكتشافات العرض";
+
+"Show full answer" = "عرض الإجابة كاملة";

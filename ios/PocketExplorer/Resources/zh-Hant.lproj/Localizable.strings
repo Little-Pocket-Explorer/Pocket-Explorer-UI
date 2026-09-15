@@ -331,3 +331,43 @@
 "This discovery needs an update. Your card and memories are safe." = "這個發現需要更新。你的卡片和回憶都已保留。";
 
 "This saved discovery can no longer be shared. Your card and memories are safe." = "這則已儲存的發現無法再分享。你的卡片和回憶都已保留。";
+
+"This demo invitation has expired or has already been used." = "此展示邀請已過期或已被使用。";
+
+"Demo access has ended on this iPhone." = "這台 iPhone 的展示權限已結束。";
+
+"Demo content could not be downloaded. Please try again." = "無法下載展示內容，請重試。";
+
+"This demo content needs an update. Please try again." = "此展示內容需要更新，請重試。";
+
+"Demo access is ready" = "展示權限已開通";
+
+"Activate demo access?" = "開通展示權限？";
+
+"Turn on Demo mode in My profile when you are ready to present." = "準備展示時，在「我的資料」中開啟展示模式。";
+
+"This private invitation enables demo controls only on this iPhone." = "此私人邀請只會為這台 iPhone 開通展示入口。";
+
+"Activate this iPhone" = "啟用這台 iPhone";
+
+"Demo mode" = "展示模式";
+
+"Ready to present offline" = "已準備好，可離線展示";
+
+"Prepare content before presenting" = "展示前請先準備內容";
+
+"Preparing your demo…" = "正在準備展示…";
+
+"Refresh demo content" = "更新展示內容";
+
+"Demo access ends: %@" = "展示權限到期：%@";
+
+"Private demo" = "私人展示";
+
+"Prepared content stays in order until you refresh. Your daily discoveries are kept separately." = "內容順序會保持不變，直到你主動更新。每日探索會另外保留。";
+
+"No demo discoveries in this language yet." = "暫時沒有此語言的展示內容。";
+
+"All demo discoveries" = "全部展示探索";
+
+"Show full answer" = "顯示完整回答";

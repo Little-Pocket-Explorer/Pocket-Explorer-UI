@@ -331,3 +331,43 @@
 "This discovery needs an update. Your card and memories are safe." = "Diese Entdeckung muss aktualisiert werden. Deine Karte und Erinnerungen bleiben gespeichert.";
 
 "This saved discovery can no longer be shared. Your card and memories are safe." = "Diese gespeicherte Entdeckung kann nicht mehr geteilt werden. Deine Karte und Erinnerungen bleiben gespeichert.";
+
+"This demo invitation has expired or has already been used." = "Diese Demo-Einladung ist abgelaufen oder wurde bereits verwendet.";
+
+"Demo access has ended on this iPhone." = "Der Demo-Zugang auf diesem iPhone ist abgelaufen.";
+
+"Demo content could not be downloaded. Please try again." = "Die Demo konnte nicht geladen werden. Bitte erneut versuchen.";
+
+"This demo content needs an update. Please try again." = "Diese Demo muss aktualisiert werden. Bitte erneut versuchen.";
+
+"Demo access is ready" = "Der Demo-Zugang ist bereit";
+
+"Activate demo access?" = "Demo-Zugang aktivieren?";
+
+"Turn on Demo mode in My profile when you are ready to present." = "Aktiviere vor der Präsentation den Demo-Modus in Mein Profil.";
+
+"This private invitation enables demo controls only on this iPhone." = "Diese private Einladung aktiviert die Demo nur auf diesem iPhone.";
+
+"Activate this iPhone" = "Dieses iPhone aktivieren";
+
+"Demo mode" = "Demo-Modus";
+
+"Ready to present offline" = "Bereit für die Offline-Präsentation";
+
+"Prepare content before presenting" = "Inhalte vor der Präsentation vorbereiten";
+
+"Preparing your demo…" = "Demo wird vorbereitet…";
+
+"Refresh demo content" = "Demo-Inhalte aktualisieren";
+
+"Demo access ends: %@" = "Demo-Zugang endet: %@";
+
+"Private demo" = "Private Demo";
+
+"Prepared content stays in order until you refresh. Your daily discoveries are kept separately." = "Die Reihenfolge bleibt bis zur Aktualisierung gleich. Deine täglichen Entdeckungen werden getrennt gespeichert.";
+
+"No demo discoveries in this language yet." = "Für diese Sprache gibt es noch keine Demo.";
+
+"All demo discoveries" = "Alle Demo-Entdeckungen";
+
+"Show full answer" = "Ganze Antwort anzeigen";

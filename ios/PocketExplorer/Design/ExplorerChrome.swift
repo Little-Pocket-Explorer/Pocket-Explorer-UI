@@ -2,10 +2,10 @@ import SwiftUI
 
 struct ExplorerBackdrop: View {
     var body: some View {
-        LinearGradient(colors: [Color(hex: 0xE8F7FC), .white, Color(hex: 0xF0FAEE)], startPoint: .top, endPoint: .bottom)
-            .overlay(alignment: .bottom) {
-                Image("explorer-meadow").resizable().scaledToFit().opacity(0.85)
-            }.ignoresSafeArea().accessibilityHidden(true)
+        GeometryReader { geometry in
+            Image("explorer-background").resizable().scaledToFill()
+                .frame(width: geometry.size.width, height: geometry.size.height).clipped()
+        }.ignoresSafeArea().accessibilityHidden(true)
     }
 }
 
@@ -68,7 +68,7 @@ struct DiscoveryArtwork: View {
                     }
                 }
             } else {
-                Image(discovery.subject.rawValue).resizable().scaledToFit()
+                Image(discovery.subject.rawValue).resizable().scaledToFill()
             }
         }.accessibilityLabel(discovery.title)
     }

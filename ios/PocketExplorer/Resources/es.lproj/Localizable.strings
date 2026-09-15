@@ -331,3 +331,43 @@
 "This discovery needs an update. Your card and memories are safe." = "Esta exploración necesita actualizarse. Tu tarjeta y tus recuerdos están a salvo.";
 
 "This saved discovery can no longer be shared. Your card and memories are safe." = "Esta exploración guardada ya no se puede compartir. Tu tarjeta y tus recuerdos están a salvo.";
+
+"This demo invitation has expired or has already been used." = "Esta invitación ha caducado o ya se ha utilizado.";
+
+"Demo access has ended on this iPhone." = "El acceso a la demo ha terminado en este iPhone.";
+
+"Demo content could not be downloaded. Please try again." = "No se pudo descargar la demo. Inténtalo de nuevo.";
+
+"This demo content needs an update. Please try again." = "Esta demo necesita una actualización. Inténtalo de nuevo.";
+
+"Demo access is ready" = "Ya puedes acceder a la demo";
+
+"Activate demo access?" = "¿Activar el acceso a la demo?";
+
+"Turn on Demo mode in My profile when you are ready to present." = "Cuando estés listo para presentar, activa el modo demo en Mi perfil.";
+
+"This private invitation enables demo controls only on this iPhone." = "Esta invitación privada activa la demo solo en este iPhone.";
+
+"Activate this iPhone" = "Activar este iPhone";
+
+"Demo mode" = "Modo demo";
+
+"Ready to present offline" = "Listo para presentar sin conexión";
+
+"Prepare content before presenting" = "Prepara el contenido antes de presentar";
+
+"Preparing your demo…" = "Preparando la demo…";
+
+"Refresh demo content" = "Actualizar contenido de la demo";
+
+"Demo access ends: %@" = "El acceso a la demo termina: %@";
+
+"Private demo" = "Demo privada";
+
+"Prepared content stays in order until you refresh. Your daily discoveries are kept separately." = "El orden se mantiene hasta que actualices. Tus descubrimientos diarios se guardan por separado.";
+
+"No demo discoveries in this language yet." = "Todavía no hay demos en este idioma.";
+
+"All demo discoveries" = "Todos los descubrimientos de la demo";
+
+"Show full answer" = "Mostrar toda la respuesta";

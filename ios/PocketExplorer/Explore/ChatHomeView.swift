@@ -18,10 +18,12 @@ struct ChatHomeView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var launch: ExplorationLaunch?
     @State private var selectedQuestion: ExplorationRecord?
+    @State private var presentSelectedAnswer = false
     @State private var history = false
     @State private var profile = false
     @State private var pendingQuestion: ExplorationRecord?
     @State private var pendingLanguage = false
+    @State private var allDemoQuestions = false
     @AppStorage("explorer-age") private var age = 7
 
     var body: some View {
@@ -45,15 +47,28 @@ struct ChatHomeView: View {
                             .padding(12).background(.white, in: Capsule())
                     }.padding(.horizontal, 18).padding(.top, 12).accessibilityIdentifier("home-reminders")
                 }
-                Image("explorer-hero").resizable().scaledToFit().frame(maxHeight: 230).accessibilityHidden(true)
+                Image("explorer-hero").resizable().scaledToFit().accessibilityHidden(true)
+                    .mask(LinearGradient(stops: [.init(color: .clear, location: 0), .init(color: .black, location: 0.08), .init(color: .black, location: 0.8), .init(color: .clear, location: 1)], startPoint: .top, endPoint: .bottom))
+                    .mask(LinearGradient(stops: [.init(color: .clear, location: 0), .init(color: .black, location: 0.1), .init(color: .black, location: 0.9), .init(color: .clear, location: 1)], startPoint: .leading, endPoint: .trailing))
+                    .frame(maxHeight: 230)
                 VStack(spacing: 10) {
                     Text("What are you curious\nabout today?").font(.system(.largeTitle, design: .rounded, weight: .black))
                         .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
                     Text("Ask about anything you notice.").font(.system(.subheadline, design: .rounded)).foregroundStyle(Theme.muted)
                 }.padding(.horizontal, 20).padding(.bottom, 22)
                 VStack(spacing: 10) {
-                    ForEach(recommendations.items) { suggestion($0) }
-                    if recommendations.removedCount > 0 {
+                    if store.demo.enabled {
+                        Label("Demo mode", systemImage: "sparkles").font(.caption.bold()).foregroundStyle(Theme.forest).accessibilityIdentifier("demo-badge")
+                        if store.demo.busy { ProgressView("Preparing your demo…") }
+                        if store.demo.items.isEmpty && !store.demo.busy {
+                            Text("No demo discoveries in this language yet.").font(.subheadline).foregroundStyle(Theme.muted)
+                        }
+                    }
+                    ForEach(store.demo.enabled ? Array(store.demo.items.prefix(3)) : recommendations.items) { suggestion($0) }
+                    if store.demo.enabled && store.demo.items.count > 3 {
+                        Button("All demo discoveries") { allDemoQuestions = true }.font(.subheadline.bold())
+                    }
+                    if !store.demo.enabled && recommendations.removedCount > 0 {
                         Text("A discovery is being updated. You can still ask your own question.").font(.caption).foregroundStyle(Theme.muted)
                     }
                     if let recommendationError { Text(recommendationError).font(.caption).foregroundStyle(Theme.muted) }
@@ -93,6 +108,13 @@ struct ChatHomeView: View {
             do { try recommendations.activate(language: AppLanguage.current.rawValue, age: age, now: now); recommendationError = nil }
             catch { recommendationError = L10n.text("Your discoveries could not be saved. Please try again.") }
             guard let base = try? ConnectionVault().loadOrCreate().validatedURL else { return }
+            if let connection = try? ConnectionVault().loadOrCreate(), store.demo.hasAccessRecord {
+                await store.demo.checkAccess(connection: connection)
+                store.demo.selectContext(language: AppLanguage.current.rawValue, age: age)
+                if store.demo.enabled && !store.demo.offlineReady {
+                    await store.demo.refresh(connection: connection, language: AppLanguage.current.rawValue, age: age)
+                }
+            }
             await recommendations.synchronize(base: base, language: AppLanguage.current.rawValue, age: age, now: now, force: forceRefresh)
             guard !Task.isCancelled else { return }
             if recommendations.items.isEmpty && recommendations.removedCount == 0 {
@@ -101,13 +123,24 @@ struct ChatHomeView: View {
             await recommendations.prefetch(base: base)
         }
         .sheet(item: $launch) { launch in ExplorationFlow(store: store, tripID: nil, initialQuestion: launch.question, entry: launch.entry) }
-        .sheet(item: $selectedQuestion) { record in ExplorationFlow(store: store, tripID: nil, recordID: record.id) }
+        .sheet(item: $selectedQuestion) { record in ExplorationFlow(store: store, tripID: nil, recordID: record.id, presentAnswerOnOpen: presentSelectedAnswer) }
+        .sheet(isPresented: $allDemoQuestions, onDismiss: { selectedQuestion = pendingQuestion; pendingQuestion = nil }) {
+            NavigationStack {
+                List(store.demo.items) { item in
+                    Button(item.question) {
+                        presentSelectedAnswer = true
+                        pendingQuestion = try? store.beginPrepared(item, age: age)
+                        allDemoQuestions = false
+                    }
+                }.navigationTitle("All demo discoveries").toolbar { Button("Done") { allDemoQuestions = false } }
+            }.tint(Theme.forest)
+        }
         .sheet(isPresented: $history, onDismiss: { selectedQuestion = pendingQuestion; pendingQuestion = nil }) {
             NavigationStack {
                 List {
                     if store.questions.isEmpty { Text("Your questions will appear here.").foregroundStyle(Theme.muted) }
                     ForEach(store.questions) { record in
-                        Button { pendingQuestion = record; history = false } label: {
+                        Button { presentSelectedAnswer = false; pendingQuestion = record; history = false } label: {
                             HStack { LeafBadge(); VStack(alignment: .leading, spacing: 4) {
                                 Text(record.reply?.title ?? record.question).font(.headline)
                                 Text(L10n.date(record.createdAt, includeTime: true)).font(.caption).foregroundStyle(Theme.muted)
@@ -130,13 +163,15 @@ struct ChatHomeView: View {
                         LabeledContent("Discoveries", value: "\(store.state.discoveries.count)")
                         LabeledContent("Questions", value: "\(store.questions.count)")
                     }
-                }.navigationTitle("My profile").toolbar { Button("Done") { profile = false } }
+                    DemoControls(demo: store.demo, language: AppLanguage.current.rawValue, age: age)
+                }.scrollContentBackground(.hidden).background(ExplorerBackdrop())
+                    .navigationTitle("My profile").toolbar { Button("Done") { profile = false } }
             }.tint(Theme.forest)
         }
     }
 
     private var safeHome: Bool {
-        visible && isActive && scenePhase == .active && launch == nil && selectedQuestion == nil && !history && !profile
+        visible && isActive && scenePhase == .active && launch == nil && selectedQuestion == nil && !history && !profile && !allDemoQuestions
     }
 
     private var homeContext: String { "\(safeHome):\(AppLanguage.current.rawValue):\(age)" }
@@ -144,7 +179,7 @@ struct ChatHomeView: View {
     private func suggestion(_ item: PreparedContent) -> some View {
         let symbol = item.reply.category == "nature" ? "leaf.fill" : "sparkles"
         return Button {
-            do { selectedQuestion = try store.beginPrepared(item, age: age); recommendationError = nil }
+            do { presentSelectedAnswer = true; selectedQuestion = try store.beginPrepared(item, age: age); recommendationError = nil }
             catch { recommendationError = L10n.text("Your discoveries could not be saved. Please try again.") }
         } label: {
             HStack(spacing: 14) {

@@ -6,11 +6,13 @@ final class TripStore {
     private(set) var state: JournalState
     let fileURL: URL
     let recommendations: RecommendationStore
+    let demo: DemoStore
     private let write: (Data, URL) throws -> Void
 
     init(fileURL: URL, initial: JournalState = .examples(), writer: ((Data, URL) throws -> Void)? = nil, bundledContent: [PreparedContent]? = nil) throws {
         self.fileURL = fileURL
         self.recommendations = RecommendationStore(file: fileURL.deletingLastPathComponent().appendingPathComponent("recommendations.json"), bundled: bundledContent)
+        self.demo = DemoStore(file: fileURL.deletingLastPathComponent().appendingPathComponent("demo.json"))
         self.write = writer ?? { data, url in try data.write(to: url, options: .atomic) }
         try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
         if FileManager.default.fileExists(atPath: fileURL.path) {

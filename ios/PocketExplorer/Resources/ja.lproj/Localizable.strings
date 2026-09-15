@@ -331,3 +331,43 @@
 "This discovery needs an update. Your card and memories are safe." = "この発見は更新が必要です。カードと思い出は大切に保存されています。";
 
 "This saved discovery can no longer be shared. Your card and memories are safe." = "この保存済みの発見は共有できなくなりました。カードと思い出は保存されています。";
+
+"This demo invitation has expired or has already been used." = "このデモ招待は期限切れか、すでに使用されています。";
+
+"Demo access has ended on this iPhone." = "このiPhoneのデモ利用期限が切れました。";
+
+"Demo content could not be downloaded. Please try again." = "デモ内容をダウンロードできませんでした。もう一度お試しください。";
+
+"This demo content needs an update. Please try again." = "デモ内容の更新が必要です。もう一度お試しください。";
+
+"Demo access is ready" = "デモを利用できます";
+
+"Activate demo access?" = "デモを有効にしますか？";
+
+"Turn on Demo mode in My profile when you are ready to present." = "発表の準備ができたら、マイプロフィールでデモモードをオンにしてください。";
+
+"This private invitation enables demo controls only on this iPhone." = "この招待は、このiPhoneだけでデモ機能を有効にします。";
+
+"Activate this iPhone" = "このiPhoneを有効にする";
+
+"Demo mode" = "デモモード";
+
+"Ready to present offline" = "オフラインで発表できます";
+
+"Prepare content before presenting" = "発表前に内容を準備してください";
+
+"Preparing your demo…" = "デモを準備中…";
+
+"Refresh demo content" = "デモ内容を更新";
+
+"Demo access ends: %@" = "デモ利用期限：%@";
+
+"Private demo" = "プライベートデモ";
+
+"Prepared content stays in order until you refresh. Your daily discoveries are kept separately." = "更新するまで内容の順序は変わりません。毎日の発見は別に保存されます。";
+
+"No demo discoveries in this language yet." = "この言語のデモはまだありません。";
+
+"All demo discoveries" = "すべてのデモの発見";
+
+"Show full answer" = "回答をすべて表示";

@@ -1,5 +1,48 @@
 # Pocket Explorer: Current Execution State
 
+## Final delivery qualification (2026-09-15)
+
+Native qualification is now complete. Final-3 passed its actual HTTP integration and five UI tests. Across matching-source evidence, 139 unit and 25 UI checks pass, with the host-microphone case still pending. Changed executable coverage is 334/344 (97.09%), every file at least 85.37%. Actual final Home and Collection screenshots and card bounds are verified. Application source is frozen in ~/tmp/review/pocket-demo-native-tested-source.json. Next commit and upload locally, then independently verify Apple and the IPA.
+
+This checkpoint supersedes older dated states below. Cached-answer presentation is implemented, including progressive grapheme-safe text, immediate skip, prepared narration, quiet history and lifecycle cancellation. Backend source ac49387 is deployed through successful workflow 34954953344. Independent reads confirm migration 0008, deployment 280b53b4-470c-4f0e-956b-f1f7eec69f17 and the complete real private-demo flow. Test data was revoked and unpublished. TestFlight remains 0.1.0 (16) until the next local upload is independently verified.
+
+Native final-1 completed 139 unit tests with one optional HTTP-fixture skip and no failures, and 26 UI tests with one host-microphone skip and one camera-permission harness failure. Camera authorization is now handled explicitly and passes. Final-2 passed ten of eleven UI flows, including cached/offline narration, private demo, camera and English/German/Arabic card reading. The remaining grid assertion measured shadow bounds. The actual overflow was reproduced on the prior code and fixed with a square artwork container. Final-3 also adds an explicit card interaction shape and places the Home fade before its outer frame.
+
+Final-3 is running in session 11762 on simulator 39E9AF25-D9B7-4783-99FF-C084F7E83C1A, with result ~/tmp/review/pocket-demo-native-final-3.xcresult. Fixture port 4235 belongs to this task. Test runner configuration requires TEST_RUNNER_POCKET_AI_FIXTURE_URL=http://127.0.0.1:4235. Native application source is frozen during the run. Earlier app-source changes after final-1 are limited to CardViews.swift and ChatHomeView.swift, so coverage for those files must come from final source. Other source files can retain final-1 evidence. Finish screenshots and coverage, commit with [skip ci], then publish locally with Xcode 27 RC 27A266a. No GitHub native build, expired heartbeat or subagent is authorized.
+
+Studio instructions: Backend docs/demo-studio.md, Chinese copy ~/tmp/review/pocket-demo-studio.zh.md. Live evidence is ~/tmp/review/pocket-demo-live/verification.json. R2 allowance and usage report is ~/tmp/review/pocket-explorer-r2-usage.zh.md. Real-device checks and deferred event/social features remain explicit in the review.
+
+## Active verification and deployment (2026-09-15 19:53 AEST)
+
+The latest request is implemented locally: cached discoveries now use the same progressive text and automatic narration as new live answers. Quiet history remains quiet. A failing prepared-audio UI baseline was reproduced, then corrected. Four presentation unit tests and two actual UI flows pass, including offline playback and stopping in background. A stale SwiftUI task race was found and fixed with generation capture. All ten languages include the new full-answer action.
+
+Demo logic has six passing unit tests. Actual custom-scheme UI tests verify one-use activation, no normal entry, ordered offline content, separate daily choices, disabled autoplay in history and revoked access. Early UI failures were diagnosed as test launch reset arguments and a switch row-center tap. The corrected actual-control flow passes. Profile and Home screenshots were inspected. Physical-device checks remain pending.
+
+Backend ac49387 is committed and pushed to main after 188 tests, every-file coverage gates, 26 Chromium, 26 WebKit and four artwork browser tests, plus production build and Worker dry run. Its workflow deployment and independent live verification are next. Native final-source regression is running in session 82154, dedicated simulator 39E9AF25-D9B7-4783-99FF-C084F7E83C1A, result ~/tmp/review/pocket-demo-native-final-1.xcresult. Keep native application source frozen until it finishes. Snapshot: ~/tmp/review/pocket-demo-native-final-source.json. Fixture 4235 is session 82791.
+
+Next: finish native regression and changed-line coverage, inspect multilingual/card screenshots, verify deployed Backend demo upload/publication/activation/privacy, and publish native locally with Xcode 27 RC 27A266a. TestFlight remains 0.1.0 (16). New visuals and demo are not released yet. The refreshed Miro/Marketing mapping is docs/design/miro-updates-20260915.md and the Chinese review is ~/tmp/review/pocket-explorer-miro-updates-20260915.zh.md. The Home hero has top/bottom fading, but side edges remain visible against the new backdrop and should be refined after this run with a focused screenshot check.
+
+## Current checkpoint: prepared-answer presentation and private demo (2026-09-15)
+
+This checkpoint supersedes historical release and allowance statements below. Daily discovery is released: Backend d38080a through workflow 34946507042 and native c16eb46 as TestFlight 0.1.0 (16), independently VALID and IN_BETA_TESTING in Hackathon Internal. Build 16 does not include the new local demo or visual changes. Use Xcode 27 RC 27A266a for subsequent local native releases. No native release is currently running.
+
+The user now requests identical presentation for cached and live answers, including progressive text and narration. The prepared-question path currently opens an existing record and returns before starting speech. Add a shared, skippable text reveal, start narration only for an explicitly opened discovery or newly answered question, preserve quiet history viewing, respect Reduce Motion and VoiceOver, and stop work on dismissal/backgrounding. Reuse prepared audio without generating it again. Verify a failing baseline, cached/offline playback, live playback, replay, saving and accessibility.
+
+Private demo code is implemented locally but not deployed. Six native DemoTests pass. Backend has 182 passing checks and one existing integration test timeout under concurrent builds, so full acceptance is pending. New Studio frontend coverage, native demo UI checks, live privacy verification and release remain required. Additive migration 0008 is local only. Do not claim demo availability yet.
+
+Miro App Suggestion and IOS App View were refreshed. Marketing main 87a1be5 supplies 13 backgrounds, three event scenes and six card illustrations. One backdrop and six Studio samples are integrated locally. Card fill, corner clipping and equal-height refinements await screenshot verification. Event flows, real accounts and friend chat are not implemented. Preserve the source images and original Figma baseline. The new Miro screenshot exports are thumbnail-limited, so pixel-exact review is not claimed.
+
+Next: verify the prepared-answer baseline, implement and test the shared presentation, then finish demo/visual acceptance and release through the established channels. Keep all unfinished work and evidence. Native publishes from this Mac with [skip ci], Backend through its workflow. No expired heartbeat or subagent is started.
+
+## Private demonstration content (2026-09-15)
+
+The user approved author-prepared questions, answers and card illustrations with explicit priority, available only in an intentionally enabled demo mode. They accepted private single-use links that authorize specific phones. Ordinary users must have no demo entry. Follow the Backend docs/plans/private-demo-mode.md plan. This is the next implementation task, separate from the completed daily-discovery source. Demo implementation is now local and remains under verification.
+
+Daily backend source d38080a is independently deployed through workflow 34946507042. Compressed catalog ETags, ten language catalogs, cross-installation prepared text/image/audio reuse, ownership and sharing checks pass. Production is the sole Queue consumer, six-hour Cron is verified, and preparation was resumed with paused=0 read back. Twelve topics and 120 language packages meet the launch inventory.
+
+The first local upload, build 15, was rejected by Apple with 90534 because Xcode 27 Beta 1 (27A5194q) was selected. The installed RC (27A266a) has been selected explicitly for build 16. Upload succeeded and Apple processing is pending in session 33368. Keep ios, shared, scripts and HEAD frozen until the local release exits. Do not claim build 16 is available before independent Apple readback.
+
+
 ## Azure and Cloudflare policy amendment (2026-09-15)
 
 The user clarified that Azure API capacity is effectively unlimited for this project while Cloudflare resources remain constrained. This supersedes historical instructions preserving the 120-question, 18-image and 200,000-speech-character Azure caps. Use explicit `unlimited` policies and retain the existing usage ledger, actual provider failures, deadlines and retry controls.

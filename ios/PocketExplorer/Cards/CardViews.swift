@@ -17,16 +17,26 @@ struct DiscoveryCard: View {
                     Text(discovery.explanation).font(.system(.body, design: .rounded))
                 }.padding(22).frame(maxWidth: .infinity, minHeight: 230, alignment: .leading)
             } else {
-                DiscoveryArtwork(discovery: discovery, store: store).aspectRatio(1, contentMode: .fit)
-                    .clipped().clipShape(RoundedRectangle(cornerRadius: 19))
+                Color.clear.aspectRatio(1, contentMode: .fit)
+                    .overlay {
+                        GeometryReader { geometry in
+                            DiscoveryArtwork(discovery: discovery, store: store)
+                                .frame(width: geometry.size.width, height: geometry.size.height).clipped()
+                        }
+                    }
                     .overlay(alignment: .topLeading) {
                         Label("V1", systemImage: "leaf.fill").font(.system(.caption2, design: .rounded, weight: .bold))
                             .padding(8).background(Theme.paper.opacity(0.95), in: UnevenRoundedRectangle(bottomTrailingRadius: 10))
-                    }.padding(4)
+                    }.clipShape(RoundedRectangle(cornerRadius: 19)).padding(4)
             }
             VStack(alignment: .leading, spacing: 8) {
-                Text(discovery.title).font(.system(compact ? .subheadline : .title2, design: .rounded, weight: .heavy))
-                    .lineLimit(compact && !dynamicTypeSize.isAccessibilitySize ? 2 : nil).fixedSize(horizontal: false, vertical: true)
+                if compact && !dynamicTypeSize.isAccessibilitySize {
+                    Text(discovery.title).font(.system(.subheadline, design: .rounded, weight: .heavy))
+                        .lineLimit(2, reservesSpace: true).fixedSize(horizontal: false, vertical: true)
+                } else {
+                    Text(discovery.title).font(.system(compact ? .subheadline : .title2, design: .rounded, weight: .heavy))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
                 Label {
                     Text(discovery.category).fixedSize(horizontal: false, vertical: true)
                 } icon: { Image(systemName: "leaf.fill") }
@@ -217,6 +227,7 @@ struct CollectionView: View {
                     ForEach(discoveries) { discovery in
                         NavigationLink { CardDetailView(store: store, discoveryID: discovery.id) } label: {
                             DiscoveryCard(discovery: discovery, store: store, compact: true)
+                                .contentShape(RoundedRectangle(cornerRadius: 29))
                         }.buttonStyle(.plain).accessibilityIdentifier("collection-card-\(discovery.id)")
                     }
                 }

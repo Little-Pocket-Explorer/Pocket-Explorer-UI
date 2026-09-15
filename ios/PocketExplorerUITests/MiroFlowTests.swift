@@ -27,6 +27,15 @@ final class MiroFlowTests: XCTestCase {
         app.buttons["open-collection"].tap()
         XCTAssertTrue(app.staticTexts["journal-count"].waitForExistence(timeout: 5))
         capture("miro-collection")
+        let cards = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "collection-card-")).allElementsBoundByIndex
+        XCTAssertGreaterThanOrEqual(cards.count, 2)
+        let first = cards[0].frame, second = cards[1].frame
+        let bounds = XCTAttachment(string: "First card: \(first), second card: \(second), window: \(app.frame)")
+        bounds.name = "collection-card-bounds"; bounds.lifetime = .keepAlways; add(bounds)
+        XCTAssertGreaterThanOrEqual(first.minX, app.frame.minX + 15)
+        XCTAssertLessThanOrEqual(second.maxX, app.frame.maxX - 15)
+        XCTAssertGreaterThanOrEqual(second.minX - first.maxX, 10, "Filled artwork must stay inside its grid column.")
+        XCTAssertEqual(first.height, second.height, accuracy: 1)
     }
 
     func testLiveContractQuestionCardImageMemoryAndShareJourney() {

@@ -331,3 +331,43 @@
 "This discovery needs an update. Your card and memories are safe." = "This discovery needs an update. Your card and memories are safe.";
 
 "This saved discovery can no longer be shared. Your card and memories are safe." = "This saved discovery can no longer be shared. Your card and memories are safe.";
+
+"This demo invitation has expired or has already been used." = "This demo invitation has expired or has already been used.";
+
+"Demo access has ended on this iPhone." = "Demo access has ended on this iPhone.";
+
+"Demo content could not be downloaded. Please try again." = "Demo content could not be downloaded. Please try again.";
+
+"This demo content needs an update. Please try again." = "This demo content needs an update. Please try again.";
+
+"Demo access is ready" = "Demo access is ready";
+
+"Activate demo access?" = "Activate demo access?";
+
+"Turn on Demo mode in My profile when you are ready to present." = "Turn on Demo mode in My profile when you are ready to present.";
+
+"This private invitation enables demo controls only on this iPhone." = "This private invitation enables demo controls only on this iPhone.";
+
+"Activate this iPhone" = "Activate this iPhone";
+
+"Demo mode" = "Demo mode";
+
+"Ready to present offline" = "Ready to present offline";
+
+"Prepare content before presenting" = "Prepare content before presenting";
+
+"Preparing your demo…" = "Preparing your demo…";
+
+"Refresh demo content" = "Refresh demo content";
+
+"Demo access ends: %@" = "Demo access ends: %@";
+
+"Private demo" = "Private demo";
+
+"Prepared content stays in order until you refresh. Your daily discoveries are kept separately." = "Prepared content stays in order until you refresh. Your daily discoveries are kept separately.";
+
+"No demo discoveries in this language yet." = "No demo discoveries in this language yet.";
+
+"All demo discoveries" = "All demo discoveries";
+
+"Show full answer" = "Show full answer";
