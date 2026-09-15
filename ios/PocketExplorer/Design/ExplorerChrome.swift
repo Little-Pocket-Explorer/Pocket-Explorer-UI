@@ -9,12 +9,30 @@ struct ExplorerBackdrop: View {
     }
 }
 
+struct ProfileBackdrop: View {
+    var body: some View {
+        GeometryReader { geometry in
+            Image("profile-background").resizable().scaledToFit()
+                .frame(width: geometry.size.width, alignment: .top)
+        }.ignoresSafeArea().accessibilityHidden(true)
+    }
+}
+
 struct ExplorerAvatar: View {
     var size: CGFloat = 42
     var body: some View {
-        Image("explorer-avatar").resizable().scaledToFill().frame(width: size, height: size)
-            .clipShape(Circle()).overlay(Circle().strokeBorder(.white, lineWidth: 3))
+        Image("explorer-hero").resizable().scaledToFill().frame(width: size, height: size)
+            .background(Color(hex: 0xEFFAF5), in: Circle()).clipShape(Circle()).overlay(Circle().stroke(.white, lineWidth: 2))
             .shadow(color: Theme.forest.opacity(0.1), radius: 5, y: 2).accessibilityHidden(true)
+    }
+}
+
+struct ProfilePortrait: View {
+    var size: CGFloat = 136
+    var body: some View {
+        Image("explorer-hero").resizable().scaledToFill().frame(width: size, height: size)
+            .clipShape(Circle()).overlay(Circle().stroke(.white, lineWidth: 4))
+            .shadow(color: Theme.forest.opacity(0.12), radius: 8, y: 4).accessibilityHidden(true)
     }
 }
 

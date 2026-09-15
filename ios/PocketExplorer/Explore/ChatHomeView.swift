@@ -20,7 +20,9 @@ struct ChatHomeView: View {
     @State private var selectedQuestion: ExplorationRecord?
     @State private var presentSelectedAnswer = false
     @State private var history = false
-    @State private var profile = false
+    @State private var profileOpen = false
+    @State private var privacyOpen = false
+    @State private var detail: ProfileDetailView.Kind?
     @State private var pendingQuestion: ExplorationRecord?
     @State private var pendingLanguage = false
     @State private var allDemoQuestions = false
@@ -30,7 +32,7 @@ struct ChatHomeView: View {
         ScrollView {
             VStack(spacing: 0) {
                 HStack(spacing: 8) {
-                    Button { history = true } label: { Image(systemName: "sidebar.left").font(.system(size: 21)).frame(width: 44, height: 44).background(.white.opacity(0.85), in: Circle()) }
+                    Button { history = true } label: { Image(systemName: "rectangle.leftthird.inset.filled").font(.system(size: 21)).frame(width: 44, height: 44).background(.white.opacity(0.85), in: Circle()) }
                         .accessibilityLabel("Question history").accessibilityIdentifier("question-history")
                     if !dynamicTypeSize.isAccessibilitySize {
                         Image(systemName: "leaf.fill").font(.system(size: 23)).foregroundStyle(Theme.forest).accessibilityHidden(true)
@@ -39,7 +41,7 @@ struct ChatHomeView: View {
                         .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                         .fixedSize(horizontal: false, vertical: true).layoutPriority(1)
                     Spacer(minLength: 0)
-                    Button { profile = true } label: { ExplorerAvatar(size: 44) }.buttonStyle(.plain).accessibilityLabel("My profile").accessibilityIdentifier("open-profile")
+                    Button { profileOpen = true } label: { ExplorerAvatar().frame(width: 44, height: 44) }.accessibilityLabel("My profile").accessibilityIdentifier("open-profile")
                 }.padding(.horizontal, 18).padding(.top, 8)
                 if store.state.discoveries.contains(where: { ReminderPolicy.isEligible($0, now: Date()) }) {
                     NavigationLink { DiscoveryRemindersView(store: store) } label: {
@@ -79,7 +81,7 @@ struct ChatHomeView: View {
         .toolbar(.hidden, for: .navigationBar)
         .safeAreaInset(edge: .bottom) {
             HStack(spacing: dynamicTypeSize.isAccessibilitySize ? 8 : 12) {
-                Button { open(.camera) } label: { Image(systemName: "camera").font(.system(size: 22)).foregroundStyle(Theme.forest).frame(width: 44, height: 44) }
+                Button { open(.camera) } label: { Image(systemName: "camera.fill").font(.system(size: 22)).foregroundStyle(Theme.forest).frame(width: 44, height: 44) }
                     .accessibilityLabel("Explore with a photo").accessibilityIdentifier("home-camera")
                 Button { open(.compose) } label: {
                     Text(L10n.text(dynamicTypeSize.isAccessibilitySize ? "Ask" : "Ask anything…"))
@@ -150,28 +152,25 @@ struct ChatHomeView: View {
                 }.navigationTitle("Your questions").toolbar { Button("Done") { history = false } }
             }.tint(Theme.forest)
         }
-        .sheet(isPresented: $profile, onDismiss: { if pendingLanguage { pendingLanguage = false; changeLanguage() } }) {
-            NavigationStack {
-                Form {
-                    Section {
-                        HStack { Spacer(); ExplorerAvatar(size: 100); Spacer() }.listRowBackground(Color.clear)
-                        Stepper("Age: \(age)", value: $age, in: 5...18)
-                        Text("Your guide adjusts explanations to your age.").font(.caption).foregroundStyle(Theme.muted)
-                    }
-                    Section {
-                        Button("Language") { pendingLanguage = true; profile = false }.accessibilityIdentifier("choose-language")
-                        LabeledContent("Discoveries", value: "\(store.state.discoveries.count)")
-                        LabeledContent("Questions", value: "\(store.questions.count)")
-                    }
-                    DemoControls(demo: store.demo, language: AppLanguage.current.rawValue, age: age)
-                }.scrollContentBackground(.hidden).background(ExplorerBackdrop())
-                    .navigationTitle("My profile").toolbar { Button("Done") { profile = false } }
-            }.tint(Theme.forest)
+        .sheet(isPresented: $profileOpen) {
+            if let profile = ProfileSettings.profile {
+                ExplorerProfileView(profile: profile, discoveries: store.state.discoveries.count, onClose: { profileOpen = false }, onPrivacy: { profileOpen = false; privacyOpen = true }, onChildProfile: { profileOpen = false; detail = .child }, onPreferences: { profileOpen = false; detail = .preferences }, onNotifications: { profileOpen = false; detail = .notifications }, onLocation: { profileOpen = false; detail = .location }, onParentControls: { profileOpen = false; detail = .parentControls }, onAccount: { profileOpen = false; detail = .account })
+            }
+        }
+        .sheet(isPresented: $privacyOpen) {
+            if let profile = ProfileSettings.profile {
+                PrivacySettingsView(profile: profile, onClose: { privacyOpen = false }, onSave: { _ in privacyOpen = false })
+            }
+        }
+        .sheet(item: $detail) { kind in
+            if let profile = ProfileSettings.profile {
+                ProfileDetailView(kind: kind, profile: profile, onClose: { detail = nil }, onSave: { _ in detail = nil })
+            }
         }
     }
 
     private var safeHome: Bool {
-        visible && isActive && scenePhase == .active && launch == nil && selectedQuestion == nil && !history && !profile && !allDemoQuestions
+        visible && isActive && scenePhase == .active && launch == nil && selectedQuestion == nil && !history && !profileOpen && !privacyOpen && detail == nil && !allDemoQuestions
     }
 
     private var homeContext: String { "\(safeHome):\(AppLanguage.current.rawValue):\(age)" }
@@ -201,4 +200,17 @@ private struct ExplorationLaunch: Identifiable {
     let id = UUID()
     let entry: ExplorationEntry
     let question: String
+}
+
+extension ProfileDetailView.Kind: Identifiable {
+    var id: String {
+        switch self {
+        case .child: return "child"
+        case .preferences: return "preferences"
+        case .notifications: return "notifications"
+        case .location: return "location"
+        case .parentControls: return "parent-controls"
+        case .account: return "account"
+        }
+    }
 }
