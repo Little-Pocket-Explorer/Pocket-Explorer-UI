@@ -80,9 +80,12 @@ Do not claim every PPT feature is complete until the matrix above has implementa
 
 ## Current checkpoint
 
-P30 is complete. P31 through P36 product paths are implemented with focused D1/R2 and simulator verification.
-Five real-provider responses verify bounded age adaptation and evolution decisions. Nearby maps, public links, friendships, incoming exchanges and offline message recovery have passing checks.
-P37 has 60 qualified content packages and 60 real narration files. Immutable asset staging is in progress. Public catalog import and real Vectorize indexing are still pending.
+P30 is complete. P31 through P36 are implemented with focused D1/R2 and simulator verification.
+Five actual model responses provide bounded evidence for age adaptation, valid evolution and rejection of unrelated progress.
+P37 has six published Marketing topics, 60 ten-language packages, 60 real narration files and six uncropped original-art derivatives. All package and asset bodies were independently verified in production.
+All 60 Vectorize records were read back and checked for package ID, language, version and 1024 dimensions. A paraphrased prism question reused the prepared content in 4.951 seconds. Another installation repeated it in 0.152 seconds with the identical answer. These are individual observations, not latency guarantees.
 P38 public event/card pages and both Studio paths pass Chromium and WebKit checks, including actual D1/R2 publication and withdrawal.
-P39 full native regression, final review, workflow deployment and local TestFlight publication are ongoing. Follow TODO.md for active processes and evidence. Neither the iteration nor its release is complete.
-Both worktrees use hai/pitch-alignment. All changes remain uncommitted and undeployed. Build 17 remains the latest independently verified release.
+Backend aafd4fe was deployed through successful workflow 34998228931. Independent reads confirm deployment 01769e05-bb01-4277-8cc8-63fc92d3a4b0 and migrations 0009 through 0012.
+Production acceptance passes 81 independent requests. Temporary public shares, events, map deposits and friendships were withdrawn. Fictional private profiles remain for traceability.
+P39 native integration and qualification are complete, pending local release. The integrated profile uses Litian's 906e743 artwork and actual family details, with corrected legacy trip-place metrics. Latest per-test qualification results are 248 passes, four explicitly gated skips and no unresolved failure. All 40 changed Swift files pass matching-hash coverage, minimum 89.28% and aggregate 96.24%. Final Chinese, demo and social screenshots are reviewed.
+The implementation starts from 8f0beb0 and incorporates upstream 906e743. This iteration is not yet on TestFlight. Build 17 remains the latest independently verified native release. The physical iPhone is disconnected. Physical microphone, camera, headphones, interruptions and listening acceptance remain separate. Commercial billing is disabled.

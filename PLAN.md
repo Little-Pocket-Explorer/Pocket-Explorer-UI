@@ -2,6 +2,8 @@
 
 ## Active roadshow implementation (2026-09-15)
 
+Qualification is complete with 248 latest per-test passes, four gated skips and all 40 changed Swift files above 80% matching-hash coverage. Backend is deployed. Native local publication remains pending. See docs/evidence/pitch-native.json and TODO.md.
+
 The eight roadshow slides now govern conflicting product decisions. The user explicitly requests all described product features this iteration. Follow docs/plans/pitch-alignment.md and the active TODO checkpoint. Parent controls, correct-answer unlocks, personalized exploration, event/location discovery, evolving cards, real friendships and text chat are in scope. Preserve old cards and links, ten languages, live AI, prepared content and private demo isolation.
 
 Proceed through the complete acceptance matrix without treating an increment as overall completion. Update TODO after implementation and verification. Use the new hai/pitch-alignment worktrees. Native publishing is local with [skip ci], Backend through its workflow. Do not restart expired timers. Commercial transaction scope awaits the user's answer.

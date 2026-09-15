@@ -131,9 +131,16 @@ struct FamilySettingsView: View {
     private func loadProfile() {
         if let existing = family.family { profile = existing.profile; policy = existing.policy }
         else {
-            profile.language = AppLanguage.current.rawValue
-            let age = UserDefaults.standard.integer(forKey: "explorer-age")
-            profile.age = (5...18).contains(age) ? age : 7
+            if let existing = LegacyProfileMigration.draft() {
+                profile = existing
+                let age = UserDefaults.standard.integer(forKey: "explorer-age")
+                if (5...18).contains(age) { profile.age = age }
+            }
+            else {
+                profile.language = AppLanguage.current.rawValue
+                let age = UserDefaults.standard.integer(forKey: "explorer-age")
+                profile.age = (5...18).contains(age) ? age : 7
+            }
         }
     }
     private func run(_ operation: @escaping (ShareConnection) async throws -> Void) {

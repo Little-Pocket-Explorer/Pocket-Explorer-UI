@@ -1,0 +1,331 @@
+{
+  "policy": "At least 80% coverage for every changed Swift file. Each result must match the current file hash. Best single matching run per file, never a union of unrelated line counts.",
+  "passed": true,
+  "fileCount": 40,
+  "coveredLines": 8020,
+  "executableLines": 8333,
+  "aggregatePercent": 96.24,
+  "minimumFilePercent": 89.28,
+  "files": [
+    {
+      "file": "ios/PocketExplorer/App/PocketExplorerApp.swift",
+      "covered": 160,
+      "executable": 169,
+      "coverage": 0.9467455621301775,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "82de9bd656e739c6b598ab0d0e266a7617f7798e8b3f90e849d7e06e04a8eb82"
+    },
+    {
+      "file": "ios/PocketExplorer/App/RootView.swift",
+      "covered": 160,
+      "executable": 165,
+      "coverage": 0.9696969696969697,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "2db73dd6680dec63744af4aa009956680b1d0b7b9a3e5a89bb1952f1f7f3cd07"
+    },
+    {
+      "file": "ios/PocketExplorer/Cards/CardViews.swift",
+      "covered": 931,
+      "executable": 943,
+      "coverage": 0.9872746553552492,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "24bd4a5043a5f95b3f7707b946489e93fa347091100d8c51c7155a8d6fdb776b"
+    },
+    {
+      "file": "ios/PocketExplorer/Cards/CollectibleClient.swift",
+      "covered": 64,
+      "executable": 65,
+      "coverage": 0.9846153846153847,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "5f0f1165e07302994191a56e7f75f59613b40ef64bace6530b2ac7f82be0c82f"
+    },
+    {
+      "file": "ios/PocketExplorer/Cards/CollectibleModels.swift",
+      "covered": 50,
+      "executable": 50,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "f918d14435fe7faa780922f3b112e0a6caf573f81cfe580667a86738cdf2ee59"
+    },
+    {
+      "file": "ios/PocketExplorer/Cards/NewCardView.swift",
+      "covered": 84,
+      "executable": 85,
+      "coverage": 0.9882352941176471,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "7af730705fafe07886ad6af8f1626cd8df816ed4ef3ced7b7b570a54639e52e2"
+    },
+    {
+      "file": "ios/PocketExplorer/Cards/PendingCardView.swift",
+      "covered": 104,
+      "executable": 105,
+      "coverage": 0.9904761904761905,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "99b0abeeb6e8e28dbc56d4f4d19c75f50d47e4b6a779ed653f8767bffe494c2f"
+    },
+    {
+      "file": "ios/PocketExplorer/Cards/RecallCoordinator.swift",
+      "covered": 51,
+      "executable": 52,
+      "coverage": 0.9807692307692307,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "590d99d10226677c5017c8d0ca2a4173998f50cee9ac25191477d11875fa7ec5"
+    },
+    {
+      "file": "ios/PocketExplorer/Data/TripStore.swift",
+      "covered": 330,
+      "executable": 331,
+      "coverage": 0.9969788519637462,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "ac47528911cc9c257068820a50daca2fc7be7891bf15dcf06d1a079192981012"
+    },
+    {
+      "file": "ios/PocketExplorer/Design/ExplorerChrome.swift",
+      "covered": 140,
+      "executable": 143,
+      "coverage": 0.9790209790209791,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-integration-focused-1-coverage.json",
+      "sha256": "18e11d5e81100d6a4e0f9028d7088429bd027aa9b0e9e13a56c9c3c2b1817997"
+    },
+    {
+      "file": "ios/PocketExplorer/Design/ExplorerProfile.swift",
+      "covered": 39,
+      "executable": 39,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-integration-regression-2-coverage.json",
+      "sha256": "bfe1bffbbdc4002789a2f2cec6f62b61b63ef6d2efc186752aa450c2c61d19ce"
+    },
+    {
+      "file": "ios/PocketExplorer/Design/ProfileViews.swift",
+      "covered": 263,
+      "executable": 263,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-integration-final-3-coverage.json",
+      "sha256": "89c4090e8f126c2ee398679e06053a9821de193cf8c070c1274fd352544fe0d0"
+    },
+    {
+      "file": "ios/PocketExplorer/Domain/Models.swift",
+      "covered": 106,
+      "executable": 113,
+      "coverage": 0.9380530973451328,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-integration-regression-2-coverage.json",
+      "sha256": "562d20d4c32408225549394762b42149b57b4dbc3bd7dc26e974037d598bfc9b"
+    },
+    {
+      "file": "ios/PocketExplorer/Events/DiscoveryLinkView.swift",
+      "covered": 71,
+      "executable": 71,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "5510c4377bdf8fd618c6388a6084214a510659fb560669421fc41438e0569936"
+    },
+    {
+      "file": "ios/PocketExplorer/Events/EventClient.swift",
+      "covered": 90,
+      "executable": 94,
+      "coverage": 0.9574468085106383,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "11359f3f728f3b9a93e1d5c629430e68a087ad6659199b6e3ff005da7deb04b6"
+    },
+    {
+      "file": "ios/PocketExplorer/Events/EventDetailView.swift",
+      "covered": 213,
+      "executable": 221,
+      "coverage": 0.9638009049773756,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-integration-focused-1-coverage.json",
+      "sha256": "3bd91c814f061d29080ea5b96d837de5cd7af20089835479faf5871cb6e4fcc4"
+    },
+    {
+      "file": "ios/PocketExplorer/Events/EventModels.swift",
+      "covered": 64,
+      "executable": 64,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "5f2b4916d27af131580672d27c03749882f7ca7589908454c9c1c0647ccd833c"
+    },
+    {
+      "file": "ios/PocketExplorer/Events/EventStore.swift",
+      "covered": 49,
+      "executable": 49,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "b14c4c1092922395b10f03cdf612128dc223f3c41cd7a1569a31c9e8f63c8e33"
+    },
+    {
+      "file": "ios/PocketExplorer/Events/MapSharingView.swift",
+      "covered": 139,
+      "executable": 141,
+      "coverage": 0.9858156028368794,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-integration-focused-1-coverage.json",
+      "sha256": "c3042c1e2df46fd0cf8b90a94f351881bdc3f6a30efea94e291608e58d2c15db"
+    },
+    {
+      "file": "ios/PocketExplorer/Events/NearbyDiscoveryView.swift",
+      "covered": 337,
+      "executable": 344,
+      "coverage": 0.9796511627906976,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-integration-focused-1-coverage.json",
+      "sha256": "0c3c393544adbef912b2158c3ccd2e5fc5e4ef106bc2eb4dec6508e10b9205e7"
+    },
+    {
+      "file": "ios/PocketExplorer/Explore/AIClient.swift",
+      "covered": 189,
+      "executable": 189,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "2059a8230ba3f83ceb039bf88f02519f559ad301369f100697ee386a1adb5762"
+    },
+    {
+      "file": "ios/PocketExplorer/Explore/ChatHomeView.swift",
+      "covered": 408,
+      "executable": 457,
+      "coverage": 0.8927789934354485,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-integration-final-3-coverage.json",
+      "sha256": "6258205042378d028ab3b2c77fdd13eb0786fc86f86bc823067e904fb0e155f7"
+    },
+    {
+      "file": "ios/PocketExplorer/Explore/ExploreView.swift",
+      "covered": 762,
+      "executable": 851,
+      "coverage": 0.8954171562867215,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "80f2e8e0e092f02e98e555d2e666567d868ccdd544642bda6fc2b8fcc753a7d7"
+    },
+    {
+      "file": "ios/PocketExplorer/Explore/PreparedRegistration.swift",
+      "covered": 70,
+      "executable": 70,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "643c4aa6bd0169ac86371f070caa8d4e97f639a6231cb37730189e927a7ac49a"
+    },
+    {
+      "file": "ios/PocketExplorer/Explore/QuestionHistoryView.swift",
+      "covered": 165,
+      "executable": 182,
+      "coverage": 0.9065934065934066,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "c0236166e06d6fe878c085a0ab72ef83e5061a75d297fa2c0f714e771a69f923"
+    },
+    {
+      "file": "ios/PocketExplorer/Family/FamilyClient.swift",
+      "covered": 52,
+      "executable": 53,
+      "coverage": 0.9811320754716981,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "90fb6d4e3e64898a0fc90c9309b319e92a00b8e23e799b4265e51ae33fdb1796"
+    },
+    {
+      "file": "ios/PocketExplorer/Family/FamilyModels.swift",
+      "covered": 83,
+      "executable": 83,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "185f7a85d5639d2dd5c403276339bf36129a3d6d4b175b1be5f5b4d4ee316fa7"
+    },
+    {
+      "file": "ios/PocketExplorer/Family/FamilyPauseShield.swift",
+      "covered": 42,
+      "executable": 42,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "eccc03d5375f058908e66fd674b782c2a6c9de0a4c625136a1116bf36d544fd6"
+    },
+    {
+      "file": "ios/PocketExplorer/Family/FamilySettingsView.swift",
+      "covered": 517,
+      "executable": 525,
+      "coverage": 0.9847619047619047,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-integration-focused-1-coverage.json",
+      "sha256": "33f5324f4bab3675a85310889ee708ed368fd3cfc1a2b2bc1e9be0e0a0b9c799"
+    },
+    {
+      "file": "ios/PocketExplorer/Family/FamilyStore.swift",
+      "covered": 134,
+      "executable": 137,
+      "coverage": 0.9781021897810219,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "5fb86ebe073f6ad3d54ad43f020913afdb412cf63042ca7120e6e0598b741811"
+    },
+    {
+      "file": "ios/PocketExplorer/Memories/DiscoveryRemindersView.swift",
+      "covered": 333,
+      "executable": 346,
+      "coverage": 0.9624277456647399,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "534cbe3566be43b10a2d2b61bd40b1a114ae11c5996a88a643a329c73d477725"
+    },
+    {
+      "file": "ios/PocketExplorer/Sharing/PublicStory.swift",
+      "covered": 34,
+      "executable": 34,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "fee79abc9af958a34b1a13b14102bea066de71efa46f130e5d7ada9d060601c8"
+    },
+    {
+      "file": "ios/PocketExplorer/Sharing/SharePreviewView.swift",
+      "covered": 397,
+      "executable": 407,
+      "coverage": 0.9754299754299754,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "9925602df3c93da7d8effbdf071f0e681d39c67d300aab23c491f2acb0d0c98d"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/FriendsView.swift",
+      "covered": 605,
+      "executable": 638,
+      "coverage": 0.9482758620689655,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "50ef271c02576c63c310b37012c67081af1cf3fd16eaa1d5d265ca4a0b3bd22a"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/GiftComposerView.swift",
+      "covered": 212,
+      "executable": 225,
+      "coverage": 0.9422222222222222,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "e357bf9e9c6dfc3a38cb1711aad3534fd8b47b9963d3f2083be0a283047e4d1f"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/SocialClient.swift",
+      "covered": 100,
+      "executable": 102,
+      "coverage": 0.9803921568627451,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "2c2b0514c9f3caf97e958e4abcca51148f0c449072d34fbb25e66b31d26768ee"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/SocialModels.swift",
+      "covered": 56,
+      "executable": 56,
+      "coverage": 1,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "50e22adfa0b46cae73d9e60f74fe3faeaf138cc5efe7a73e0996c0222f82a995"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/SocialStore.swift",
+      "covered": 144,
+      "executable": 151,
+      "coverage": 0.9536423841059603,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "4ec92ae10c6ea86457bbe1699d365093211c8e29bfd74ca0459126f81e1d1320"
+    },
+    {
+      "file": "ios/PocketExplorer/World/DiscoveryLocation.swift",
+      "covered": 57,
+      "executable": 62,
+      "coverage": 0.9193548387096774,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "5f80d7719a551e92833c774db1847edbf4fde2bff2e67e0be368fefb22e798d0"
+    },
+    {
+      "file": "ios/PocketExplorer/World/WorldView.swift",
+      "covered": 215,
+      "executable": 216,
+      "coverage": 0.9953703703703703,
+      "sourceRun": "/Users/haichang/tmp/review/pocket-pitch-native-full-1-coverage.json",
+      "sha256": "e092e7926dd28011b460b0d955aed89f85273599122475e5f885bf487addc8f2"
+    }
+  ]
+}

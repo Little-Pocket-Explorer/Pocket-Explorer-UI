@@ -2,6 +2,35 @@
 
 ## Active roadshow implementation (2026-09-15)
 
+Latest checkpoint, 2026-09-16 04:06 AEST:
+- Native qualification is complete: latest per-test results across full and targeted runs are 248 passed, four gated skips, no unresolved failures. This is not a claim of one passing full final-source invocation. All owned test sessions have ended.
+- Social-final-4 passes incoming exchange acceptance/decline, offline draft retry and peer revocation. A bounded independent read replaces the prior premature read, and the native pending-action button must disappear. Final-3 passes the other complete social flow, profile interests, demo activation/offline/revocation, daily rollover/prepared sharing and history.
+- Exact-hash coverage passes for all 40 changed Swift files, minimum 89.28%, aggregate 96.24%. All 143 application/shared runtime files match the tested source. Evidence: docs/evidence/pitch-native.json, pitch-native-coverage.json and docs/reviews/pitch-native-integration.md.
+- Chinese profile, corrected three-place metrics, usage/demo contrast, messages and card exchanges are visually reviewed. No native source change followed testing. Physical iPhone readback remains disconnected with DDI unavailable.
+- Upstream main is still 906e743. The integration merge is ready to commit with [skip ci]. Push native main without GitHub iOS builds, then run the local release helper using Homebrew Ruby, Xcode 27 RC 27A266a and absolute BUNDLE_PATH. Build 17 remains the latest verified release until Apple/IPA readback succeeds.
+- Backend runtime aafd4fe is deployed and production verified. No repeat deployment/import/reindex. Owned fixture sessions remain 56346 (4236), 71116 (4237), 32046 (4203), 68285 (4238). Stop these and continuous simulator location after no verification depends on them.
+- Release helpers ready: ~/tmp/review/pocket-pitch-apple-readback.rb, pocket-pitch-verify-ipa.py and pocket-pitch-native-tested-source.json. Next: commit/push, local archive/upload, independent Apple and IPA/source/catalog reads, final document sync and cleanup. Commercial billing and physical acceptance remain separate.
+
+Earlier checkpoint:
+
+Latest checkpoint, 2026-09-16 03:17 AEST:
+- Backend workflow 34998228931 succeeded. Independent Cloudflare reads confirm deployment 01769e05-bb01-4277-8cc8-63fc92d3a4b0, version 9363f4b8-eb62-47d2-9922-570fda3d6217 and all four new migrations. Production acceptance passed all 81 requests and cleanup. Evidence: pocket-pitch-production-check-1, deployment-readback.json and migration-readback.json.
+- All six Marketing topics were reindexed. Independent Vectorize reads verify all 60 records, package IDs, languages, versions and 1024 dimensions. A paraphrased prism question returns its prepared package in 4.951 seconds, and a second installation gets the identical reply in 0.152 seconds. Evidence: vectors-readback-2.json and semantic-production-1.json. Early reads exposed asynchronous index visibility. Subsequent complete readback passes.
+- Native integrated build-for-testing passes. Added legacy migration and distinct-card statistics checks, and connected profile navigation tests. Superseded incoming signup and local privacy UI are removed. Original full regression 58074 continues. Seven failures now include two old tests not navigating the new conversation layer and three multilingual helpers that stopped before scrolling to offscreen Form fields. Those test adaptations are applied in the integration worktree and await verification. Nearby failures still need screenshot diagnosis.
+- Next: finish frozen run, inspect all failures, run integrated targeted regression and per-file coverage, complete visual acceptance, then local TestFlight release. No native upload yet.
+
+Earlier checkpoint:
+
+Latest checkpoint, 2026-09-16 03:09 AEST:
+- Backend main aafd4fe includes Litian's ac94a26 and verified race/home fixes. Workflow 34998228931 passed Web/API checks and is deploying. Final local evidence: 246 tests, per-file coverage gates, 34 Chromium and 34 WebKit scenarios, build and Worker dry run.
+- All 66 Marketing R2 objects and 60 multilingual packages are installed. Independent production reads verified every package and asset. Each language now has 18 topics. Six protected Vectorize reindex calls and semantic verification remain pending.
+- Production acceptance harness passes 81 independent requests against the actual D1/R2 fixture. Production run awaits deployment. Evidence: pocket-pitch-production-fixture-check-3.log.
+- Native implementation frozen at 8f0beb0 in pitch-alignment while full regression 58074 runs. Two nearby-map failures remain unresolved. Do not modify its source, fixture or simulator during the run.
+- Native upstream integration is active in ~/Worktrees/Pocket-Explorer-UI-pitch-integration, branch hai/pitch-integration. The merge of 906e743 is uncommitted. Use separate DerivedData pocket-pitch-integration-derived. Removed superseded fake signup/local-policy views after the combined baseline failed to compile. New profile visuals connect to FamilyStore and preserve legacy profile drafts without importing privacy permissions. Connected profile tests and migration/metrics checks are being added.
+- Next: build native integration, inspect completed regression failures, verify deployment and indexing, run production acceptance, finish native regression/coverage/visual review, then publish TestFlight locally. Latest verified TestFlight remains build 17.
+
+Earlier checkpoint:
+
 Latest checkpoint, 2026-09-16 02:51 AEST:
 - Remote main advanced with Litian's reference-login-home work. Backend main ac94a26 and UI main 906e743 must be integrated before release. Do not overwrite these commits.
 - Backend implementation is committed locally as 7f044bd. Main integration is committed as 34b32d0. No push/deployment has occurred. The combined baseline passes 242 tests and all coverage gates. Native source is still uncommitted while its full run owns the simulator.
@@ -104,6 +133,12 @@ Everything below describes earlier deliveries or historical checkpoints.
 ## Current delivery: cached-answer presentation and private demo (2026-09-15 20:28 AEST)
 
 This is the current state. Older dated checkpoints below are historical and must not trigger another release or resume expired automation.
+
+## Local Profile Hub (draft)
+
+- The Chat profile entry now opens a complete local Profile hub: Child Profile, Discovery Preferences, Notifications, Privacy, Location and Account. Friends & Family remains visibly unavailable because there is no online friend system.
+- Privacy follows the approved grouped visual structure and persists only to the on-device profile. Only me, location off and public sharing off remain defaults. No parent PIN or approval gate was reintroduced.
+- Native diagnostics pass for the touched Profile views and tests. XCTest, XCUITest, coverage and physical-device review remain required on macOS.
 
 - TestFlight **0.1.0 (17)** is independently VALID and IN_BETA_TESTING in Hackathon Internal. Native source: bd75c0cea853b97912b989bd9b22f08a394d9ad9. Published from this Mac using Xcode 27 RC 27A266a, with [skip ci]. External distribution of this build is not verified.
 - Cached and new answers use progressive text and automatic narration. Text can be expanded immediately. Prepared answers, illustrations and audio remain reused. History stays quiet. Backgrounding, dismissal, Reduce Motion and VoiceOver have explicit behavior. Narration is not word-synchronized highlighting.
@@ -344,10 +379,13 @@ Published application source is 339ff9e5832fb4cc8fa24cde30aa2f72a811e581, pushed
 | T20.3 accessibility | REVIEW | 375pt and iOS 27 sharing checks passed and shipped. Human and physical acceptance remain open |
 | T21.1 terminal illustration | DONE | Neutral keepsake and readable words remain on terminal failure, released |
 | T21.4 publication | DONE | [skip ci] commit/push, local upload and independent Apple/IPA reads complete |
+| T22 local child profile | REVIEW | Email registration now leads to an editable child profile with avatar style, nickname, age, optional gender and interests before the Chat home. Data remains device-local. Web checks pass; native diagnostics pass and macOS CI remains required. |
+| T23 local profile and privacy | REVIEW | Chat now opens a full Profile screen with child details, local discovery statistics, interests and settings. Privacy matches the approved grouped layout: audience, location, Permissions, AI content level and daily use. `02-wildflower-meadow` is the dedicated uncropped, full-width background for native and Web Profile surfaces. Preferences remain local; Only me, location off and public sharing off are defaults. Web checks pass; native diagnostics pass and macOS CI remains required. |
+| T24 Web Chat home alignment | REVIEW | The Web root now follows the native Chat home: compact history/brand/profile header, hero art, three suggestion rows, a fixed camera/question/microphone composer and Chat/Map/Memories navigation. Existing exploration states remain intact. Web build and 13 focused home/Profile tests pass; human visual approval remains open. |
 | T20.2 / T21.2 physical speech | REVIEW | Physical naturalness and recording remain unverified |
 | Physical camera, VoiceOver and Safari | REVIEW | Post-release device read still shows disconnection. Preserve TestFlight installation |
 | Final checkpoint | DONE | Evidence, Chinese copies and guides synchronized, checked and pushed. Checkpoint paused after the deadline with independent readback |
-| Accounts, friends and chat | DEFERRED | Explicitly outside this iteration |
+| Online accounts, friends and chat | DEFERRED | Explicitly outside this iteration; T22 and T23 are local device profile/preferences only |
 
 ## Final verification and release
 

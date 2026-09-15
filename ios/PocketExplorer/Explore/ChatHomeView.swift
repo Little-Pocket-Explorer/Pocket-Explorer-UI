@@ -31,7 +31,7 @@ struct ChatHomeView: View {
         ScrollView {
             VStack(spacing: 0) {
                 HStack(spacing: 8) {
-                    Button { history = true } label: { Image(systemName: "sidebar.left").font(.system(size: 21)).frame(width: 44, height: 44).background(.white.opacity(0.85), in: Circle()) }
+                    Button { history = true } label: { Image(systemName: "rectangle.leftthird.inset.filled").font(.system(size: 21)).frame(width: 44, height: 44).background(.white.opacity(0.85), in: Circle()) }
                         .accessibilityLabel("Question history").accessibilityIdentifier("question-history")
                     if !dynamicTypeSize.isAccessibilitySize {
                         Image(systemName: "leaf.fill").font(.system(size: 23)).foregroundStyle(Theme.forest).accessibilityHidden(true)
@@ -80,7 +80,7 @@ struct ChatHomeView: View {
         .toolbar(.hidden, for: .navigationBar)
         .safeAreaInset(edge: .bottom) {
             HStack(spacing: dynamicTypeSize.isAccessibilitySize ? 8 : 12) {
-                Button { open(.camera) } label: { Image(systemName: "camera").font(.system(size: 22)).foregroundStyle(Theme.forest).frame(width: 44, height: 44) }
+                Button { open(.camera) } label: { Image(systemName: "camera.fill").font(.system(size: 22)).foregroundStyle(Theme.forest).frame(width: 44, height: 44) }
                     .accessibilityLabel("Explore with a photo").accessibilityIdentifier("home-camera")
                 Button { open(.compose) } label: {
                     Text(L10n.text(dynamicTypeSize.isAccessibilitySize ? "Ask" : "Ask anything…"))
@@ -143,24 +143,8 @@ struct ChatHomeView: View {
         }
         .sheet(isPresented: $profile, onDismiss: { if pendingLanguage { pendingLanguage = false; changeLanguage() } }) {
             NavigationStack {
-                Form {
-                    Section {
-                        HStack { Spacer(); ExplorerAvatar(size: 100, avatar: store.family.family?.profile.avatar); Spacer() }.listRowBackground(Color.clear)
-                        if let family = store.family.family {
-                            Text(family.profile.nickname).font(.headline)
-                            Text("Age: \(family.profile.age)")
-                        } else { Stepper("Age: \(age)", value: $age, in: 5...18) }
-                        Text("Your guide adjusts explanations to your age.").font(.caption).foregroundStyle(Theme.muted)
-                    }
-                    Section {
-                        Button("Language") { pendingLanguage = true; profile = false }.accessibilityIdentifier("choose-language")
-                        LabeledContent("Discoveries", value: "\(store.state.discoveries.count)")
-                        LabeledContent("Questions", value: "\(store.questions.count)")
-                        Button("Family settings") { familySettings = true }.accessibilityIdentifier("open-family-settings")
-                    }
-                    DemoControls(demo: store.demo, language: AppLanguage.current.rawValue, age: age)
-                }.scrollContentBackground(.hidden).background(ExplorerBackdrop())
-                    .navigationTitle("My profile").toolbar { Button("Done") { profile = false } }
+                ExplorerProfileView(store: store, age: $age, onClose: { profile = false },
+                    onLanguage: { pendingLanguage = true; profile = false }, onFamilySettings: { familySettings = true })
             }.tint(Theme.forest)
                 .sheet(isPresented: $familySettings) { FamilySettingsView(family: store.family) }
         }

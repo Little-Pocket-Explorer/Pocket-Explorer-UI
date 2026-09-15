@@ -34,6 +34,17 @@ import XCTest
         XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200, String(data: data, encoding: .utf8) ?? "")
         return try JSONDecoder().decode(T.self, from: data)
     }
+    private func waitForTransfer(_ transferID: String, friendID: String, state: String) async throws {
+        let deadline = Date().addingTimeInterval(8)
+        var actual: String?
+        repeat {
+            let page: Page<Transfer> = try await peer("/api/social/friends/\(friendID)/transfers")
+            actual = page.items.first { $0.id == transferID }?.state
+            if actual == state { break }
+            try await Task.sleep(for: .milliseconds(200))
+        } while Date() < deadline
+        XCTAssertEqual(actual, state)
+    }
     private func enableFriends() {
         app.tabBars.buttons["Friends"].tap(); tap("friends-family-settings")
         for id in ["family-pin", "family-confirm-pin"] { let input = app.secureTextFields[id]; reach(input); input.tap(); input.typeText("926418") }
@@ -87,12 +98,13 @@ import XCTest
         let cards: Page<Card> = try await peer("/api/social/friends/\(id)/collection"), wanted = try XCTUnwrap(cards.items.first?.id)
         let offer: Transfer = try await peer("/api/social/friends/\(id)/transfers", body: ["id": UUID().uuidString.lowercased(), "kind": "exchange", "offeredID": seed.cardID, "wantedID": wanted])
         tap("friend-refresh"); tap("exchange-accept")
-        let accepted: Page<Transfer> = try await peer("/api/social/friends/\(id)/transfers")
-        XCTAssertEqual(accepted.items.first { $0.id == offer.id }?.state, "accepted"); capture("incoming-exchange-explicitly-accepted")
+        try await waitForTransfer(offer.id, friendID: id, state: "accepted")
+        let completed = expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: button("exchange-accept"))
+        await fulfillment(of: [completed], timeout: 8)
+        capture("incoming-exchange-explicitly-accepted")
         let second: Transfer = try await peer("/api/social/friends/\(id)/transfers", body: ["id": UUID().uuidString.lowercased(), "kind": "exchange", "offeredID": seed.cardID, "wantedID": wanted])
         tap("friend-refresh"); tap("Decline exchange")
-        let declined: Page<Transfer> = try await peer("/api/social/friends/\(id)/transfers")
-        XCTAssertEqual(declined.items.first { $0.id == second.id }?.state, "declined")
+        try await waitForTransfer(second.id, friendID: id, state: "declined")
         section("Messages")
         _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/offline")!)
         let message = app.textFields["friend-message-input"].exists ? app.textFields["friend-message-input"] : app.textViews["friend-message-input"]

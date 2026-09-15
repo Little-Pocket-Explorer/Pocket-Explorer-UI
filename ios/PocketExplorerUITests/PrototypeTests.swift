@@ -122,6 +122,8 @@ final class PrototypeTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 10))
         app.buttons["Close"].tap(); app.buttons["question-history"].tap()
         app.buttons.matching(NSPredicate(format: "label CONTAINS 'Blue sky'")).firstMatch.tap()
+        let savedAnswer = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "history-question-")).firstMatch
+        scrollTo(savedAnswer); savedAnswer.tap()
         XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 8))
         XCTAssertTrue(app.buttons["save-discovery"].isHittable)
         app.buttons["ask-another"].tap()

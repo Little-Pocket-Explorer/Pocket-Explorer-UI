@@ -58,6 +58,8 @@ final class PhotoFlowTests: XCTestCase {
         app.buttons["question-history"].tap()
         let saved = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", question)).firstMatch
         XCTAssertTrue(saved.waitForExistence(timeout: 8)); saved.tap()
+        let savedQuestion = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "history-question-")).firstMatch
+        XCTAssertTrue(savedQuestion.waitForExistence(timeout: 5)); savedQuestion.tap()
         XCTAssertTrue(app.staticTexts["photo-error"].waitForExistence(timeout: 8))
         app.buttons["retry-answer"].tap()
         XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 8))

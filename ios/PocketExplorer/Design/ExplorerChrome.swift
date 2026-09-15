@@ -9,6 +9,16 @@ struct ExplorerBackdrop: View {
     }
 }
 
+struct ProfileBackdrop: View {
+    var body: some View {
+        GeometryReader { geometry in
+            Image("profile-background").resizable().scaledToFit()
+                .frame(width: geometry.size.width, alignment: .top)
+                .frame(maxHeight: .infinity, alignment: .top)
+        }.background(Theme.paper).ignoresSafeArea().accessibilityHidden(true)
+    }
+}
+
 struct ExplorerAvatar: View {
     var size: CGFloat = 42
     var avatar: String?

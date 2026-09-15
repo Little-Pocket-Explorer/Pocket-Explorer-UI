@@ -11,7 +11,7 @@ import XCTest
         let matches = app.buttons.matching(identifier: id); return matches.allElementsBoundByIndex.last ?? matches.firstMatch
     }
     private func reach(_ element: XCUIElement) {
-        XCTAssertTrue(element.waitForExistence(timeout: 10))
+        _ = element.waitForExistence(timeout: 2)
         for _ in 0..<20 where !element.isHittable { app.swipeUp() }
         XCTAssertTrue(element.isHittable)
     }
@@ -26,12 +26,12 @@ import XCTest
         if large { app.launchArguments += ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"] }
         app.launchEnvironment["POCKET_SHARE_BASE_URL"] = base; app.launch()
         tap("language-continue"); tap("open-profile"); tap("open-family-settings")
-        XCTAssertTrue(app.textFields["family-nickname"].waitForExistence(timeout: 5)); capture("pitch-\(language)-profile-\(large)")
+        reach(app.textFields["family-nickname"]); capture("pitch-\(language)-profile-\(large)")
         for id in ["family-pin", "family-confirm-pin"] {
             let field = app.secureTextFields[id]; reach(field); field.tap(); field.typeText("926418")
         }
-        tap("family-create"); XCTAssertTrue(app.staticTexts["family-recovery-code"].waitForExistence(timeout: 15)); tap("family-recovery-saved")
-        let social = app.switches["family-social"]; reach(social); social.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        tap("family-create"); reach(app.staticTexts["family-recovery-code"]); tap("family-recovery-saved")
+        let social = app.switches["family-social"]; reach(social); social.coordinate(withNormalizedOffset: CGVector(dx: language == "ar" ? 0.1 : 0.9, dy: 0.5)).tap()
         XCTAssertEqual(social.value as? String, "1"); capture("pitch-\(language)-permissions-\(large)")
         tap("family-save")
         XCTAssertTrue(app.staticTexts["family-saved"].waitForExistence(timeout: 15) || app.otherElements["family-saved"].exists)

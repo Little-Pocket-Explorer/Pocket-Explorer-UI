@@ -36,7 +36,9 @@ final class DemoFlowTests: XCTestCase {
         let toggle = app.switches["demo-mode-toggle"]
         XCTAssertTrue(toggle.waitForExistence(timeout: 5))
         XCTAssertEqual(toggle.value as? String, "0")
+        reach(toggle)
         toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
+        XCTAssertEqual(toggle.value as? String, "1")
         let ready = app.descendants(matching: .any).matching(identifier: "demo-readiness").firstMatch
         XCTAssertTrue(ready.waitForExistence(timeout: 10))
         XCTAssertTrue(ready.label.contains("Ready to present offline"))
@@ -61,7 +63,9 @@ final class DemoFlowTests: XCTestCase {
         XCTAssertEqual(app.buttons["listen-answer"].label, "Stop reply")
         app.buttons["exploration-close"].tap()
         app.buttons["open-profile"].tap()
+        reach(toggle)
         toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
+        XCTAssertEqual(toggle.value as? String, "0")
         app.buttons["Done"].tap()
         XCTAssertEqual(questions(), normal)
         _ = try control("/__fixture/daily/reset")
@@ -83,6 +87,14 @@ final class DemoFlowTests: XCTestCase {
         app.buttons["Cancel"].tap()
         app.buttons["open-profile"].tap()
         XCTAssertFalse(app.switches["demo-mode-toggle"].exists)
+    }
+
+    private func reach(_ element: XCUIElement) {
+        for _ in 0..<12 where !element.isHittable {
+            let origin = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.6))
+            origin.press(forDuration: 0.05, thenDragTo: origin.withOffset(CGVector(dx: 0, dy: -180)))
+        }
+        XCTAssertTrue(element.isHittable)
     }
 
     private func questions() -> [String] {

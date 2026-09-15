@@ -1,0 +1,44 @@
+{
+  "implementationCommit": "8f0beb0",
+  "integratedUpstreamCommit": "906e7437b11db46e37c08995f06e75e9272e5b6a",
+  "productAuthority": "docs/plans/pitch-alignment.md",
+  "qualification": {
+    "latestResultPerTest": {
+      "passed": 248,
+      "skipped": 4,
+      "unresolvedFailures": 0
+    },
+    "singleFinalFullRunClaimed": false,
+    "skipped": [
+      "PreparedDiscoveryTests/testRealHTTPFixtureCatalogRoundTrip",
+      "HomeEntryTests/testMicrophonePermissionStartsCaptureAndFinishingReturnsToTyping",
+      "LiveShareTests/testNativeQuestionUsesTheLiveWorkerWithoutGeneratingAnotherImage",
+      "LiveShareTests/testNativeSharingUsesTheDeployedServiceAndCanBeRevoked"
+    ],
+    "runEvidence": "/Users/haichang/tmp/review/pocket-pitch-native-test-matrix.json",
+    "coverage": "pitch-native-coverage.json",
+    "unchangedTestedRuntimeFiles": 143
+  },
+  "backend": {
+    "runtimeCommit": "aafd4fe570e74113778dd77e181999d3059f0499",
+    "workflow": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/34998228931",
+    "productionAcceptanceRequests": 81,
+    "testCount": 246,
+    "chromium": 34,
+    "webkit": 34,
+    "marketingTopics": 6,
+    "languagePackages": 60,
+    "independentlyVerifiedVectors": 60
+  },
+  "review": "../reviews/pitch-native-integration.md",
+  "testflight": {
+    "status": "Pending local archive, upload and independent Apple/IPA readback",
+    "lastVerifiedBuild": 17
+  },
+  "physicalIPhone": {
+    "connection": "disconnected",
+    "ddiServicesAvailable": false,
+    "acceptance": "Pending physical microphone, camera, headphones, interruptions and listening review"
+  },
+  "commercialBillingEnabled": false
+}

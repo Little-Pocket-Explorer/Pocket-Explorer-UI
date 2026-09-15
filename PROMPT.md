@@ -1,5 +1,13 @@
 # Pocket Explorer: Continuation Brief
 
+## Current verification checkpoint (2026-09-16)
+
+Backend main aafd4fe is deployed through successful workflow 34998228931. Independent reads confirm deployment 01769e05-bb01-4277-8cc8-63fc92d3a4b0, four additive migrations, all 60 Marketing packages, 66 assets and 60 Vectorize records. Production acceptance passed 81 requests with cleanup. Actual semantic and repeated-query reuse passed. Preserve these completed operations rather than repeating imports or reindexing.
+
+Native integration in ~/Worktrees/Pocket-Explorer-UI-pitch-integration is qualified and ready for its [skip ci] merge commit. It combines 8f0beb0 with Litian's 906e743 and actual FamilyStore-backed profile visuals. Latest per-test results are 248 passed, four gated skips and no unresolved failures. All 40 changed Swift files meet exact-hash coverage, minimum 89.28%. All 143 app/shared runtime files match the tested source. Test sessions have ended. Follow TODO for local release and cleanup.
+
+Commit the qualified integration with [skip ci], push main, then publish TestFlight locally and independently verify Apple state, the IPA, signing, language catalogs and tested source. Build 17 remains the latest verified release. Physical-device checks and commercial billing scope remain separate. Do not start expired timers or additional agents.
+
 ## Active roadshow implementation (2026-09-15)
 
 The eight roadshow slides now govern conflicting product decisions. The user explicitly requests all described product features this iteration. Follow docs/plans/pitch-alignment.md and the active TODO checkpoint. Parent controls, correct-answer unlocks, personalized exploration, event/location discovery, evolving cards, real friendships and text chat are in scope. Preserve old cards and links, ten languages, live AI, prepared content and private demo isolation.
