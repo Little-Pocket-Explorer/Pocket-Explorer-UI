@@ -4,6 +4,12 @@
 
 This is the current state. Older dated checkpoints below are historical and must not trigger another release or resume expired automation.
 
+## Local Profile Hub (draft)
+
+- The Chat profile entry now opens a complete local Profile hub: Child Profile, Discovery Preferences, Notifications, Privacy, Location and Account. Friends & Family remains visibly unavailable because there is no online friend system.
+- Privacy follows the approved grouped visual structure and persists only to the on-device profile. Only me, location off and public sharing off remain defaults. No parent PIN or approval gate was reintroduced.
+- Native diagnostics pass for the touched Profile views and tests. XCTest, XCUITest, coverage and physical-device review remain required on macOS.
+
 - TestFlight **0.1.0 (17)** is independently VALID and IN_BETA_TESTING in Hackathon Internal. Native source: bd75c0cea853b97912b989bd9b22f08a394d9ad9. Published from this Mac using Xcode 27 RC 27A266a, with [skip ci]. External distribution of this build is not verified.
 - Cached and new answers use progressive text and automatic narration. Text can be expanded immediately. Prepared answers, illustrations and audio remain reused. History stays quiet. Backgrounding, dismissal, Reduce Motion and VoiceOver have explicit behavior. Narration is not word-synchronized highlighting.
 - Private Studio is live at https://pocket.changhai.me/studio. Backend source ac493873a30d4c12341752c1fcd123ae753e2fa4 deployed through successful workflow 34954953344. Migration 0008 and deployment 280b53b4-470c-4f0e-956b-f1f7eec69f17 are independently verified. Exact authored text, original art, real Azure audio, one-use activation, privacy, sharing and revocation pass online. Test shares and phones were revoked, and the sample draft was unpublished.
@@ -243,10 +249,13 @@ Published application source is 339ff9e5832fb4cc8fa24cde30aa2f72a811e581, pushed
 | T20.3 accessibility | REVIEW | 375pt and iOS 27 sharing checks passed and shipped. Human and physical acceptance remain open |
 | T21.1 terminal illustration | DONE | Neutral keepsake and readable words remain on terminal failure, released |
 | T21.4 publication | DONE | [skip ci] commit/push, local upload and independent Apple/IPA reads complete |
+| T22 local child profile | REVIEW | Email registration now leads to an editable child profile with avatar style, nickname, age, optional gender and interests before the Chat home. Data remains device-local. Web checks pass; native diagnostics pass and macOS CI remains required. |
+| T23 local profile and privacy | REVIEW | Chat now opens a full Profile screen with child details, local discovery statistics, interests and settings. Privacy matches the approved grouped layout: audience, location, Permissions, AI content level and daily use. `02-wildflower-meadow` is the dedicated uncropped, full-width background for native and Web Profile surfaces. Preferences remain local; Only me, location off and public sharing off are defaults. Web checks pass; native diagnostics pass and macOS CI remains required. |
+| T24 Web Chat home alignment | REVIEW | The Web root now follows the native Chat home: compact history/brand/profile header, hero art, three suggestion rows, a fixed camera/question/microphone composer and Chat/Map/Memories navigation. Existing exploration states remain intact. Web build and 13 focused home/Profile tests pass; human visual approval remains open. |
 | T20.2 / T21.2 physical speech | REVIEW | Physical naturalness and recording remain unverified |
 | Physical camera, VoiceOver and Safari | REVIEW | Post-release device read still shows disconnection. Preserve TestFlight installation |
 | Final checkpoint | DONE | Evidence, Chinese copies and guides synchronized, checked and pushed. Checkpoint paused after the deadline with independent readback |
-| Accounts, friends and chat | DEFERRED | Explicitly outside this iteration |
+| Online accounts, friends and chat | DEFERRED | Explicitly outside this iteration; T22 and T23 are local device profile/preferences only |
 
 ## Final verification and release
 

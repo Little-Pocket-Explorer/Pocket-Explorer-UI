@@ -18,7 +18,12 @@ struct PocketExplorerApp: App {
         if ProcessInfo.processInfo.arguments.contains("--ui-testing") {
             if ProcessInfo.processInfo.arguments.contains("--reset-language") { LanguageSettings.preferences.removeObject(forKey: "app-language") }
             if ProcessInfo.processInfo.arguments.contains("--reset-profile") { ProfileSettings.clear() }
-            if ProfileSettings.profile == nil { _ = try? ProfileSettings.save(email: "explorer@example.com") }
+            if ProfileSettings.profile == nil {
+                let profile = try? ProfileSettings.save(email: "explorer@example.com")
+                if !ProcessInfo.processInfo.arguments.contains("--profile-onboarding"), let profile {
+                    _ = try? ProfileSettings.complete(profile, nickname: "Explorer", avatar: .mimi, age: 7, gender: nil, interests: [.nature])
+                }
+            }
         }
         #endif
         _language = State(initialValue: LanguageSettings.selection)
@@ -36,6 +41,8 @@ struct PocketExplorerApp: App {
                         }
                         profile = savedProfile
                     })
+                } else if let profile, !ProfileSettings.isComplete(profile) {
+                    ChildProfileView(profile: profile, onBack: { ProfileSettings.clear(); self.profile = nil }, onComplete: { self.profile = $0 })
                 } else if language == nil {
                     LanguageSelectionView(onSelect: selectLanguage)
                 } else if let store {

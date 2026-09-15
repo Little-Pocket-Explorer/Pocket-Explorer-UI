@@ -38,6 +38,26 @@ final class ExploreAndMemoryTests: XCTestCase {
         XCTAssertEqual(profile, ExplorerProfile(email: "kai@example.com", displayName: "Kai"))
         let data = try XCTUnwrap(preferences.data(forKey: "explorer-profile"))
         XCTAssertEqual(try JSONDecoder().decode(ExplorerProfile.self, from: data), profile)
+        XCTAssertFalse(ProfileSettings.isComplete(profile))
+        XCTAssertThrowsError(try ProfileSettings.complete(profile, nickname: "", avatar: .mimi, age: 7, gender: nil, interests: [], to: preferences))
+        let completed = try ProfileSettings.complete(profile, nickname: "Mimi", avatar: .mimi, age: 7, gender: nil, interests: [.bugs, .nature, .bugs], to: preferences)
+        XCTAssertEqual(completed.displayName, "Mimi")
+        XCTAssertEqual(completed.avatar, .mimi)
+        XCTAssertEqual(completed.age, 7)
+        XCTAssertEqual(completed.interests, [.bugs, .nature])
+        XCTAssertTrue(ProfileSettings.isComplete(completed))
+        var privacy = ExplorerPrivacy.privateDefault
+        privacy.audience = .everyone
+        privacy.shareLocation = true
+        privacy.dailyMinutes = 30
+        let updated = try ProfileSettings.savePrivacy(privacy, for: completed, to: preferences)
+        XCTAssertEqual(updated.privacy, privacy)
+        XCTAssertEqual(try JSONDecoder().decode(ExplorerProfile.self, from: preferences.data(forKey: "explorer-profile")!), updated)
+        var renamed = updated
+        renamed.displayName = "Ari"
+        renamed.interests = [.animals, .space]
+        XCTAssertEqual(try ProfileSettings.save(renamed, to: preferences), renamed)
+        XCTAssertEqual(try JSONDecoder().decode(ExplorerProfile.self, from: preferences.data(forKey: "explorer-profile")!), renamed)
     }
 
     func testGuideUnderstandsChineseAndUsesSelectedReplyLanguage() {
