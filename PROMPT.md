@@ -2,14 +2,15 @@
 
 ## Azure narration integration (2026-09-15)
 
-Use the user-approved existing hai managed identity. Speech S0 has local authentication disabled. Resource-scoped Speech User and the attached hai identity are independently verified. Reuse the existing immutable proxy image in a dedicated Container App with minReplicas=0 and maxReplicas=1. Keep credentials on servers.
+- DONE S1: the existing hai managed identity serves the dedicated Azure adapter. Speech S0 keeps local authentication disabled and uses a resource-scoped Speech User grant. The user approved Xiaoxiao gentle Chinese and Emma Dragon HD English. All ten language routes produced non-silent audio. The other eight voices still need human listening review.
+- DONE S2: backend source 9004928 is deployed through workflow 34924912737 as Worker d6580f71-d1ca-4d7c-89ab-9a297de9aaf9 at 100%. Production synthesis, byte-identical cache replay and ownership checks passed. No Azure keys were retrieved, and service credentials stay on servers. Existing 120/18 safeguards are unchanged.
+- DONE S3: final native runtime passed 108 unit tests and three narration UI tests. Changed executable-line coverage is 101/104 (97.12%), with each file above 80%. A further playback test passed and its settled screenshot was inspected. Cache expiry, corruption recovery, stop, timeout fallback and stale-response cancellation are verified.
+- DONE S4: TestFlight 0.1.0 (14) was published from this Mac using source 65b3084af1e70b30b1a53fdc6685a015d64e960e. Independent Apple reads confirm VALID, IN_BETA_TESTING and Hackathon Internal membership. IPA, signing, source fingerprint, ten 322-entry catalogs and temporary-keychain removal are verified. Native commits use [skip ci], and no GitHub iOS run was started.
+- REVIEW S5: physical iPhone playback, microphone, interruptions and the remaining voices' listening quality are unverified. Prepared daily recommendation audio and Vectorize knowledge reuse remain separate, unfinished work.
 
-- DONE S1: dedicated adapter deployed and ten languages synthesized. User selected Xiaoxiao gentle Chinese and Emma Dragon HD English.
-- DONE S2: backend source 9004928 deployed through workflow 34924912737. Production synthesis, cache replay, owner checks and cleanup passed. Existing 120/18 safeguards are unchanged.
-- DONE S3: final runtime source passed 108 unit tests and three narration UI tests. Changed executable-line coverage is 101/104 (97.12%), with each file above 80%. Decoder validation, cancellation, fallback and the 44-point Listen control are verified. The settled playback screenshot was inspected, and the playback UI test passed again after waiting for its label transition.
-- IN_PROGRESS S4: commit with [skip ci], publish locally and independently read Apple and the IPA. Final visual and source evidence are saved. Physical iPhone acceptance remains open.
+Evidence: docs/evidence/azure-narration.json and ~/tmp/review/pocket-release-speech-14. Native tests and uploads have ended. This iteration's fixtures on ports 4213 and 4215 were stopped and independently checked. Keep the expired heartbeat paused.
 
-Work is isolated in ~/Worktrees/Pocket-Explorer-Backend-speech and ~/Worktrees/Pocket-Explorer-UI-speech on codex/azure-speech. Preserve the primary checkouts' unfinished cache and design drafts. Prepared recommendation audio will be implemented alongside the separate prepared-content work. Do not restart expired automation.
+Work is isolated in ~/Worktrees/Pocket-Explorer-Backend-speech and ~/Worktrees/Pocket-Explorer-UI-speech. Preserve the primary checkouts' unpublished cache/content and design drafts. Earlier build checkpoints below are historical, and this section governs current narration delivery.
 
 ## Current objective
 
@@ -31,11 +32,11 @@ Read [TODO.md](TODO.md) first for the live checkpoint, then [PLAN.md](PLAN.md) a
 
 ## Current delivery
 
-TestFlight 0.1.0 (13) is independently verified VALID / IN_BETA_TESTING in Hackathon Internal. Source commit: 339ff9e5832fb4cc8fa24cde30aa2f72a811e581. Evidence: docs/evidence/sharing-reentry.json. External group availability has not been confirmed. Backend runtime 5dac559 is independently deployed, with deployment evidence at 08b7558.
+TestFlight 0.1.0 (14) is independently verified VALID / IN_BETA_TESTING in Hackathon Internal. Source commit: 65b3084af1e70b30b1a53fdc6685a015d64e960e. Evidence: docs/evidence/azure-narration.json. External group availability has not been confirmed. Backend runtime 9004928 is deployed through workflow 34924912737.
 
 Released build 13 fixes pending share creation and revocation across sheet reentry, preserves the exact public snapshot, adapts published controls for accessibility text sizes, and uses neutral keepsake art for terminal illustration failure. Ten UI catalogs have 322 entries.
 
-An earlier complete regression passed 150 tests with no failures and two explicit skips. It predates final revocation, accessibility layout and keepsake changes. Final complete regression passed 154 tests with no failures and two explicit skips. Three independent iOS 27 sharing checks passed. Changed executable-line coverage is 133/133, each file at 100%. Actual screenshots, manual critique and source-freeze verification are complete. Apple, IPA, signing, ten catalogs and temporary-keychain cleanup were independently verified. Evidence, physical-device acceptance guidance and document pushes are complete. Next work is physical acceptance and the reproduced lost-response correction, following TODO.
+The following regression belongs to build 13. An earlier complete regression passed 150 tests with no failures and two explicit skips. It predates final revocation, accessibility layout and keepsake changes. Final complete regression passed 154 tests with no failures and two explicit skips. Three independent iOS 27 sharing checks passed. Changed executable-line coverage is 133/133, each file at 100%. Actual screenshots, manual critique and source-freeze verification are complete. Apple, IPA, signing, ten catalogs and temporary-keychain cleanup were independently verified. Evidence, physical-device acceptance guidance and document pushes are complete. Next work is physical acceptance and the reproduced lost-response correction, following TODO.
 
 ## Execution rules
 
@@ -54,14 +55,14 @@ Use the codex-project skill and maintain PLAN/PROMPT/TODO with concise current f
 
 Native commits must include [skip ci]. The user prohibits GitHub iOS builds because quota is exhausted. Backend changes retain the existing Cloudflare workflow.
 
-Use Xcode /Applications/Xcode-27-RC.app with build 27A266a and the existing local release scripts. Archive/upload only after final-source tests, coverage, screenshots and critique are complete. Keep ios, shared, scripts and HEAD frozen during publication.
+Use Xcode /Applications/Xcode-27-RC.app with build 27A266a and the existing local release scripts. Invoke /opt/homebrew/bin/python3 with /opt/homebrew/opt/ruby/bin and /opt/homebrew/bin first in PATH so the installed Bundler 4.0.16 is selected. Archive/upload only after final-source tests, coverage, screenshots and critique are complete. Keep ios, shared, scripts and HEAD frozen during publication.
 
-Build 13 is already published. Artifacts are in ~/tmp/review/pocket-release-polish-13. Do not upload it again. Only use scripts/release/local-testflight.py with a new output directory after a meaningful future application change and its verification.
+Build 14 is already published. Artifacts are in ~/tmp/review/pocket-release-speech-14. Do not upload it again. Only use scripts/release/local-testflight.py with a new output directory after a meaningful future application change and its verification.
 
 apple-readback.json and ipa-readback.json preserve the independent release-time evidence. Later documentation commits are not the published IPA source. Do not rerun the previous verification script unchanged after a documentation commit because it requires HEAD to match the release commit.
 
 ## Completion and limitations
 
-Physical microphone, camera, premium narration, VoiceOver and Safari remain open. Available simulator voices rendered non-silent audio in ten languages, but Arabic used a male voice and French a Canadian French voice. Do not describe every locale as natural female narration. Cloud TTS was unavailable.
+Physical microphone, camera, premium narration, VoiceOver and Safari remain open. Azure routes rendered non-silent audio in ten languages, including the approved Xiaoxiao gentle and Emma HD samples. The other eight voices and all physical-device playback remain unverified by a human. Installed system voices are the offline fallback, and their quality varies.
 
 The five-minute heartbeat pocket-explorer-5 was paused through the automation tool after the deadline and independently read back. No tests, uploads or automatic continuation remain active. Preserve this evidence and continue according to the user’s next instructions.

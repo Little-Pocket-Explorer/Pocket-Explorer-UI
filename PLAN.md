@@ -2,16 +2,15 @@
 
 ## Azure narration integration (2026-09-15)
 
-Use the user-approved existing hai managed identity. Speech S0 has local authentication disabled. Resource-scoped Speech User and the attached hai identity are independently verified. Reuse the existing immutable proxy image in a dedicated Container App with minReplicas=0 and maxReplicas=1. Keep credentials on servers.
+- DONE S1: the existing hai managed identity serves the dedicated Azure adapter. Speech S0 keeps local authentication disabled and uses a resource-scoped Speech User grant. The user approved Xiaoxiao gentle Chinese and Emma Dragon HD English. All ten language routes produced non-silent audio. The other eight voices still need human listening review.
+- DONE S2: backend source 9004928 is deployed through workflow 34924912737 as Worker d6580f71-d1ca-4d7c-89ab-9a297de9aaf9 at 100%. Production synthesis, byte-identical cache replay and ownership checks passed. No Azure keys were retrieved, and service credentials stay on servers. Existing 120/18 safeguards are unchanged.
+- DONE S3: final native runtime passed 108 unit tests and three narration UI tests. Changed executable-line coverage is 101/104 (97.12%), with each file above 80%. A further playback test passed and its settled screenshot was inspected. Cache expiry, corruption recovery, stop, timeout fallback and stale-response cancellation are verified.
+- DONE S4: TestFlight 0.1.0 (14) was published from this Mac using source 65b3084af1e70b30b1a53fdc6685a015d64e960e. Independent Apple reads confirm VALID, IN_BETA_TESTING and Hackathon Internal membership. IPA, signing, source fingerprint, ten 322-entry catalogs and temporary-keychain removal are verified. Native commits use [skip ci], and no GitHub iOS run was started.
+- REVIEW S5: physical iPhone playback, microphone, interruptions and the remaining voices' listening quality are unverified. Prepared daily recommendation audio and Vectorize knowledge reuse remain separate, unfinished work.
 
-- DONE S1: dedicated adapter deployed and ten languages synthesized. User selected Xiaoxiao gentle Chinese and Emma Dragon HD English.
-- DONE S2: backend source 9004928 deployed through workflow 34924912737. Production synthesis, cache replay, owner checks and cleanup passed. Existing 120/18 safeguards are unchanged.
-- DONE S3: final runtime source passed 108 unit tests and three narration UI tests. Changed executable-line coverage is 101/104 (97.12%), with each file above 80%. Decoder validation, cancellation, fallback and the 44-point Listen control are verified. The settled playback screenshot was inspected, and the playback UI test passed again after waiting for its label transition.
-- IN_PROGRESS S4: commit with [skip ci], publish locally and independently read Apple and the IPA. Final visual and source evidence are saved. Physical iPhone acceptance remains open.
+Evidence: docs/evidence/azure-narration.json and ~/tmp/review/pocket-release-speech-14. Native tests and uploads have ended. This iteration's fixtures on ports 4213 and 4215 were stopped and independently checked. Keep the expired heartbeat paused.
 
-Work is isolated in ~/Worktrees/Pocket-Explorer-Backend-speech and ~/Worktrees/Pocket-Explorer-UI-speech on codex/azure-speech. Preserve the primary checkouts' unfinished cache and design drafts. Prepared recommendation audio will be implemented alongside the separate prepared-content work. Do not restart expired automation.
-
-Updated 2026-09-15. The authorized eight-hour refinement window ended at 08:39:34 Australia/Sydney, and the five-minute checkpoint is paused. Outstanding acceptance remains open.
+Work is isolated in ~/Worktrees/Pocket-Explorer-Backend-speech and ~/Worktrees/Pocket-Explorer-UI-speech. Preserve the primary checkouts' unpublished cache/content and design drafts. Earlier build checkpoints below are historical, and this section governs current narration delivery.
 
 ## Product decisions
 
@@ -36,7 +35,7 @@ Keep service credentials server-side. Installation ownership stays in Keychain. 
 
 ## Current implementation work
 
-TestFlight 0.1.0 (13) was published locally from source commit 339ff9e5832fb4cc8fa24cde30aa2f72a811e581. Independent Apple reads confirm Hackathon Internal availability. IPA, signature and source checks passed. Evidence: [sharing-reentry.json](docs/evidence/sharing-reentry.json).
+TestFlight 0.1.0 (14) was published locally from source commit 65b3084af1e70b30b1a53fdc6685a015d64e960e. Independent Apple reads confirm Hackathon Internal availability. IPA, signature and source checks passed. Evidence: [azure-narration.json](docs/evidence/azure-narration.json).
 
 | ID | Outcome and concrete work | Completion evidence |
 | --- | --- | --- |
@@ -48,7 +47,7 @@ TestFlight 0.1.0 (13) was published locally from source commit 339ff9e5832fb4cc8
 | T21.3 sharing increment | SharePublisher retains one in-flight request and exact snapshot across page reentry, persists receipts, coalesces revocation and removes completed revocations. SharePreviewView uses scrollable published controls at accessibility text sizes | Duplicate-link and revocation baselines fail. Final source passed delayed HTTP UI checks, failure/retry unit checks, French maximum-text clipping checks and live create/read/revoke, and was released in build 13 |
 | T21.4 | Ship a tested increment from this Mac and independently read it back | Signed IPA, source fingerprint, Apple VALID / IN_BETA_TESTING, expected internal group and signing-keychain cleanup |
 
-Backend B08/B09 implementation and deployment evidence remain in the sibling repository. Runtime 5dac559 is independently deployed. This native increment does not need a backend change.
+Backend B08/B09 implementation and deployment evidence remain in the sibling repository. The narration runtime 9004928 is independently deployed, and build 14 uses its private narration endpoint.
 
 ## Failure behavior
 

@@ -4,7 +4,7 @@ Updated 2026-09-15 after the eight-hour refinement window ended at 08:39:34 AEST
 
 ## Current delivery
 
-TestFlight 0.1.0 (13) was published from this Mac. Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. The Cloudflare backend and public viewer are deployed, with runtime, actual-page and revocation evidence.
+TestFlight 0.1.0 (14) was published from this Mac. Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. The Cloudflare backend and public viewer are deployed, with runtime, actual-page and revocation evidence.
 
 The app remains the primary product. Web provides sharing without installation. Preserve the Miro cream-paper, forest-green illustrated direction and omit parental restrictions.
 
@@ -13,7 +13,7 @@ The app remains the primary product. Web provides sharing without installation. 
 | Live exploration | Text, speech and photo entry, real AI answers, persistent questions and cards | Physical recording, speaker, camera and usability acceptance remain open |
 | Generated artwork | Explicit waiting states, deadlines, recovery and retries while saved cards stay readable | Provider duration remains variable. Instant generation is not promised |
 | Languages | Ten UI and permission languages, explicit selection, content-language metadata and legacy compatibility | Native-speaker child-facing copy and natural speech need human review |
-| Narration | Available high-quality female voices preferred, slower sentence pacing and content-language replay | Results depend on installed voices. The configured cloud TTS deployment is unavailable |
+| Narration | Azure neural narration, Xiaoxiao gentle Chinese, Emma Dragon HD English, matching voices for eight other languages, disk caching and local fallback | Chinese and English samples are approved. Physical playback, interruptions and the other eight voices need acceptance |
 | Memories and rewards | One-day card questions and seven-day memories when the app is opened, with cards retained after wrong answers | Length-based native reading and chapter scrolling are released. Closed-app local notifications are not implemented |
 | Map | Satellite map, personal card markers and optional private places | Public destinations, nearby 2 km exploration, arrival checks and exclusive collections remain later scope |
 | Collection | Counts, search, categories, sorting, reversal and observation editing | Custom tags, achievements, deduplication and version history remain later work. V1 is a visual badge |

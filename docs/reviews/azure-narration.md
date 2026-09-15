@@ -20,3 +20,5 @@ Native tests exercise disk reuse across client recreation, owner/language/origin
 The release evidence records final-source tests and changed executable-line coverage. Physical iPhone playback and interruptions remain separate acceptance checks. Publication uses the local TestFlight lane with GitHub iOS runs skipped.
 
 The first playback screenshot caught an in-flight label crossfade. A repeat capture after the transition showed a clear Stop reply control. That single UI test passed. Its optional post-test simctl diagnostic collector was stopped after all test cases completed, and xcodebuild then finalized with TEST SUCCEEDED and exit 0. No test process or test assertion was skipped.
+
+Release 0.1.0 (14) was published locally from source 65b3084af1e70b30b1a53fdc6685a015d64e960e. Independent Apple, IPA, signing, catalogs and source checks passed. The first release invocation selected system Ruby and stopped before archiving or uploading. Explicit Homebrew Python/Ruby selected the already installed bundle and completed the single binary upload. Physical acceptance remains open.
