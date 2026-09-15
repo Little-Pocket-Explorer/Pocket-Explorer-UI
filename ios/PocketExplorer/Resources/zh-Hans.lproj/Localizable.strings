@@ -323,3 +323,11 @@
 "From your discoveries" = "从你的发现中";
 
 "Stopping sharing…" = "正在停止分享…";
+
+"A discovery is being updated. You can still ask your own question." = "有个小发现正在更新，你仍然可以提出自己的问题。";
+
+"Your discoveries could not be saved. Please try again." = "小发现暂时没能保存，请再试一次。";
+
+"This discovery needs an update. Your card and memories are safe." = "这个发现需要更新。你的卡片和回忆都已保留。";
+
+"This saved discovery can no longer be shared. Your card and memories are safe." = "这条已保存的发现无法再分享。你的卡片和回忆都已保留。";

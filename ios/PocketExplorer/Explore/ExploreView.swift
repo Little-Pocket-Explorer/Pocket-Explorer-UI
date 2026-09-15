@@ -293,7 +293,8 @@ struct ExploreView: View {
         stopVoice()
         do {
             let isNew = record.cardID == nil
-            let card = try store.keepQuestion(record.id, observation: observation, tripID: tripID, place: location.place)
+            let image = record.preparedContent.flatMap { PreparedAssets().cached($0.artwork, bundled: $0.bundledArtwork) }
+            let card = try store.keepQuestion(record.id, observation: observation, tripID: tripID, place: location.place, preparedImage: image)
             self.record = store.questions.first { $0.id == record.id } ?? record
             onSave(card, isNew)
         }

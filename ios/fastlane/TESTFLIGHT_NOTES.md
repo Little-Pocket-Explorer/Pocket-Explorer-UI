@@ -1,7 +1,7 @@
-Your guide now reads answers with Azure neural voices. Simplified Chinese uses Xiaoxiao in a gentle style. English uses Emma Dragon HD. The other eight supported languages use matching female voices.
+Discover three questions chosen for your day. The app downloads a larger library in the background and keeps today’s questions steady when you reopen it.
 
-Replay saved narration from an on-device cache. If the cloud voice is unavailable, the app uses your iPhone's local voice so you can keep exploring. Stop cancels waiting audio as well as playback, and late responses cannot start talking after you move on.
+Recommended discoveries arrive with a prepared answer, illustration and narration. Six topics in all ten supported languages are bundled for first-use offline reading. Save discoveries to your journal, map and memories, then share a web link.
 
-The Listen and Stop control has a larger touch target. Audio caches are checked for decoding errors, expire after 30 days, and remove older files when they exceed 32 MB.
+Free-form questions can reuse a verified answer and card when the meaning and age context match. The guide still supports live exploration, Xiaoxiao gentle Chinese and Emma HD English.
 
-Please try the speaker, interruptions, offline replay and your preferred language on your iPhone. Existing discoveries, illustrations, memories and sharing remain available. Accounts and friend chat remain deferred.
+This build also fixes the Home avatar alignment, unavailable prepared-content sharing retries and notices for corrected discoveries. Please try daily questions, offline reading, language switching, saving, sharing and audio on your iPhone. Accounts and friend chat remain deferred.

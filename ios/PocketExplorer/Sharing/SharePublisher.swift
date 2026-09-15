@@ -40,12 +40,13 @@ final class SharePublisher {
         return request
     }
 
-    func publish(_ story: PublicStory, key: String) -> Publication {
+    func publish(_ story: PublicStory, key: String, prepare: (() async throws -> PublicStory)? = nil) -> Publication {
         if let saved = saved(for: key) { return Publication(story: saved.story, task: Task { saved }) }
         if let request = requests[key] { return request }
         // Navigation may cancel a waiting view, but the receipt must still be saved.
         let task = Task { @MainActor in
             defer { requests[key] = nil }
+            let story = try await prepare?() ?? story
             let receipt = try await client.create(story, connection: connection())
             let published = PublishedShare(receipt: receipt, story: story)
             let data = try JSONEncoder().encode(published)

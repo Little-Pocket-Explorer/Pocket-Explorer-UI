@@ -13,7 +13,7 @@ struct ExplorerAvatar: View {
     var size: CGFloat = 42
     var body: some View {
         Image("explorer-avatar").resizable().scaledToFill().frame(width: size, height: size)
-            .clipShape(Circle()).overlay(Circle().stroke(.white, lineWidth: 3))
+            .clipShape(Circle()).overlay(Circle().strokeBorder(.white, lineWidth: 3))
             .shadow(color: Theme.forest.opacity(0.1), radius: 5, y: 2).accessibilityHidden(true)
     }
 }

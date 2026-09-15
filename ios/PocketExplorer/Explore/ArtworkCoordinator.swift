@@ -9,6 +9,7 @@ final class ArtworkCoordinator {
     @ObservationIgnored private var nextChecks: [UUID: Date] = [:]
     @ObservationIgnored private var failures: [UUID: Int] = [:]
     var client = AIClient()
+    var preparedAssets = PreparedAssets()
 
     func update(_ requested: Discovery, store: TripStore, retry: Bool = false, now: Date = Date()) async {
         guard !Task.isCancelled, let discovery = store.state.discoveries.first(where: { $0.id == requested.id }),
@@ -20,6 +21,14 @@ final class ArtworkCoordinator {
         defer { busy.remove(discovery.id) }
         do {
             let connection = try ConnectionVault().loadOrCreate()
+            if let record = store.questions.first(where: { $0.id == explorationID }), let prepared = record.preparedContent,
+               let base = connection.validatedURL {
+                let data = try await preparedAssets.load(prepared.artwork, base: base, bundled: prepared.bundledArtwork)
+                try Task.checkCancellation()
+                try store.savePreparedArtwork(data, discoveryID: discovery.id, asset: prepared.artwork)
+                errors[discovery.id] = nil; stopped.remove(discovery.id)
+                return
+            }
             let job: ArtworkJob
             if let existing = discovery.artwork { job = try await client.artwork(existing.id, retry: retry && existing.allowsRetry, connection: connection) }
             else { job = try await client.createArtwork(explorationID, connection: connection) }

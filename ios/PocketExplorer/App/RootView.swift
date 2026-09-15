@@ -10,7 +10,7 @@ struct RootView: View {
 
     var body: some View {
         TabView(selection: $tab) {
-            NavigationStack { ChatHomeView(store: store, changeLanguage: changeLanguage) }
+            NavigationStack { ChatHomeView(store: store, changeLanguage: changeLanguage, isActive: tab == 0) }
                 .tabItem { Label("Chat", systemImage: "bubble.left.fill") }.tag(0)
             NavigationStack { WorldView(store: store, explore: { exploring = true }, changeLanguage: changeLanguage) }
                 .tabItem { Label("Map", systemImage: "map.fill") }.tag(1)
@@ -21,6 +21,13 @@ struct RootView: View {
         .environment(artwork)
         .task(id: scenePhase == .active ? store.state.discoveries.count : -1) {
             if scenePhase == .active { await artwork.resume(store: store) }
+        }
+        .task(id: "\(scenePhase == .active):\(store.questions.count)") {
+            guard scenePhase == .active else { return }
+            while !Task.isCancelled {
+                await PreparedRegistration.shared.refresh(store: store)
+                do { try await Task.sleep(for: .seconds(30)) } catch { return }
+            }
         }
         .sheet(isPresented: $exploring) { ExplorationFlow(store: store, tripID: nil) }
     }

@@ -94,6 +94,13 @@ struct CardDetailView: View {
             ScrollView {
                 if let discovery {
                     VStack(alignment: .leading, spacing: 24) {
+                        if store.preparedContentNeedsUpdate(discovery.explorationID) {
+                            Label("This discovery needs an update. Your card and memories are safe.", systemImage: "info.circle")
+                                .font(.subheadline).fixedSize(horizontal: false, vertical: true)
+                                .padding(16).frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Theme.mint, in: RoundedRectangle(cornerRadius: 18))
+                                .accessibilityIdentifier("prepared-update-notice")
+                        }
                         Button {
                             withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) { reversed.toggle() }
                         } label: { DiscoveryCard(discovery: discovery, reversed: reversed, store: store) }

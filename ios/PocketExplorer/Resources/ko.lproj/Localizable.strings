@@ -323,3 +323,11 @@
 "From your discoveries" = "너의 발견에서";
 
 "Stopping sharing…" = "공유를 중지하는 중…";
+
+"A discovery is being updated. You can still ask your own question." = "발견 내용을 업데이트하고 있어요. 궁금한 것은 계속 질문할 수 있어요.";
+
+"Your discoveries could not be saved. Please try again." = "발견을 저장하지 못했어요. 다시 시도해 주세요.";
+
+"This discovery needs an update. Your card and memories are safe." = "이 발견은 업데이트가 필요해요. 카드와 추억은 잘 저장되어 있어요.";
+
+"This saved discovery can no longer be shared. Your card and memories are safe." = "저장된 이 발견은 더 이상 공유할 수 없어요. 카드와 추억은 잘 저장되어 있어요.";

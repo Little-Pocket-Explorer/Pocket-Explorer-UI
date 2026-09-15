@@ -41,6 +41,10 @@ struct ExplorationRecord: Codable, Equatable, Identifiable {
     var photoFilename: String?
     var reply: AIReply?
     var cardID: UUID?
+    var preparedContent: PreparedContent? = nil
+    var preparedRegistered: Bool? = nil
+    var preparedArtwork: ArtworkJob? = nil
+    var preparedUnavailable: Bool? = nil
 }
 
 struct AIReceipt: Codable, Equatable {
@@ -82,11 +86,11 @@ struct AIClient {
     }
 
     func ask(_ record: ExplorationRecord, photo: Data?, connection: ShareConnection) async throws -> AIReceipt {
-        struct Input: Encodable { var id: String; var question: String; var language: String; var age: Int; var photo: String? }
+        struct Input: Encodable { var id: String; var question: String; var language: String; var age: Int; var photo: String?; var prepared: PreparedReference? }
         guard record.photoFilename == nil || photo != nil else { throw AIClientError.photoUnreadable }
         let photoInput = photo.flatMap(Self.imageInput)
         if photo != nil && photoInput == nil { throw AIClientError.photoUnreadable }
-        let input = Input(id: record.id.uuidString.lowercased(), question: record.question, language: record.language, age: record.age, photo: photoInput)
+        let input = Input(id: record.id.uuidString.lowercased(), question: record.question, language: record.language, age: record.age, photo: photoInput, prepared: record.preparedContent?.reference)
         return try await decode(AIReceipt.self, path: "api/explorations", method: "POST", body: JSONEncoder().encode(input), connection: connection, timeout: 105)
     }
 
@@ -152,7 +156,11 @@ struct AIClient {
             default: throw AIClientError.rateLimited
             }
         }
-        if http.statusCode == 409 { throw AIClientError.requestConflict }
+        if http.statusCode == 409 {
+            struct Failure: Decodable { var error: String }
+            let code = data.count <= 4096 ? (try? JSONDecoder().decode(Failure.self, from: data).error) : nil
+            throw code == "prepared_content_unavailable" ? AIClientError.preparedUnavailable : AIClientError.requestConflict
+        }
         if http.statusCode == 404 { throw AIClientError.notFound }
         guard (200...299).contains(http.statusCode) else { throw AIClientError.unavailable }
         return data
@@ -161,9 +169,9 @@ struct AIClient {
 
 enum AIClientError: LocalizedError, Equatable {
     case unavailable, invalidResponse, rateLimited, pending, photoUnreadable
-    case answerFailed, offline, timedOut, dailyLimit, demoLimit, artworkLimit, requestConflict, notFound, invalidArtwork
+    case answerFailed, offline, timedOut, dailyLimit, demoLimit, artworkLimit, requestConflict, notFound, invalidArtwork, preparedUnavailable
 
-    var allowsImmediateRetry: Bool { ![.dailyLimit, .demoLimit, .artworkLimit, .requestConflict].contains(self) }
+    var allowsImmediateRetry: Bool { ![.dailyLimit, .demoLimit, .artworkLimit, .requestConflict, .preparedUnavailable].contains(self) }
     var errorDescription: String? {
         switch self {
         case .unavailable: return L10n.text("Your question is saved. We could not reach your guide. Please try again.")
@@ -179,6 +187,7 @@ enum AIClientError: LocalizedError, Equatable {
         case .demoLimit: return L10n.text("This demo's AI allowance is used. You can still enjoy your saved discoveries.")
         case .artworkLimit: return L10n.text("This picture can't be retried. Your discovery is still saved.")
         case .requestConflict: return L10n.text("This question has changed. Start a new question to explore it.")
+        case .preparedUnavailable: return L10n.text("This saved discovery can no longer be shared. Your card and memories are safe.")
         case .notFound: return L10n.text("We couldn't find this saved answer. You can ask the question again.")
         }
     }

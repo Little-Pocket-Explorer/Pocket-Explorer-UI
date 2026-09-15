@@ -8,7 +8,7 @@ final class ReminderFlowTests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)"]
-        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = "http://127.0.0.1:4197"
+        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = FixtureServer.base
         let date = Date().timeIntervalSinceReferenceDate - 172800
         let quiz: [String: Any] = ["question": "What scatters sunlight?", "choices": ["Air", "Paint", "The Moon"], "correctIndex": 0, "explanation": "Air scatters the blue part of sunlight."]
         let reply: [String: Any] = ["title": "Blue sky", "answer": "Air scatters blue light.", "invitation": "What colour do you see?", "category": "science", "artworkPrompt": "Blue sky and clouds", "quiz": quiz]

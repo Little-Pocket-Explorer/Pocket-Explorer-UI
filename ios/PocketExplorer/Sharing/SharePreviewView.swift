@@ -15,7 +15,10 @@ struct SharePreviewView: View {
     @State private var busy = false
     @State private var error: String?
     @State private var message: String?
-    private var story: PublicStory { published?.story ?? pendingStory ?? PublicStory.make(trip: trip, discoveries: discoveries, firstName: includeName ? firstName : nil, includeCity: includeCity) }
+    private var currentDiscoveries: [Discovery] {
+        discoveries.map { original in store?.state.discoveries.first(where: { $0.id == original.id }) ?? original }
+    }
+    private var story: PublicStory { published?.story ?? pendingStory ?? PublicStory.make(trip: trip, discoveries: currentDiscoveries, firstName: includeName ? firstName : nil, includeCity: includeCity) }
     private var receiptKey: String { "share-receipt-\(trip.id)" + (singleCardID.map { "-card-\($0)" } ?? "") }
 
     private var inlineActions: Bool { textSize.isAccessibilitySize && published != nil }
@@ -79,7 +82,7 @@ struct SharePreviewView: View {
 
     @ViewBuilder private func publicArtwork(_ card: PublicCard) -> some View {
         if let artworkID = card.artworkID,
-           let discovery = discoveries.first(where: { $0.artwork?.id == artworkID }),
+           let discovery = currentDiscoveries.first(where: { $0.artwork?.id == artworkID }),
            discovery.artworkFilename != nil, store != nil {
             DiscoveryArtwork(discovery: discovery, store: store)
         } else if let artworkID = card.artworkID, let published {
@@ -113,7 +116,11 @@ struct SharePreviewView: View {
     }
     private func create() {
         busy = true; error = nil; message = nil
-        let request = SharePublisher.shared.publish(story, key: receiptKey)
+        let snapshot = story
+        let request = SharePublisher.shared.publish(snapshot, key: receiptKey, prepare: {
+            guard let store else { return snapshot }
+            return try await PreparedRegistration.shared.prepareShare(snapshot, store: store, connection: ConnectionVault().loadOrCreate())
+        })
         Task { await receive(request) }
     }
     private func receive(_ request: SharePublisher.Publication) async {

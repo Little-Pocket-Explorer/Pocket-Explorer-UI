@@ -9,9 +9,16 @@ struct NarrationClient {
     var directory: URL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent("Narration")
     var now: Date = Date()
     static let maximumBytes = 12_000_000
+    var preparedAssets = PreparedAssets()
 
     func audio(for record: ExplorationRecord, connection: ShareConnection) async throws -> Data {
         guard let base = connection.validatedURL, let answer = record.reply?.answer else { throw VoiceError.unavailable }
+        if let prepared = record.preparedContent {
+            guard let narration = prepared.narration else { throw VoiceError.unavailable }
+            do { return try await preparedAssets.load(narration, base: base) }
+            catch is CancellationError { throw CancellationError() }
+            catch { if record.preparedRegistered != true { throw error } }
+        }
         let identity = [base.absoluteString, connection.ownerKey, record.language, answer, "azure-neural-v2"].joined(separator: "\n")
         let key = SHA256.hash(data: Data(identity.utf8)).map { String(format: "%02x", $0) }.joined()
         let file = directory.appendingPathComponent(key).appendingPathExtension("wav")

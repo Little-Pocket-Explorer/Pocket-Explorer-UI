@@ -323,3 +323,11 @@
 "From your discoveries" = "À partir de tes découvertes";
 
 "Stopping sharing…" = "Arrêt du partage…";
+
+"A discovery is being updated. You can still ask your own question." = "Une découverte est en cours de mise à jour. Tu peux toujours poser ta propre question.";
+
+"Your discoveries could not be saved. Please try again." = "Tes découvertes n’ont pas pu être enregistrées. Réessaie.";
+
+"This discovery needs an update. Your card and memories are safe." = "Cette découverte a besoin d’une mise à jour. Ta carte et tes souvenirs sont bien conservés.";
+
+"This saved discovery can no longer be shared. Your card and memories are safe." = "Cette découverte enregistrée ne peut plus être partagée. Ta carte et tes souvenirs sont bien conservés.";

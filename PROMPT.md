@@ -1,16 +1,67 @@
 # Pocket Explorer: Continuation Brief
 
-## Azure narration integration (2026-09-15)
+## Azure and Cloudflare policy amendment (2026-09-15)
 
-- DONE S1: the existing hai managed identity serves the dedicated Azure adapter. Speech S0 keeps local authentication disabled and uses a resource-scoped Speech User grant. The user approved Xiaoxiao gentle Chinese and Emma Dragon HD English. All ten language routes produced non-silent audio. The other eight voices still need human listening review.
-- DONE S2: backend source 9004928 is deployed through workflow 34924912737 as Worker d6580f71-d1ca-4d7c-89ab-9a297de9aaf9 at 100%. Production synthesis, byte-identical cache replay and ownership checks passed. No Azure keys were retrieved, and service credentials stay on servers. Existing 120/18 safeguards are unchanged.
-- DONE S3: final native runtime passed 108 unit tests and three narration UI tests. Changed executable-line coverage is 101/104 (97.12%), with each file above 80%. A further playback test passed and its settled screenshot was inspected. Cache expiry, corruption recovery, stop, timeout fallback and stale-response cancellation are verified.
-- DONE S4: TestFlight 0.1.0 (14) was published from this Mac using source 65b3084af1e70b30b1a53fdc6685a015d64e960e. Independent Apple reads confirm VALID, IN_BETA_TESTING and Hackathon Internal membership. IPA, signing, source fingerprint, ten 322-entry catalogs and temporary-keychain removal are verified. Native commits use [skip ci], and no GitHub iOS run was started.
-- REVIEW S5: physical iPhone playback, microphone, interruptions and the remaining voices' listening quality are unverified. Prepared daily recommendation audio and Vectorize knowledge reuse remain separate, unfinished work.
+The user clarified that Azure API capacity is effectively unlimited for this project while Cloudflare resources remain constrained. This supersedes historical instructions preserving the 120-question, 18-image and 200,000-speech-character Azure caps. Use explicit `unlimited` policies and retain the existing usage ledger, actual provider failures, deadlines and retry controls.
 
-Evidence: docs/evidence/azure-narration.json and ~/tmp/review/pocket-release-speech-14. Native tests and uploads have ended. This iteration's fixtures on ports 4213 and 4215 were stopped and independently checked. Keep the expired heartbeat paused.
+Cloudflare protections remain separate: request and installation limits, six-hour scheduling with at most three new topics daily, queue concurrency two, bounded retries, caching and asset-size validation. Workers AI embeddings retain 1,000 daily and 10,000 cumulative reservations. These workload controls do not establish a US$10 account-level billing hard stop.
 
-Work is isolated in ~/Worktrees/Pocket-Explorer-Backend-speech and ~/Worktrees/Pocket-Explorer-UI-speech. Preserve the primary checkouts' unpublished cache/content and design drafts. Earlier build checkpoints below are historical, and this section governs current narration delivery.
+Reservations must be atomic across every applicable bucket. Rejection before a provider call consumes no other allowance, while attempted calls remain counted. All 177 backend tests and every changed-file 80% line/branch gate passed, and the production build passed. The old accounting behavior was reproduced by the same failing regression before the atomic fix. Validation deployment b9f676dc-13f2-4270-b3ca-2e278dfbc7c7 independently reports all three Azure policies as unlimited. Preparation is resumed with two corrected ten-language drafts under independent qualification. Inventory is still 10/12 and TestFlight remains 0.1.0 (14). Finish qualification, deploy production through its existing workflow and upload native locally with [skip ci].
+
+
+## Current continuation checkpoint (2026-09-15)
+
+Read the newest TODO checkpoint first. Implementation, avatar alignment, final local tests and visual review are complete. Content launch remains blocked at ten of twelve qualified topics per language/age slice, with 118/120 question calls and 18/18 image calls consumed. Preparation is paused, production flags remain false and TestFlight remains 0.1.0 (14). No feature commit or release occurred.
+
+Do not repeat completed provider evaluations or tests without a changed input or unresolved failure. Resolve the specific inventory/allowance decision before generating more content or enabling production. Preserve unchanged cumulative limits unless explicitly revised by the user. Follow the operations runbook for Queue handover, Backend workflow deployment and local native publication with [skip ci]. Physical-device and warning limitations remain in the review. The old heartbeat stays paused.
+
+## Implementation started (2026-09-15)
+
+The user approved implementation. The active worktree is /Users/haichang/Worktrees/Pocket-Explorer-UI-daily-discovery. B10.0 is in progress. Integrate from current origin/main, preserve existing narration, then implement and verify the continuous supply plan. Earlier planning-only statements are historical. No expired timer is resumed.
+
+## Continue the planned content pipeline (2026-09-15)
+
+The user requires continuous backend content replenishment before periodic client activation can work. The detailed [implementation plan](../Pocket-Explorer-Backend/docs/plans/daily-discovery-pipeline.md) owns supply cadence, package verification, immutable versions, native activation, Vectorize reuse and acceptance. This is the newest planning checkpoint and supersedes older task ordering below. Build 14 narration remains the released baseline. No runtime change or publication is part of this planning turn.
+
+Read the detailed plan and TODO before implementation. Start B10.0 from fresh worktrees under ~/Worktrees based on current remote main, preserving the primary checkouts' unpublished drafts. Integrate the released narration source before selecting useful draft code. Inspect migration history before choosing additive migration numbers after deployed 0005.
+
+Implement supply before claiming dynamic recommendations. A static JSON import or daily reshuffle is insufficient. Cron must reconcile and enqueue bounded jobs independently of app visits, validate complete packages, atomically publish catalog revisions and keep adding fresh topics at healthy inventory. Preserve existing allowances and record paused_by_allowance when exhausted.
+
+Native downloads do not replace the active daily snapshot. Prepared opens call no generation or semantic verifier. Free-form reuse uses eligibility, exact/alias fast paths, model-versioned embeddings, Vectorize candidates and authoritative D1 verification. Keep private questions out of shared content. Implement the plan's offline, expiry, correction and failure behavior.
+
+Use meaningful dependency and lifecycle tests, per-file coverage gates, actual screenshots and written review. Verify real scheduled events as well as client rollover. Backend publication retains its Cloudflare workflow. Native commits use [skip ci] and TestFlight publication remains local. Keep expired thread automations paused.
+
+## Completed isolated narration release (2026-09-15)
+
+The user approved hai managed identity, Xiaoxiao gentle Chinese and Emma Dragon HD English. Backend source 9004928 is deployed through workflow 34924912737. Native source 65b3084 was published locally as TestFlight 0.1.0 (14). Independent Apple reads confirm VALID, IN_BETA_TESTING and Hackathon Internal. IPA, signing, ten 322-entry catalogs and unchanged application source are verified. Final runtime tests passed 108 unit and three narration UI checks at 97.12% changed executable-line coverage, and a settled playback screenshot was inspected. UI evidence commit f2e3880 and Backend evidence commit 89f97bb are pushed to main. No GitHub iOS build was started. Test fixtures 4213 and 4215 are stopped, and the expired heartbeat remains paused.
+
+Current release evidence and guides are in ~/Worktrees/Pocket-Explorer-UI-speech and ~/Worktrees/Pocket-Explorer-Backend-speech. Physical iPhone playback, microphone and interruptions remain unverified. Preserve this checkout's unpublished Vectorize/content and design drafts. Prepared daily recommendation audio and semantic reuse remain unfinished and are not part of build 14. Merge the verified narration main changes carefully before resuming those drafts. Earlier authentication proposals below are historical.
+
+## Azure Speech resource created (2026-09-15)
+
+Authentication probe: the Azure CLI Entra user token for haichang@microsoft.com was denied GET /tts/cognitiveservices/voices/list because the Speech frontend data action is missing. This is not a missing resource. The existing claude-proxy-copilot Container App has identity type None. Proposed integration uses an Azure-hosted adapter with managed identity and a resource-scoped Cognitive Services Speech User role, keeping the existing authenticated Cloudflare entry point and R2 audio cache. No identity or role changes have been made.
+
+The user explicitly requested creation in subscription 4496e94c-b276-44d5-8809-1233f334e678 and selected Standard S0. Azure CLI validation and incremental deployment succeeded. Independent resource readback confirms pocket-explorer-speech, resource group hai, eastus, SpeechServices, S0 and disableLocalAuth=true. Endpoint: https://pocket-explorer-speech.cognitiveservices.azure.com/. See [creation evidence](../Pocket-Explorer-Backend/docs/evidence/azure-speech-resource.json).
+
+The earlier DeploymentNotFound probes concerned other model routes. This new resource exists, but its Entra ID data-plane access, voice quality and application integration are still unverified. No role assignments were added and no API keys were retrieved. Next verify the caller identity and Speech permissions, render multilingual samples, then integrate server-side synthesis and R2 audio caching. Resource creation alone does not complete the speech work.
+
+## Current Vectorize continuation (2026-09-15)
+
+The user selected Cloudflare Vectorize. Read the [accepted design](../Pocket-Explorer-Backend/docs/research/semantic-cache-vectorize.md) and follow semantic candidate retrieval plus reuse verification in this iteration. Exact matching remains a fast path. Do not revert to the older exact-only recommendation or introduce another cache provider without new evidence.
+
+Next evaluate a multilingual embedding model and false-hit tests, then integrate with authoritative D1 content and R2 artwork. Current drafts remain unverified and unpublished. The prior research-first correction has been addressed by [research](docs/research/daily-discoveries.md) and this design decision. The timed refinement and heartbeat remain closed.
+
+## Daily discoveries and reusable knowledge (2026-09-15)
+
+The user requests a larger cached recommendation bank, three stable daily selections, prepared answers and illustrations, and long-lived reuse across matching questions. This is new implementation work. The previous timed refinement remains closed and its heartbeat remains paused.
+
+- T22/B10.1 DONE: primary-source research, cache boundaries and the preferred Vectorize design are recorded.
+- T22/B10.2 NEXT: server-owned prepared multilingual bank and immutable artwork, with no provider call when opened.
+- T22/B10.3 NEXT: persistent native bank, daily selection and background refresh. Freeze the day's selection, including across relaunch and successful bank downloads. Keep typed, spoken and photographic exploration available.
+- T22/B10.4 NEXT: exact fast path plus Vectorize semantic candidates and complete-answer verification, following the [design](../Pocket-Explorer-Backend/docs/research/semantic-cache-vectorize.md). Scope by language, validated age applicability and policy revision. Preserve content versions, separate personal records, bounded expiry and generation coordination.
+- T22/B10.5 NEXT: meaningful reproductions, actual local D1/R2 integration, changed-file coverage, native UI and persistence tests, written critique and release verification. Backend delivery uses its workflow. Native delivery remains local with [skip ci].
+
+Preserve existing data, private keys, 120/18 safeguards, ten languages, Miro design, untracked design/miro-sync and old public links. Do not revive the earlier eight-hour timer. Do not extend into accounts, friends, chat or unrelated sharing fixes.
 
 ## Current objective
 
@@ -32,11 +83,11 @@ Read [TODO.md](TODO.md) first for the live checkpoint, then [PLAN.md](PLAN.md) a
 
 ## Current delivery
 
-TestFlight 0.1.0 (14) is independently verified VALID / IN_BETA_TESTING in Hackathon Internal. Source commit: 65b3084af1e70b30b1a53fdc6685a015d64e960e. Evidence: docs/evidence/azure-narration.json. External group availability has not been confirmed. Backend runtime 9004928 is deployed through workflow 34924912737.
+TestFlight 0.1.0 (13) is independently verified VALID / IN_BETA_TESTING in Hackathon Internal. Source commit: 339ff9e5832fb4cc8fa24cde30aa2f72a811e581. Evidence: docs/evidence/sharing-reentry.json. External group availability has not been confirmed. Backend runtime 5dac559 is independently deployed, with deployment evidence at 08b7558.
 
 Released build 13 fixes pending share creation and revocation across sheet reentry, preserves the exact public snapshot, adapts published controls for accessibility text sizes, and uses neutral keepsake art for terminal illustration failure. Ten UI catalogs have 322 entries.
 
-The following regression belongs to build 13. An earlier complete regression passed 150 tests with no failures and two explicit skips. It predates final revocation, accessibility layout and keepsake changes. Final complete regression passed 154 tests with no failures and two explicit skips. Three independent iOS 27 sharing checks passed. Changed executable-line coverage is 133/133, each file at 100%. Actual screenshots, manual critique and source-freeze verification are complete. Apple, IPA, signing, ten catalogs and temporary-keychain cleanup were independently verified. Evidence, physical-device acceptance guidance and document pushes are complete. Next work is physical acceptance and the reproduced lost-response correction, following TODO.
+An earlier complete regression passed 150 tests with no failures and two explicit skips. It predates final revocation, accessibility layout and keepsake changes. Final complete regression passed 154 tests with no failures and two explicit skips. Three independent iOS 27 sharing checks passed. Changed executable-line coverage is 133/133, each file at 100%. Actual screenshots, manual critique and source-freeze verification are complete. Apple, IPA, signing, ten catalogs and temporary-keychain cleanup were independently verified. Evidence, physical-device acceptance guidance and document pushes are complete. Next work is physical acceptance and the reproduced lost-response correction, following TODO.
 
 ## Execution rules
 
@@ -55,14 +106,14 @@ Use the codex-project skill and maintain PLAN/PROMPT/TODO with concise current f
 
 Native commits must include [skip ci]. The user prohibits GitHub iOS builds because quota is exhausted. Backend changes retain the existing Cloudflare workflow.
 
-Use Xcode /Applications/Xcode-27-RC.app with build 27A266a and the existing local release scripts. Invoke /opt/homebrew/bin/python3 with /opt/homebrew/opt/ruby/bin and /opt/homebrew/bin first in PATH so the installed Bundler 4.0.16 is selected. Archive/upload only after final-source tests, coverage, screenshots and critique are complete. Keep ios, shared, scripts and HEAD frozen during publication.
+Use Xcode /Applications/Xcode-27-RC.app with build 27A266a and the existing local release scripts. Archive/upload only after final-source tests, coverage, screenshots and critique are complete. Keep ios, shared, scripts and HEAD frozen during publication.
 
-Build 14 is already published. Artifacts are in ~/tmp/review/pocket-release-speech-14. Do not upload it again. Only use scripts/release/local-testflight.py with a new output directory after a meaningful future application change and its verification.
+Build 13 is already published. Artifacts are in ~/tmp/review/pocket-release-polish-13. Do not upload it again. Only use scripts/release/local-testflight.py with a new output directory after a meaningful future application change and its verification.
 
 apple-readback.json and ipa-readback.json preserve the independent release-time evidence. Later documentation commits are not the published IPA source. Do not rerun the previous verification script unchanged after a documentation commit because it requires HEAD to match the release commit.
 
 ## Completion and limitations
 
-Physical microphone, camera, premium narration, VoiceOver and Safari remain open. Azure routes rendered non-silent audio in ten languages, including the approved Xiaoxiao gentle and Emma HD samples. The other eight voices and all physical-device playback remain unverified by a human. Installed system voices are the offline fallback, and their quality varies.
+Physical microphone, camera, premium narration, VoiceOver and Safari remain open. Available simulator voices rendered non-silent audio in ten languages, but Arabic used a male voice and French a Canadian French voice. Do not describe every locale as natural female narration. Earlier cloud TTS probes failed. A new Azure Speech S0 resource now exists as recorded above, with data-plane integration still pending.
 
 The five-minute heartbeat pocket-explorer-5 was paused through the automation tool after the deadline and independently read back. No tests, uploads or automatic continuation remain active. Preserve this evidence and continue according to the user’s next instructions.

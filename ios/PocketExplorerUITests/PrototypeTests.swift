@@ -8,7 +8,7 @@ final class PrototypeTests: XCTestCase {
     override func setUp() {
         continueAfterFailure = false
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
-        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = "http://127.0.0.1:4197"
+        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = FixtureServer.base
         app.launch()
         XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
         app.buttons["language-continue"].tap()
@@ -107,7 +107,7 @@ final class PrototypeTests: XCTestCase {
         app.buttons["Take a photo"].tap()
         if app.buttons["PhotoCapture"].waitForExistence(timeout: 5) {
             capture("camera-entry")
-            app.buttons["DismissImagePickerButton"].tap()
+            app.buttons.matching(NSPredicate(format: "identifier IN %@", ["DismissImagePickerButton", "DismissButton"])).firstMatch.tap()
         } else {
             XCTAssertTrue(app.staticTexts["exploration-error"].waitForExistence(timeout: 5))
             XCTAssertTrue(app.staticTexts["exploration-error"].label.contains("camera"))
@@ -174,7 +174,7 @@ final class PrototypeTests: XCTestCase {
     }
     private func verifyShare(_ url: String, status: Int) {
         let done = expectation(description: "Independent public read")
-        URLSession.shared.dataTask(with: URL(string: "http://127.0.0.1:4197/api/shares/" + URL(string: url)!.lastPathComponent)!) { data, response, error in
+        URLSession.shared.dataTask(with: URL(string: (FixtureServer.base + "/api/shares/") + URL(string: url)!.lastPathComponent)!) { data, response, error in
             XCTAssertNil(error); XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, status)
             if status == 200 {
                 let object = try? JSONSerialization.jsonObject(with: data!) as? [String: Any]

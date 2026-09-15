@@ -323,3 +323,11 @@
 "From your discoveries" = "きみの発見から";
 
 "Stopping sharing…" = "共有を停止しています…";
+
+"A discovery is being updated. You can still ask your own question." = "発見の内容を更新しています。自分の質問はいつでもできるよ。";
+
+"Your discoveries could not be saved. Please try again." = "発見を保存できませんでした。もう一度試してね。";
+
+"This discovery needs an update. Your card and memories are safe." = "この発見は更新が必要です。カードと思い出は大切に保存されています。";
+
+"This saved discovery can no longer be shared. Your card and memories are safe." = "この保存済みの発見は共有できなくなりました。カードと思い出は保存されています。";

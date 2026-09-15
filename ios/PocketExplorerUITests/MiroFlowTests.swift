@@ -6,7 +6,7 @@ final class MiroFlowTests: XCTestCase {
     override func setUp() {
         continueAfterFailure = false
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
-        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = "http://127.0.0.1:4197"
+        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = FixtureServer.base
         app.launch()
         XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
         app.buttons["language-continue"].tap()
@@ -60,7 +60,7 @@ final class MiroFlowTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["share-url"].waitForExistence(timeout: 10))
         let url = app.staticTexts["share-url"].label
         let read = expectation(description: "Independent generated story read")
-        URLSession.shared.dataTask(with: URL(string: "http://127.0.0.1:4197/api/shares/" + URL(string: url)!.lastPathComponent)!) { data, response, error in
+        URLSession.shared.dataTask(with: URL(string: (FixtureServer.base + "/api/shares/") + URL(string: url)!.lastPathComponent)!) { data, response, error in
             XCTAssertNil(error); XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
             let object = try? JSONSerialization.jsonObject(with: data!) as? [String: Any]
             let cards = object?["cards"] as? [[String: Any]]

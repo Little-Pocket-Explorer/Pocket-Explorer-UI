@@ -323,3 +323,11 @@
 "From your discoveries" = "من اكتشافاتك";
 
 "Stopping sharing…" = "جارٍ إيقاف المشاركة…";
+
+"A discovery is being updated. You can still ask your own question." = "يجري تحديث أحد الاكتشافات. لا يزال بإمكانك طرح سؤالك.";
+
+"Your discoveries could not be saved. Please try again." = "تعذّر حفظ اكتشافاتك. حاول مرة أخرى.";
+
+"This discovery needs an update. Your card and memories are safe." = "هذا الاكتشاف يحتاج إلى تحديث. بطاقتك وذكرياتك محفوظة بأمان.";
+
+"This saved discovery can no longer be shared. Your card and memories are safe." = "لم يعد من الممكن مشاركة هذا الاكتشاف المحفوظ. بطاقتك وذكرياتك محفوظة بأمان.";

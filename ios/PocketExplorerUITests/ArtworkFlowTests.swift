@@ -6,7 +6,7 @@ final class ArtworkFlowTests: XCTestCase {
     override func setUp() {
         continueAfterFailure = false
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
-        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = ProcessInfo.processInfo.environment["POCKET_ARTWORK_FIXTURE_URL"] ?? "http://127.0.0.1:4197"
+        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = ProcessInfo.processInfo.environment["POCKET_ARTWORK_FIXTURE_URL"] ?? FixtureServer.base
         app.launch()
         XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
         app.buttons["language-continue"].tap()
