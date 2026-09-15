@@ -2,7 +2,7 @@ import XCTest
 
 final class NarrationFlowTests: XCTestCase {
     private let app = XCUIApplication()
-    private let base = "http://127.0.0.1:4215"
+    private let base = FixtureServer.base
     override func setUp() {
         continueAfterFailure = false
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]

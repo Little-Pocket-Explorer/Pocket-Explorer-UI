@@ -1,0 +1,240 @@
+{
+  "date": "2026-09-15",
+  "released": false,
+  "testFlightBaseline": "0.1.0 (14)",
+  "simulator": {
+    "model": "iPhone 17 Pro",
+    "osVersion": "27.0",
+    "osBuild": "24A5355p"
+  },
+  "runs": [
+    {
+      "name": "native-foundation-3",
+      "passed": 149,
+      "unitPassed": 129,
+      "uiPassed": 20,
+      "failed": 0,
+      "skipped": 1,
+      "skipReason": "Host microphone input unavailable"
+    },
+    {
+      "name": "native-background-entry",
+      "passed": 22,
+      "unitPassed": 20,
+      "uiPassed": 2,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "coverage": {
+    "scope": "Coverage for each final-source file. Only PocketExplorerApp.swift changed after native-foundation-3, adding a DEBUG-only background-entry trigger. Its coverage is taken exclusively from native-background-entry. Other file coverage comes from the unchanged final foundation run.",
+    "base": "f2e38802350262a0ec4358d214faab3b2256c21e",
+    "covered": 477,
+    "executable": 481,
+    "percent": 99.17,
+    "allFilesAtLeast80Percent": true,
+    "files": [
+      {
+        "path": "ios/PocketExplorer/App/PocketExplorerApp.swift",
+        "covered": 18,
+        "executable": 20,
+        "percent": 90.0,
+        "uncovered": [
+          59,
+          60
+        ],
+        "sourceSHA256": "3c92513f8ff8c8a3cf06fefca392e680a31728fa229f65818f3f48d5691acf0c",
+        "result": "native-background-entry"
+      },
+      {
+        "path": "ios/PocketExplorer/App/RootView.swift",
+        "covered": 8,
+        "executable": 8,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "e06d8dc35b327eeed8749ccdbb6f55d86dac2ee98b1257fc0ded68c8e72cbbf9",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Cards/CardViews.swift",
+        "covered": 7,
+        "executable": 7,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "052bfa7945b54d9335efd7ec1e322fecd9a7cf83761e5ccc482e81fbce1e52f4",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Data/TripStore.swift",
+        "covered": 48,
+        "executable": 48,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "85b369ff5889b043ce7e06a03f1fc4464ab40c0a98e1e07458b0b6c5b650619e",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Design/ExplorerChrome.swift",
+        "covered": 1,
+        "executable": 1,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "eae862098cf026afbb79008adad3d3ee632705d6f6a5b5055712fc21038a9206",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/AIClient.swift",
+        "covered": 13,
+        "executable": 13,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "97fee97b14e8bc868f2fe514d8dc7da3e5fdeb183b7008ed93edcb4b50433da9",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/ArtworkCoordinator.swift",
+        "covered": 9,
+        "executable": 9,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "c7bda62d3a0a17cab17cafc1c38fa842a4023e1fd123c0b7aaf77a19f896e0cf",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/ChatHomeView.swift",
+        "covered": 49,
+        "executable": 50,
+        "percent": 98.0,
+        "uncovered": [
+          48
+        ],
+        "sourceSHA256": "f35cf19dac05b3656b44632c967ef3e577a268f286a7cfde2580a0130c99f016",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/DailySelection.swift",
+        "covered": 40,
+        "executable": 40,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "50ff4eaa730aea50671a67006647e33c697b62e8f20624250d041d0ec4a3cefa",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/ExploreView.swift",
+        "covered": 2,
+        "executable": 2,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "3b1f7351d740ef22b1c5ddb1b2bb7ea4ce2ca1a673bee92a08f8521f1b1de397",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/NarrationClient.swift",
+        "covered": 7,
+        "executable": 7,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "e38974b856d4b6eef7de1424235b5d95b6c3ac64fddeb68e0802d0549d3f3725",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/PreparedAssets.swift",
+        "covered": 49,
+        "executable": 49,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "ee2e12b0de5712251b20733347c8445c7e9db74f2a432064d7f93352b2246ad2",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/PreparedContent.swift",
+        "covered": 19,
+        "executable": 20,
+        "percent": 95.0,
+        "uncovered": [
+          6
+        ],
+        "sourceSHA256": "fb5ddcf2a67af198284e598b176a07edcd120ae1007814495e67be604bfe7b02",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/PreparedRegistration.swift",
+        "covered": 43,
+        "executable": 43,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "3ba73486f4df7cd76c4112d6352b5a06555df968adfdfd029126c9df165e5024",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/RecommendationClient.swift",
+        "covered": 23,
+        "executable": 23,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "240680c334c401d1e3e4cdaf66a85ddc79b5213241dd3d08fd4ecfa58ece4406",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/RecommendationRefresh.swift",
+        "covered": 15,
+        "executable": 15,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "ddba0db5fb2cc0ad17bd05f92258abc7183414967172e9e578cc1a9def5f8150",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/RecommendationStore.swift",
+        "covered": 114,
+        "executable": 114,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "174f0fa8a6865bcdf109b3b867a8824f4b115513c5e7d9168c5445796452efe0",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Sharing/SharePreviewView.swift",
+        "covered": 10,
+        "executable": 10,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "24e54ac8a23eca732e04a7bc7faf647cdb59e8a1ff43ac3444209754fabce92b",
+        "result": "native-foundation-3"
+      },
+      {
+        "path": "ios/PocketExplorer/Sharing/SharePublisher.swift",
+        "covered": 2,
+        "executable": 2,
+        "percent": 100.0,
+        "uncovered": [],
+        "sourceSHA256": "2143c653b8385a475b34e509ae5be05f2bd581f846e7b73ecf4cf9493fcf38b2",
+        "result": "native-foundation-3"
+      }
+    ]
+  },
+  "bundle": {
+    "topics": 6,
+    "languages": 10,
+    "packages": 60,
+    "builtPNGHashesVerified": 6
+  },
+  "visuallyReviewed": [
+    "English Home and actual offline artwork",
+    "Simplified Chinese Home and actual offline artwork",
+    "Arabic Home and actual offline artwork",
+    "Collected withdrawal notice",
+    "Arabic largest-text Memory",
+    "Camera entry",
+    "Home after background refresh"
+  ],
+  "limitations": [
+    "The background-entry test invokes the real handler using a DEBUG-only trigger. Actual OS scheduling remains unverified.",
+    "Physical-device microphone, camera, speech quality and interruptions remain unverified.",
+    "Device display and audio-start latency targets remain unmeasured.",
+    "Invalid-frame warning during iOS 27 camera dismissal remains unattributed.",
+    "AVAudioSession synchronous-activation warnings remain.",
+    "The external cl/Opus review did not complete."
+  ]
+}

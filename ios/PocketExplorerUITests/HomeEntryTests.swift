@@ -6,14 +6,14 @@ final class HomeEntryTests: XCTestCase {
     override func setUp() {
         continueAfterFailure = false
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
-        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = "http://127.0.0.1:4197"
+        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = FixtureServer.base
         app.launch()
         XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
         app.buttons["language-continue"].tap()
     }
 
     func testSuggestedQuestionAnswersInOneTapAndTheNextComposerStartsEmpty() {
-        let question = app.buttons["Why is the sky blue?"]
+        let question = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "daily-question-")).firstMatch
         for _ in 0..<4 where !question.isHittable { app.swipeUp() }
         question.tap()
         XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 10))
@@ -28,10 +28,21 @@ final class HomeEntryTests: XCTestCase {
     }
 
     func testHomeCameraOpensTheCameraPathDirectly() {
+        app.resetAuthorizationStatus(for: .camera)
+        app.launch()
+        XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
+        app.buttons["language-continue"].tap()
         app.buttons["home-camera"].tap()
+        let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let permission = system.alerts.containing(NSPredicate(format: "label CONTAINS[c] 'camera'")).firstMatch
+        if permission.waitForExistence(timeout: 5) {
+            let allow = permission.buttons["Allow"]
+            XCTAssertTrue(allow.exists)
+            allow.tap()
+        }
         if app.buttons["PhotoCapture"].waitForExistence(timeout: 5) {
             capture("home-camera-open")
-            app.buttons["DismissImagePickerButton"].tap()
+            app.buttons.matching(NSPredicate(format: "identifier IN %@", ["DismissImagePickerButton", "DismissButton"])).firstMatch.tap()
         } else {
             XCTAssertTrue(app.staticTexts["exploration-error"].waitForExistence(timeout: 5))
             XCTAssertTrue(app.staticTexts["exploration-error"].label.contains("camera"))

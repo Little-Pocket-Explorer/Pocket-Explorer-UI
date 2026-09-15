@@ -8,7 +8,9 @@ struct PocketExplorerApp: App {
     @State private var language: LanguagePreference?
     @State private var profile: ExplorerProfile?
     @State private var choosingLanguage = false
+    @State private var demoActivation: DemoActivation?
     @State private var deviceLanguage = AppLanguage.resolve(Locale.preferredLanguages)
+    @Environment(\.scenePhase) private var scenePhase
     private var resolvedLanguage: AppLanguage { language?.language ?? deviceLanguage }
 
     init() {
@@ -38,6 +40,7 @@ struct PocketExplorerApp: App {
                     LanguageSelectionView(onSelect: selectLanguage)
                 } else if let store {
                     RootView(store: store, changeLanguage: { choosingLanguage = true })
+                        .sheet(item: $demoActivation) { activation in DemoActivationView(activation: activation, demo: store.demo) }
                 } else if let loadError {
                     ContentUnavailableView("Your journal needs a moment", systemImage: "book.closed", description: Text(loadError))
                 } else {
@@ -50,6 +53,9 @@ struct PocketExplorerApp: App {
             .tint(Theme.forest)
             .preferredColorScheme(.light)
             .task(id: language) { openJournal() }
+            .onOpenURL { url in
+                if let activation = DemoActivation(url: url) { demoActivation = activation }
+            }
             .onReceive(NotificationCenter.default.publisher(for: NSLocale.currentLocaleDidChangeNotification)) { _ in
                 deviceLanguage = AppLanguage.resolve(Locale.preferredLanguages)
             }
@@ -57,6 +63,27 @@ struct PocketExplorerApp: App {
                 LanguageSelectionView(onSelect: selectLanguage)
             }
         }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .background, language != nil { RecommendationRefresh.schedule() }
+            #if DEBUG
+            // Exercise the app's refresh entry point without relying on nondeterministic OS scheduling.
+            if phase == .background, ProcessInfo.processInfo.arguments.contains("--simulate-discovery-refresh") {
+                Task { await refreshRecommendations() }
+            }
+            #endif
+        }
+        .backgroundTask(.appRefresh(RecommendationRefresh.identifier)) {
+            await refreshRecommendations()
+        }
+    }
+
+    @MainActor
+    private func refreshRecommendations() async {
+        defer { RecommendationRefresh.schedule() }
+        openJournal()
+        guard let store, let base = try? ConnectionVault().loadOrCreate().validatedURL else { return }
+        let savedAge = UserDefaults.standard.integer(forKey: "explorer-age")
+        await RecommendationRefresh.run(store: store.recommendations, base: base, language: resolvedLanguage.rawValue, age: (5...18).contains(savedAge) ? savedAge : 7)
     }
 
     private func selectLanguage(_ preference: LanguagePreference) {
@@ -90,7 +117,13 @@ struct PocketExplorerApp: App {
             #else
             initial = .examples()
             #endif
-            store = try TripStore(fileURL: url, initial: initial)
+            #if DEBUG
+            // Fixture-driven flows inject their own bank. Bundle acceptance opts into the real resources.
+            let bundledContent: [PreparedContent]? = ProcessInfo.processInfo.arguments.contains("--ui-testing") && !ProcessInfo.processInfo.arguments.contains("--bundled-discoveries") ? [] : nil
+            #else
+            let bundledContent: [PreparedContent]? = nil
+            #endif
+            store = try TripStore(fileURL: url, initial: initial, bundledContent: bundledContent)
             #if DEBUG
             if ProcessInfo.processInfo.arguments.contains("--ui-testing"), ProcessInfo.processInfo.arguments.contains("--reset-journal"),
                let fixture = ProcessInfo.processInfo.environment["POCKET_TEST_MEDIA"]?.data(using: .utf8) {

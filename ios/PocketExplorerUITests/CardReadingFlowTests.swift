@@ -51,11 +51,13 @@ final class CardReadingFlowTests: XCTestCase {
             details.name = "card-accessibility-issue"; details.lifetime = .keepAlways; self.add(details)
             let screenshot = XCTAttachment(screenshot: self.app.screenshot())
             screenshot.name = "card-accessibility-issue-pixels"; screenshot.lifetime = .keepAlways; self.add(screenshot)
-            // iOS 26.4 flags this fully visible hyphenated German phrase. Preserve the finding
+            // iOS 26.4 and 27 flag this fully visible hyphenated German phrase. Preserve the finding
             // and accept only the pixel-reviewed element when its full frame is on screen.
             // Evidence and the unsuccessful intrinsic-height control are in the release review.
-            guard language == "de", large, self.app.frame.width == 375,
-                  ProcessInfo.processInfo.operatingSystemVersion.majorVersion == 26,
+            let system = ProcessInfo.processInfo.operatingSystemVersion.majorVersion
+            let reviewedLayout = (system == 26 && self.app.frame.width == 375) ||
+                (system == 27 && self.app.frame.width == 402)
+            guard language == "de", large, reviewedLayout,
                   issue.auditType == .textClipped,
                   let element = issue.element, element.label == "Wie schwimmen Enten?" else { return false }
             return element.frame.minY >= self.app.navigationBars.firstMatch.frame.maxY &&

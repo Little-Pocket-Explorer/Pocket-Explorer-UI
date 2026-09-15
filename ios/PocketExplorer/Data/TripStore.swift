@@ -5,10 +5,14 @@ import Observation
 final class TripStore {
     private(set) var state: JournalState
     let fileURL: URL
+    let recommendations: RecommendationStore
+    let demo: DemoStore
     private let write: (Data, URL) throws -> Void
 
-    init(fileURL: URL, initial: JournalState = .examples(), writer: ((Data, URL) throws -> Void)? = nil) throws {
+    init(fileURL: URL, initial: JournalState = .examples(), writer: ((Data, URL) throws -> Void)? = nil, bundledContent: [PreparedContent]? = nil) throws {
         self.fileURL = fileURL
+        self.recommendations = RecommendationStore(file: fileURL.deletingLastPathComponent().appendingPathComponent("recommendations.json"), bundled: bundledContent)
+        self.demo = DemoStore(file: fileURL.deletingLastPathComponent().appendingPathComponent("demo.json"))
         self.write = writer ?? { data, url in try data.write(to: url, options: .atomic) }
         try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
         if FileManager.default.fileExists(atPath: fileURL.path) {
@@ -30,6 +34,49 @@ final class TripStore {
     }
 
     var questions: [ExplorationRecord] { state.explorations ?? [] }
+
+    @discardableResult
+    func beginPrepared(_ content: PreparedContent, age: Int, id: UUID = UUID(), now: Date = Date()) throws -> ExplorationRecord {
+        guard content.isEligible(language: AppLanguage.current.rawValue, age: age, at: now) else { throw AIClientError.requestConflict }
+        if let existing = questions.first(where: { $0.id == id }) { return existing }
+        let record = ExplorationRecord(id: id, question: content.question, language: content.language, age: age, createdAt: now,
+            reply: content.reply, preparedContent: content, preparedRegistered: false)
+        var next = state
+        next.explorations = [record] + questions
+        try commit(next)
+        return record
+    }
+
+    func markPreparedRegistered(_ id: UUID, artwork: ArtworkJob) throws {
+        guard let index = questions.firstIndex(where: { $0.id == id }), questions[index].preparedContent != nil, artwork.status == "ready", UUID(uuidString: artwork.id) != nil else { throw AIClientError.invalidResponse }
+        var next = state
+        next.explorations?[index].preparedRegistered = true
+        next.explorations?[index].preparedArtwork = artwork
+        next.explorations?[index].preparedUnavailable = nil
+        if let card = next.discoveries.firstIndex(where: { $0.explorationID == id }) { next.discoveries[card].artwork = artwork }
+        try commit(next)
+    }
+
+    func markPreparedUnavailable(_ id: UUID) throws {
+        guard let index = questions.firstIndex(where: { $0.id == id }), questions[index].preparedContent != nil else { throw JournalError.missingDiscovery }
+        var next = state
+        next.explorations?[index].preparedUnavailable = true
+        try commit(next)
+    }
+
+    func preparedContentNeedsUpdate(_ id: UUID?) -> Bool {
+        guard let record = questions.first(where: { $0.id == id }), let content = record.preparedContent else { return false }
+        return record.preparedUnavailable == true || recommendations.isWithdrawn(content.reference)
+    }
+
+    func savePreparedArtwork(_ image: Data, discoveryID: UUID, asset: PreparedAsset) throws {
+        guard let index = state.discoveries.firstIndex(where: { $0.id == discoveryID }), PreparedAssets().valid(image, for: asset) else { throw AIClientError.invalidArtwork }
+        let filename = "prepared-\(asset.sha256).png"
+        try image.write(to: mediaURL(filename), options: .atomic)
+        var next = state
+        next.discoveries[index].artworkFilename = filename
+        try commit(next)
+    }
 
     @discardableResult
     func beginQuestion(_ question: String, age: Int, photo: Data?, id: UUID = UUID(), now: Date = Date()) throws -> ExplorationRecord {
@@ -54,15 +101,21 @@ final class TripStore {
     }
 
     @discardableResult
-    func keepQuestion(_ id: UUID, observation: String = "", tripID existingTripID: UUID? = nil, place: Place? = nil, now: Date = Date()) throws -> Discovery {
+    func keepQuestion(_ id: UUID, observation: String = "", tripID existingTripID: UUID? = nil, place: Place? = nil, now: Date = Date(), preparedImage: Data? = nil) throws -> Discovery {
         guard let question = questions.first(where: { $0.id == id }), let reply = question.reply else { throw JournalError.missingDiscovery }
         if let existing = state.discoveries.first(where: { $0.explorationID == id }) { return existing }
         if let existingTripID, !state.trips.contains(where: { $0.id == existingTripID }) { throw JournalError.missingTrip }
         let tripID = existingTripID ?? UUID()
-        let record = Discovery(id: UUID(), tripID: tripID, subject: .discovery, question: question.question,
+        var record = Discovery(id: UUID(), tripID: tripID, subject: .discovery, question: question.question,
             observation: observation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? question.question : observation,
             explanation: reply.answer, createdAt: now, photoFilename: question.photoFilename, unlockedAt: now, origin: .exploration, tier: .fieldFind,
-            ai: reply, explorationID: id, place: place, language: question.language)
+            ai: reply, explorationID: id, artwork: question.preparedArtwork, place: place, language: question.language)
+        if let preparedImage, let asset = question.preparedContent?.artwork {
+            guard PreparedAssets().valid(preparedImage, for: asset) else { throw AIClientError.invalidArtwork }
+            let filename = "prepared-\(asset.sha256).png"
+            try preparedImage.write(to: mediaURL(filename), options: .atomic)
+            record.artworkFilename = filename
+        }
         var next = state
         if existingTripID == nil { next.trips.insert(Trip(id: tripID, title: reply.title, startedAt: question.createdAt, place: place, isExample: false, language: question.language), at: 0) }
         else if let index = next.trips.firstIndex(where: { $0.id == tripID }), next.trips[index].place == nil { next.trips[index].place = place }

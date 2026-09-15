@@ -323,3 +323,51 @@
 "From your discoveries" = "너의 발견에서";
 
 "Stopping sharing…" = "공유를 중지하는 중…";
+
+"A discovery is being updated. You can still ask your own question." = "발견 내용을 업데이트하고 있어요. 궁금한 것은 계속 질문할 수 있어요.";
+
+"Your discoveries could not be saved. Please try again." = "발견을 저장하지 못했어요. 다시 시도해 주세요.";
+
+"This discovery needs an update. Your card and memories are safe." = "이 발견은 업데이트가 필요해요. 카드와 추억은 잘 저장되어 있어요.";
+
+"This saved discovery can no longer be shared. Your card and memories are safe." = "저장된 이 발견은 더 이상 공유할 수 없어요. 카드와 추억은 잘 저장되어 있어요.";
+
+"This demo invitation has expired or has already been used." = "이 데모 초대는 만료되었거나 이미 사용되었습니다.";
+
+"Demo access has ended on this iPhone." = "이 iPhone의 데모 이용 기간이 끝났어요.";
+
+"Demo content could not be downloaded. Please try again." = "데모 내용을 다운로드하지 못했어요. 다시 시도해 주세요.";
+
+"This demo content needs an update. Please try again." = "데모 내용을 업데이트해야 해요. 다시 시도해 주세요.";
+
+"Demo access is ready" = "데모를 사용할 수 있어요";
+
+"Activate demo access?" = "데모를 활성화할까요?";
+
+"Turn on Demo mode in My profile when you are ready to present." = "발표할 준비가 되면 내 프로필에서 데모 모드를 켜세요.";
+
+"This private invitation enables demo controls only on this iPhone." = "이 비공개 초대는 이 iPhone에서만 데모 기능을 활성화해요.";
+
+"Activate this iPhone" = "이 iPhone 활성화";
+
+"Demo mode" = "데모 모드";
+
+"Ready to present offline" = "오프라인 발표 준비 완료";
+
+"Prepare content before presenting" = "발표 전에 내용을 준비하세요";
+
+"Preparing your demo…" = "데모 준비 중…";
+
+"Refresh demo content" = "데모 내용 업데이트";
+
+"Demo access ends: %@" = "데모 이용 종료: %@";
+
+"Private demo" = "비공개 데모";
+
+"Prepared content stays in order until you refresh. Your daily discoveries are kept separately." = "업데이트하기 전까지 내용의 순서가 유지돼요. 매일의 발견은 따로 보관해요.";
+
+"No demo discoveries in this language yet." = "이 언어의 데모가 아직 없어요.";
+
+"All demo discoveries" = "모든 데모 발견";
+
+"Show full answer" = "전체 답변 보기";

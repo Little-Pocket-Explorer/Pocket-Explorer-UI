@@ -11,9 +11,12 @@ struct ExploreView: View {
     let tripID: UUID?
     var initialQuestion = ""
     var recordID: UUID?
+    var presentAnswerOnOpen = false
     var entry: ExplorationEntry = .compose
     var onSave: (_ discovery: Discovery, _ isNew: Bool) -> Void
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
     @AppStorage("explorer-age") private var age = 7
     @State private var question = ""
     @State private var observation = ""
@@ -29,6 +32,7 @@ struct ExploreView: View {
     @State private var prepared = false
     @State private var recordingObservation = false
     @State private var speaking = false
+    @State private var answerPresentation = AnswerPresentation()
     @State private var thinking = false
     @State private var error: String?
     @State private var questionError: AIClientError?
@@ -74,7 +78,7 @@ struct ExploreView: View {
                             }.padding(.leading, 48)
                         }
                         Button("Ask another question") {
-                            stopVoice(); self.record = nil; question = ""; observation = ""; photoDraft.clear(); selection = nil; error = nil; questionError = nil; location.remove(); focused = true
+                            answerPresentation.finish(); stopVoice(); self.record = nil; question = ""; observation = ""; photoDraft.clear(); selection = nil; error = nil; questionError = nil; location.remove(); focused = true
                         }.frame(minHeight: 44).frame(maxWidth: .infinity).accessibilityIdentifier("ask-another")
                     }
                 } else if photoDraft.image == nil {
@@ -123,11 +127,16 @@ struct ExploreView: View {
             }
         }
         .onAppear(perform: prepare)
-        .onDisappear { replyTask?.cancel(); photoDraft.cancel(); stopVoice() }
+        .task(id: answerPresentation.generation) { [generation = answerPresentation.generation] in
+            await answerPresentation.reveal(generation: generation)
+        }
+        .onDisappear { replyTask?.cancel(); photoDraft.cancel(); answerPresentation.finish(); stopVoice() }
+        .onChange(of: reduceMotion) { _, enabled in if enabled { answerPresentation.finish() } }
+        .onChange(of: voiceOver) { _, enabled in if enabled { answerPresentation.finish(); stopVoice() } }
         .onChange(of: scenePhase) { _, next in
             if next == .background {
                 if thinking { pauseQuestion() }
-                photoDraft.cancel(); stopVoice()
+                photoDraft.cancel(); answerPresentation.finish(); stopVoice()
             }
         }
         .onChange(of: selection) { _, item in
@@ -150,11 +159,20 @@ struct ExploreView: View {
         HStack(alignment: .top, spacing: 10) {
             LeafBadge()
             VStack(alignment: .leading, spacing: 16) {
-                Text(reply.answer).font(.system(.body, design: .rounded)).textSelection(.enabled).accessibilityIdentifier("live-answer")
-                Button { if speaking { stopVoice() } else { speak(reply.answer) } } label: {
-                    Label(L10n.text(speaking ? "Stop reply" : "Listen"), systemImage: speaking ? "stop.fill" : "speaker.wave.2.fill")
-                        .frame(minHeight: 44).contentShape(Rectangle())
-                }.buttonStyle(.plain).accessibilityIdentifier("listen-answer")
+                (Text(answerPresentation.visibleText) + Text(answerPresentation.hiddenText).foregroundColor(.clear))
+                    .font(.system(.body, design: .rounded)).textSelection(.enabled)
+                    .accessibilityLabel(reply.answer).accessibilityIdentifier("live-answer")
+                HStack(alignment: .top, spacing: 16) {
+                    Button { if speaking { stopVoice() } else { speak(reply.answer) } } label: {
+                        Label(L10n.text(speaking ? "Stop reply" : "Listen"), systemImage: speaking ? "stop.fill" : "speaker.wave.2.fill")
+                            .frame(minHeight: 44).contentShape(Rectangle())
+                    }.buttonStyle(.plain).accessibilityIdentifier("listen-answer")
+                    Spacer(minLength: 0)
+                    Button("Show full answer") { answerPresentation.finish() }
+                        .font(.subheadline).frame(minHeight: 44).accessibilityIdentifier("show-full-answer")
+                        .opacity(answerPresentation.isRevealing ? 1 : 0)
+                        .disabled(!answerPresentation.isRevealing).accessibilityHidden(!answerPresentation.isRevealing)
+                }
                 if let image = photoDraft.image {
                     Image(uiImage: image).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 18)).accessibilityIdentifier("exploration-photo")
                 }
@@ -227,6 +245,8 @@ struct ExploreView: View {
             if existing.reply == nil {
                 questionError = .pending
                 error = L10n.text("Your question is saved. Check the answer whenever you're ready.")
+            } else if let reply = existing.reply {
+                present(reply, animated: presentAnswerOnOpen)
             }
             return
         }
@@ -253,7 +273,7 @@ struct ExploreView: View {
                 observation = ""
             }
             guard let record else { return }
-            if let reply = record.reply { speak(reply.answer); return }
+            if let reply = record.reply { present(reply, animated: true); return }
             thinking = true
             questionStartedAt = Date()
             let token = UUID(); requestToken = token
@@ -268,7 +288,7 @@ struct ExploreView: View {
                     guard requestToken == token, let reply = receipt.reply else { throw AIClientError.invalidResponse }
                     try store.saveAnswer(reply, for: record.id)
                     self.record = store.questions.first { $0.id == record.id }
-                    speak(reply.answer)
+                    present(reply, animated: true)
                 } catch is CancellationError {}
                 catch {
                     if !Task.isCancelled, requestToken == token {
@@ -293,7 +313,8 @@ struct ExploreView: View {
         stopVoice()
         do {
             let isNew = record.cardID == nil
-            let card = try store.keepQuestion(record.id, observation: observation, tripID: tripID, place: location.place)
+            let image = record.preparedContent.flatMap { PreparedAssets().cached($0.artwork, bundled: $0.bundledArtwork) }
+            let card = try store.keepQuestion(record.id, observation: observation, tripID: tripID, place: location.place, preparedImage: image)
             self.record = store.questions.first { $0.id == record.id } ?? record
             onSave(card, isNew)
         }
@@ -312,6 +333,11 @@ struct ExploreView: View {
             speaking = true
         }
         catch { speaking = false; self.error = L10n.text("The voice isn't available right now. You can read the answer or listen again later.") }
+    }
+
+    private func present(_ reply: AIReply, animated: Bool) {
+        answerPresentation.begin(reply.answer, animated: animated && !reduceMotion && !voiceOver)
+        if animated && !voiceOver { speak(reply.answer) }
     }
 
     private func toggleRecording(forObservation: Bool = false) {

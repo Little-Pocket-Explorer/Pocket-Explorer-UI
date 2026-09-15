@@ -6,7 +6,7 @@ final class QuestionFlowTests: XCTestCase {
     override func setUp() {
         continueAfterFailure = false
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
-        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = "http://127.0.0.1:4197"
+        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = FixtureServer.base
         app.launch()
         XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
         app.buttons["language-continue"].tap()
@@ -34,7 +34,7 @@ final class QuestionFlowTests: XCTestCase {
 
     private func completePendingAnswer() {
         let complete = expectation(description: "The answer finishes while the child is away")
-        var request = URLRequest(url: URL(string: "http://127.0.0.1:4197/__fixture/answers/complete")!)
+        var request = URLRequest(url: URL(string: (FixtureServer.base + "/__fixture/answers/complete"))!)
         request.httpMethod = "POST"
         request.httpBody = Data("{\"question\":\"slow answer about the sky\"}".utf8)
         URLSession.shared.dataTask(with: request) { _, response, error in

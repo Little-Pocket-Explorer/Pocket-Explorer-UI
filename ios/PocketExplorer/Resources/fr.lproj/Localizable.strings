@@ -323,3 +323,51 @@
 "From your discoveries" = "À partir de tes découvertes";
 
 "Stopping sharing…" = "Arrêt du partage…";
+
+"A discovery is being updated. You can still ask your own question." = "Une découverte est en cours de mise à jour. Tu peux toujours poser ta propre question.";
+
+"Your discoveries could not be saved. Please try again." = "Tes découvertes n’ont pas pu être enregistrées. Réessaie.";
+
+"This discovery needs an update. Your card and memories are safe." = "Cette découverte a besoin d’une mise à jour. Ta carte et tes souvenirs sont bien conservés.";
+
+"This saved discovery can no longer be shared. Your card and memories are safe." = "Cette découverte enregistrée ne peut plus être partagée. Ta carte et tes souvenirs sont bien conservés.";
+
+"This demo invitation has expired or has already been used." = "Cette invitation a expiré ou a déjà été utilisée.";
+
+"Demo access has ended on this iPhone." = "L’accès à la démo a pris fin sur cet iPhone.";
+
+"Demo content could not be downloaded. Please try again." = "Le téléchargement de la démo a échoué. Réessayez.";
+
+"This demo content needs an update. Please try again." = "Cette démo doit être mise à jour. Réessayez.";
+
+"Demo access is ready" = "La démo est accessible";
+
+"Activate demo access?" = "Activer l’accès à la démo ?";
+
+"Turn on Demo mode in My profile when you are ready to present." = "Pour présenter la démo, activez le mode démo dans Mon profil.";
+
+"This private invitation enables demo controls only on this iPhone." = "Cette invitation privée active la démo uniquement sur cet iPhone.";
+
+"Activate this iPhone" = "Activer cet iPhone";
+
+"Demo mode" = "Mode démo";
+
+"Ready to present offline" = "Prêt pour une présentation hors ligne";
+
+"Prepare content before presenting" = "Préparez le contenu avant la présentation";
+
+"Preparing your demo…" = "Préparation de la démo…";
+
+"Refresh demo content" = "Actualiser la démo";
+
+"Demo access ends: %@" = "Fin de l’accès à la démo : %@";
+
+"Private demo" = "Démo privée";
+
+"Prepared content stays in order until you refresh. Your daily discoveries are kept separately." = "L’ordre reste inchangé jusqu’à l’actualisation. Les découvertes du jour sont conservées séparément.";
+
+"No demo discoveries in this language yet." = "Aucune démo dans cette langue pour le moment.";
+
+"All demo discoveries" = "Toutes les découvertes de la démo";
+
+"Show full answer" = "Afficher toute la réponse";

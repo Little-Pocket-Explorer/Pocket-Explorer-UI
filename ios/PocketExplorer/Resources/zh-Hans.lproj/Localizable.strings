@@ -338,3 +338,51 @@
 "From your discoveries" = "从你的发现中";
 
 "Stopping sharing…" = "正在停止分享…";
+
+"A discovery is being updated. You can still ask your own question." = "有个小发现正在更新，你仍然可以提出自己的问题。";
+
+"Your discoveries could not be saved. Please try again." = "小发现暂时没能保存，请再试一次。";
+
+"This discovery needs an update. Your card and memories are safe." = "这个发现需要更新。你的卡片和回忆都已保留。";
+
+"This saved discovery can no longer be shared. Your card and memories are safe." = "这条已保存的发现无法再分享。你的卡片和回忆都已保留。";
+
+"This demo invitation has expired or has already been used." = "此演示邀请已过期或已被使用。";
+
+"Demo access has ended on this iPhone." = "这台 iPhone 的演示权限已结束。";
+
+"Demo content could not be downloaded. Please try again." = "无法下载演示内容，请重试。";
+
+"This demo content needs an update. Please try again." = "此演示内容需要更新，请重试。";
+
+"Demo access is ready" = "演示权限已开通";
+
+"Activate demo access?" = "开通演示权限？";
+
+"Turn on Demo mode in My profile when you are ready to present." = "准备演示时，在“我的资料”中开启演示模式。";
+
+"This private invitation enables demo controls only on this iPhone." = "此私人邀请只会为这台 iPhone 开通演示入口。";
+
+"Activate this iPhone" = "激活这台 iPhone";
+
+"Demo mode" = "演示模式";
+
+"Ready to present offline" = "已准备好，可离线演示";
+
+"Prepare content before presenting" = "演示前请先准备内容";
+
+"Preparing your demo…" = "正在准备演示…";
+
+"Refresh demo content" = "更新演示内容";
+
+"Demo access ends: %@" = "演示权限到期：%@";
+
+"Private demo" = "私人演示";
+
+"Prepared content stays in order until you refresh. Your daily discoveries are kept separately." = "内容顺序会保持不变，直到你主动更新。每日探索会单独保留。";
+
+"No demo discoveries in this language yet." = "暂时没有此语言的演示内容。";
+
+"All demo discoveries" = "全部演示探索";
+
+"Show full answer" = "显示完整回答";

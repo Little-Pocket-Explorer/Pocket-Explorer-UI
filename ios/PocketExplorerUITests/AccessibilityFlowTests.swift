@@ -86,7 +86,7 @@ final class AccessibilityFlowTests: XCTestCase {
         continueAfterFailure = true
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(\(language))", "-AppleLocale", language]
         if large { app.launchArguments += ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"] }
-        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = "http://127.0.0.1:4197"
+        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = FixtureServer.base
         app.launch()
         XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
         app.buttons["language-continue"].tap()
@@ -105,8 +105,20 @@ final class AccessibilityFlowTests: XCTestCase {
     }
 
     private func scrollTo(_ element: XCUIElement) {
-        for _ in 0..<18 where !element.isHittable { app.swipeUp(velocity: .slow) }
+        let navigation = app.navigationBars.firstMatch
+        let top = navigation.exists ? navigation.frame.maxY + 12 : 40
+        let bottom = app.tabBars.firstMatch.frame.minY - 12
+        for _ in 0..<18 {
+            let frame = element.frame
+            let fits = frame.height <= bottom - top
+            if element.isHittable && (fits ? frame.minY >= top && frame.maxY <= bottom : frame.midY > top && frame.midY < bottom) { break }
+            let delta = max(-220, min(220, (top + bottom) / 2 - frame.midY))
+            let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+            start.press(forDuration: 0.05, thenDragTo: start.withOffset(CGVector(dx: 0, dy: delta)))
+        }
         XCTAssertTrue(element.isHittable)
+        XCTAssertGreaterThan(element.frame.midY, top)
+        XCTAssertLessThan(element.frame.midY, bottom)
     }
 
     private func capture(_ name: String) {

@@ -323,3 +323,51 @@
 "From your discoveries" = "Das suas descobertas";
 
 "Stopping sharing…" = "Parando de compartilhar…";
+
+"A discovery is being updated. You can still ask your own question." = "Uma descoberta está sendo atualizada. Você ainda pode fazer sua própria pergunta.";
+
+"Your discoveries could not be saved. Please try again." = "Não foi possível salvar suas descobertas. Tente novamente.";
+
+"This discovery needs an update. Your card and memories are safe." = "Esta descoberta precisa ser atualizada. Seu cartão e suas memórias estão salvos.";
+
+"This saved discovery can no longer be shared. Your card and memories are safe." = "Esta descoberta salva não pode mais ser compartilhada. Seu cartão e suas memórias estão salvos.";
+
+"This demo invitation has expired or has already been used." = "Este convite expirou ou já foi usado.";
+
+"Demo access has ended on this iPhone." = "O acesso à demonstração terminou neste iPhone.";
+
+"Demo content could not be downloaded. Please try again." = "Não foi possível baixar a demonstração. Tente novamente.";
+
+"This demo content needs an update. Please try again." = "Esta demonstração precisa ser atualizada. Tente novamente.";
+
+"Demo access is ready" = "A demonstração está disponível";
+
+"Activate demo access?" = "Ativar acesso à demonstração?";
+
+"Turn on Demo mode in My profile when you are ready to present." = "Quando estiver pronto, ative o modo de demonstração em Meu perfil.";
+
+"This private invitation enables demo controls only on this iPhone." = "Este convite privado ativa a demonstração apenas neste iPhone.";
+
+"Activate this iPhone" = "Ativar este iPhone";
+
+"Demo mode" = "Modo de demonstração";
+
+"Ready to present offline" = "Pronto para apresentar sem conexão";
+
+"Prepare content before presenting" = "Prepare o conteúdo antes de apresentar";
+
+"Preparing your demo…" = "Preparando a demonstração…";
+
+"Refresh demo content" = "Atualizar a demonstração";
+
+"Demo access ends: %@" = "Fim do acesso à demonstração: %@";
+
+"Private demo" = "Demonstração privada";
+
+"Prepared content stays in order until you refresh. Your daily discoveries are kept separately." = "A ordem permanece até você atualizar. As descobertas diárias são mantidas separadamente.";
+
+"No demo discoveries in this language yet." = "Ainda não há demonstrações neste idioma.";
+
+"All demo discoveries" = "Todas as descobertas da demonstração";
+
+"Show full answer" = "Mostrar resposta completa";

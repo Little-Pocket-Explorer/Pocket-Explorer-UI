@@ -5,7 +5,7 @@ final class PhotoFlowTests: XCTestCase {
     func testARealPhotoSelectionCanBeRemovedWithoutLosingTheQuestion() {
         continueAfterFailure = false
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
-        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = "http://127.0.0.1:4197"
+        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = FixtureServer.base
         app.launch()
         XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
         app.buttons["language-continue"].tap(); app.buttons["home-question"].tap()
@@ -39,7 +39,7 @@ final class PhotoFlowTests: XCTestCase {
         let id = UUID().uuidString.lowercased()
         let question = "Why is this saved leaf green?"
         let seeded = expectation(description: "The original answer already exists on the server")
-        var request = URLRequest(url: URL(string: "http://127.0.0.1:4197/api/explorations")!)
+        var request = URLRequest(url: URL(string: (FixtureServer.base + "/api/explorations"))!)
         request.httpMethod = "POST"
         request.httpBody = try JSONSerialization.data(withJSONObject: ["id": id, "question": question, "language": "en", "age": 7])
         URLSession.shared.dataTask(with: request) { _, response, error in
@@ -49,7 +49,7 @@ final class PhotoFlowTests: XCTestCase {
         let record: [String: Any] = ["id": id, "question": question, "language": "en", "age": 7, "createdAt": 800000000, "photoFilename": "broken.jpg"]
         let journal: [String: Any] = ["version": 1, "trips": [], "discoveries": [], "explorations": [record]]
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
-        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = "http://127.0.0.1:4197"
+        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = FixtureServer.base
         app.launchEnvironment["POCKET_TEST_JOURNAL"] = String(data: try JSONSerialization.data(withJSONObject: journal), encoding: .utf8)
         app.launchEnvironment["POCKET_TEST_MEDIA"] = "{\"broken.jpg\":\"YnJva2Vu\"}"
         app.launch()

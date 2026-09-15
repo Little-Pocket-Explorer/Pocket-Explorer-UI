@@ -1,7 +1,7 @@
-Your guide now reads answers with Azure neural voices. Simplified Chinese uses Xiaoxiao in a gentle style. English uses Emma Dragon HD. The other eight supported languages use matching female voices.
+Cached discoveries now feel like a conversation. Answers appear progressively and start narration automatically, using the prepared audio. Tap Show full answer to skip the animation, or stop and replay the voice. Opening history stays quiet.
 
-Replay saved narration from an on-device cache. If the cloud voice is unavailable, the app uses your iPhone's local voice so you can keep exploring. Stop cancels waiting audio as well as playback, and late responses cannot start talking after you move on.
+Invited demo phones can use privately prepared questions, exact answers and illustrations in a chosen order. Ordinary installations have no demo entry. Daily discoveries keep their own stable selection and offline library.
 
-The Listen and Stop control has a larger touch target. Audio caches are checked for decoding errors, expire after 30 days, and remove older files when they exceed 32 MB.
+This build also adds the supplied soft background, blended Home artwork, properly clipped card corners and contained, equal-height collection cards. All ten supported interface languages remain available, with Xiaoxiao gentle Chinese and Emma HD English narration.
 
-Please try the speaker, interruptions, offline replay and your preferred language on your iPhone. Existing discoveries, illustrations, memories and sharing remain available. Accounts and friend chat remain deferred.
+Please try a daily question online and offline, skip the text animation while listening, stop and replay, return to history, then save and share the card. Also check camera permission and language switching on your iPhone. Accounts and friend chat remain deferred.

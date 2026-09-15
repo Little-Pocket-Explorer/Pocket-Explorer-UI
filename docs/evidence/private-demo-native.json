@@ -1,0 +1,214 @@
+{
+  "status": "released-and-independently-verified",
+  "baseCommit": "c16eb4684313194db005e54ee5d8f3e95eeaf517",
+  "coverage": {
+    "base": "c16eb4684313194db005e54ee5d8f3e95eeaf517",
+    "covered": 334,
+    "executable": 344,
+    "percent": 97.09,
+    "files": [
+      {
+        "path": "ios/PocketExplorer/App/PocketExplorerApp.swift",
+        "covered": 4,
+        "executable": 4,
+        "percent": 100.0,
+        "uncovered": [],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-1.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/App/RootView.swift",
+        "covered": 2,
+        "executable": 2,
+        "percent": 100.0,
+        "uncovered": [],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-1.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/Cards/CardViews.swift",
+        "covered": 16,
+        "executable": 16,
+        "percent": 100.0,
+        "uncovered": [],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-3.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/Data/TripStore.swift",
+        "covered": 1,
+        "executable": 1,
+        "percent": 100.0,
+        "uncovered": [],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-1.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/Design/ExplorerChrome.swift",
+        "covered": 5,
+        "executable": 5,
+        "percent": 100.0,
+        "uncovered": [],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-1.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/AnswerPresentation.swift",
+        "covered": 37,
+        "executable": 37,
+        "percent": 100.0,
+        "uncovered": [],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-1.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/ChatHomeView.swift",
+        "covered": 35,
+        "executable": 41,
+        "percent": 85.37,
+        "uncovered": [
+          50,
+          51,
+          52,
+          53,
+          115,
+          116
+        ],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-3.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/DemoClient.swift",
+        "covered": 55,
+        "executable": 55,
+        "percent": 100.0,
+        "uncovered": [],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-1.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/DemoStore.swift",
+        "covered": 89,
+        "executable": 91,
+        "percent": 97.8,
+        "uncovered": [
+          88,
+          89
+        ],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-1.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/DemoViews.swift",
+        "covered": 55,
+        "executable": 56,
+        "percent": 98.21,
+        "uncovered": [
+          62
+        ],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-1.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/ExploreView.swift",
+        "covered": 30,
+        "executable": 31,
+        "percent": 96.77,
+        "uncovered": [
+          14
+        ],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-1.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/NarrationClient.swift",
+        "covered": 1,
+        "executable": 1,
+        "percent": 100.0,
+        "uncovered": [],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-1.xcresult"
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/PreparedAssets.swift",
+        "covered": 4,
+        "executable": 4,
+        "percent": 100.0,
+        "uncovered": [],
+        "result": "/Users/haichang/tmp/review/pocket-demo-native-final-1.xcresult"
+      }
+    ],
+    "rule": "Only coverage for identical application source is combined. Final CardViews and ChatHomeView use final-3 only."
+  },
+  "unitTestsPassedAcrossMatchingSourceRuns": 139,
+  "uiTestsPassedAcrossMatchingSourceRuns": 25,
+  "uiSkip": "Host microphone input is unavailable. Physical iPhone verification remains pending.",
+  "finalSupplement": "One actual HTTP integration test and five UI tests passed on final-3 with no skips or failures.",
+  "geometry": {
+    "firstCard": [
+      20,
+      339.6667,
+      174,
+      263.3333
+    ],
+    "secondCard": [
+      208,
+      339.6667,
+      174,
+      263.3333
+    ],
+    "window": [
+      0,
+      0,
+      402,
+      874
+    ],
+    "gap": 14
+  },
+  "languages": {
+    "ar.lproj": 346,
+    "de.lproj": 346,
+    "en.lproj": 346,
+    "es.lproj": 346,
+    "fr.lproj": 346,
+    "ja.lproj": 346,
+    "ko.lproj": 346,
+    "pt-BR.lproj": 346,
+    "zh-Hans.lproj": 346,
+    "zh-Hant.lproj": 346
+  },
+  "backendSource": "ac493873a30d4c12341752c1fcd123ae753e2fa4",
+  "nativeReleasedBuild": "0.1.0 (17)",
+  "nativeSourceCommit": "bd75c0cea853b97912b989bd9b22f08a394d9ad9",
+  "appleReadback": {
+    "checkedAt": "2026-09-15T10:28:05Z",
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 17,
+    "build_id": "4c1bb37e-b567-47cf-8777-4906b358fb93",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "internal_group_id": "61f0eb50-fc33-4ee4-93fd-2844342c7584",
+    "independentlyVerified": true,
+    "internalStateReadback": "IN_BETA_TESTING",
+    "externalDistributionVerified": false,
+    "preparedPresentationNotesVerified": true
+  },
+  "ipaReadback": {
+    "ipaSHA256": "84dbe448e812f7bf51e1e262297bf6b7fe568c9d07c63e79622b89cb1d9b611b",
+    "bundleIdentifier": "com.haichang.pocketexplorer",
+    "version": "0.1.0",
+    "build": "17",
+    "xcodeBuild": "27A266a",
+    "sdkBuild": "24A430",
+    "signatureVerified": true,
+    "getTaskAllow": false,
+    "sourceUnchanged": true,
+    "sourceCommit": "bd75c0cea853b97912b989bd9b22f08a394d9ad9",
+    "sourceSHA256": "7492a066a1c9440ab649da26d51ce2be18fe1eec6b67b1b18cac801fcff50354",
+    "testedApplicationSourceUnchanged": true,
+    "nonRuntimeChangesAfterTests": [],
+    "temporarySigningKeychainRemoved": true,
+    "catalogs": {
+      "de.lproj": 346,
+      "ar.lproj": 346,
+      "zh-Hans.lproj": 346,
+      "ja.lproj": 346,
+      "en.lproj": 346,
+      "es.lproj": 346,
+      "ko.lproj": 346,
+      "zh-Hant.lproj": 346,
+      "pt-BR.lproj": 346,
+      "fr.lproj": 346
+    }
+  }
+}

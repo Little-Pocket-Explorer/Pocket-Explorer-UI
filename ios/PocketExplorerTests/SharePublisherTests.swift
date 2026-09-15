@@ -144,4 +144,28 @@ final class SharePublisherTests: XCTestCase {
         try await publisher.revoke(saved, key: "trip").value
         XCTAssertNil(publisher.saved(for: "trip"))
     }
+    func testDeferredPreparationPersistsTheResolvedImageAndDoesNotPublishOnPreparationFailure() async throws {
+        let suite = UUID().uuidString
+        let preferences = UserDefaults(suiteName: suite)!
+        defer { preferences.removePersistentDomain(forName: suite) }
+        let publisher = publisher(preferences)
+        var ready = story; ready.cards[0].artworkID = UUID().uuidString.lowercased()
+        let data = try response()
+        var calls = 0
+        MockShareProtocol.reply = { _ in calls += 1; return (201, data) }
+        let failed = publisher.publish(story, key: "trip", prepare: { throw ShareError.unavailable })
+        do { _ = try await failed.task.value; XCTFail() } catch {}
+        XCTAssertEqual(calls, 0); XCTAssertNil(publisher.saved(for: "trip")); XCTAssertNil(publisher.pending(for: "trip"))
+        var preparation: CheckedContinuation<PublicStory, Error>?
+        let request = publisher.publish(story, key: "trip", prepare: { try await withCheckedThrowingContinuation { preparation = $0 } })
+        while preparation == nil { await Task.yield() }
+        let waiter = Task { try await request.task.value }; waiter.cancel()
+        let duplicate = publisher.publish(story, key: "trip", prepare: { XCTFail("Must share the pending preparation"); return ready })
+        preparation?.resume(returning: ready)
+        let result = try await request.task.value
+        let same = try await duplicate.task.value
+        XCTAssertEqual(result, same); XCTAssertEqual(result.story, ready); XCTAssertEqual(calls, 1)
+        XCTAssertEqual(self.publisher(preferences).saved(for: "trip")?.story, ready)
+    }
+
 }

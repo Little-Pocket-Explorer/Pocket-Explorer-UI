@@ -1,0 +1,2882 @@
+[
+  {
+    "language": "en",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Why is the sky blue?",
+    "reply": {
+      "title": "The secret of the blue sky",
+      "answer": "Sunlight looks white, but it contains all the colors of the rainbow. Tiny molecules in the air scatter that light, sending it in every direction. Blue light travels in shorter waves than red light, so the air scatters it more. This scattered blue light makes the sky look blue most of the time!",
+      "invitation": "Imagine the air sending blue sunlight in every direction!",
+      "category": "science",
+      "artworkPrompt": "A beautiful clear daytime blue sky stretching above gently rolling green hills, with the sky filling most of the scene. Soft natural sunlight, a simple inviting composition, and a delicate painterly texture. No text or explanatory symbols.",
+      "quiz": {
+        "question": "Why does the sky usually look blue?",
+        "choices": [
+          "Air scatters blue light more than red light.",
+          "The Sun gives off only blue light.",
+          "Air turns every color of light blue."
+        ],
+        "correctIndex": 0,
+        "explanation": "Blue light has shorter waves than red light, so air scatters it more. That scattered light makes the sky look blue."
+      }
+    },
+    "id": "dbcea343-4b5d-453c-8576-d2f09753456e",
+    "version": 1789451352291,
+    "topicID": "blue-sky",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789451792939,
+    "reviewAt": 1792043792939,
+    "expiresAt": 1797227792939,
+    "artwork": {
+      "path": "/api/knowledge-assets/78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da.png",
+      "sha256": "78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da",
+      "bytes": 1367001
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/1fbed283f0b3f73adf6026301924729427502ef36b8ed612891812b85560fd0a.wav",
+      "sha256": "1fbed283f0b3f73adf6026301924729427502ef36b8ed612891812b85560fd0a",
+      "bytes": 825644
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/blue-sky/en/",
+        "sha256": "8ccc8e0088dab0eab6378da40b79d632ad70ce2fde55d6fa38bbba6eab6c3f3b"
+      }
+    ],
+    "bundledArtwork": "prepared-blue-sky"
+  },
+  {
+    "language": "zh-Hans",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "天空为什么是蓝色的？",
+    "reply": {
+      "title": "蓝天的秘密",
+      "answer": "阳光看起来是白色的，其实包含了彩虹中的所有颜色。空气中微小的分子会把阳光向四面八方散开，这叫作散射。蓝光的波长比红光短，所以空气对蓝光的散射更多。这些散射的蓝光让天空大多数时候看起来是蓝色的！",
+      "invitation": "想象一下，空气把阳光中的蓝光散向四面八方！",
+      "category": "science",
+      "artworkPrompt": "A beautiful clear daytime blue sky stretching above gently rolling green hills, with the sky filling most of the scene. Soft natural sunlight, a simple inviting composition, and a delicate painterly texture. No text or explanatory symbols.",
+      "quiz": {
+        "question": "天空为什么通常看起来是蓝色的？",
+        "choices": [
+          "空气对蓝光的散射比对红光的更多。",
+          "太阳只发出蓝光。",
+          "空气把所有颜色的光都变成了蓝光。"
+        ],
+        "correctIndex": 0,
+        "explanation": "蓝光的波长比红光短，所以空气对它的散射更多。这些散射的蓝光让天空看起来是蓝色的。"
+      }
+    },
+    "id": "3cd66592-b6bb-4fc1-8744-dfedeb9f0a7a",
+    "version": 1789451352291,
+    "topicID": "blue-sky",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789451792939,
+    "reviewAt": 1792043792939,
+    "expiresAt": 1797227792939,
+    "artwork": {
+      "path": "/api/knowledge-assets/78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da.png",
+      "sha256": "78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da",
+      "bytes": 1367001
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/8bd7d399855fe201613f0f33127dff7dedc772ad1a2287234609285b1cf65f37.wav",
+      "sha256": "8bd7d399855fe201613f0f33127dff7dedc772ad1a2287234609285b1cf65f37",
+      "bytes": 1003756
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/blue-sky/en/",
+        "sha256": "8ccc8e0088dab0eab6378da40b79d632ad70ce2fde55d6fa38bbba6eab6c3f3b"
+      }
+    ],
+    "bundledArtwork": "prepared-blue-sky"
+  },
+  {
+    "language": "zh-Hant",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "天空為什麼是藍色的？",
+    "reply": {
+      "title": "藍天的祕密",
+      "answer": "陽光看起來是白色的，其實包含了彩虹中的所有顏色。空氣中微小的分子會把陽光向四面八方散開，這叫作散射。藍光的波長比紅光短，所以空氣對藍光的散射更多。這些散射的藍光讓天空大多數時候看起來是藍色的！",
+      "invitation": "想像一下，空氣把陽光中的藍光散向四面八方！",
+      "category": "science",
+      "artworkPrompt": "A beautiful clear daytime blue sky stretching above gently rolling green hills, with the sky filling most of the scene. Soft natural sunlight, a simple inviting composition, and a delicate painterly texture. No text or explanatory symbols.",
+      "quiz": {
+        "question": "天空為什麼通常看起來是藍色的？",
+        "choices": [
+          "空氣對藍光的散射比對紅光的更多。",
+          "太陽只發出藍光。",
+          "空氣把所有顏色的光都變成了藍光。"
+        ],
+        "correctIndex": 0,
+        "explanation": "藍光的波長比紅光短，所以空氣對它的散射更多。這些散射的藍光讓天空看起來是藍色的。"
+      }
+    },
+    "id": "98b1148e-43aa-4025-87a9-b39ac3531f84",
+    "version": 1789451352291,
+    "topicID": "blue-sky",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789451792939,
+    "reviewAt": 1792043792939,
+    "expiresAt": 1797227792939,
+    "artwork": {
+      "path": "/api/knowledge-assets/78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da.png",
+      "sha256": "78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da",
+      "bytes": 1367001
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/8c2a993bee26f7b0358220aea0bdc4409f3162066213ae3ddba76fd218dd372e.wav",
+      "sha256": "8c2a993bee26f7b0358220aea0bdc4409f3162066213ae3ddba76fd218dd372e",
+      "bytes": 1113614
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/blue-sky/en/",
+        "sha256": "8ccc8e0088dab0eab6378da40b79d632ad70ce2fde55d6fa38bbba6eab6c3f3b"
+      }
+    ],
+    "bundledArtwork": "prepared-blue-sky"
+  },
+  {
+    "language": "es",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "¿Por qué el cielo es azul?",
+    "reply": {
+      "title": "El secreto del cielo azul",
+      "answer": "La luz del Sol parece blanca, pero contiene todos los colores del arcoíris. Las diminutas moléculas del aire dispersan esa luz, enviándola en todas direcciones. La luz azul viaja en ondas más cortas que la roja, por eso el aire la dispersa más. ¡Esa luz azul dispersada hace que el cielo se vea azul la mayor parte del tiempo!",
+      "invitation": "¡Imagina al aire enviando la luz azul del Sol en todas direcciones!",
+      "category": "science",
+      "artworkPrompt": "A beautiful clear daytime blue sky stretching above gently rolling green hills, with the sky filling most of the scene. Soft natural sunlight, a simple inviting composition, and a delicate painterly texture. No text or explanatory symbols.",
+      "quiz": {
+        "question": "¿Por qué el cielo suele verse azul?",
+        "choices": [
+          "El aire dispersa más la luz azul que la roja.",
+          "El Sol solo emite luz azul.",
+          "El aire convierte en azul la luz de todos los colores."
+        ],
+        "correctIndex": 0,
+        "explanation": "Las ondas de luz azul son más cortas que las de luz roja, así que el aire las dispersa más. Esa luz dispersada hace que el cielo se vea azul."
+      }
+    },
+    "id": "ff10a3e6-b4ae-4b05-8677-50168060239b",
+    "version": 1789451352291,
+    "topicID": "blue-sky",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789451792939,
+    "reviewAt": 1792043792939,
+    "expiresAt": 1797227792939,
+    "artwork": {
+      "path": "/api/knowledge-assets/78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da.png",
+      "sha256": "78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da",
+      "bytes": 1367001
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/a27557fc18c539b8fcddd058b67aaee538e2b4f2a1b327a31f63327ea7880bf2.wav",
+      "sha256": "a27557fc18c539b8fcddd058b67aaee538e2b4f2a1b327a31f63327ea7880bf2",
+      "bytes": 1071376
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/blue-sky/en/",
+        "sha256": "8ccc8e0088dab0eab6378da40b79d632ad70ce2fde55d6fa38bbba6eab6c3f3b"
+      }
+    ],
+    "bundledArtwork": "prepared-blue-sky"
+  },
+  {
+    "language": "fr",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Pourquoi le ciel est-il bleu ?",
+    "reply": {
+      "title": "Le secret du ciel bleu",
+      "answer": "La lumière du Soleil paraît blanche, mais elle contient toutes les couleurs de l’arc-en-ciel. Les minuscules molécules de l’air diffusent cette lumière : elles l’envoient dans toutes les directions. La lumière bleue voyage sous forme d’ondes plus courtes que celles de la lumière rouge, alors l’air la diffuse davantage. Cette lumière bleue diffusée donne au ciel sa couleur bleue la plupart du temps !",
+      "invitation": "Imagine l’air qui envoie la lumière bleue du Soleil dans toutes les directions !",
+      "category": "science",
+      "artworkPrompt": "A beautiful clear daytime blue sky stretching above gently rolling green hills, with the sky filling most of the scene. Soft natural sunlight, a simple inviting composition, and a delicate painterly texture. No text or explanatory symbols.",
+      "quiz": {
+        "question": "Pourquoi le ciel paraît-il généralement bleu ?",
+        "choices": [
+          "L’air diffuse davantage la lumière bleue que la rouge.",
+          "Le Soleil émet uniquement de la lumière bleue.",
+          "L’air transforme toutes les couleurs de lumière en bleu."
+        ],
+        "correctIndex": 0,
+        "explanation": "Les ondes de la lumière bleue sont plus courtes que celles de la rouge, donc l’air la diffuse davantage. Cette lumière diffusée fait paraître le ciel bleu."
+      }
+    },
+    "id": "6aa5f727-0b42-45dc-8b0b-8279a6140504",
+    "version": 1789451352291,
+    "topicID": "blue-sky",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789451792939,
+    "reviewAt": 1792043792939,
+    "expiresAt": 1797227792939,
+    "artwork": {
+      "path": "/api/knowledge-assets/78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da.png",
+      "sha256": "78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da",
+      "bytes": 1367001
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/8d688b4724a895fa367130817b78794f43dd6f943be7d2179ef002e8e797f8c2.wav",
+      "sha256": "8d688b4724a895fa367130817b78794f43dd6f943be7d2179ef002e8e797f8c2",
+      "bytes": 1135124
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/blue-sky/en/",
+        "sha256": "8ccc8e0088dab0eab6378da40b79d632ad70ce2fde55d6fa38bbba6eab6c3f3b"
+      }
+    ],
+    "bundledArtwork": "prepared-blue-sky"
+  },
+  {
+    "language": "de",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Warum ist der Himmel blau?",
+    "reply": {
+      "title": "Das Geheimnis des blauen Himmels",
+      "answer": "Sonnenlicht sieht weiß aus, enthält aber alle Farben des Regenbogens. Winzige Moleküle in der Luft streuen dieses Licht, schicken es also in alle Richtungen. Blaues Licht hat kürzere Wellen als rotes Licht und wird deshalb von der Luft stärker gestreut. Dieses gestreute blaue Licht lässt den Himmel meistens blau aussehen!",
+      "invitation": "Stell dir vor, wie die Luft das blaue Licht der Sonne in alle Richtungen schickt!",
+      "category": "science",
+      "artworkPrompt": "A beautiful clear daytime blue sky stretching above gently rolling green hills, with the sky filling most of the scene. Soft natural sunlight, a simple inviting composition, and a delicate painterly texture. No text or explanatory symbols.",
+      "quiz": {
+        "question": "Warum sieht der Himmel meistens blau aus?",
+        "choices": [
+          "Die Luft streut blaues Licht stärker als rotes Licht.",
+          "Die Sonne gibt nur blaues Licht ab.",
+          "Die Luft verwandelt jede Lichtfarbe in Blau."
+        ],
+        "correctIndex": 0,
+        "explanation": "Blaues Licht hat kürzere Wellen als rotes Licht. Deshalb streut die Luft es stärker. Dieses gestreute Licht lässt den Himmel blau aussehen."
+      }
+    },
+    "id": "b600f44f-0c52-4f29-8a1f-601a11aee45d",
+    "version": 1789451352291,
+    "topicID": "blue-sky",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789451792939,
+    "reviewAt": 1792043792939,
+    "expiresAt": 1797227792939,
+    "artwork": {
+      "path": "/api/knowledge-assets/78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da.png",
+      "sha256": "78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da",
+      "bytes": 1367001
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/8e3559fb3b600f81fa615a415693d24f6a2ef6a06382ba1393f3c4d63b15c8b1.wav",
+      "sha256": "8e3559fb3b600f81fa615a415693d24f6a2ef6a06382ba1393f3c4d63b15c8b1",
+      "bytes": 1116140
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/blue-sky/en/",
+        "sha256": "8ccc8e0088dab0eab6378da40b79d632ad70ce2fde55d6fa38bbba6eab6c3f3b"
+      }
+    ],
+    "bundledArtwork": "prepared-blue-sky"
+  },
+  {
+    "language": "pt-BR",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Por que o céu é azul?",
+    "reply": {
+      "title": "O segredo do céu azul",
+      "answer": "A luz do Sol parece branca, mas contém todas as cores do arco-íris. As minúsculas moléculas do ar espalham essa luz em todas as direções. A luz azul viaja em ondas mais curtas que as da luz vermelha, por isso o ar a espalha mais. Essa luz azul espalhada faz o céu parecer azul na maior parte do tempo!",
+      "invitation": "Imagine o ar espalhando a luz azul do Sol em todas as direções!",
+      "category": "science",
+      "artworkPrompt": "A beautiful clear daytime blue sky stretching above gently rolling green hills, with the sky filling most of the scene. Soft natural sunlight, a simple inviting composition, and a delicate painterly texture. No text or explanatory symbols.",
+      "quiz": {
+        "question": "Por que o céu geralmente parece azul?",
+        "choices": [
+          "O ar espalha mais a luz azul do que a vermelha.",
+          "O Sol emite apenas luz azul.",
+          "O ar transforma todas as cores da luz em azul."
+        ],
+        "correctIndex": 0,
+        "explanation": "As ondas da luz azul são mais curtas que as da vermelha, então o ar a espalha mais. Essa luz espalhada faz o céu parecer azul."
+      }
+    },
+    "id": "5c8f8c71-44cf-4024-8263-25fb05d5c97a",
+    "version": 1789451352291,
+    "topicID": "blue-sky",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789451792939,
+    "reviewAt": 1792043792939,
+    "expiresAt": 1797227792939,
+    "artwork": {
+      "path": "/api/knowledge-assets/78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da.png",
+      "sha256": "78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da",
+      "bytes": 1367001
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/f8643e76fb0e30b4c9b86d68fcbfa69e92bc6d4f24cc613e9ace6764d6ca9a6b.wav",
+      "sha256": "f8643e76fb0e30b4c9b86d68fcbfa69e92bc6d4f24cc613e9ace6764d6ca9a6b",
+      "bytes": 1011366
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/blue-sky/en/",
+        "sha256": "8ccc8e0088dab0eab6378da40b79d632ad70ce2fde55d6fa38bbba6eab6c3f3b"
+      }
+    ],
+    "bundledArtwork": "prepared-blue-sky"
+  },
+  {
+    "language": "ja",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "空はどうして青いの？",
+    "reply": {
+      "title": "青い空のひみつ",
+      "answer": "太陽の光は白く見えますが、虹のすべての色が混ざっています。空気の中のとても小さな分子が、その光をあらゆる方向に散らします。青い光は赤い光より波の長さが短いので、空気によってより多く散らされます。この散らされた青い光のおかげで、空はたいてい青く見えるのです！",
+      "invitation": "空気が太陽の青い光をあらゆる方向に散らす様子を想像してみよう！",
+      "category": "science",
+      "artworkPrompt": "A beautiful clear daytime blue sky stretching above gently rolling green hills, with the sky filling most of the scene. Soft natural sunlight, a simple inviting composition, and a delicate painterly texture. No text or explanatory symbols.",
+      "quiz": {
+        "question": "空がたいてい青く見えるのはなぜ？",
+        "choices": [
+          "空気が赤い光より青い光を多く散らすから。",
+          "太陽が青い光だけを出しているから。",
+          "空気がすべての色の光を青に変えるから。"
+        ],
+        "correctIndex": 0,
+        "explanation": "青い光は赤い光より波の長さが短いため、空気によってより多く散らされます。その散らされた光で空が青く見えます。"
+      }
+    },
+    "id": "4f062d8c-2f8a-4cad-84e9-b52417691034",
+    "version": 1789451352291,
+    "topicID": "blue-sky",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789451792939,
+    "reviewAt": 1792043792939,
+    "expiresAt": 1797227792939,
+    "artwork": {
+      "path": "/api/knowledge-assets/78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da.png",
+      "sha256": "78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da",
+      "bytes": 1367001
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/ec6cf0b259b572547d3a0d80d68bb5d87ac2f6c1638bc9914ce58119b67dbaba.wav",
+      "sha256": "ec6cf0b259b572547d3a0d80d68bb5d87ac2f6c1638bc9914ce58119b67dbaba",
+      "bytes": 1255794
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/blue-sky/en/",
+        "sha256": "8ccc8e0088dab0eab6378da40b79d632ad70ce2fde55d6fa38bbba6eab6c3f3b"
+      }
+    ],
+    "bundledArtwork": "prepared-blue-sky"
+  },
+  {
+    "language": "ko",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "하늘은 왜 파란가요?",
+    "reply": {
+      "title": "파란 하늘의 비밀",
+      "answer": "햇빛은 하얗게 보이지만 무지개의 모든 색이 섞여 있어요. 공기 속 아주 작은 분자들이 이 빛을 사방으로 흩어지게 해요. 파란빛은 빨간빛보다 파장이 짧아서 공기에 의해 더 많이 흩어져요. 이렇게 흩어진 파란빛 덕분에 하늘은 대부분 파랗게 보인답니다!",
+      "invitation": "공기가 햇빛 속 파란빛을 사방으로 흩어지게 하는 모습을 상상해 보세요!",
+      "category": "science",
+      "artworkPrompt": "A beautiful clear daytime blue sky stretching above gently rolling green hills, with the sky filling most of the scene. Soft natural sunlight, a simple inviting composition, and a delicate painterly texture. No text or explanatory symbols.",
+      "quiz": {
+        "question": "하늘이 대체로 파랗게 보이는 이유는 무엇일까요?",
+        "choices": [
+          "공기가 빨간빛보다 파란빛을 더 많이 흩어지게 해서요.",
+          "태양이 파란빛만 내보내서요.",
+          "공기가 모든 색의 빛을 파란빛으로 바꿔서요."
+        ],
+        "correctIndex": 0,
+        "explanation": "파란빛은 빨간빛보다 파장이 짧아서 공기에 의해 더 많이 흩어져요. 이렇게 흩어진 빛 때문에 하늘이 파랗게 보여요."
+      }
+    },
+    "id": "aca4d525-95aa-4073-871d-8f844fcef5f1",
+    "version": 1789451352291,
+    "topicID": "blue-sky",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789451792939,
+    "reviewAt": 1792043792939,
+    "expiresAt": 1797227792939,
+    "artwork": {
+      "path": "/api/knowledge-assets/78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da.png",
+      "sha256": "78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da",
+      "bytes": 1367001
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/9125889c2088e0218d4c10ddada54a45adf5f99ecb4494a371c273910be60c95.wav",
+      "sha256": "9125889c2088e0218d4c10ddada54a45adf5f99ecb4494a371c273910be60c95",
+      "bytes": 1024002
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/blue-sky/en/",
+        "sha256": "8ccc8e0088dab0eab6378da40b79d632ad70ce2fde55d6fa38bbba6eab6c3f3b"
+      }
+    ],
+    "bundledArtwork": "prepared-blue-sky"
+  },
+  {
+    "language": "ar",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "لماذا السماء زرقاء؟",
+    "reply": {
+      "title": "سر السماء الزرقاء",
+      "answer": "يبدو ضوء الشمس أبيض، لكنه يحتوي على كل ألوان قوس قزح. تشتّت جزيئات الهواء الصغيرة جدًا هذا الضوء، أي ترسله في كل الاتجاهات. ينتقل الضوء الأزرق في موجات أقصر من موجات الضوء الأحمر، لذلك يشتّته الهواء أكثر. هذا الضوء الأزرق المتشتّت يجعل السماء تبدو زرقاء معظم الوقت!",
+      "invitation": "تخيّل كيف يرسل الهواء الضوء الأزرق الموجود في ضوء الشمس في كل الاتجاهات!",
+      "category": "science",
+      "artworkPrompt": "A beautiful clear daytime blue sky stretching above gently rolling green hills, with the sky filling most of the scene. Soft natural sunlight, a simple inviting composition, and a delicate painterly texture. No text or explanatory symbols.",
+      "quiz": {
+        "question": "لماذا تبدو السماء زرقاء في معظم الأوقات؟",
+        "choices": [
+          "لأن الهواء يشتّت الضوء الأزرق أكثر من الأحمر.",
+          "لأن الشمس تطلق ضوءًا أزرق فقط.",
+          "لأن الهواء يحوّل كل ألوان الضوء إلى الأزرق."
+        ],
+        "correctIndex": 0,
+        "explanation": "موجات الضوء الأزرق أقصر من موجات الضوء الأحمر، لذلك يشتّته الهواء أكثر. هذا الضوء المتشتّت يجعل السماء تبدو زرقاء."
+      }
+    },
+    "id": "1058cbe4-38f9-49cb-8d9e-c2dbc89664e2",
+    "version": 1789451352291,
+    "topicID": "blue-sky",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789451792939,
+    "reviewAt": 1792043792939,
+    "expiresAt": 1797227792939,
+    "artwork": {
+      "path": "/api/knowledge-assets/78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da.png",
+      "sha256": "78bc74f3982c4115f2c09bbb51f1a04564d334fd4f77c8c4f2220272bc8701da",
+      "bytes": 1367001
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/874779f15d5891704eadd538007135032fe6ebf02b689a743e9a8686923b668d.wav",
+      "sha256": "874779f15d5891704eadd538007135032fe6ebf02b689a743e9a8686923b668d",
+      "bytes": 1315202
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/blue-sky/en/",
+        "sha256": "8ccc8e0088dab0eab6378da40b79d632ad70ce2fde55d6fa38bbba6eab6c3f3b"
+      }
+    ],
+    "bundledArtwork": "prepared-blue-sky"
+  },
+  {
+    "language": "en",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Why does the Moon shine?",
+    "reply": {
+      "title": "Moonlight is sunlight",
+      "answer": "The Moon does not make its own light. It looks bright because sunlight reflects, or bounces, off its surface. That reflected sunlight is what we call moonlight!",
+      "invitation": "Try explaining in your own words where moonlight comes from!",
+      "category": "space",
+      "artworkPrompt": "A single bright, round Moon in a deep dark sky, its sunlit surface rendered in soft silver-gray tones. Simple, beautiful composition with generous empty space. No text or symbols.",
+      "quiz": {
+        "question": "What light reflects off the Moon to make it shine?",
+        "choices": [
+          "Sunlight",
+          "Light the Moon makes itself",
+          "Light from a lamp"
+        ],
+        "correctIndex": 0,
+        "explanation": "The Moon reflects sunlight rather than making its own light."
+      }
+    },
+    "id": "85f591c7-28e5-4efa-8186-46dfa94b7274",
+    "version": 1789451899055,
+    "topicID": "moonlight",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789452089670,
+    "reviewAt": 1792044089670,
+    "expiresAt": 1797228089670,
+    "artwork": {
+      "path": "/api/knowledge-assets/b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89.png",
+      "sha256": "b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89",
+      "bytes": 1299266
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/c72af4f1d58b60f6b91f216aa95ee0fd47f85b760db54744ed6717ba7fbbe051.wav",
+      "sha256": "c72af4f1d58b60f6b91f216aa95ee0fd47f85b760db54744ed6717ba7fbbe051",
+      "bytes": 480044
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/moon-phases/en/",
+        "sha256": "e6504d509491bd844443b45960b232aebc18470929753f5432d32cd2cd194437"
+      }
+    ],
+    "bundledArtwork": "prepared-moonlight"
+  },
+  {
+    "language": "zh-Hans",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "月亮为什么会发亮？",
+    "reply": {
+      "title": "月光来自阳光",
+      "answer": "月亮本身不会发光。它看起来很亮，是因为阳光照到月亮表面后被反射，也就是“弹”了回来。我们把这些反射的阳光叫作月光！",
+      "invitation": "试着用自己的话说说，月光是从哪里来的吧！",
+      "category": "space",
+      "artworkPrompt": "A single bright, round Moon in a deep dark sky, its sunlit surface rendered in soft silver-gray tones. Simple, beautiful composition with generous empty space. No text or symbols.",
+      "quiz": {
+        "question": "月亮反射了什么光，才会显得明亮？",
+        "choices": [
+          "阳光",
+          "月亮自己产生的光",
+          "一盏灯的光"
+        ],
+        "correctIndex": 0,
+        "explanation": "月亮反射的是阳光，它自己不会发光。"
+      }
+    },
+    "id": "c5b7aa26-a5b6-4507-83cd-9764a4cab66b",
+    "version": 1789451899055,
+    "topicID": "moonlight",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789452089670,
+    "reviewAt": 1792044089670,
+    "expiresAt": 1797228089670,
+    "artwork": {
+      "path": "/api/knowledge-assets/b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89.png",
+      "sha256": "b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89",
+      "bytes": 1299266
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/ab993697e9e5d47d9a68a14422bac6a71d214b9c671e6436cc506f2093b50157.wav",
+      "sha256": "ab993697e9e5d47d9a68a14422bac6a71d214b9c671e6436cc506f2093b50157",
+      "bytes": 564168
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/moon-phases/en/",
+        "sha256": "e6504d509491bd844443b45960b232aebc18470929753f5432d32cd2cd194437"
+      }
+    ],
+    "bundledArtwork": "prepared-moonlight"
+  },
+  {
+    "language": "zh-Hant",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "月亮為什麼會發亮？",
+    "reply": {
+      "title": "月光來自陽光",
+      "answer": "月亮本身不會發光。它看起來很亮，是因為陽光照到月亮表面後被反射，也就是「彈」了回來。我們把這些反射的陽光叫作月光！",
+      "invitation": "試著用自己的話說說，月光是從哪裡來的吧！",
+      "category": "space",
+      "artworkPrompt": "A single bright, round Moon in a deep dark sky, its sunlit surface rendered in soft silver-gray tones. Simple, beautiful composition with generous empty space. No text or symbols.",
+      "quiz": {
+        "question": "月亮反射了什麼光，才會顯得明亮？",
+        "choices": [
+          "陽光",
+          "月亮自己產生的光",
+          "一盞燈的光"
+        ],
+        "correctIndex": 0,
+        "explanation": "月亮反射的是陽光，它自己不會發光。"
+      }
+    },
+    "id": "a38232c5-4fa5-45f6-82bf-a6e602e7a865",
+    "version": 1789451899055,
+    "topicID": "moonlight",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789452089670,
+    "reviewAt": 1792044089670,
+    "expiresAt": 1797228089670,
+    "artwork": {
+      "path": "/api/knowledge-assets/b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89.png",
+      "sha256": "b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89",
+      "bytes": 1299266
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/69a8cf05607cff13040b459c194b4d2657c29b49fe4ed3ca8e106f7f5d5e50ea.wav",
+      "sha256": "69a8cf05607cff13040b459c194b4d2657c29b49fe4ed3ca8e106f7f5d5e50ea",
+      "bytes": 661430
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/moon-phases/en/",
+        "sha256": "e6504d509491bd844443b45960b232aebc18470929753f5432d32cd2cd194437"
+      }
+    ],
+    "bundledArtwork": "prepared-moonlight"
+  },
+  {
+    "language": "es",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "¿Por qué brilla la Luna?",
+    "reply": {
+      "title": "La luz de la Luna viene del Sol",
+      "answer": "La Luna no produce luz propia. Se ve brillante porque la luz del Sol se refleja, es decir, rebota en su superficie. ¡Esa luz solar reflejada es lo que llamamos luz de la Luna!",
+      "invitation": "¡Intenta explicar con tus propias palabras de dónde viene la luz de la Luna!",
+      "category": "space",
+      "artworkPrompt": "A single bright, round Moon in a deep dark sky, its sunlit surface rendered in soft silver-gray tones. Simple, beautiful composition with generous empty space. No text or symbols.",
+      "quiz": {
+        "question": "¿Qué luz se refleja en la Luna y hace que brille?",
+        "choices": [
+          "La luz del Sol",
+          "La luz que produce la propia Luna",
+          "La luz de una lámpara"
+        ],
+        "correctIndex": 0,
+        "explanation": "La Luna refleja la luz del Sol en lugar de producir luz propia."
+      }
+    },
+    "id": "8f3de194-d12b-4d9b-8785-b6f15a510ce4",
+    "version": 1789451899055,
+    "topicID": "moonlight",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789452089670,
+    "reviewAt": 1792044089670,
+    "expiresAt": 1797228089670,
+    "artwork": {
+      "path": "/api/knowledge-assets/b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89.png",
+      "sha256": "b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89",
+      "bytes": 1299266
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/57d3f28e1c12e9ec19c05873879ba4649e3bc5dc3bc3196398324245f6a392d6.wav",
+      "sha256": "57d3f28e1c12e9ec19c05873879ba4649e3bc5dc3bc3196398324245f6a392d6",
+      "bytes": 617146
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/moon-phases/en/",
+        "sha256": "e6504d509491bd844443b45960b232aebc18470929753f5432d32cd2cd194437"
+      }
+    ],
+    "bundledArtwork": "prepared-moonlight"
+  },
+  {
+    "language": "fr",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Pourquoi la Lune brille-t-elle ?",
+    "reply": {
+      "title": "La lumière de la Lune vient du Soleil",
+      "answer": "La Lune ne produit pas sa propre lumière. Elle paraît brillante parce que la lumière du Soleil se réfléchit, c’est-à-dire rebondit, sur sa surface. C’est cette lumière solaire réfléchie que nous appelons la lumière de la Lune !",
+      "invitation": "Essaie d’expliquer avec tes propres mots d’où vient la lumière de la Lune !",
+      "category": "space",
+      "artworkPrompt": "A single bright, round Moon in a deep dark sky, its sunlit surface rendered in soft silver-gray tones. Simple, beautiful composition with generous empty space. No text or symbols.",
+      "quiz": {
+        "question": "Quelle lumière se réfléchit sur la Lune et la fait briller ?",
+        "choices": [
+          "La lumière du Soleil",
+          "La lumière produite par la Lune elle-même",
+          "La lumière d’une lampe"
+        ],
+        "correctIndex": 0,
+        "explanation": "La Lune réfléchit la lumière du Soleil au lieu de produire sa propre lumière."
+      }
+    },
+    "id": "ef0240c2-b01c-4af7-8b7a-b63766523261",
+    "version": 1789451899055,
+    "topicID": "moonlight",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789452089670,
+    "reviewAt": 1792044089670,
+    "expiresAt": 1797228089670,
+    "artwork": {
+      "path": "/api/knowledge-assets/b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89.png",
+      "sha256": "b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89",
+      "bytes": 1299266
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/ca6e2a2dafe1873008e818d0eb4a9d1f15e604af05b5f11390d5068dd2da5210.wav",
+      "sha256": "ca6e2a2dafe1873008e818d0eb4a9d1f15e604af05b5f11390d5068dd2da5210",
+      "bytes": 698692
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/moon-phases/en/",
+        "sha256": "e6504d509491bd844443b45960b232aebc18470929753f5432d32cd2cd194437"
+      }
+    ],
+    "bundledArtwork": "prepared-moonlight"
+  },
+  {
+    "language": "de",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Warum leuchtet der Mond?",
+    "reply": {
+      "title": "Mondlicht ist Sonnenlicht",
+      "answer": "Der Mond erzeugt kein eigenes Licht. Er erscheint hell, weil Sonnenlicht von seiner Oberfläche zurückgeworfen wird – das nennt man Reflexion. Dieses zurückgeworfene Sonnenlicht nennen wir Mondlicht!",
+      "invitation": "Versuche, mit deinen eigenen Worten zu erklären, woher das Mondlicht kommt!",
+      "category": "space",
+      "artworkPrompt": "A single bright, round Moon in a deep dark sky, its sunlit surface rendered in soft silver-gray tones. Simple, beautiful composition with generous empty space. No text or symbols.",
+      "quiz": {
+        "question": "Welches Licht wird vom Mond zurückgeworfen und lässt ihn leuchten?",
+        "choices": [
+          "Sonnenlicht",
+          "Licht, das der Mond selbst erzeugt",
+          "Licht von einer Lampe"
+        ],
+        "correctIndex": 0,
+        "explanation": "Der Mond wirft Sonnenlicht zurück, statt eigenes Licht zu erzeugen."
+      }
+    },
+    "id": "83e58d3b-832f-4cc5-84c0-84f54a72d9da",
+    "version": 1789451899055,
+    "topicID": "moonlight",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789452089670,
+    "reviewAt": 1792044089670,
+    "expiresAt": 1797228089670,
+    "artwork": {
+      "path": "/api/knowledge-assets/b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89.png",
+      "sha256": "b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89",
+      "bytes": 1299266
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/0f29df464e0587bec3e75f19ee1f06bcc4a7e67b073a341cc2b342556fa810a1.wav",
+      "sha256": "0f29df464e0587bec3e75f19ee1f06bcc4a7e67b073a341cc2b342556fa810a1",
+      "bytes": 707498
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/moon-phases/en/",
+        "sha256": "e6504d509491bd844443b45960b232aebc18470929753f5432d32cd2cd194437"
+      }
+    ],
+    "bundledArtwork": "prepared-moonlight"
+  },
+  {
+    "language": "pt-BR",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Por que a Lua brilha?",
+    "reply": {
+      "title": "A luz da Lua vem do Sol",
+      "answer": "A Lua não produz luz própria. Ela parece brilhante porque a luz do Sol bate em sua superfície e é refletida, ou seja, é enviada de volta. Essa luz solar refletida é o que chamamos de luar!",
+      "invitation": "Tente explicar com suas próprias palavras de onde vem o luar!",
+      "category": "space",
+      "artworkPrompt": "A single bright, round Moon in a deep dark sky, its sunlit surface rendered in soft silver-gray tones. Simple, beautiful composition with generous empty space. No text or symbols.",
+      "quiz": {
+        "question": "Que luz é refletida pela Lua e faz com que ela brilhe?",
+        "choices": [
+          "A luz do Sol",
+          "A luz que a própria Lua produz",
+          "A luz de uma lâmpada"
+        ],
+        "correctIndex": 0,
+        "explanation": "A Lua reflete a luz do Sol em vez de produzir luz própria."
+      }
+    },
+    "id": "c0b1daf8-18e3-4b60-8f96-a699dee62bea",
+    "version": 1789451899055,
+    "topicID": "moonlight",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789452089670,
+    "reviewAt": 1792044089670,
+    "expiresAt": 1797228089670,
+    "artwork": {
+      "path": "/api/knowledge-assets/b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89.png",
+      "sha256": "b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89",
+      "bytes": 1299266
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/b244078411ed9bf08a28e773249d0fd5b8554365e4b541346981a9992d40b37f.wav",
+      "sha256": "b244078411ed9bf08a28e773249d0fd5b8554365e4b541346981a9992d40b37f",
+      "bytes": 661392
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/moon-phases/en/",
+        "sha256": "e6504d509491bd844443b45960b232aebc18470929753f5432d32cd2cd194437"
+      }
+    ],
+    "bundledArtwork": "prepared-moonlight"
+  },
+  {
+    "language": "ja",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "月はどうして光るの？",
+    "reply": {
+      "title": "月の光は太陽から",
+      "answer": "月は自分で光を出しているわけではありません。太陽の光が月の表面で反射する、つまりはね返るので、明るく見えます。このはね返った太陽の光を、わたしたちは「月の光」と呼んでいるのです！",
+      "invitation": "月の光がどこから来るのか、自分の言葉で説明してみよう！",
+      "category": "space",
+      "artworkPrompt": "A single bright, round Moon in a deep dark sky, its sunlit surface rendered in soft silver-gray tones. Simple, beautiful composition with generous empty space. No text or symbols.",
+      "quiz": {
+        "question": "月を明るく見せているのは、何の光がはね返ったもの？",
+        "choices": [
+          "太陽の光",
+          "月が自分で出す光",
+          "ランプの光"
+        ],
+        "correctIndex": 0,
+        "explanation": "月は自分で光を出すのではなく、太陽の光をはね返しています。"
+      }
+    },
+    "id": "0034fce3-9486-4235-8a1d-ca6ec4646280",
+    "version": 1789451899055,
+    "topicID": "moonlight",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789452089670,
+    "reviewAt": 1792044089670,
+    "expiresAt": 1797228089670,
+    "artwork": {
+      "path": "/api/knowledge-assets/b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89.png",
+      "sha256": "b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89",
+      "bytes": 1299266
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/d14af68b1a97d81f77347fd876735a782fef2b357ec79dce5074b5621118b7c8.wav",
+      "sha256": "d14af68b1a97d81f77347fd876735a782fef2b357ec79dce5074b5621118b7c8",
+      "bytes": 888804
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/moon-phases/en/",
+        "sha256": "e6504d509491bd844443b45960b232aebc18470929753f5432d32cd2cd194437"
+      }
+    ],
+    "bundledArtwork": "prepared-moonlight"
+  },
+  {
+    "language": "ko",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "달은 왜 빛나나요?",
+    "reply": {
+      "title": "달빛은 햇빛에서 와요",
+      "answer": "달은 스스로 빛을 만들지 않아요. 햇빛이 달의 표면에서 반사되기, 즉 튕겨 나오기 때문에 달이 밝게 보여요. 이렇게 반사된 햇빛을 우리가 달빛이라고 부르는 거예요!",
+      "invitation": "달빛이 어디에서 오는지 여러분의 말로 설명해 보세요!",
+      "category": "space",
+      "artworkPrompt": "A single bright, round Moon in a deep dark sky, its sunlit surface rendered in soft silver-gray tones. Simple, beautiful composition with generous empty space. No text or symbols.",
+      "quiz": {
+        "question": "달을 빛나 보이게 하는 것은 어떤 빛이 반사된 것인가요?",
+        "choices": [
+          "햇빛",
+          "달이 스스로 만든 빛",
+          "램프의 빛"
+        ],
+        "correctIndex": 0,
+        "explanation": "달은 스스로 빛을 만드는 대신 햇빛을 반사해요."
+      }
+    },
+    "id": "6b8dd1ca-a50e-46c3-8dbd-3d455f6e3805",
+    "version": 1789451899055,
+    "topicID": "moonlight",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789452089670,
+    "reviewAt": 1792044089670,
+    "expiresAt": 1797228089670,
+    "artwork": {
+      "path": "/api/knowledge-assets/b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89.png",
+      "sha256": "b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89",
+      "bytes": 1299266
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/6007b77cc6712b9f46cdc627a53f6c28bed4e043d009a4482b77a1fcc5f5bd55.wav",
+      "sha256": "6007b77cc6712b9f46cdc627a53f6c28bed4e043d009a4482b77a1fcc5f5bd55",
+      "bytes": 682272
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/moon-phases/en/",
+        "sha256": "e6504d509491bd844443b45960b232aebc18470929753f5432d32cd2cd194437"
+      }
+    ],
+    "bundledArtwork": "prepared-moonlight"
+  },
+  {
+    "language": "ar",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "لماذا يضيء القمر؟",
+    "reply": {
+      "title": "ضوء القمر يأتي من الشمس",
+      "answer": "القمر لا يصنع ضوءه بنفسه. يبدو مضيئًا لأن ضوء الشمس ينعكس عن سطحه، أي يرتد عنه. وهذا الضوء المنعكس هو ما نسميه ضوء القمر!",
+      "invitation": "حاول أن تشرح بكلماتك من أين يأتي ضوء القمر!",
+      "category": "space",
+      "artworkPrompt": "A single bright, round Moon in a deep dark sky, its sunlit surface rendered in soft silver-gray tones. Simple, beautiful composition with generous empty space. No text or symbols.",
+      "quiz": {
+        "question": "ما الضوء الذي ينعكس عن القمر فيجعله يبدو مضيئًا؟",
+        "choices": [
+          "ضوء الشمس",
+          "ضوء يصنعه القمر بنفسه",
+          "ضوء مصباح"
+        ],
+        "correctIndex": 0,
+        "explanation": "يعكس القمر ضوء الشمس بدلًا من أن يصنع ضوءه بنفسه."
+      }
+    },
+    "id": "b925a8ad-0691-42bd-8512-2ec9433eedf6",
+    "version": 1789451899055,
+    "topicID": "moonlight",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789452089670,
+    "reviewAt": 1792044089670,
+    "expiresAt": 1797228089670,
+    "artwork": {
+      "path": "/api/knowledge-assets/b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89.png",
+      "sha256": "b5cb50ee4645bac96a1d3501aea4a067b66e7e90b345df6d00305e765ef5bf89",
+      "bytes": 1299266
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/4c56737279de879ae531bc1686efcd20b1fc267b7dbeb0dd61253afe6e127bb5.wav",
+      "sha256": "4c56737279de879ae531bc1686efcd20b1fc267b7dbeb0dd61253afe6e127bb5",
+      "bytes": 674062
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://spaceplace.nasa.gov/moon-phases/en/",
+        "sha256": "e6504d509491bd844443b45960b232aebc18470929753f5432d32cd2cd194437"
+      }
+    ],
+    "bundledArtwork": "prepared-moonlight"
+  },
+  {
+    "language": "en",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "What is a petroglyph?",
+    "reply": {
+      "title": "A picture carved into rock",
+      "answer": "A petroglyph is a picture carved into rock. People made these pictures by chipping the rock’s surface with a stone chisel and a stone used as a hammer. Removing the surface coating could reveal lighter rock underneath, making the picture stand out.",
+      "invitation": "Imagine looking at a picture carved into rock. What details would catch your eye?",
+      "category": "history",
+      "artworkPrompt": "A beautiful close view of a weathered rock bearing two macaw petroglyphs at Petroglyph National Monument. The birds are carved into the surface, with lighter exposed rock contrasting against the darker natural coating. Soft natural light, simple inviting composition, no text or explanatory elements.",
+      "quiz": {
+        "question": "What is a petroglyph?",
+        "choices": [
+          "A picture painted on paper",
+          "A picture carved into rock",
+          "A picture stitched onto cloth"
+        ],
+        "correctIndex": 1,
+        "explanation": "A petroglyph is an image made by carving into a rock’s surface."
+      }
+    },
+    "id": "b8e267c2-3264-47e0-87ab-e42c98550c3d",
+    "version": 1789452532299,
+    "topicID": "petroglyphs",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453842665,
+    "reviewAt": 1792045842665,
+    "expiresAt": 1797229842665,
+    "artwork": {
+      "path": "/api/knowledge-assets/8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27.png",
+      "sha256": "8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27",
+      "bytes": 2178698
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/e8d22769ee46eba87da3f24bb838be2307d1afbf532ffa7fb22eb03af706c79d.wav",
+      "sha256": "e8d22769ee46eba87da3f24bb838be2307d1afbf532ffa7fb22eb03af706c79d",
+      "bytes": 716844
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/petr/learn/historyculture/what.htm",
+        "sha256": "5e7672fc18b148eb012882485faa4d9eb59334fac979266ecf9646c0a636b95a"
+      }
+    ],
+    "bundledArtwork": "prepared-petroglyphs"
+  },
+  {
+    "language": "zh-Hans",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "什么是岩刻？",
+    "reply": {
+      "title": "刻在岩石上的图画",
+      "answer": "岩刻就是刻在岩石上的图画。人们用石凿和当作锤子的石头，一点点凿去岩石表面，刻出图画。凿掉表面的覆盖层后，下面颜色较浅的岩石就可能露出来，让图画更显眼。",
+      "invitation": "想象你正看着一幅刻在岩石上的图画。哪些细节会吸引你的目光？",
+      "category": "history",
+      "artworkPrompt": "A beautiful close view of a weathered rock bearing two macaw petroglyphs at Petroglyph National Monument. The birds are carved into the surface, with lighter exposed rock contrasting against the darker natural coating. Soft natural light, simple inviting composition, no text or explanatory elements.",
+      "quiz": {
+        "question": "什么是岩刻？",
+        "choices": [
+          "画在纸上的图画",
+          "刻在岩石上的图画",
+          "绣在布上的图画"
+        ],
+        "correctIndex": 1,
+        "explanation": "岩刻是在岩石表面雕刻出来的图像。"
+      }
+    },
+    "id": "de307315-14d1-4ade-838b-09e122016f34",
+    "version": 1789452532299,
+    "topicID": "petroglyphs",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453842665,
+    "reviewAt": 1792045842665,
+    "expiresAt": 1797229842665,
+    "artwork": {
+      "path": "/api/knowledge-assets/8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27.png",
+      "sha256": "8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27",
+      "bytes": 2178698
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/ba8562106572b29e33322c70aecee9c10234f5d8da843f5d7839cfeb18ef2463.wav",
+      "sha256": "ba8562106572b29e33322c70aecee9c10234f5d8da843f5d7839cfeb18ef2463",
+      "bytes": 796078
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/petr/learn/historyculture/what.htm",
+        "sha256": "5e7672fc18b148eb012882485faa4d9eb59334fac979266ecf9646c0a636b95a"
+      }
+    ],
+    "bundledArtwork": "prepared-petroglyphs"
+  },
+  {
+    "language": "zh-Hant",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "什麼是岩刻？",
+    "reply": {
+      "title": "刻在岩石上的圖畫",
+      "answer": "岩刻就是刻在岩石上的圖畫。人們用石鑿和當作錘子的石頭，一點點鑿去岩石表面，刻出圖畫。鑿掉表面的覆蓋層後，下面顏色較淺的岩石就可能露出來，讓圖畫更顯眼。",
+      "invitation": "想像你正看著一幅刻在岩石上的圖畫。哪些細節會吸引你的目光？",
+      "category": "history",
+      "artworkPrompt": "A beautiful close view of a weathered rock bearing two macaw petroglyphs at Petroglyph National Monument. The birds are carved into the surface, with lighter exposed rock contrasting against the darker natural coating. Soft natural light, simple inviting composition, no text or explanatory elements.",
+      "quiz": {
+        "question": "什麼是岩刻？",
+        "choices": [
+          "畫在紙上的圖畫",
+          "刻在岩石上的圖畫",
+          "繡在布上的圖畫"
+        ],
+        "correctIndex": 1,
+        "explanation": "岩刻是在岩石表面雕刻出來的圖像。"
+      }
+    },
+    "id": "97c47b96-eba0-4ee4-8278-3059145f5e57",
+    "version": 1789452532299,
+    "topicID": "petroglyphs",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453842665,
+    "reviewAt": 1792045842665,
+    "expiresAt": 1797229842665,
+    "artwork": {
+      "path": "/api/knowledge-assets/8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27.png",
+      "sha256": "8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27",
+      "bytes": 2178698
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/346e9757eb7699c9903816b1ea52d13316dcf4497aa80634f6cf058636c5d7cd.wav",
+      "sha256": "346e9757eb7699c9903816b1ea52d13316dcf4497aa80634f6cf058636c5d7cd",
+      "bytes": 892002
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/petr/learn/historyculture/what.htm",
+        "sha256": "5e7672fc18b148eb012882485faa4d9eb59334fac979266ecf9646c0a636b95a"
+      }
+    ],
+    "bundledArtwork": "prepared-petroglyphs"
+  },
+  {
+    "language": "es",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "¿Qué es un petroglifo?",
+    "reply": {
+      "title": "Una imagen tallada en la roca",
+      "answer": "Un petroglifo es una imagen tallada en una roca. Las personas hacían estas imágenes picando la superficie con un cincel de piedra y otra piedra usada como martillo. Al quitar la capa superficial, podía quedar al descubierto la roca más clara de debajo, haciendo que la imagen resaltara.",
+      "invitation": "Imagina que observas una imagen tallada en una roca. ¿Qué detalles te llamarían la atención?",
+      "category": "history",
+      "artworkPrompt": "A beautiful close view of a weathered rock bearing two macaw petroglyphs at Petroglyph National Monument. The birds are carved into the surface, with lighter exposed rock contrasting against the darker natural coating. Soft natural light, simple inviting composition, no text or explanatory elements.",
+      "quiz": {
+        "question": "¿Qué es un petroglifo?",
+        "choices": [
+          "Una imagen pintada en papel",
+          "Una imagen tallada en una roca",
+          "Una imagen bordada en tela"
+        ],
+        "correctIndex": 1,
+        "explanation": "Un petroglifo es una imagen creada al tallar la superficie de una roca."
+      }
+    },
+    "id": "74486dd7-3f38-49c7-8359-2a929bab4ad4",
+    "version": 1789452532299,
+    "topicID": "petroglyphs",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453842665,
+    "reviewAt": 1792045842665,
+    "expiresAt": 1797229842665,
+    "artwork": {
+      "path": "/api/knowledge-assets/8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27.png",
+      "sha256": "8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27",
+      "bytes": 2178698
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/f062aff20995374ca3e30046fb6d6f464324ee903ebb5294852ce9abaacc1383.wav",
+      "sha256": "f062aff20995374ca3e30046fb6d6f464324ee903ebb5294852ce9abaacc1383",
+      "bytes": 902698
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/petr/learn/historyculture/what.htm",
+        "sha256": "5e7672fc18b148eb012882485faa4d9eb59334fac979266ecf9646c0a636b95a"
+      }
+    ],
+    "bundledArtwork": "prepared-petroglyphs"
+  },
+  {
+    "language": "fr",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Qu’est-ce qu’un pétroglyphe ?",
+    "reply": {
+      "title": "Une image gravée dans la roche",
+      "answer": "Un pétroglyphe est une image gravée dans la roche. Pour créer ces images, les gens frappaient la surface avec un burin en pierre et une autre pierre servant de marteau. En retirant la couche superficielle, ils pouvaient révéler la roche plus claire en dessous, ce qui faisait ressortir l’image.",
+      "invitation": "Imagine que tu observes une image gravée dans la roche. Quels détails attireraient ton regard ?",
+      "category": "history",
+      "artworkPrompt": "A beautiful close view of a weathered rock bearing two macaw petroglyphs at Petroglyph National Monument. The birds are carved into the surface, with lighter exposed rock contrasting against the darker natural coating. Soft natural light, simple inviting composition, no text or explanatory elements.",
+      "quiz": {
+        "question": "Qu’est-ce qu’un pétroglyphe ?",
+        "choices": [
+          "Une image peinte sur du papier",
+          "Une image gravée dans la roche",
+          "Une image brodée sur du tissu"
+        ],
+        "correctIndex": 1,
+        "explanation": "Un pétroglyphe est une image créée en gravant la surface d’une roche."
+      }
+    },
+    "id": "8ff92b9b-5a9e-489a-846b-3b9740c81873",
+    "version": 1789452532299,
+    "topicID": "petroglyphs",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453842665,
+    "reviewAt": 1792045842665,
+    "expiresAt": 1797229842665,
+    "artwork": {
+      "path": "/api/knowledge-assets/8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27.png",
+      "sha256": "8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27",
+      "bytes": 2178698
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/3fea458644853f7551c3556194971f953e2351ed9d7fc7405464192b902b82a4.wav",
+      "sha256": "3fea458644853f7551c3556194971f953e2351ed9d7fc7405464192b902b82a4",
+      "bytes": 854028
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/petr/learn/historyculture/what.htm",
+        "sha256": "5e7672fc18b148eb012882485faa4d9eb59334fac979266ecf9646c0a636b95a"
+      }
+    ],
+    "bundledArtwork": "prepared-petroglyphs"
+  },
+  {
+    "language": "de",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Was ist eine Petroglyphe?",
+    "reply": {
+      "title": "Ein Bild im Fels",
+      "answer": "Eine Petroglyphe ist ein Bild, das in Fels gemeißelt wurde. Menschen schufen solche Bilder, indem sie mit einem Steinmeißel und einem Stein als Hammer kleine Stücke der Oberfläche abschlugen. Dabei konnte unter der obersten Schicht helleres Gestein sichtbar werden, sodass sich das Bild deutlich abhob.",
+      "invitation": "Stell dir vor, du betrachtest ein in Fels gemeißeltes Bild. Welche Einzelheiten würden dir auffallen?",
+      "category": "history",
+      "artworkPrompt": "A beautiful close view of a weathered rock bearing two macaw petroglyphs at Petroglyph National Monument. The birds are carved into the surface, with lighter exposed rock contrasting against the darker natural coating. Soft natural light, simple inviting composition, no text or explanatory elements.",
+      "quiz": {
+        "question": "Was ist eine Petroglyphe?",
+        "choices": [
+          "Ein auf Papier gemaltes Bild",
+          "Ein in Fels gemeißeltes Bild",
+          "Ein auf Stoff gesticktes Bild"
+        ],
+        "correctIndex": 1,
+        "explanation": "Eine Petroglyphe ist ein Bild, das durch das Bearbeiten der Felsoberfläche mit einem Meißel entsteht."
+      }
+    },
+    "id": "63afb0c6-8750-4532-84dc-bbc18c50d93b",
+    "version": 1789452532299,
+    "topicID": "petroglyphs",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453842665,
+    "reviewAt": 1792045842665,
+    "expiresAt": 1797229842665,
+    "artwork": {
+      "path": "/api/knowledge-assets/8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27.png",
+      "sha256": "8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27",
+      "bytes": 2178698
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/6fd104a7c5ea20c673915f293125e07bbdea748faa21839f41b5f19ee5d5485c.wav",
+      "sha256": "6fd104a7c5ea20c673915f293125e07bbdea748faa21839f41b5f19ee5d5485c",
+      "bytes": 1008172
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/petr/learn/historyculture/what.htm",
+        "sha256": "5e7672fc18b148eb012882485faa4d9eb59334fac979266ecf9646c0a636b95a"
+      }
+    ],
+    "bundledArtwork": "prepared-petroglyphs"
+  },
+  {
+    "language": "pt-BR",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "O que é um petróglifo?",
+    "reply": {
+      "title": "Uma imagem esculpida na rocha",
+      "answer": "Um petróglifo é uma imagem esculpida em uma rocha. As pessoas faziam essas imagens lascando a superfície com um cinzel de pedra e outra pedra usada como martelo. Ao retirar a camada superficial, a rocha mais clara por baixo podia aparecer, fazendo a imagem se destacar.",
+      "invitation": "Imagine que você está observando uma imagem esculpida em uma rocha. Quais detalhes chamariam sua atenção?",
+      "category": "history",
+      "artworkPrompt": "A beautiful close view of a weathered rock bearing two macaw petroglyphs at Petroglyph National Monument. The birds are carved into the surface, with lighter exposed rock contrasting against the darker natural coating. Soft natural light, simple inviting composition, no text or explanatory elements.",
+      "quiz": {
+        "question": "O que é um petróglifo?",
+        "choices": [
+          "Uma imagem pintada em papel",
+          "Uma imagem esculpida em uma rocha",
+          "Uma imagem bordada em tecido"
+        ],
+        "correctIndex": 1,
+        "explanation": "Um petróglifo é uma imagem criada ao esculpir a superfície de uma rocha."
+      }
+    },
+    "id": "d831a2a1-42f2-49f5-8100-78fa999f81e0",
+    "version": 1789452532299,
+    "topicID": "petroglyphs",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453842665,
+    "reviewAt": 1792045842665,
+    "expiresAt": 1797229842665,
+    "artwork": {
+      "path": "/api/knowledge-assets/8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27.png",
+      "sha256": "8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27",
+      "bytes": 2178698
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/ded890abb8dfd3257e6320f96a66120ba3528b86bc8b4e78e10877c5ff5efb10.wav",
+      "sha256": "ded890abb8dfd3257e6320f96a66120ba3528b86bc8b4e78e10877c5ff5efb10",
+      "bytes": 893302
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/petr/learn/historyculture/what.htm",
+        "sha256": "5e7672fc18b148eb012882485faa4d9eb59334fac979266ecf9646c0a636b95a"
+      }
+    ],
+    "bundledArtwork": "prepared-petroglyphs"
+  },
+  {
+    "language": "ja",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "ペトログリフって何？",
+    "reply": {
+      "title": "岩に彫られた絵",
+      "answer": "ペトログリフは、岩に彫られた絵のことです。人々は石でできたのみと、金づちの代わりになる石を使って、岩の表面を少しずつ削って絵を作りました。表面をおおう層を削ると、その下の色の薄い岩が現れて、絵がくっきりと見えることがあります。",
+      "invitation": "岩に彫られた絵を見ているところを想像してみよう。どんなところに目がとまるかな？",
+      "category": "history",
+      "artworkPrompt": "A beautiful close view of a weathered rock bearing two macaw petroglyphs at Petroglyph National Monument. The birds are carved into the surface, with lighter exposed rock contrasting against the darker natural coating. Soft natural light, simple inviting composition, no text or explanatory elements.",
+      "quiz": {
+        "question": "ペトログリフとは何でしょう？",
+        "choices": [
+          "紙に描かれた絵",
+          "岩に彫られた絵",
+          "布に刺しゅうされた絵"
+        ],
+        "correctIndex": 1,
+        "explanation": "ペトログリフは、岩の表面を彫って作った絵です。"
+      }
+    },
+    "id": "72f665c1-475a-4973-8a82-09f80090d4e9",
+    "version": 1789452532299,
+    "topicID": "petroglyphs",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453842665,
+    "reviewAt": 1792045842665,
+    "expiresAt": 1797229842665,
+    "artwork": {
+      "path": "/api/knowledge-assets/8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27.png",
+      "sha256": "8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27",
+      "bytes": 2178698
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/40f8e5eb8849d19d99f50d6f63a702ed54540b40bb2159e1e3fee640d3ff1e0f.wav",
+      "sha256": "40f8e5eb8849d19d99f50d6f63a702ed54540b40bb2159e1e3fee640d3ff1e0f",
+      "bytes": 1066506
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/petr/learn/historyculture/what.htm",
+        "sha256": "5e7672fc18b148eb012882485faa4d9eb59334fac979266ecf9646c0a636b95a"
+      }
+    ],
+    "bundledArtwork": "prepared-petroglyphs"
+  },
+  {
+    "language": "ko",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "암각화란 무엇인가요?",
+    "reply": {
+      "title": "바위에 새긴 그림",
+      "answer": "암각화는 바위에 새긴 그림이에요. 사람들은 돌로 만든 끌과 망치처럼 쓰는 돌로 바위 표면을 조금씩 쪼아 그림을 만들었어요. 표면을 덮은 층을 벗겨 내면 그 아래의 더 밝은 바위가 드러나 그림이 뚜렷하게 보일 수 있어요.",
+      "invitation": "바위에 새긴 그림을 보고 있다고 상상해 보세요. 어떤 부분이 눈에 들어올까요?",
+      "category": "history",
+      "artworkPrompt": "A beautiful close view of a weathered rock bearing two macaw petroglyphs at Petroglyph National Monument. The birds are carved into the surface, with lighter exposed rock contrasting against the darker natural coating. Soft natural light, simple inviting composition, no text or explanatory elements.",
+      "quiz": {
+        "question": "암각화는 어떤 그림인가요?",
+        "choices": [
+          "종이에 물감으로 그린 그림",
+          "바위에 새긴 그림",
+          "천에 수를 놓은 그림"
+        ],
+        "correctIndex": 1,
+        "explanation": "암각화는 바위 표면을 새겨서 만든 그림이에요."
+      }
+    },
+    "id": "5214d649-4f80-4452-8e2f-fb7cdda079f1",
+    "version": 1789452532299,
+    "topicID": "petroglyphs",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453842665,
+    "reviewAt": 1792045842665,
+    "expiresAt": 1797229842665,
+    "artwork": {
+      "path": "/api/knowledge-assets/8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27.png",
+      "sha256": "8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27",
+      "bytes": 2178698
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/42a36691563b573a6559f53da85572380ea9026694d65f5fa9d89ba775275c4f.wav",
+      "sha256": "42a36691563b573a6559f53da85572380ea9026694d65f5fa9d89ba775275c4f",
+      "bytes": 888844
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/petr/learn/historyculture/what.htm",
+        "sha256": "5e7672fc18b148eb012882485faa4d9eb59334fac979266ecf9646c0a636b95a"
+      }
+    ],
+    "bundledArtwork": "prepared-petroglyphs"
+  },
+  {
+    "language": "ar",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "ما هو النقش الصخري؟",
+    "reply": {
+      "title": "صورة محفورة في الصخر",
+      "answer": "النقش الصخري هو صورة محفورة في الصخر. كان الناس يصنعون هذه الصور بنقر سطح الصخر بإزميل حجري وحجر آخر يُستخدم كمطرقة. وقد تكشف إزالة الطبقة التي تغطي السطح عن صخر أفتح لونًا تحتها، فتظهر الصورة بوضوح.",
+      "invitation": "تخيّل أنك تنظر إلى صورة محفورة في الصخر. ما التفاصيل التي قد تلفت انتباهك؟",
+      "category": "history",
+      "artworkPrompt": "A beautiful close view of a weathered rock bearing two macaw petroglyphs at Petroglyph National Monument. The birds are carved into the surface, with lighter exposed rock contrasting against the darker natural coating. Soft natural light, simple inviting composition, no text or explanatory elements.",
+      "quiz": {
+        "question": "ما هو النقش الصخري؟",
+        "choices": [
+          "صورة مرسومة بالألوان على الورق",
+          "صورة محفورة في الصخر",
+          "صورة مطرّزة على القماش"
+        ],
+        "correctIndex": 1,
+        "explanation": "النقش الصخري صورة تُصنع بحفر سطح الصخر."
+      }
+    },
+    "id": "7d2b33dd-11f2-4a05-8b0a-3964fdd8aec5",
+    "version": 1789452532299,
+    "topicID": "petroglyphs",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453842665,
+    "reviewAt": 1792045842665,
+    "expiresAt": 1797229842665,
+    "artwork": {
+      "path": "/api/knowledge-assets/8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27.png",
+      "sha256": "8f69b8c343b35280557602f331f97e7fa43c21062a9b17d074ed4d51d54d4b27",
+      "bytes": 2178698
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/0c4b0b65db4f6ed8ec9847229eb493f7f064946293c6a355c5afd5bf380cf338.wav",
+      "sha256": "0c4b0b65db4f6ed8ec9847229eb493f7f064946293c6a355c5afd5bf380cf338",
+      "bytes": 1027830
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/petr/learn/historyculture/what.htm",
+        "sha256": "5e7672fc18b148eb012882485faa4d9eb59334fac979266ecf9646c0a636b95a"
+      }
+    ],
+    "bundledArtwork": "prepared-petroglyphs"
+  },
+  {
+    "language": "en",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Are corals animals or plants?",
+    "reply": {
+      "title": "Corals are animals!",
+      "answer": "Corals are animals, not plants! They stay attached to the ocean floor, which can make them seem like plants. Tiny coral animals called polyps use tentacle-like arms to catch food from the water and bring it to their mouths. Unlike plants, corals do not make their own food.",
+      "invitation": "Imagine a coral's tiny arms catching food. How does that help you remember it is an animal?",
+      "category": "animals",
+      "artworkPrompt": "One coral colony attached to a rock on the ocean floor, composed of many small polyps with tiny tentacle-like arms. A simple, inviting underwater composition with the colony as the clear focal subject. Do not add unsupported colors, surface textures, or markings. No text or symbols.",
+      "quiz": {
+        "question": "How do coral polyps catch food from the water?",
+        "choices": [
+          "With tiny tentacle-like arms",
+          "With leaves that collect sunlight",
+          "With roots in the ocean floor"
+        ],
+        "correctIndex": 0,
+        "explanation": "Coral polyps use tiny tentacle-like arms to catch food from the water and bring it to their mouths."
+      }
+    },
+    "id": "26cb18be-375c-4d38-8d86-f3261f0a81bf",
+    "version": 1789452412339,
+    "topicID": "coral-animals",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453873012,
+    "reviewAt": 1792045873012,
+    "expiresAt": 1797229873012,
+    "artwork": {
+      "path": "/api/knowledge-assets/a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01.png",
+      "sha256": "a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01",
+      "bytes": 1799647
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/6854af9ba93d9ecae723262e212f77063fa71a36a10c7349b6957aeff3a988bc.wav",
+      "sha256": "6854af9ba93d9ecae723262e212f77063fa71a36a10c7349b6957aeff3a988bc",
+      "bytes": 812844
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/coral.html",
+        "sha256": "432e376829909c1031112337c78f661fd8f70ddc2bcea5df79f054518fb3f2ee"
+      }
+    ],
+    "bundledArtwork": "prepared-coral-animals"
+  },
+  {
+    "language": "zh-Hans",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "珊瑚是动物还是植物？",
+    "reply": {
+      "title": "珊瑚是动物！",
+      "answer": "珊瑚是动物，不是植物！它们固定在海底生活，所以看起来可能像植物。珊瑚虫是微小的珊瑚动物，会用触手般的小臂从水中捕捉食物，再送进嘴里。与植物不同，珊瑚不能自己制造食物。",
+      "invitation": "想象一下珊瑚用小小的触手捕捉食物。这怎样帮助你记住它是动物呢？",
+      "category": "animals",
+      "artworkPrompt": "One coral colony attached to a rock on the ocean floor, composed of many small polyps with tiny tentacle-like arms. A simple, inviting underwater composition with the colony as the clear focal subject. Do not add unsupported colors, surface textures, or markings. No text or symbols.",
+      "quiz": {
+        "question": "珊瑚虫用什么从水中捕捉食物？",
+        "choices": [
+          "触手般的小臂",
+          "收集阳光的叶子",
+          "扎在海底的根"
+        ],
+        "correctIndex": 0,
+        "explanation": "珊瑚虫用触手般的小臂从水中捕捉食物，再送进嘴里。"
+      }
+    },
+    "id": "3f104eab-7927-483e-8cfd-2110758d6def",
+    "version": 1789452412339,
+    "topicID": "coral-animals",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453873012,
+    "reviewAt": 1792045873012,
+    "expiresAt": 1797229873012,
+    "artwork": {
+      "path": "/api/knowledge-assets/a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01.png",
+      "sha256": "a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01",
+      "bytes": 1799647
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/ae8b3af36674e2e0f4654d17180e96166aabf4389742fc73976f0906eed00c0b.wav",
+      "sha256": "ae8b3af36674e2e0f4654d17180e96166aabf4389742fc73976f0906eed00c0b",
+      "bytes": 885092
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/coral.html",
+        "sha256": "432e376829909c1031112337c78f661fd8f70ddc2bcea5df79f054518fb3f2ee"
+      }
+    ],
+    "bundledArtwork": "prepared-coral-animals"
+  },
+  {
+    "language": "zh-Hant",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "珊瑚是動物還是植物？",
+    "reply": {
+      "title": "珊瑚是動物！",
+      "answer": "珊瑚是動物，不是植物！牠們固定在海底生活，所以看起來可能像植物。珊瑚蟲是微小的珊瑚動物，會用觸手般的小臂從水中捕捉食物，再送進嘴裡。與植物不同，珊瑚不能自己製造食物。",
+      "invitation": "想像一下珊瑚用小小的觸手捕捉食物。這怎樣幫助你記住牠是動物呢？",
+      "category": "animals",
+      "artworkPrompt": "One coral colony attached to a rock on the ocean floor, composed of many small polyps with tiny tentacle-like arms. A simple, inviting underwater composition with the colony as the clear focal subject. Do not add unsupported colors, surface textures, or markings. No text or symbols.",
+      "quiz": {
+        "question": "珊瑚蟲用什麼從水中捕捉食物？",
+        "choices": [
+          "觸手般的小臂",
+          "收集陽光的葉子",
+          "扎在海底的根"
+        ],
+        "correctIndex": 0,
+        "explanation": "珊瑚蟲用觸手般的小臂從水中捕捉食物，再送進嘴裡。"
+      }
+    },
+    "id": "451dbddd-3a02-4663-81da-87d62241e34e",
+    "version": 1789452412339,
+    "topicID": "coral-animals",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453873012,
+    "reviewAt": 1792045873012,
+    "expiresAt": 1797229873012,
+    "artwork": {
+      "path": "/api/knowledge-assets/a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01.png",
+      "sha256": "a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01",
+      "bytes": 1799647
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/8ccb56c41611242c02de936b0d3debcfb06dd20bb17c37870cb16a0c4d85e87a.wav",
+      "sha256": "8ccb56c41611242c02de936b0d3debcfb06dd20bb17c37870cb16a0c4d85e87a",
+      "bytes": 987926
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/coral.html",
+        "sha256": "432e376829909c1031112337c78f661fd8f70ddc2bcea5df79f054518fb3f2ee"
+      }
+    ],
+    "bundledArtwork": "prepared-coral-animals"
+  },
+  {
+    "language": "es",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "¿Los corales son animales o plantas?",
+    "reply": {
+      "title": "¡Los corales son animales!",
+      "answer": "¡Los corales son animales, no plantas! Viven fijos al fondo del océano, por lo que pueden parecer plantas. Los diminutos animales del coral, llamados pólipos, usan bracitos parecidos a tentáculos para atrapar alimento del agua y llevarlo a la boca. A diferencia de las plantas, los corales no fabrican su propio alimento.",
+      "invitation": "Imagina los pequeños brazos de un coral atrapando alimento. ¿Cómo te ayuda eso a recordar que es un animal?",
+      "category": "animals",
+      "artworkPrompt": "One coral colony attached to a rock on the ocean floor, composed of many small polyps with tiny tentacle-like arms. A simple, inviting underwater composition with the colony as the clear focal subject. Do not add unsupported colors, surface textures, or markings. No text or symbols.",
+      "quiz": {
+        "question": "¿Cómo atrapan los pólipos de coral el alimento del agua?",
+        "choices": [
+          "Con pequeños brazos parecidos a tentáculos",
+          "Con hojas que recogen la luz del sol",
+          "Con raíces en el fondo del océano"
+        ],
+        "correctIndex": 0,
+        "explanation": "Los pólipos usan pequeños brazos parecidos a tentáculos para atrapar alimento del agua y llevarlo a la boca."
+      }
+    },
+    "id": "81b42f5c-3adf-489d-8f7a-924c6acdce68",
+    "version": 1789452412339,
+    "topicID": "coral-animals",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453873012,
+    "reviewAt": 1792045873012,
+    "expiresAt": 1797229873012,
+    "artwork": {
+      "path": "/api/knowledge-assets/a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01.png",
+      "sha256": "a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01",
+      "bytes": 1799647
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/fdf2cafc1ebc0f57910985297104cb7ab8b4bf8e1464a4d6b620e5f4652d619a.wav",
+      "sha256": "fdf2cafc1ebc0f57910985297104cb7ab8b4bf8e1464a4d6b620e5f4652d619a",
+      "bytes": 1058144
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/coral.html",
+        "sha256": "432e376829909c1031112337c78f661fd8f70ddc2bcea5df79f054518fb3f2ee"
+      }
+    ],
+    "bundledArtwork": "prepared-coral-animals"
+  },
+  {
+    "language": "fr",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Les coraux sont-ils des animaux ou des plantes ?",
+    "reply": {
+      "title": "Les coraux sont des animaux !",
+      "answer": "Les coraux sont des animaux, pas des plantes ! Ils restent fixés au fond de l’océan, ce qui peut les faire ressembler à des plantes. Les minuscules animaux du corail, appelés polypes, utilisent de petits bras semblables à des tentacules pour attraper de la nourriture dans l’eau et la porter à leur bouche. Contrairement aux plantes, les coraux ne fabriquent pas leur propre nourriture.",
+      "invitation": "Imagine les petits bras d’un corail attrapant de la nourriture. Comment cela t’aide-t-il à te rappeler que c’est un animal ?",
+      "category": "animals",
+      "artworkPrompt": "One coral colony attached to a rock on the ocean floor, composed of many small polyps with tiny tentacle-like arms. A simple, inviting underwater composition with the colony as the clear focal subject. Do not add unsupported colors, surface textures, or markings. No text or symbols.",
+      "quiz": {
+        "question": "Comment les polypes du corail attrapent-ils leur nourriture dans l’eau ?",
+        "choices": [
+          "Avec de petits bras semblables à des tentacules",
+          "Avec des feuilles qui captent la lumière du soleil",
+          "Avec des racines dans le fond de l’océan"
+        ],
+        "correctIndex": 0,
+        "explanation": "Les polypes utilisent de petits bras semblables à des tentacules pour attraper la nourriture dans l’eau et la porter à leur bouche."
+      }
+    },
+    "id": "bd54d84a-673b-42fa-8219-7a959346bed0",
+    "version": 1789452412339,
+    "topicID": "coral-animals",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453873012,
+    "reviewAt": 1792045873012,
+    "expiresAt": 1797229873012,
+    "artwork": {
+      "path": "/api/knowledge-assets/a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01.png",
+      "sha256": "a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01",
+      "bytes": 1799647
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/0edd7c0d5a1be76a4f7b438553947174261c687a1c77c304fb43708cb115752f.wav",
+      "sha256": "0edd7c0d5a1be76a4f7b438553947174261c687a1c77c304fb43708cb115752f",
+      "bytes": 1130740
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/coral.html",
+        "sha256": "432e376829909c1031112337c78f661fd8f70ddc2bcea5df79f054518fb3f2ee"
+      }
+    ],
+    "bundledArtwork": "prepared-coral-animals"
+  },
+  {
+    "language": "de",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Sind Korallen Tiere oder Pflanzen?",
+    "reply": {
+      "title": "Korallen sind Tiere!",
+      "answer": "Korallen sind Tiere, keine Pflanzen! Sie sitzen fest am Meeresboden und können deshalb wie Pflanzen wirken. Die winzigen Korallentiere heißen Polypen und fangen mit kleinen, tentakelartigen Armen Nahrung aus dem Wasser, die sie zum Mund führen. Anders als Pflanzen stellen Korallen ihre Nahrung nicht selbst her.",
+      "invitation": "Stell dir vor, wie die kleinen Arme einer Koralle Nahrung fangen. Wie hilft dir das, dir zu merken, dass sie ein Tier ist?",
+      "category": "animals",
+      "artworkPrompt": "One coral colony attached to a rock on the ocean floor, composed of many small polyps with tiny tentacle-like arms. A simple, inviting underwater composition with the colony as the clear focal subject. Do not add unsupported colors, surface textures, or markings. No text or symbols.",
+      "quiz": {
+        "question": "Wie fangen Korallenpolypen Nahrung aus dem Wasser?",
+        "choices": [
+          "Mit kleinen, tentakelartigen Armen",
+          "Mit Blättern, die Sonnenlicht auffangen",
+          "Mit Wurzeln im Meeresboden"
+        ],
+        "correctIndex": 0,
+        "explanation": "Korallenpolypen fangen mit kleinen, tentakelartigen Armen Nahrung aus dem Wasser und führen sie zum Mund."
+      }
+    },
+    "id": "8afab940-fb64-46fa-8d66-6535788c724a",
+    "version": 1789452412339,
+    "topicID": "coral-animals",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453873012,
+    "reviewAt": 1792045873012,
+    "expiresAt": 1797229873012,
+    "artwork": {
+      "path": "/api/knowledge-assets/a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01.png",
+      "sha256": "a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01",
+      "bytes": 1799647
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/b416cbf99349b6685ab275753b6fa27e4a2408daca4097120a7d19ee54628dc6.wav",
+      "sha256": "b416cbf99349b6685ab275753b6fa27e4a2408daca4097120a7d19ee54628dc6",
+      "bytes": 1114246
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/coral.html",
+        "sha256": "432e376829909c1031112337c78f661fd8f70ddc2bcea5df79f054518fb3f2ee"
+      }
+    ],
+    "bundledArtwork": "prepared-coral-animals"
+  },
+  {
+    "language": "pt-BR",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Os corais são animais ou plantas?",
+    "reply": {
+      "title": "Os corais são animais!",
+      "answer": "Os corais são animais, não plantas! Eles vivem fixos no fundo do oceano, por isso podem parecer plantas. Os pequenos animais do coral, chamados pólipos, usam bracinhos parecidos com tentáculos para capturar alimento da água e levá-lo à boca. Ao contrário das plantas, os corais não produzem seu próprio alimento.",
+      "invitation": "Imagine os bracinhos de um coral capturando alimento. Como isso ajuda você a lembrar que ele é um animal?",
+      "category": "animals",
+      "artworkPrompt": "One coral colony attached to a rock on the ocean floor, composed of many small polyps with tiny tentacle-like arms. A simple, inviting underwater composition with the colony as the clear focal subject. Do not add unsupported colors, surface textures, or markings. No text or symbols.",
+      "quiz": {
+        "question": "Como os pólipos de coral capturam alimento da água?",
+        "choices": [
+          "Com bracinhos parecidos com tentáculos",
+          "Com folhas que captam a luz do sol",
+          "Com raízes no fundo do oceano"
+        ],
+        "correctIndex": 0,
+        "explanation": "Os pólipos usam bracinhos parecidos com tentáculos para capturar alimento da água e levá-lo à boca."
+      }
+    },
+    "id": "4adbeadc-60b4-4e06-86b6-3303f21ea502",
+    "version": 1789452412339,
+    "topicID": "coral-animals",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453873012,
+    "reviewAt": 1792045873012,
+    "expiresAt": 1797229873012,
+    "artwork": {
+      "path": "/api/knowledge-assets/a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01.png",
+      "sha256": "a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01",
+      "bytes": 1799647
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/c9798fd64ac0bb42d9924ebeaf852c661874627b90c9281f588d66d08e132a28.wav",
+      "sha256": "c9798fd64ac0bb42d9924ebeaf852c661874627b90c9281f588d66d08e132a28",
+      "bytes": 1030424
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/coral.html",
+        "sha256": "432e376829909c1031112337c78f661fd8f70ddc2bcea5df79f054518fb3f2ee"
+      }
+    ],
+    "bundledArtwork": "prepared-coral-animals"
+  },
+  {
+    "language": "ja",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "サンゴは動物ですか、それとも植物ですか？",
+    "reply": {
+      "title": "サンゴは動物だよ！",
+      "answer": "サンゴは植物ではなく、動物だよ！海の底にくっついたまま暮らすので、植物のように見えることがあるんだ。ポリプと呼ばれる小さなサンゴの動物は、触手という小さな腕のような部分で水中の食べ物をつかまえて、口に運ぶよ。植物とは違って、サンゴは自分で食べ物を作らないんだ。",
+      "invitation": "サンゴの小さな腕が食べ物をつかまえるところを想像してみよう。サンゴが動物だと覚える手がかりになるかな？",
+      "category": "animals",
+      "artworkPrompt": "One coral colony attached to a rock on the ocean floor, composed of many small polyps with tiny tentacle-like arms. A simple, inviting underwater composition with the colony as the clear focal subject. Do not add unsupported colors, surface textures, or markings. No text or symbols.",
+      "quiz": {
+        "question": "サンゴのポリプは、何を使って水中の食べ物をつかまえるかな？",
+        "choices": [
+          "触手という小さな腕のような部分",
+          "太陽の光を集める葉",
+          "海の底に張った根"
+        ],
+        "correctIndex": 0,
+        "explanation": "サンゴのポリプは、触手という小さな腕のような部分で水中の食べ物をつかまえて、口に運ぶよ。"
+      }
+    },
+    "id": "6d57b69c-466f-4673-865c-d24dc5c1a2b3",
+    "version": 1789452412339,
+    "topicID": "coral-animals",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453873012,
+    "reviewAt": 1792045873012,
+    "expiresAt": 1797229873012,
+    "artwork": {
+      "path": "/api/knowledge-assets/a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01.png",
+      "sha256": "a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01",
+      "bytes": 1799647
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/5acf349503d68898aa181aa20dcdaceef7741e6f1541210e4ee7c99d494fb301.wav",
+      "sha256": "5acf349503d68898aa181aa20dcdaceef7741e6f1541210e4ee7c99d494fb301",
+      "bytes": 1250820
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/coral.html",
+        "sha256": "432e376829909c1031112337c78f661fd8f70ddc2bcea5df79f054518fb3f2ee"
+      }
+    ],
+    "bundledArtwork": "prepared-coral-animals"
+  },
+  {
+    "language": "ko",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "산호는 동물인가요, 식물인가요?",
+    "reply": {
+      "title": "산호는 동물이에요!",
+      "answer": "산호는 식물이 아니라 동물이에요! 바다 밑바닥에 붙어서 살아가기 때문에 식물처럼 보일 수 있어요. 폴립이라고 부르는 작은 산호 동물은 촉수라는 작은 팔 같은 부분으로 물속의 먹이를 잡아 입으로 가져가요. 식물과 달리 산호는 스스로 먹이를 만들지 않아요.",
+      "invitation": "산호의 작은 팔이 먹이를 잡는 모습을 상상해 보세요. 산호가 동물이라는 사실을 기억하는 데 어떻게 도움이 될까요?",
+      "category": "animals",
+      "artworkPrompt": "One coral colony attached to a rock on the ocean floor, composed of many small polyps with tiny tentacle-like arms. A simple, inviting underwater composition with the colony as the clear focal subject. Do not add unsupported colors, surface textures, or markings. No text or symbols.",
+      "quiz": {
+        "question": "산호 폴립은 무엇으로 물속의 먹이를 잡을까요?",
+        "choices": [
+          "촉수라는 작은 팔 같은 부분",
+          "햇빛을 모으는 잎",
+          "바다 밑바닥에 뻗은 뿌리"
+        ],
+        "correctIndex": 0,
+        "explanation": "산호 폴립은 촉수라는 작은 팔 같은 부분으로 물속의 먹이를 잡아 입으로 가져가요."
+      }
+    },
+    "id": "fc6e42f8-197c-4509-808f-6682617d3634",
+    "version": 1789452412339,
+    "topicID": "coral-animals",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453873012,
+    "reviewAt": 1792045873012,
+    "expiresAt": 1797229873012,
+    "artwork": {
+      "path": "/api/knowledge-assets/a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01.png",
+      "sha256": "a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01",
+      "bytes": 1799647
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/15d65cfeeefd676c069bab30cb2faa215980ad1d5e54210217d2e81e49b063b0.wav",
+      "sha256": "15d65cfeeefd676c069bab30cb2faa215980ad1d5e54210217d2e81e49b063b0",
+      "bytes": 1029018
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/coral.html",
+        "sha256": "432e376829909c1031112337c78f661fd8f70ddc2bcea5df79f054518fb3f2ee"
+      }
+    ],
+    "bundledArtwork": "prepared-coral-animals"
+  },
+  {
+    "language": "ar",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "هل المرجان حيوان أم نبات؟",
+    "reply": {
+      "title": "المرجان حيوان!",
+      "answer": "المرجان حيوان، وليس نباتًا! يعيش مثبتًا في قاع المحيط، ولهذا قد يبدو مثل النباتات. تستخدم حيوانات المرجان الصغيرة، التي تُسمّى البوليبات، أذرعًا دقيقة تشبه اللوامس لالتقاط الغذاء من الماء ونقله إلى أفواهها. وعلى عكس النباتات، لا يصنع المرجان غذاءه بنفسه.",
+      "invitation": "تخيّل أذرع المرجان الصغيرة وهي تلتقط الغذاء. كيف يساعدك ذلك على تذكّر أنه حيوان؟",
+      "category": "animals",
+      "artworkPrompt": "One coral colony attached to a rock on the ocean floor, composed of many small polyps with tiny tentacle-like arms. A simple, inviting underwater composition with the colony as the clear focal subject. Do not add unsupported colors, surface textures, or markings. No text or symbols.",
+      "quiz": {
+        "question": "كيف تلتقط بوليبات المرجان الغذاء من الماء؟",
+        "choices": [
+          "بأذرع دقيقة تشبه اللوامس",
+          "بأوراق تجمع ضوء الشمس",
+          "بجذور في قاع المحيط"
+        ],
+        "correctIndex": 0,
+        "explanation": "تستخدم بوليبات المرجان أذرعًا دقيقة تشبه اللوامس لالتقاط الغذاء من الماء ونقله إلى أفواهها."
+      }
+    },
+    "id": "5efd5464-59ad-42a7-8b0c-1e9c6e9d38c0",
+    "version": 1789452412339,
+    "topicID": "coral-animals",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453873012,
+    "reviewAt": 1792045873012,
+    "expiresAt": 1797229873012,
+    "artwork": {
+      "path": "/api/knowledge-assets/a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01.png",
+      "sha256": "a69b82bd24c0ca161ced91c1884fda15c10caf00d20df5e283ca77129d18ec01",
+      "bytes": 1799647
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/f338f413057bca114c9e59863c7c074ac4a946fd1415ace9882ffcf062452630.wav",
+      "sha256": "f338f413057bca114c9e59863c7c074ac4a946fd1415ace9882ffcf062452630",
+      "bytes": 1291760
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/coral.html",
+        "sha256": "432e376829909c1031112337c78f661fd8f70ddc2bcea5df79f054518fb3f2ee"
+      }
+    ],
+    "bundledArtwork": "prepared-coral-animals"
+  },
+  {
+    "language": "en",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Why does the ocean look blue?",
+    "reply": {
+      "title": "The ocean’s blue color",
+      "answer": "Ocean water acts like a filter for sunlight. It absorbs colors in the red part of the light spectrum—the range of colors in light. This leaves behind colors in the blue part for us to see, making the ocean look blue.",
+      "invitation": "How would you explain the ocean’s blue color using the idea of a sunlight filter?",
+      "category": "science",
+      "artworkPrompt": "A beautiful blue ocean stretching to a clear horizon, with gentle sunlit ripples in the foreground and a pale sky above. Simple, inviting composition with rich natural blues and soft light. No text or explanatory symbols.",
+      "quiz": {
+        "question": "Which colors does ocean water absorb to make the ocean look blue?",
+        "choices": [
+          "Colors in the red part of the light spectrum",
+          "Only colors in the blue part of the light spectrum",
+          "No colors at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Water absorbs colors in the red part of the light spectrum, leaving colors in the blue part for us to see."
+      }
+    },
+    "id": "76cd0eb9-85f4-48a1-8ae9-20f4e36fa0b1",
+    "version": 1789452201815,
+    "topicID": "ocean-blue",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453871521,
+    "reviewAt": 1792045871521,
+    "expiresAt": 1797229871521,
+    "artwork": {
+      "path": "/api/knowledge-assets/fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db.png",
+      "sha256": "fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db",
+      "bytes": 1566342
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/4daad0b50e3ddfda6b5d84d06a4b2560fc7becd6ac8b1f923e805bfe82cea9ca.wav",
+      "sha256": "4daad0b50e3ddfda6b5d84d06a4b2560fc7becd6ac8b1f923e805bfe82cea9ca",
+      "bytes": 665644
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+        "sha256": "df22b50721555f39402fe56169c2cc3bbdc017d5ff7c24954a74269f1526f004"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-blue"
+  },
+  {
+    "language": "zh-Hans",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "为什么海洋看起来是蓝色的？",
+    "reply": {
+      "title": "海洋的蓝色",
+      "answer": "海水就像阳光的过滤器。它会吸收光谱中红色部分的光；光谱就是光所包含的各种颜色。这样，蓝色部分的光留了下来，被我们看见，海洋便显得蓝蓝的。",
+      "invitation": "你能用“阳光过滤器”这个比喻，解释海洋为什么看起来是蓝色的吗？",
+      "category": "science",
+      "artworkPrompt": "A beautiful blue ocean stretching to a clear horizon, with gentle sunlit ripples in the foreground and a pale sky above. Simple, inviting composition with rich natural blues and soft light. No text or explanatory symbols.",
+      "quiz": {
+        "question": "海水吸收了哪些颜色的光，使海洋看起来是蓝色的？",
+        "choices": [
+          "光谱中红色部分的光",
+          "只有光谱中蓝色部分的光",
+          "什么颜色的光都不吸收"
+        ],
+        "correctIndex": 0,
+        "explanation": "海水吸收光谱中红色部分的光，留下蓝色部分的光，让我们看见。"
+      }
+    },
+    "id": "ab03b5e2-4f02-4199-8668-20187a389af4",
+    "version": 1789452201815,
+    "topicID": "ocean-blue",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453871521,
+    "reviewAt": 1792045871521,
+    "expiresAt": 1797229871521,
+    "artwork": {
+      "path": "/api/knowledge-assets/fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db.png",
+      "sha256": "fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db",
+      "bytes": 1566342
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/34316b584a92274c68016e9f56bf1b449b97bb29a5eb18e432d67fdbaa4f2ba9.wav",
+      "sha256": "34316b584a92274c68016e9f56bf1b449b97bb29a5eb18e432d67fdbaa4f2ba9",
+      "bytes": 704972
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+        "sha256": "df22b50721555f39402fe56169c2cc3bbdc017d5ff7c24954a74269f1526f004"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-blue"
+  },
+  {
+    "language": "zh-Hant",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "為什麼海洋看起來是藍色的？",
+    "reply": {
+      "title": "海洋的藍色",
+      "answer": "海水就像陽光的過濾器。它會吸收光譜中紅色部分的光；光譜就是光所包含的各種顏色。這樣，藍色部分的光留了下來，被我們看見，海洋便顯得藍藍的。",
+      "invitation": "你能用「陽光過濾器」這個比喻，解釋海洋為什麼看起來是藍色的嗎？",
+      "category": "science",
+      "artworkPrompt": "A beautiful blue ocean stretching to a clear horizon, with gentle sunlit ripples in the foreground and a pale sky above. Simple, inviting composition with rich natural blues and soft light. No text or explanatory symbols.",
+      "quiz": {
+        "question": "海水吸收了哪些顏色的光，使海洋看起來是藍色的？",
+        "choices": [
+          "光譜中紅色部分的光",
+          "只有光譜中藍色部分的光",
+          "什麼顏色的光都不吸收"
+        ],
+        "correctIndex": 0,
+        "explanation": "海水吸收光譜中紅色部分的光，留下藍色部分的光，讓我們看見。"
+      }
+    },
+    "id": "fc7e3158-02cd-430d-886f-b5ebae86230d",
+    "version": 1789452201815,
+    "topicID": "ocean-blue",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453871521,
+    "reviewAt": 1792045871521,
+    "expiresAt": 1797229871521,
+    "artwork": {
+      "path": "/api/knowledge-assets/fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db.png",
+      "sha256": "fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db",
+      "bytes": 1566342
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/afd0830faca1b80f1a441c67f371c7e8b2f699bef08a52bc0b48624f80b438b2.wav",
+      "sha256": "afd0830faca1b80f1a441c67f371c7e8b2f699bef08a52bc0b48624f80b438b2",
+      "bytes": 800380
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+        "sha256": "df22b50721555f39402fe56169c2cc3bbdc017d5ff7c24954a74269f1526f004"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-blue"
+  },
+  {
+    "language": "es",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "¿Por qué el océano se ve azul?",
+    "reply": {
+      "title": "El color azul del océano",
+      "answer": "El agua del océano actúa como un filtro para la luz del sol. Absorbe los colores de la parte roja del espectro de luz, que es el conjunto de colores que contiene la luz. Así quedan los colores de la parte azul que podemos ver, y por eso el océano se ve azul.",
+      "invitation": "¿Cómo explicarías el color azul del océano usando la idea de un filtro para la luz del sol?",
+      "category": "science",
+      "artworkPrompt": "A beautiful blue ocean stretching to a clear horizon, with gentle sunlit ripples in the foreground and a pale sky above. Simple, inviting composition with rich natural blues and soft light. No text or explanatory symbols.",
+      "quiz": {
+        "question": "¿Qué colores absorbe el agua para que el océano se vea azul?",
+        "choices": [
+          "Los colores de la parte roja del espectro de luz",
+          "Solo los colores de la parte azul del espectro de luz",
+          "No absorbe ningún color"
+        ],
+        "correctIndex": 0,
+        "explanation": "El agua absorbe los colores de la parte roja del espectro y deja los de la parte azul que podemos ver."
+      }
+    },
+    "id": "3951265f-ead1-4a5a-8c83-2ede0437a777",
+    "version": 1789452201815,
+    "topicID": "ocean-blue",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453871521,
+    "reviewAt": 1792045871521,
+    "expiresAt": 1797229871521,
+    "artwork": {
+      "path": "/api/knowledge-assets/fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db.png",
+      "sha256": "fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db",
+      "bytes": 1566342
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/89ac81d8988f9e485eeae32a119878b1d1001685b0c971727b1a363cbc47ed1a.wav",
+      "sha256": "89ac81d8988f9e485eeae32a119878b1d1001685b0c971727b1a363cbc47ed1a",
+      "bytes": 808522
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+        "sha256": "df22b50721555f39402fe56169c2cc3bbdc017d5ff7c24954a74269f1526f004"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-blue"
+  },
+  {
+    "language": "fr",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Pourquoi l’océan paraît-il bleu ?",
+    "reply": {
+      "title": "La couleur bleue de l’océan",
+      "answer": "L’eau de l’océan agit comme un filtre pour la lumière du soleil. Elle absorbe les couleurs de la partie rouge du spectre lumineux, c’est-à-dire l’ensemble des couleurs de la lumière. Il reste alors les couleurs de la partie bleue que nous pouvons voir, ce qui donne à l’océan son aspect bleu.",
+      "invitation": "Comment expliquerais-tu la couleur bleue de l’océan en utilisant l’idée d’un filtre pour la lumière du soleil ?",
+      "category": "science",
+      "artworkPrompt": "A beautiful blue ocean stretching to a clear horizon, with gentle sunlit ripples in the foreground and a pale sky above. Simple, inviting composition with rich natural blues and soft light. No text or explanatory symbols.",
+      "quiz": {
+        "question": "Quelles couleurs l’eau absorbe-t-elle pour que l’océan paraisse bleu ?",
+        "choices": [
+          "Les couleurs de la partie rouge du spectre lumineux",
+          "Seulement les couleurs de la partie bleue du spectre lumineux",
+          "Elle n’absorbe aucune couleur"
+        ],
+        "correctIndex": 0,
+        "explanation": "L’eau absorbe les couleurs de la partie rouge du spectre lumineux, laissant celles de la partie bleue que nous voyons."
+      }
+    },
+    "id": "1fc44748-4e6a-4fef-8ddb-21c25724be03",
+    "version": 1789452201815,
+    "topicID": "ocean-blue",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453871521,
+    "reviewAt": 1792045871521,
+    "expiresAt": 1797229871521,
+    "artwork": {
+      "path": "/api/knowledge-assets/fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db.png",
+      "sha256": "fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db",
+      "bytes": 1566342
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/18672a862708048b53a00a541545a6ca7251751298ffb3907d0ca58230f81bd7.wav",
+      "sha256": "18672a862708048b53a00a541545a6ca7251751298ffb3907d0ca58230f81bd7",
+      "bytes": 845818
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+        "sha256": "df22b50721555f39402fe56169c2cc3bbdc017d5ff7c24954a74269f1526f004"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-blue"
+  },
+  {
+    "language": "de",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Warum sieht der Ozean blau aus?",
+    "reply": {
+      "title": "Das Blau des Ozeans",
+      "answer": "Meerwasser wirkt wie ein Filter für Sonnenlicht. Es nimmt die Farben im roten Bereich des Lichtspektrums auf – das Lichtspektrum umfasst die Farben des Lichts. So bleiben Farben im blauen Bereich übrig, die wir sehen können, und der Ozean erscheint blau.",
+      "invitation": "Wie würdest du das Blau des Ozeans mit der Idee eines Filters für Sonnenlicht erklären?",
+      "category": "science",
+      "artworkPrompt": "A beautiful blue ocean stretching to a clear horizon, with gentle sunlit ripples in the foreground and a pale sky above. Simple, inviting composition with rich natural blues and soft light. No text or explanatory symbols.",
+      "quiz": {
+        "question": "Welche Farben nimmt das Meerwasser auf, sodass der Ozean blau erscheint?",
+        "choices": [
+          "Farben im roten Bereich des Lichtspektrums",
+          "Nur Farben im blauen Bereich des Lichtspektrums",
+          "Es nimmt gar keine Farben auf"
+        ],
+        "correctIndex": 0,
+        "explanation": "Wasser nimmt Farben im roten Bereich des Lichtspektrums auf. Farben im blauen Bereich bleiben für uns sichtbar."
+      }
+    },
+    "id": "68e09926-089b-40fd-88e9-0fd755a75cbb",
+    "version": 1789452201815,
+    "topicID": "ocean-blue",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453871521,
+    "reviewAt": 1792045871521,
+    "expiresAt": 1797229871521,
+    "artwork": {
+      "path": "/api/knowledge-assets/fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db.png",
+      "sha256": "fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db",
+      "bytes": 1566342
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/4c7ce7612257d2273fcb7532d9f71ce226392a5c06a05caffb17faa976ed1970.wav",
+      "sha256": "4c7ce7612257d2273fcb7532d9f71ce226392a5c06a05caffb17faa976ed1970",
+      "bytes": 864800
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+        "sha256": "df22b50721555f39402fe56169c2cc3bbdc017d5ff7c24954a74269f1526f004"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-blue"
+  },
+  {
+    "language": "pt-BR",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Por que o oceano parece azul?",
+    "reply": {
+      "title": "A cor azul do oceano",
+      "answer": "A água do oceano funciona como um filtro para a luz do sol. Ela absorve as cores da parte vermelha do espectro de luz, que é o conjunto de cores presentes na luz. Assim, ficam as cores da parte azul que podemos ver, fazendo o oceano parecer azul.",
+      "invitation": "Como você explicaria a cor azul do oceano usando a ideia de um filtro para a luz do sol?",
+      "category": "science",
+      "artworkPrompt": "A beautiful blue ocean stretching to a clear horizon, with gentle sunlit ripples in the foreground and a pale sky above. Simple, inviting composition with rich natural blues and soft light. No text or explanatory symbols.",
+      "quiz": {
+        "question": "Quais cores a água absorve para que o oceano pareça azul?",
+        "choices": [
+          "As cores da parte vermelha do espectro de luz",
+          "Somente as cores da parte azul do espectro de luz",
+          "Ela não absorve nenhuma cor"
+        ],
+        "correctIndex": 0,
+        "explanation": "A água absorve as cores da parte vermelha do espectro de luz, deixando as cores da parte azul que podemos ver."
+      }
+    },
+    "id": "492e5235-2c3e-4bf1-8e80-582b91e02949",
+    "version": 1789452201815,
+    "topicID": "ocean-blue",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453871521,
+    "reviewAt": 1792045871521,
+    "expiresAt": 1797229871521,
+    "artwork": {
+      "path": "/api/knowledge-assets/fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db.png",
+      "sha256": "fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db",
+      "bytes": 1566342
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/fe5b6791ae16f3113fd574e6747151a26317d330c4d85e4d6e4970740ee48f7c.wav",
+      "sha256": "fe5b6791ae16f3113fd574e6747151a26317d330c4d85e4d6e4970740ee48f7c",
+      "bytes": 790276
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+        "sha256": "df22b50721555f39402fe56169c2cc3bbdc017d5ff7c24954a74269f1526f004"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-blue"
+  },
+  {
+    "language": "ja",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "海はどうして青く見えるの？",
+    "reply": {
+      "title": "海の青い色のひみつ",
+      "answer": "海の水は、太陽の光をこし分けるフィルターのように働きます。光にふくまれる色の広がりを「スペクトル」といい、水はその赤い部分の色の光を吸収します。すると青い部分の色の光が残って私たちに見えるので、海は青く見えるのです。",
+      "invitation": "「太陽の光のフィルター」というたとえを使って、海が青く見える理由を説明できるかな？",
+      "category": "science",
+      "artworkPrompt": "A beautiful blue ocean stretching to a clear horizon, with gentle sunlit ripples in the foreground and a pale sky above. Simple, inviting composition with rich natural blues and soft light. No text or explanatory symbols.",
+      "quiz": {
+        "question": "海が青く見えるのは、海の水がどの色の光を吸収するから？",
+        "choices": [
+          "スペクトルの赤い部分の色の光",
+          "スペクトルの青い部分の色の光だけ",
+          "どの色の光も吸収しない"
+        ],
+        "correctIndex": 0,
+        "explanation": "水はスペクトルの赤い部分の色の光を吸収し、残った青い部分の色の光が私たちに見えます。"
+      }
+    },
+    "id": "68e0f9cd-dbdf-49c5-8524-afa19289dda7",
+    "version": 1789452201815,
+    "topicID": "ocean-blue",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453871521,
+    "reviewAt": 1792045871521,
+    "expiresAt": 1797229871521,
+    "artwork": {
+      "path": "/api/knowledge-assets/fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db.png",
+      "sha256": "fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db",
+      "bytes": 1566342
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/d13228a6e9b6b8a35629f07f54bfd63d49d06d6dd74a2d03dcd1e6e621aeab92.wav",
+      "sha256": "d13228a6e9b6b8a35629f07f54bfd63d49d06d6dd74a2d03dcd1e6e621aeab92",
+      "bytes": 1066632
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+        "sha256": "df22b50721555f39402fe56169c2cc3bbdc017d5ff7c24954a74269f1526f004"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-blue"
+  },
+  {
+    "language": "ko",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "바다는 왜 파랗게 보이나요?",
+    "reply": {
+      "title": "바다의 파란색",
+      "answer": "바닷물은 햇빛을 걸러 주는 필터처럼 작용해요. 빛에 들어 있는 여러 색의 범위를 빛의 스펙트럼이라고 하는데, 물은 그중 빨간색 영역의 빛을 흡수해요. 그러면 파란색 영역의 빛이 남아 우리 눈에 보이기 때문에 바다가 파랗게 보여요.",
+      "invitation": "햇빛을 걸러 주는 필터에 빗대어, 바다가 파랗게 보이는 이유를 설명해 볼까요?",
+      "category": "science",
+      "artworkPrompt": "A beautiful blue ocean stretching to a clear horizon, with gentle sunlit ripples in the foreground and a pale sky above. Simple, inviting composition with rich natural blues and soft light. No text or explanatory symbols.",
+      "quiz": {
+        "question": "바닷물이 어떤 색의 빛을 흡수해서 바다가 파랗게 보일까요?",
+        "choices": [
+          "빛의 스펙트럼에서 빨간색 영역의 빛",
+          "빛의 스펙트럼에서 파란색 영역의 빛만",
+          "어떤 색의 빛도 흡수하지 않아요"
+        ],
+        "correctIndex": 0,
+        "explanation": "물은 빨간색 영역의 빛을 흡수해요. 남아 있는 파란색 영역의 빛이 우리 눈에 보여요."
+      }
+    },
+    "id": "c5441a51-7ede-4c0a-855e-f84404d888e2",
+    "version": 1789452201815,
+    "topicID": "ocean-blue",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453871521,
+    "reviewAt": 1792045871521,
+    "expiresAt": 1797229871521,
+    "artwork": {
+      "path": "/api/knowledge-assets/fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db.png",
+      "sha256": "fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db",
+      "bytes": 1566342
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/0518421031fc7d25a9ad6f59cab94c2bc651e8325bc4bdd916687dc0f6114671.wav",
+      "sha256": "0518421031fc7d25a9ad6f59cab94c2bc651e8325bc4bdd916687dc0f6114671",
+      "bytes": 907832
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+        "sha256": "df22b50721555f39402fe56169c2cc3bbdc017d5ff7c24954a74269f1526f004"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-blue"
+  },
+  {
+    "language": "ar",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "لماذا يبدو المحيط أزرق؟",
+    "reply": {
+      "title": "لون المحيط الأزرق",
+      "answer": "يعمل ماء المحيط مثل مرشّح لضوء الشمس. فهو يمتص الألوان في الجزء الأحمر من طيف الضوء، أي مجموعة الألوان التي يتكوّن منها الضوء. وهكذا تبقى ألوان الجزء الأزرق لنراها، فيبدو المحيط أزرق.",
+      "invitation": "كيف تشرح لون المحيط الأزرق باستخدام فكرة مرشّح ضوء الشمس؟",
+      "category": "science",
+      "artworkPrompt": "A beautiful blue ocean stretching to a clear horizon, with gentle sunlit ripples in the foreground and a pale sky above. Simple, inviting composition with rich natural blues and soft light. No text or explanatory symbols.",
+      "quiz": {
+        "question": "ما الألوان التي يمتصها ماء المحيط فيبدو المحيط أزرق؟",
+        "choices": [
+          "ألوان الجزء الأحمر من طيف الضوء",
+          "ألوان الجزء الأزرق من طيف الضوء فقط",
+          "لا يمتص أي لون"
+        ],
+        "correctIndex": 0,
+        "explanation": "يمتص الماء ألوان الجزء الأحمر من طيف الضوء، وتبقى ألوان الجزء الأزرق لنراها."
+      }
+    },
+    "id": "8f6d5a17-884a-41f0-8add-7128f2e4c129",
+    "version": 1789452201815,
+    "topicID": "ocean-blue",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453871521,
+    "reviewAt": 1792045871521,
+    "expiresAt": 1797229871521,
+    "artwork": {
+      "path": "/api/knowledge-assets/fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db.png",
+      "sha256": "fa0aec5c2d1b6dc0b39302f1b21cf4d2aa49a2f38168819c9c3aa50a8979e7db",
+      "bytes": 1566342
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/654743f1f0d972210d5380a28b9775163e78683b1521abd4323eb8e84442731c.wav",
+      "sha256": "654743f1f0d972210d5380a28b9775163e78683b1521abd4323eb8e84442731c",
+      "bytes": 910276
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/oceanblue.html",
+        "sha256": "df22b50721555f39402fe56169c2cc3bbdc017d5ff7c24954a74269f1526f004"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-blue"
+  },
+  {
+    "language": "en",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Why does the sea rise and fall?",
+    "reply": {
+      "title": "The sea’s rising and falling tides",
+      "answer": "The sea’s regular rise and fall is called the tide. It happens because gravity from the Moon and Sun pulls on ocean water. This creates very long waves that travel through the ocean toward the coasts. The highest part of a tidal wave brings high tide, and the lowest part brings low tide.",
+      "invitation": "Imagine the same shore at high tide and low tide. When would the water level be higher?",
+      "category": "science",
+      "artworkPrompt": "A beautiful, calm ocean meeting a gently sloping sandy shore, with a few smooth coastal rocks and a clear horizon beneath a soft blue sky. One simple, inviting coastal scene in a softly textured children's book illustration style, with natural colors and scientifically plausible water.",
+      "quiz": {
+        "question": "What causes tides?",
+        "choices": [
+          "The gravitational pull of the Moon and Sun",
+          "Sunlight warming the sand",
+          "Wind blowing through coastal trees"
+        ],
+        "correctIndex": 0,
+        "explanation": "The Moon’s and Sun’s gravity pulls on ocean water, causing tides."
+      }
+    },
+    "id": "b846467c-d3a8-49f9-888a-fbbe4a88ca7f",
+    "version": 1789452201815,
+    "topicID": "ocean-tides",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453882167,
+    "reviewAt": 1792045882167,
+    "expiresAt": 1797229882167,
+    "artwork": {
+      "path": "/api/knowledge-assets/9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745.png",
+      "sha256": "9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745",
+      "bytes": 1659469
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/f4f7a1969a0b88b989e7223672c65d45111afeb6a97bac39a0997e0d18076949.wav",
+      "sha256": "f4f7a1969a0b88b989e7223672c65d45111afeb6a97bac39a0997e0d18076949",
+      "bytes": 883244
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/tides.html",
+        "sha256": "a4b577fa54950e981eae3cdfe6a02c3f78cb67d2235494592997db2fae7d5817"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-tides"
+  },
+  {
+    "language": "zh-Hans",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "为什么海水会涨落？",
+    "reply": {
+      "title": "海水的涨落：潮汐",
+      "answer": "海水有规律的涨落叫作潮汐。月球和太阳的引力牵引着海水，引起了潮汐。这会形成很长的波，在海洋中向海岸传播。潮波最高的部分到达时是高潮，最低的部分到达时是低潮。",
+      "invitation": "想象同一片海岸在高潮和低潮时的样子。什么时候水位更高呢？",
+      "category": "science",
+      "artworkPrompt": "A beautiful, calm ocean meeting a gently sloping sandy shore, with a few smooth coastal rocks and a clear horizon beneath a soft blue sky. One simple, inviting coastal scene in a softly textured children's book illustration style, with natural colors and scientifically plausible water.",
+      "quiz": {
+        "question": "是什么引起了潮汐？",
+        "choices": [
+          "月球和太阳的引力",
+          "晒暖沙子的阳光",
+          "吹过海岸树木的风"
+        ],
+        "correctIndex": 0,
+        "explanation": "月球和太阳的引力牵引着海水，引起了潮汐。"
+      }
+    },
+    "id": "1627556f-61cb-4fda-838f-173ed0d3957d",
+    "version": 1789452201815,
+    "topicID": "ocean-tides",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453882167,
+    "reviewAt": 1792045882167,
+    "expiresAt": 1797229882167,
+    "artwork": {
+      "path": "/api/knowledge-assets/9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745.png",
+      "sha256": "9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745",
+      "bytes": 1659469
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/82fa860cd3b92014fb8da7346cfe0930d30c52285c0e0208b60cae3dd4c3373e.wav",
+      "sha256": "82fa860cd3b92014fb8da7346cfe0930d30c52285c0e0208b60cae3dd4c3373e",
+      "bytes": 851470
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/tides.html",
+        "sha256": "a4b577fa54950e981eae3cdfe6a02c3f78cb67d2235494592997db2fae7d5817"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-tides"
+  },
+  {
+    "language": "zh-Hant",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "為什麼海水會漲落？",
+    "reply": {
+      "title": "海水的漲落：潮汐",
+      "answer": "海水有規律的漲落叫作潮汐。月球和太陽的引力牽引著海水，引起了潮汐。這會形成很長的波，在海洋中向海岸傳播。潮波最高的部分到達時是高潮，最低的部分到達時是低潮。",
+      "invitation": "想像同一片海岸在高潮和低潮時的樣子。什麼時候水位更高呢？",
+      "category": "science",
+      "artworkPrompt": "A beautiful, calm ocean meeting a gently sloping sandy shore, with a few smooth coastal rocks and a clear horizon beneath a soft blue sky. One simple, inviting coastal scene in a softly textured children's book illustration style, with natural colors and scientifically plausible water.",
+      "quiz": {
+        "question": "是什麼引起了潮汐？",
+        "choices": [
+          "月球和太陽的引力",
+          "曬暖沙子的陽光",
+          "吹過海岸樹木的風"
+        ],
+        "correctIndex": 0,
+        "explanation": "月球和太陽的引力牽引著海水，引起了潮汐。"
+      }
+    },
+    "id": "d225a58c-7d72-44a7-846a-46984e3fb897",
+    "version": 1789452201815,
+    "topicID": "ocean-tides",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453882167,
+    "reviewAt": 1792045882167,
+    "expiresAt": 1797229882167,
+    "artwork": {
+      "path": "/api/knowledge-assets/9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745.png",
+      "sha256": "9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745",
+      "bytes": 1659469
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/9d65c05d2f0deb269d3658dced17b92882c7aedaebf4fb1a78d76c2c98188111.wav",
+      "sha256": "9d65c05d2f0deb269d3658dced17b92882c7aedaebf4fb1a78d76c2c98188111",
+      "bytes": 923618
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/tides.html",
+        "sha256": "a4b577fa54950e981eae3cdfe6a02c3f78cb67d2235494592997db2fae7d5817"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-tides"
+  },
+  {
+    "language": "es",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "¿Por qué sube y baja el mar?",
+    "reply": {
+      "title": "El vaivén de las mareas",
+      "answer": "La subida y bajada regular del nivel del mar se llama marea. Ocurre porque la gravedad de la Luna y del Sol tira del agua del océano. Esto crea ondas muy largas que viajan por el océano hacia las costas. Cuando llega la parte más alta de una onda de marea, hay marea alta; cuando llega la más baja, hay marea baja.",
+      "invitation": "Imagina la misma orilla con marea alta y con marea baja. ¿Cuándo estaría más alto el nivel del agua?",
+      "category": "science",
+      "artworkPrompt": "A beautiful, calm ocean meeting a gently sloping sandy shore, with a few smooth coastal rocks and a clear horizon beneath a soft blue sky. One simple, inviting coastal scene in a softly textured children's book illustration style, with natural colors and scientifically plausible water.",
+      "quiz": {
+        "question": "¿Qué causa las mareas?",
+        "choices": [
+          "La atracción gravitatoria de la Luna y del Sol",
+          "La luz del Sol que calienta la arena",
+          "El viento que sopla entre los árboles de la costa"
+        ],
+        "correctIndex": 0,
+        "explanation": "La gravedad de la Luna y del Sol tira del agua del océano y causa las mareas."
+      }
+    },
+    "id": "c259b950-0eaa-4316-8429-5605ba1333c6",
+    "version": 1789452201815,
+    "topicID": "ocean-tides",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453882167,
+    "reviewAt": 1792045882167,
+    "expiresAt": 1797229882167,
+    "artwork": {
+      "path": "/api/knowledge-assets/9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745.png",
+      "sha256": "9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745",
+      "bytes": 1659469
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/47663a15f056b148ccc6227b08b50e41310d4525805c55d533eb7b68eb093525.wav",
+      "sha256": "47663a15f056b148ccc6227b08b50e41310d4525805c55d533eb7b68eb093525",
+      "bytes": 1026490
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/tides.html",
+        "sha256": "a4b577fa54950e981eae3cdfe6a02c3f78cb67d2235494592997db2fae7d5817"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-tides"
+  },
+  {
+    "language": "fr",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Pourquoi la mer monte-t-elle et descend-elle ?",
+    "reply": {
+      "title": "La mer monte et descend : les marées",
+      "answer": "La montée et la descente régulières du niveau de la mer s’appellent les marées. Elles se produisent parce que la gravité de la Lune et du Soleil attire l’eau de l’océan. Cela crée de très longues ondes qui traversent l’océan vers les côtes. Quand la partie la plus haute d’une onde de marée arrive, c’est la marée haute ; quand la partie la plus basse arrive, c’est la marée basse.",
+      "invitation": "Imagine le même rivage à marée haute et à marée basse. Quand le niveau de l’eau serait-il le plus haut ?",
+      "category": "science",
+      "artworkPrompt": "A beautiful, calm ocean meeting a gently sloping sandy shore, with a few smooth coastal rocks and a clear horizon beneath a soft blue sky. One simple, inviting coastal scene in a softly textured children's book illustration style, with natural colors and scientifically plausible water.",
+      "quiz": {
+        "question": "Qu’est-ce qui provoque les marées ?",
+        "choices": [
+          "L’attraction gravitationnelle de la Lune et du Soleil",
+          "La lumière du Soleil qui chauffe le sable",
+          "Le vent qui souffle dans les arbres du littoral"
+        ],
+        "correctIndex": 0,
+        "explanation": "La gravité de la Lune et du Soleil attire l’eau de l’océan, ce qui provoque les marées."
+      }
+    },
+    "id": "81769c79-5a42-4e16-8edd-fde2774b0dac",
+    "version": 1789452201815,
+    "topicID": "ocean-tides",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453882167,
+    "reviewAt": 1792045882167,
+    "expiresAt": 1797229882167,
+    "artwork": {
+      "path": "/api/knowledge-assets/9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745.png",
+      "sha256": "9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745",
+      "bytes": 1659469
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/e488be271c1ab828cfe506acf245b88f3ae38743a5ebbc2f93d18570c9423c6b.wav",
+      "sha256": "e488be271c1ab828cfe506acf245b88f3ae38743a5ebbc2f93d18570c9423c6b",
+      "bytes": 1088384
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/tides.html",
+        "sha256": "a4b577fa54950e981eae3cdfe6a02c3f78cb67d2235494592997db2fae7d5817"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-tides"
+  },
+  {
+    "language": "de",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Warum steigt und sinkt der Meeresspiegel?",
+    "reply": {
+      "title": "Das Auf und Ab der Gezeiten",
+      "answer": "Das regelmäßige Steigen und Sinken des Meeresspiegels nennt man Gezeiten. Sie entstehen, weil die Anziehungskraft von Mond und Sonne am Meerwasser zieht. Dadurch entstehen sehr lange Wellen, die durch den Ozean zu den Küsten wandern. Kommt der höchste Teil einer Gezeitenwelle an, ist Hochwasser; beim tiefsten Teil ist Niedrigwasser.",
+      "invitation": "Stell dir dieselbe Küste bei Hochwasser und bei Niedrigwasser vor. Wann wäre der Wasserstand höher?",
+      "category": "science",
+      "artworkPrompt": "A beautiful, calm ocean meeting a gently sloping sandy shore, with a few smooth coastal rocks and a clear horizon beneath a soft blue sky. One simple, inviting coastal scene in a softly textured children's book illustration style, with natural colors and scientifically plausible water.",
+      "quiz": {
+        "question": "Was verursacht die Gezeiten?",
+        "choices": [
+          "Die Anziehungskraft von Mond und Sonne",
+          "Sonnenlicht, das den Sand erwärmt",
+          "Wind, der durch die Bäume an der Küste weht"
+        ],
+        "correctIndex": 0,
+        "explanation": "Die Anziehungskraft von Mond und Sonne zieht am Meerwasser und verursacht die Gezeiten."
+      }
+    },
+    "id": "80b0954b-d54b-4e39-87c8-edb4ce6876ba",
+    "version": 1789452201815,
+    "topicID": "ocean-tides",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453882167,
+    "reviewAt": 1792045882167,
+    "expiresAt": 1797229882167,
+    "artwork": {
+      "path": "/api/knowledge-assets/9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745.png",
+      "sha256": "9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745",
+      "bytes": 1659469
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/37f37b401bf22738c77c3181f44eb1e398347a2d9537f1274533599039207f6e.wav",
+      "sha256": "37f37b401bf22738c77c3181f44eb1e398347a2d9537f1274533599039207f6e",
+      "bytes": 1179894
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/tides.html",
+        "sha256": "a4b577fa54950e981eae3cdfe6a02c3f78cb67d2235494592997db2fae7d5817"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-tides"
+  },
+  {
+    "language": "pt-BR",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "Por que o mar sobe e desce?",
+    "reply": {
+      "title": "O sobe e desce das marés",
+      "answer": "A subida e a descida regulares do nível do mar são chamadas de marés. Elas acontecem porque a gravidade da Lua e do Sol puxa a água do oceano. Isso cria ondas muito longas que viajam pelo oceano em direção às costas. Quando a parte mais alta de uma onda de maré chega, ocorre a maré alta; quando a parte mais baixa chega, ocorre a maré baixa.",
+      "invitation": "Imagine a mesma praia na maré alta e na maré baixa. Quando o nível da água estaria mais alto?",
+      "category": "science",
+      "artworkPrompt": "A beautiful, calm ocean meeting a gently sloping sandy shore, with a few smooth coastal rocks and a clear horizon beneath a soft blue sky. One simple, inviting coastal scene in a softly textured children's book illustration style, with natural colors and scientifically plausible water.",
+      "quiz": {
+        "question": "O que causa as marés?",
+        "choices": [
+          "A atração gravitacional da Lua e do Sol",
+          "A luz do Sol que aquece a areia",
+          "O vento que sopra entre as árvores do litoral"
+        ],
+        "correctIndex": 0,
+        "explanation": "A gravidade da Lua e do Sol puxa a água do oceano, causando as marés."
+      }
+    },
+    "id": "cf7943e1-af90-4106-8195-efbb3a33f06f",
+    "version": 1789452201815,
+    "topicID": "ocean-tides",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453882167,
+    "reviewAt": 1792045882167,
+    "expiresAt": 1797229882167,
+    "artwork": {
+      "path": "/api/knowledge-assets/9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745.png",
+      "sha256": "9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745",
+      "bytes": 1659469
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/e564abf6179973dca5df397c33640d0fb1656700a7723ee63d6fe9f87813dcea.wav",
+      "sha256": "e564abf6179973dca5df397c33640d0fb1656700a7723ee63d6fe9f87813dcea",
+      "bytes": 1113150
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/tides.html",
+        "sha256": "a4b577fa54950e981eae3cdfe6a02c3f78cb67d2235494592997db2fae7d5817"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-tides"
+  },
+  {
+    "language": "ja",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "どうして海の水は満ちたり引いたりするの？",
+    "reply": {
+      "title": "海の水が満ちたり引いたりするわけ",
+      "answer": "海の水面が規則的に上がったり下がったりすることを、潮の満ち引きといいます。月と太陽の重力が海の水を引っ張ることで起こります。この力によって、とても長い波ができ、海を通って海岸へと伝わります。その波のいちばん高い部分が来ると満潮に、いちばん低い部分が来ると干潮になります。",
+      "invitation": "同じ海岸の満潮のときと干潮のときを思い浮かべてみよう。水面が高いのはどちらかな？",
+      "category": "science",
+      "artworkPrompt": "A beautiful, calm ocean meeting a gently sloping sandy shore, with a few smooth coastal rocks and a clear horizon beneath a soft blue sky. One simple, inviting coastal scene in a softly textured children's book illustration style, with natural colors and scientifically plausible water.",
+      "quiz": {
+        "question": "潮の満ち引きを起こすのは何？",
+        "choices": [
+          "月と太陽の重力",
+          "砂を温める太陽の光",
+          "海岸の木々の間を吹く風"
+        ],
+        "correctIndex": 0,
+        "explanation": "月と太陽の重力が海の水を引っ張ることで、潮の満ち引きが起こります。"
+      }
+    },
+    "id": "60c754ec-c79d-4399-84b6-9382eb947f6f",
+    "version": 1789452201815,
+    "topicID": "ocean-tides",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453882167,
+    "reviewAt": 1792045882167,
+    "expiresAt": 1797229882167,
+    "artwork": {
+      "path": "/api/knowledge-assets/9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745.png",
+      "sha256": "9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745",
+      "bytes": 1659469
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/b29b900f55393279d7cdc49f314333e61de8cacfa2bc3c9cd39393dc4d69ac2e.wav",
+      "sha256": "b29b900f55393279d7cdc49f314333e61de8cacfa2bc3c9cd39393dc4d69ac2e",
+      "bytes": 1289312
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/tides.html",
+        "sha256": "a4b577fa54950e981eae3cdfe6a02c3f78cb67d2235494592997db2fae7d5817"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-tides"
+  },
+  {
+    "language": "ko",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "바닷물의 높이는 왜 올라갔다 내려갔다 하나요?",
+    "reply": {
+      "title": "바닷물이 높아졌다 낮아지는 이유",
+      "answer": "바닷물의 높이가 규칙적으로 올라갔다 내려갔다 하는 현상을 조석이라고 해요. 달과 태양의 중력이 바닷물을 끌어당겨서 생겨요. 이 힘으로 아주 긴 파동이 만들어져 바다를 지나 해안 쪽으로 이동해요. 이 파동의 가장 높은 부분이 도착하면 만조가 되고, 가장 낮은 부분이 도착하면 간조가 돼요.",
+      "invitation": "같은 해안의 만조 때와 간조 때를 상상해 보세요. 언제 바닷물의 높이가 더 높을까요?",
+      "category": "science",
+      "artworkPrompt": "A beautiful, calm ocean meeting a gently sloping sandy shore, with a few smooth coastal rocks and a clear horizon beneath a soft blue sky. One simple, inviting coastal scene in a softly textured children's book illustration style, with natural colors and scientifically plausible water.",
+      "quiz": {
+        "question": "바닷물의 높이가 규칙적으로 오르내리는 조석은 무엇 때문에 생길까요?",
+        "choices": [
+          "달과 태양의 중력",
+          "모래를 따뜻하게 하는 햇빛",
+          "해안의 나무 사이로 부는 바람"
+        ],
+        "correctIndex": 0,
+        "explanation": "달과 태양의 중력이 바닷물을 끌어당겨서 조석이 생겨요."
+      }
+    },
+    "id": "de6d3c10-8dd3-426f-8174-78c4fb4b87d5",
+    "version": 1789452201815,
+    "topicID": "ocean-tides",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453882167,
+    "reviewAt": 1792045882167,
+    "expiresAt": 1797229882167,
+    "artwork": {
+      "path": "/api/knowledge-assets/9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745.png",
+      "sha256": "9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745",
+      "bytes": 1659469
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/73807e80a7099f5a3842eab4ebab6aa22d86b4c5415f3b85d47936b9714bfdc9.wav",
+      "sha256": "73807e80a7099f5a3842eab4ebab6aa22d86b4c5415f3b85d47936b9714bfdc9",
+      "bytes": 1133790
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/tides.html",
+        "sha256": "a4b577fa54950e981eae3cdfe6a02c3f78cb67d2235494592997db2fae7d5817"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-tides"
+  },
+  {
+    "language": "ar",
+    "minAge": 5,
+    "maxAge": 18,
+    "question": "لماذا يرتفع مستوى البحر وينخفض؟",
+    "reply": {
+      "title": "ارتفاع البحر وانخفاضه: المد والجزر",
+      "answer": "يُسمّى ارتفاع مستوى البحر وانخفاضه بانتظام المد والجزر. ويحدث ذلك لأن جاذبية القمر والشمس تسحب مياه المحيط. وهذا يُكوّن موجات طويلة جدًا تنتقل عبر المحيط نحو السواحل. عندما يصل أعلى جزء من موجة المد والجزر يكون الماء عند أعلى مستوى له، وعندما يصل أدنى جزء يكون الماء عند أدنى مستوى له.",
+      "invitation": "تخيّل الشاطئ نفسه عند أعلى مستوى للماء وعند أدنى مستوى له. في أي الحالتين يكون الماء أكثر ارتفاعًا؟",
+      "category": "science",
+      "artworkPrompt": "A beautiful, calm ocean meeting a gently sloping sandy shore, with a few smooth coastal rocks and a clear horizon beneath a soft blue sky. One simple, inviting coastal scene in a softly textured children's book illustration style, with natural colors and scientifically plausible water.",
+      "quiz": {
+        "question": "ما الذي يسبب المد والجزر؟",
+        "choices": [
+          "جاذبية القمر والشمس",
+          "ضوء الشمس الذي يدفئ الرمل",
+          "الرياح التي تهب بين أشجار الساحل"
+        ],
+        "correctIndex": 0,
+        "explanation": "تسحب جاذبية القمر والشمس مياه المحيط، فتسبب المد والجزر."
+      }
+    },
+    "id": "7468fdb1-8f4a-466c-8a83-aeb0926fdfbe",
+    "version": 1789452201815,
+    "topicID": "ocean-tides",
+    "policy": "discovery-v1",
+    "verifiedAt": 1789453882167,
+    "reviewAt": 1792045882167,
+    "expiresAt": 1797229882167,
+    "artwork": {
+      "path": "/api/knowledge-assets/9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745.png",
+      "sha256": "9788924db9bbd0f97c98601b5f8ca2ddeef01a64c81a640bbca5e76f3f867745",
+      "bytes": 1659469
+    },
+    "narration": {
+      "path": "/api/knowledge-assets/c994b3fd92d586b77364cf022e281ba2f30de072b80acb385cfcfcdd845b42ea.wav",
+      "sha256": "c994b3fd92d586b77364cf022e281ba2f30de072b80acb385cfcfcdd845b42ea",
+      "bytes": 1370708
+    },
+    "speechRevision": "azure-neural-v2",
+    "sources": [
+      {
+        "url": "https://oceanservice.noaa.gov/facts/tides.html",
+        "sha256": "a4b577fa54950e981eae3cdfe6a02c3f78cb67d2235494592997db2fae7d5817"
+      }
+    ],
+    "bundledArtwork": "prepared-ocean-tides"
+  }
+]
