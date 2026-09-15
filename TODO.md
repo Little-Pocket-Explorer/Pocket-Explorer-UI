@@ -2,6 +2,25 @@
 
 Updated: 2026-09-11.
 
+## T19 in review: reference login visual system and orientation adaptation
+
+- Replaced the prior registration composition with the supplied reference structure: full hero artwork, centered Pocket Explorer brand, large two-line title, equal Apple / Google / Email action rows, consent copy and an email form that opens only after choosing Email.
+- The native app retains a portrait-first immersive sign-up and chat home. It does not rotate because `project.yml` remains portrait-only.
+- The matching Web sign-up and chat home now have separate responsive layouts: portrait keeps the stacked mobile composition, while landscape uses a full-height hero beside the registration panel and a wider chat-home suggestion grid.
+- Web checks passed after the redesign: 27 unit/integration tests, 9 Chromium browser tests, 98.96% lines and 94.57% branches. Browser checks include 390px portrait and 1440px landscape sign-up layouts with no horizontal overflow.
+- Native source diagnostics pass. Native XCTest, XCUITest, coverage and device visual review must still run on macOS CI.
+- BLOCKED: the reference's child-in-garden hero image is not present in the workspace, sibling Backend repository, Downloads or Desktop. Existing original duck artwork is used as a temporary hero. Pixel-identical visual parity requires an approved source image file; do not extract or reuse a screenshot as a shipped product asset.
+
+## T18 in review: email registration and chat-first home redesign
+
+- The first app surface is now a local email registration screen. A valid email creates a profile stored only on the current device/browser and enters the chat-first home directly using the device language.
+- The new home follows the supplied mobile reference structure in both clients: garden hero, branded top row, child profile marker, question prompt, three suggested questions, bottom question composer, and Chat / Map / Collection / Social navigation.
+- The existing Map, Collection, Memories and exploration data remain available in the native app. Suggested questions are passed into the existing exploration flow so the selected intent is preserved.
+- Web registration validates email input, persists the demo profile in local storage, and retains the existing exploration, card unlock and public sharing flows. Apple and Google controls are intentionally unavailable until a real OAuth provider is configured; they do not simulate sign-in.
+- Web verification passed on Windows: 27 unit/integration tests, 7 Chromium tests, 98.95% lines and 94.48% branches. The relevant browser test runs at 390px and verifies the email registration, chat-home recommendation and card unlock journey.
+- Native source diagnostics and English/Simplified Chinese localization checks passed. Native XCTest, XCUITest, coverage and TestFlight verification remain required on macOS CI.
+- The supplied reference's generated child character asset is not present in either repository. Both implementations reuse the existing original duck garden illustration, so the layout and interaction are synchronized but the hero artwork is not pixel-identical. Add an approved source image before claiming final visual parity.
+
 ## T17 in progress: earned card unlock loop
 
 - Product direction: the Hackathon Web experience is a required complete review surface, while the iPhone app provides the synchronized native experience. Core card-flow UI changes must be implemented in both repositories.
@@ -41,11 +60,11 @@ States: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, DEFERRED. DONE requires eviden
 ## Current checkpoint
 
 - Objective: Deliver a complete Hackathon Web experience and a synchronized enhanced iPhone exploration experience.
-- Current stage: T17 card unlock loop is implemented in both SwiftUI and Web. Web checks pass; native changes await macOS CI.
+- Current stage: T19 reference-driven sign-up layout and orientation adaptation is implemented in Web and SwiftUI. Web checks pass; native changes await macOS CI and visual review.
 - New skill: /Users/haichang/.codex/skills/codex-project passed structural validation. Legacy codex-bootstrap is preserved.
 - Local preview: http://127.0.0.1:4174/s/EDYeU5SzHaXpMEy1XAx9WqvE1Grjrmv3. This is accessible on this Mac only.
 - Running processes: UI GitHub run 34575779608 and its local watcher exited successfully. The preview on port 4174 now runs from ../pocket-explorer-backend (PID 17900). Its existing story was independently read before and after migration with identical SHA-256. The original SQLite file remains as a local backup.
-- Next action: run the native PR workflow before TestFlight review, inspect the Web demo on an iPhone browser, then select the next card-system increment. Live AI integration has not started.
+- Next action: provide an approved child hero asset for final visual parity, then run the native PR workflow before TestFlight review. Live AI integration has not started.
 - Prerequisites: external build 2 is now confirmed IN_BETA_TESTING and public enrollment is available. External distribution of later builds is managed separately. Physical-device and human acceptance remain open.
 - Human checks: Visual approval, VoiceOver, actual device speech/camera, mobile Safari and the two-minute full rehearsal.
 
@@ -70,6 +89,8 @@ States: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, DEFERRED. DONE requires eviden
 | T15 | DONE | GitHub repository and automated TestFlight delivery | All three GitHub jobs passed. Apple independently confirms 0.1.0 (6) Testing internally. See github-setup.json. |
 | T16 | DONE | Extract Backend and automate Cloudflare delivery | Backend deployment and UI live integration passed. Apple independently confirms 0.1.0 (7) Testing internally. See backend-extraction.json. |
 | T17 | REVIEW | Earned card unlock loop in Web and SwiftUI | Web implementation and full local tests pass. SwiftUI implementation and static checks pass; macOS native tests, TestFlight and human review remain. |
+| T18 | REVIEW | Email registration and chat-first home | Web implementation and full local tests pass. Native diagnostics and localization checks pass; macOS native tests, TestFlight and visual approval remain. |
+| T19 | REVIEW | Reference login layout and orientation adaptation | Web portrait and landscape layouts pass browser checks. Native remains portrait-first and passes diagnostics; approved child hero asset, macOS CI and visual review remain. |
 | T12 | DEFERRED | Optional live AI | Prepared duck, leaf and shell answers are explicitly labeled. A live generative service is optional. |
 
 Task dependencies and the unchanged acceptance contract remain in PLAN.md and ACCEPTANCE.md.

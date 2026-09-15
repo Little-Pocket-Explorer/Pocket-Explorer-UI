@@ -5,24 +5,28 @@ struct RootView: View {
     var changeLanguage: () -> Void
     @State private var tab = 0
     @State private var exploring = false
+    @State private var initialQuestion = ""
 
     var body: some View {
         TabView(selection: $tab) {
+            NavigationStack { ChatHomeView(explore: { question in initialQuestion = question; exploring = true }, changeLanguage: changeLanguage) }
+                .tabItem { Label(L10n.text("Chat"), systemImage: "bubble.left.and.bubble.right.fill") }.tag(0)
             NavigationStack { WorldView(store: store, explore: { exploring = true }, changeLanguage: changeLanguage) }
-                .tabItem { Label("My world", systemImage: "globe.europe.africa.fill") }.tag(0)
+                .tabItem { Label(L10n.text("Map"), systemImage: "map.fill") }.tag(1)
             NavigationStack { CollectionView(store: store, explore: { exploring = true }) }
-                .tabItem { Label("My finds", systemImage: "rectangle.stack.fill") }.tag(1)
+                .tabItem { Label(L10n.text("Collection"), systemImage: "rectangle.stack.fill") }.tag(2)
             NavigationStack { MemoriesView(store: store) }
-                .tabItem { Label("Memories", systemImage: "sparkles.tv.fill") }.tag(2)
+                .tabItem { Label(L10n.text("Social"), systemImage: "person.2.fill") }.tag(3)
         }
         .tint(Theme.forest)
-        .sheet(isPresented: $exploring) { ExplorationFlow(store: store, tripID: nil) }
+        .sheet(isPresented: $exploring) { ExplorationFlow(store: store, tripID: nil, initialQuestion: initialQuestion) }
     }
 }
 
 struct ExplorationFlow: View {
     let store: TripStore
     let tripID: UUID?
+    var initialQuestion = ""
     @Environment(\.dismiss) private var dismiss
     @State private var saved: Discovery?
     @State private var revealed = false
@@ -49,7 +53,7 @@ struct ExplorationFlow: View {
                         CardUnlockView(discovery: saved) { revealed = true }
                     }
                 }
-                else { ExploreView(store: store, tripID: tripID, onSave: { saved = $0 }) }
+                else { ExploreView(store: store, tripID: tripID, initialQuestion: initialQuestion, onSave: { saved = $0 }) }
             }
             .navigationDestination(isPresented: $showMemory) {
                 if let saved, let trip = store.state.trips.first(where: { $0.id == saved.tripID }) {

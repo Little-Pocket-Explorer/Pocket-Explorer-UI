@@ -29,6 +29,17 @@ final class ExploreAndMemoryTests: XCTestCase {
         XCTAssertEqual(independent.string(forKey: "app-language"), "system")
     }
 
+    func testProfileSetupValidatesAndPersistsAnEmailAddress() throws {
+        let suite = "PocketProfileTests-\(UUID())"
+        let preferences = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { preferences.removePersistentDomain(forName: suite) }
+        XCTAssertThrowsError(try ProfileSettings.save(email: "not an email", to: preferences))
+        let profile = try ProfileSettings.save(email: " Kai@Example.com ", to: preferences)
+        XCTAssertEqual(profile, ExplorerProfile(email: "kai@example.com", displayName: "Kai"))
+        let data = try XCTUnwrap(preferences.data(forKey: "explorer-profile"))
+        XCTAssertEqual(try JSONDecoder().decode(ExplorerProfile.self, from: data), profile)
+    }
+
     func testGuideUnderstandsChineseAndUsesSelectedReplyLanguage() {
         for (question, subject) in [("鸭子怎么游泳？", DiscoverySubject.duck), ("這片葉子為什麼不同？", .leaf), ("貝殼住著誰？", .shell), ("海螺有什么？", .shell)] {
             let chinese = DemoGuide.reply(to: question, language: .chinese)

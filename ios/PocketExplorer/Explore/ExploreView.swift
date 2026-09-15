@@ -4,6 +4,7 @@ import SwiftUI
 struct ExploreView: View {
     let store: TripStore
     let tripID: UUID?
+    let initialQuestion: String
     var onSave: (Discovery) -> Void
     @Environment(\.scenePhase) private var scenePhase
     @State private var session = ExplorationState()
@@ -15,6 +16,14 @@ struct ExploreView: View {
     @State private var createdTripID: UUID?
     @State private var replyTask: Task<Void, Never>?
     @FocusState private var inputFocused: Bool
+
+    init(store: TripStore, tripID: UUID?, initialQuestion: String = "", onSave: @escaping (Discovery) -> Void) {
+        self.store = store
+        self.tripID = tripID
+        self.initialQuestion = initialQuestion
+        self.onSave = onSave
+        _session = State(initialValue: ExplorationState(question: initialQuestion))
+    }
 
     var body: some View {
         ScrollViewReader { reader in

@@ -1,6 +1,66 @@
 import MapKit
 import SwiftUI
 
+struct ChatHomeView: View {
+    var explore: (String) -> Void
+    var changeLanguage: () -> Void
+    @State private var question = ""
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                HStack {
+                    Button(action: changeLanguage) { Image(systemName: "rectangle.split.3x1") }
+                        .frame(width: 44, height: 44).background(Theme.paper.opacity(0.92), in: Circle())
+                        .accessibilityLabel("Language").accessibilityIdentifier("choose-language")
+                    Spacer()
+                    BrandHeader()
+                    Spacer()
+                    Image("duck").resizable().scaledToFill().frame(width: 44, height: 44).clipShape(Circle())
+                        .overlay(Circle().stroke(.white, lineWidth: 2)).accessibilityHidden(true)
+                }
+                .padding(.horizontal, 20).padding(.top, 12)
+                .background(LinearGradient(colors: [Theme.ocean.opacity(0.65), Theme.paper], startPoint: .top, endPoint: .bottom))
+                Image("duck").resizable().scaledToFit().frame(maxWidth: 310, maxHeight: 220).padding(.top, 4)
+                    .accessibilityHidden(true)
+                VStack(spacing: 11) {
+                    Text(L10n.text("What are you curious\nabout today?")).font(.system(.title, design: .rounded, weight: .heavy)).multilineTextAlignment(.center)
+                    Text(L10n.text("Ask about anything you notice.")).font(.system(.subheadline, design: .rounded)).foregroundStyle(Theme.muted)
+                    VStack(spacing: 10) {
+                        suggestion(L10n.text("Why is the sky blue?"), icon: "cloud.sun.fill")
+                        suggestion(L10n.text("What kind of leaf is this?"), icon: "leaf.fill")
+                        suggestion(L10n.text("How do bees find flowers?"), icon: "sun.max.fill")
+                    }.padding(.top, 10)
+                }
+                .padding(22).background(Theme.paper.opacity(0.94), in: RoundedRectangle(cornerRadius: 30))
+            }.padding(.bottom, 16)
+        }
+        .safeAreaInset(edge: .bottom) {
+            HStack(spacing: 8) {
+                Button(action: { explore(question) }) { Image(systemName: "photo.on.rectangle") }.frame(width: 44, height: 44)
+                Button(action: { explore(question) }) { Image(systemName: "camera") }.frame(width: 44, height: 44)
+                TextField(L10n.text("Ask anything..."), text: $question).textFieldStyle(.plain).accessibilityIdentifier("home-question")
+                Button(action: { explore(question) }) { Image(systemName: "mic.fill") }.frame(width: 44, height: 44)
+                    .background(Theme.ocean, in: Circle()).accessibilityIdentifier("start-exploring")
+            }
+            .padding(9).background(.white, in: Capsule()).shadow(color: Theme.ink.opacity(0.12), radius: 10, y: 4)
+            .padding(.horizontal, 20).padding(.vertical, 8).background(Theme.paper)
+        }
+        .background(Theme.paper).foregroundStyle(Theme.ink).toolbar(.hidden, for: .navigationBar)
+    }
+
+    private func suggestion(_ title: String, icon: String) -> some View {
+        Button(action: { explore(title) }) {
+            HStack(spacing: 13) {
+                Image(systemName: icon).foregroundStyle(Theme.forest).frame(width: 29, height: 29).background(Theme.surface, in: Circle())
+                Text(title).font(.system(.subheadline, design: .rounded, weight: .semibold)).multilineTextAlignment(.leading)
+                Spacer()
+                Image(systemName: "chevron.right").font(.caption.bold()).foregroundStyle(Theme.muted)
+            }.padding(12).frame(maxWidth: .infinity, minHeight: 54).background(.white, in: RoundedRectangle(cornerRadius: 18))
+        }.buttonStyle(.plain).accessibilityIdentifier("suggestion-")
+    }
+}
+
 struct WorldView: View {
     let store: TripStore
     var explore: () -> Void

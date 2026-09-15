@@ -6,21 +6,32 @@ struct PocketExplorerApp: App {
     @State private var store: TripStore?
     @State private var loadError: String?
     @State private var language: LanguagePreference?
+    @State private var profile: ExplorerProfile?
     @State private var choosingLanguage = false
 
     init() {
         #if DEBUG
-        if ProcessInfo.processInfo.arguments.contains("--ui-testing"), ProcessInfo.processInfo.arguments.contains("--reset-language") {
-            LanguageSettings.preferences.removeObject(forKey: "app-language")
+        if ProcessInfo.processInfo.arguments.contains("--ui-testing") {
+            if ProcessInfo.processInfo.arguments.contains("--reset-language") { LanguageSettings.preferences.removeObject(forKey: "app-language") }
+            if ProcessInfo.processInfo.arguments.contains("--reset-profile") { ProfileSettings.clear() }
         }
         #endif
         _language = State(initialValue: LanguageSettings.selection)
+        _profile = State(initialValue: ProfileSettings.profile)
     }
 
     var body: some Scene {
         WindowGroup {
             Group {
-                if language == nil {
+                if profile == nil {
+                    ProfileSetupView(onComplete: { savedProfile in
+                        if language == nil {
+                            LanguageSettings.save(.system)
+                            language = .system
+                        }
+                        profile = savedProfile
+                    })
+                } else if language == nil {
                     LanguageSelectionView(onSelect: selectLanguage)
                 } else if let store {
                     RootView(store: store, changeLanguage: { choosingLanguage = true })

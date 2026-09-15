@@ -9,19 +9,24 @@ final class PrototypeTests: XCTestCase {
             if alert.buttons["Not Now"].exists { alert.buttons["Not Now"].tap(); return true }
             return false
         }
-        app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
+        app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "--reset-profile", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
         app.launchEnvironment["POCKET_SHARE_BASE_URL"] = "http://127.0.0.1:1"
         app.launch()
         dismissAccountReminder()
-        let language = app.buttons["language-continue"]
-        XCTAssertTrue(language.waitForExistence(timeout: 10))
-        language.tap()
+        let emailOption = app.buttons["signup-email-option"]
+        XCTAssertTrue(emailOption.waitForExistence(timeout: 10))
+        emailOption.tap()
+        let email = app.textFields["signup-email"]
+        XCTAssertTrue(email.waitForExistence(timeout: 10))
+        email.tap(); email.typeText("explorer@example.com")
+        app.buttons["signup-continue"].tap()
+        XCTAssertTrue(app.buttons["start-exploring"].waitForExistence(timeout: 10))
     }
 
     func testFirstUseActionsAreVisibleWithoutScrolling() {
         let start = app.buttons["start-exploring"]
         XCTAssertTrue(start.waitForExistence(timeout: 20))
-        XCTAssertLessThan(start.frame.maxY, app.frame.height * 0.65, "The main purpose must be visible before the map.")
+        XCTAssertLessThan(start.frame.maxY, app.frame.maxY, "The main purpose must be visible without scrolling.")
         XCTAssertTrue(start.isHittable)
         capture("first-use-home")
         start.tap()
@@ -32,10 +37,19 @@ final class PrototypeTests: XCTestCase {
         capture("first-use-entry")
     }
 
+    func testChatSuggestionPrefillsTheExplorationQuestion() {
+        let suggestion = app.buttons["Why is the sky blue?"]
+        XCTAssertTrue(suggestion.waitForExistence(timeout: 10))
+        suggestion.tap()
+        let input = app.textViews["exploration-input"].exists ? app.textViews["exploration-input"] : app.textFields["exploration-input"]
+        XCTAssertTrue(input.waitForExistence(timeout: 5))
+        XCTAssertEqual(input.value as? String, "Why is the sky blue?")
+    }
+
     func testNavigationCardsMemoriesAndPrivacyPreview() {
         XCTAssertTrue(app.buttons["start-exploring"].waitForExistence(timeout: 20))
         capture("world")
-        app.tabBars.buttons["My finds"].tap()
+        app.tabBars.buttons["Collection"].tap()
         XCTAssertTrue(app.staticTexts["journal-count"].label.contains("4 discoveries"))
         app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "Tiny ocean homes")).firstMatch.tap()
         let card = app.buttons["discovery-card"]
@@ -44,8 +58,8 @@ final class PrototypeTests: XCTestCase {
         card.tap()
         XCTAssertTrue(app.staticTexts["card-observation"].exists)
         capture("card-reverse")
-        app.buttons["My finds"].firstMatch.tap()
-        app.tabBars.buttons["Memories"].tap()
+        app.buttons["Collection"].firstMatch.tap()
+        app.tabBars.buttons["Social"].tap()
         app.buttons["memory-10000000-0000-4000-8000-000000000001"].tap()
         XCTAssertTrue(app.staticTexts["memory-chapter"].waitForExistence(timeout: 5))
         let first = app.staticTexts["memory-chapter"].label
@@ -84,7 +98,7 @@ final class PrototypeTests: XCTestCase {
         app.terminate()
         app.launchArguments = ["--ui-testing", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
         app.launch()
-        app.tabBars.buttons["My finds"].tap()
+        app.tabBars.buttons["Collection"].tap()
         XCTAssertTrue(app.staticTexts["journal-count"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["journal-count"].label.contains("5 discoveries"))
     }
@@ -183,12 +197,12 @@ final class PrototypeTests: XCTestCase {
         XCTAssertFalse(app.buttons["language-continue"].exists)
         app.tabBars.buttons["我的卡片"].tap()
         XCTAssertTrue(app.staticTexts["journal-count"].label.contains("4 张卡片"))
-        app.tabBars.buttons["去探索"].tap()
+        app.tabBars.buttons["聊天"].tap()
         app.buttons["choose-language"].tap()
         app.buttons["language-english"].tap()
         app.buttons["language-continue"].tap()
-        XCTAssertTrue(app.tabBars.buttons["My finds"].waitForExistence(timeout: 5))
-        app.tabBars.buttons["My finds"].tap()
+        XCTAssertTrue(app.tabBars.buttons["Collection"].waitForExistence(timeout: 5))
+        app.tabBars.buttons["Collection"].tap()
         XCTAssertTrue(app.staticTexts["journal-count"].label.contains("4 discoveries"))
     }
 
@@ -210,7 +224,7 @@ final class PrototypeTests: XCTestCase {
         XCTAssertFalse(app.secureTextFields["Family owner key"].exists)
         app.buttons["Done"].tap()
         app.navigationBars.buttons.element(boundBy: 0).tap()
-        app.tabBars.buttons["My finds"].tap()
+        app.tabBars.buttons["Collection"].tap()
         app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "Tiny ocean homes")).firstMatch.tap()
         scrollTo(app.buttons["Add to my story"]); app.buttons["Add to my story"].tap()
         let editor = app.textViews["edit-observation"]
@@ -235,7 +249,7 @@ final class PrototypeTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(app.buttons["speak-button"].frame.height, 44)
         capture("large-text-voice")
         app.buttons["Close"].tap()
-        app.tabBars.buttons["My finds"].tap()
+        app.tabBars.buttons["Collection"].tap()
         let find = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "Tiny ocean homes")).firstMatch
         scrollTo(find); find.tap()
         scrollTo(app.buttons["discovery-card"]); app.buttons["discovery-card"].tap()
@@ -246,7 +260,7 @@ final class PrototypeTests: XCTestCase {
         app.terminate()
         app.launchArguments = ["--ui-testing", "--reset-journal", "--empty-journal"]
         app.launch()
-        app.tabBars.buttons["My finds"].tap()
+        app.tabBars.buttons["Collection"].tap()
         XCTAssertTrue(app.staticTexts["journal-count"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["journal-count"].label.contains("0 discoveries"))
         scrollTo(app.buttons["Find another wonder"])
@@ -343,7 +357,7 @@ final class PrototypeTests: XCTestCase {
         app.launchArguments.removeAll { $0 == "--reset-language" }
         app.launch()
         XCTAssertTrue(app.buttons["start-exploring"].waitForExistence(timeout: 10))
-        app.tabBars.buttons["My finds"].tap()
+        app.tabBars.buttons["Collection"].tap()
         XCTAssertTrue(app.staticTexts["journal-count"].waitForExistence(timeout: 5))
         let find = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "Tiny ocean homes")).firstMatch
         scrollTo(find); find.tap()
