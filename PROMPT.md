@@ -1,5 +1,16 @@
 # Pocket Explorer: Continuation Brief
 
+## Azure narration integration (2026-09-15)
+
+Use the user-approved existing hai managed identity. Speech S0 has local authentication disabled. Resource-scoped Speech User and the attached hai identity are independently verified. Reuse the existing immutable proxy image in a dedicated Container App with minReplicas=0 and maxReplicas=1. Keep credentials on servers.
+
+- DONE S1: dedicated adapter deployed and ten languages synthesized. User selected Xiaoxiao gentle Chinese and Emma Dragon HD English.
+- DONE S2: backend source 9004928 deployed through workflow 34924912737. Production synthesis, cache replay, owner checks and cleanup passed. Existing 120/18 safeguards are unchanged.
+- DONE S3: final runtime source passed 108 unit tests and three narration UI tests. Changed executable-line coverage is 101/104 (97.12%), with each file above 80%. Decoder validation, cancellation, fallback and the 44-point Listen control are verified. The settled playback screenshot was inspected, and the playback UI test passed again after waiting for its label transition.
+- IN_PROGRESS S4: commit with [skip ci], publish locally and independently read Apple and the IPA. Final visual and source evidence are saved. Physical iPhone acceptance remains open.
+
+Work is isolated in ~/Worktrees/Pocket-Explorer-Backend-speech and ~/Worktrees/Pocket-Explorer-UI-speech on codex/azure-speech. Preserve the primary checkouts' unfinished cache and design drafts. Prepared recommendation audio will be implemented alongside the separate prepared-content work. Do not restart expired automation.
+
 ## Current objective
 
 The user-authorized eight-hour refinement window ended at 2026-09-15 08:39:34 Australia/Sydney. Released build 13 includes improvements to UI transitions, narration pacing and slow-illustration feedback. When the user continues the project, resume from the current delivery and unresolved work. Every meaningful future version still needs tests, actual UI inspection, written critique and independent verification. Do not repeat unchanged tests, provider calls or near-identical uploads.

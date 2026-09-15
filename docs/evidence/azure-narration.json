@@ -1,0 +1,61 @@
+{
+  "phase": "tested-native-publication-pending",
+  "selectedVoices": {
+    "zh-Hans": "zh-CN-XiaoxiaoNeural gentle",
+    "en": "en-US-Emma:DragonHDLatestNeural"
+  },
+  "userApprovedSamples": true,
+  "runtimeTests": {
+    "unitPassed": 108,
+    "uiPassed": 3,
+    "failed": 0,
+    "result": "/Users/haichang/tmp/review/pocket-speech-20260915/narration-release-tests.xcresult"
+  },
+  "changedExecutableLineCoverage": {
+    "base": "0f326e0581651da2321162837556b7cd63ee4d0c",
+    "result": "/Users/haichang/tmp/review/pocket-speech-20260915/narration-release-tests.xcresult",
+    "covered": 101,
+    "executable": 104,
+    "percent": 97.12,
+    "files": [
+      {
+        "path": "ios/PocketExplorer/Explore/ExploreView.swift",
+        "covered": 12,
+        "executable": 12,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/NarrationClient.swift",
+        "covered": 49,
+        "executable": 49,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/VoiceSession.swift",
+        "covered": 40,
+        "executable": 43,
+        "percent": 93.02,
+        "uncovered": [
+          199,
+          200,
+          201
+        ]
+      }
+    ]
+  },
+  "backendSource": "9004928b405b5754ad5a1e33f05063fc97e5d815",
+  "backendWorkflow": 34924912737,
+  "sourceSnapshot": "/Users/haichang/tmp/review/pocket-speech-20260915/native-tested-source.json",
+  "physicalDevice": "unverified",
+  "preparedDailyAudio": "Separate prepared-content implementation pending",
+  "visualVerification": {
+    "result": "/Users/haichang/tmp/review/pocket-speech-20260915/narration-stable-visual.xcresult",
+    "passed": 1,
+    "failed": 0,
+    "screenshot": "/Users/haichang/tmp/review/pocket-speech-20260915/native-stable-ui/8DE65B6E-2C5C-4B1A-A43D-E0BE5AE70C33.png",
+    "inspected": true,
+    "diagnosticCollection": "Optional post-test simctl collector stopped after all tests passed. xcodebuild finalized with exit 0."
+  }
+}
