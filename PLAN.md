@@ -1,14 +1,25 @@
 # Pocket Explorer: Implementation Plan
 
+## Verified roadshow delivery (2026-09-16 04:17 AEST)
+
+TestFlight **0.1.0 (18)** is independently VALID and IN_BETA_TESTING in Hackathon Internal, published from this Mac. IPA source is d8d4114b9471b2e537d6d3ae24905e1523e8ac41, including upstream 906e743. Signature, tested runtime source and ten 542-entry catalogs are verified. External distribution is not verified.
+
+Backend aafd4fe is deployed through successful workflow 34998228931. Production acceptance passes 81 requests. Backend tests pass 246 checks, with 34 Chromium and 34 WebKit scenarios. All 60 Marketing packages, 66 assets and 60 Vectorize records are independently verified.
+
+Native qualification has 248 latest per-test passes, four gated skips and no unresolved failure across full and targeted runs. All 40 changed Swift files meet exact-hash coverage, minimum 89.28% and aggregate 96.24%. This is not a claim of one passing full final-source invocation.
+
+Tests, release processes, owned fixtures and continuous simulated location have ended. The temporary signing keychain is removed. No native GitHub build ran. Preserve old checkpoints as history, not pending instructions. Physical iPhone microphone, camera, headphones, interruptions and listening acceptance remain open. Commercial billing is disabled. See the UI docs/evidence/pitch-native.json and docs/reviews/pitch-native-integration.md for evidence.
+
+
 ## Active roadshow implementation (2026-09-15)
 
-Qualification is complete with 248 latest per-test passes, four gated skips and all 40 changed Swift files above 80% matching-hash coverage. Backend is deployed. Native local publication remains pending. See docs/evidence/pitch-native.json and TODO.md.
+Qualification and local publication are complete. Follow the verified delivery above and docs/evidence/pitch-native.json.
 
 The eight roadshow slides now govern conflicting product decisions. The user explicitly requests all described product features this iteration. Follow docs/plans/pitch-alignment.md and the active TODO checkpoint. Parent controls, correct-answer unlocks, personalized exploration, event/location discovery, evolving cards, real friendships and text chat are in scope. Preserve old cards and links, ten languages, live AI, prepared content and private demo isolation.
 
 Proceed through the complete acceptance matrix without treating an increment as overall completion. Update TODO after implementation and verification. Use the new hai/pitch-alignment worktrees. Native publishing is local with [skip ci], Backend through its workflow. Do not restart expired timers. Commercial transaction scope awaits the user's answer.
 
-The earlier checkpoints and exclusions below are historical where they conflict with this scope. Build 17 remains the last verified release until a new release is independently confirmed.
+The earlier checkpoints and exclusions below are historical. Build 18 is the latest independently verified release for this iteration.
 
 ## Current delivery: cached-answer presentation and private demo (2026-09-15 20:28 AEST)
 

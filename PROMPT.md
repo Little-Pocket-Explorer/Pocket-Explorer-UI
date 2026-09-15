@@ -1,12 +1,19 @@
 # Pocket Explorer: Continuation Brief
 
-## Current verification checkpoint (2026-09-16)
+## Verified roadshow delivery (2026-09-16 04:17 AEST)
 
-Backend main aafd4fe is deployed through successful workflow 34998228931. Independent reads confirm deployment 01769e05-bb01-4277-8cc8-63fc92d3a4b0, four additive migrations, all 60 Marketing packages, 66 assets and 60 Vectorize records. Production acceptance passed 81 requests with cleanup. Actual semantic and repeated-query reuse passed. Preserve these completed operations rather than repeating imports or reindexing.
+TestFlight **0.1.0 (18)** is independently VALID and IN_BETA_TESTING in Hackathon Internal, published from this Mac. IPA source is d8d4114b9471b2e537d6d3ae24905e1523e8ac41, including upstream 906e743. Signature, tested runtime source and ten 542-entry catalogs are verified. External distribution is not verified.
 
-Native integration in ~/Worktrees/Pocket-Explorer-UI-pitch-integration is qualified and ready for its [skip ci] merge commit. It combines 8f0beb0 with Litian's 906e743 and actual FamilyStore-backed profile visuals. Latest per-test results are 248 passed, four gated skips and no unresolved failures. All 40 changed Swift files meet exact-hash coverage, minimum 89.28%. All 143 app/shared runtime files match the tested source. Test sessions have ended. Follow TODO for local release and cleanup.
+Backend aafd4fe is deployed through successful workflow 34998228931. Production acceptance passes 81 requests. Backend tests pass 246 checks, with 34 Chromium and 34 WebKit scenarios. All 60 Marketing packages, 66 assets and 60 Vectorize records are independently verified.
 
-Commit the qualified integration with [skip ci], push main, then publish TestFlight locally and independently verify Apple state, the IPA, signing, language catalogs and tested source. Build 17 remains the latest verified release. Physical-device checks and commercial billing scope remain separate. Do not start expired timers or additional agents.
+Native qualification has 248 latest per-test passes, four gated skips and no unresolved failure across full and targeted runs. All 40 changed Swift files meet exact-hash coverage, minimum 89.28% and aggregate 96.24%. This is not a claim of one passing full final-source invocation.
+
+Tests, release processes, owned fixtures and continuous simulated location have ended. The temporary signing keychain is removed. No native GitHub build ran. Preserve old checkpoints as history, not pending instructions. Physical iPhone microphone, camera, headphones, interruptions and listening acceptance remain open. Commercial billing is disabled. See the UI docs/evidence/pitch-native.json and docs/reviews/pitch-native-integration.md for evidence.
+
+
+## Continuation after delivery
+
+The roadshow implementation and both releases are verified. Do not resume historical failed runs, imports, uploads or expired timers. Use the shipped baseline and the user's next priorities. Native source is d8d4114, Backend runtime aafd4fe. Preserve primary checkouts' unrelated drafts. Remaining human/physical acceptance and commercial scope are explicit above.
 
 ## Active roadshow implementation (2026-09-15)
 
@@ -14,7 +21,7 @@ The eight roadshow slides now govern conflicting product decisions. The user exp
 
 Proceed through the complete acceptance matrix without treating an increment as overall completion. Update TODO after implementation and verification. Use the new hai/pitch-alignment worktrees. Native publishing is local with [skip ci], Backend through its workflow. Do not restart expired timers. Commercial transaction scope awaits the user's answer.
 
-The earlier checkpoints and exclusions below are historical where they conflict with this scope. Build 17 remains the last verified release until a new release is independently confirmed.
+The earlier checkpoints and exclusions below are historical. Build 18 is the latest independently verified release for this iteration.
 
 ## Current delivery: cached-answer presentation and private demo (2026-09-15 20:28 AEST)
 

@@ -24,7 +24,7 @@ Videos establish that the interest test overscrolled and the demo test tapped a 
 
 All 40 changed Swift files meet the gate with exact file hashes. Each uses one matching run, without combining unrelated covered line counts. Minimum coverage is 89.28%, aggregate coverage is 96.24%. All 143 application/shared runtime files match the tested snapshot.
 
-Final screenshots confirm three inherited trip places, Chinese interests and family details, readable usage/demo panels, messages, bilateral exchanges and block feedback. Testing is complete. Local TestFlight archive, upload and independent readback remain pending.
+Final screenshots confirm three inherited trip places, Chinese interests and family details, readable usage/demo panels, messages, bilateral exchanges and block feedback. TestFlight 0.1.0 (18) is published locally. Independent Apple reads confirm VALID, IN_BETA_TESTING and Hackathon Internal. IPA signature, source d8d4114 and the tested snapshot match, including ten 542-entry catalogs. External distribution is unverified. Owned fixtures, simulated location and the temporary signing keychain are cleared.
 
 
 ## Limits

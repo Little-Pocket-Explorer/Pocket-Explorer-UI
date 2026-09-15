@@ -32,13 +32,53 @@
   },
   "review": "../reviews/pitch-native-integration.md",
   "testflight": {
-    "status": "Pending local archive, upload and independent Apple/IPA readback",
-    "lastVerifiedBuild": 17
+    "checkedAt": "2026-09-15T18:14:17Z",
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 18,
+    "build_id": "79a87d4a-854c-4c3b-9437-9b327ceff677",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "internal_group_id": "61f0eb50-fc33-4ee4-93fd-2844342c7584",
+    "independentlyVerified": true,
+    "internalStateReadback": "IN_BETA_TESTING",
+    "externalDistributionVerified": false,
+    "roadshowNotesVerified": true,
+    "releaseOrigin": "local",
+    "ipaSHA256": "b6a753efb77b7026ee7e23bb77bf435bfa8d9c15d214caf4380a82661a4c25a2",
+    "sourceSHA256": "3100b8044baa87d66bc881f086d2c94b68be6fd9225ea33a3e663bd606c44d30",
+    "signatureVerified": true,
+    "testedRuntimeSourceUnchanged": true,
+    "catalogs": {
+      "de.lproj": 542,
+      "ar.lproj": 542,
+      "zh-Hans.lproj": 542,
+      "ja.lproj": 542,
+      "en.lproj": 542,
+      "es.lproj": 542,
+      "ko.lproj": 542,
+      "zh-Hant.lproj": 542,
+      "pt-BR.lproj": 542,
+      "fr.lproj": 542
+    },
+    "temporarySigningKeychainRemoved": true
   },
   "physicalIPhone": {
     "connection": "disconnected",
     "ddiServicesAvailable": false,
     "acceptance": "Pending physical microphone, camera, headphones, interruptions and listening review"
   },
-  "commercialBillingEnabled": false
+  "commercialBillingEnabled": false,
+  "sourceCommit": "d8d4114b9471b2e537d6d3ae24905e1523e8ac41",
+  "cleanup": {
+    "ownedFixturePortsClosed": [
+      4203,
+      4236,
+      4237,
+      4238
+    ],
+    "simulatedLocationCleared": true,
+    "nativeGitHubBuilds": 0
+  }
 }

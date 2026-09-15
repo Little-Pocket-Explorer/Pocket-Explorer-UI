@@ -2,14 +2,15 @@
 
 ## Active roadshow implementation (2026-09-15)
 
-Latest checkpoint, 2026-09-16 04:06 AEST:
-- Native qualification is complete: latest per-test results across full and targeted runs are 248 passed, four gated skips, no unresolved failures. This is not a claim of one passing full final-source invocation. All owned test sessions have ended.
-- Social-final-4 passes incoming exchange acceptance/decline, offline draft retry and peer revocation. A bounded independent read replaces the prior premature read, and the native pending-action button must disappear. Final-3 passes the other complete social flow, profile interests, demo activation/offline/revocation, daily rollover/prepared sharing and history.
-- Exact-hash coverage passes for all 40 changed Swift files, minimum 89.28%, aggregate 96.24%. All 143 application/shared runtime files match the tested source. Evidence: docs/evidence/pitch-native.json, pitch-native-coverage.json and docs/reviews/pitch-native-integration.md.
-- Chinese profile, corrected three-place metrics, usage/demo contrast, messages and card exchanges are visually reviewed. No native source change followed testing. Physical iPhone readback remains disconnected with DDI unavailable.
-- Upstream main is still 906e743. The integration merge is ready to commit with [skip ci]. Push native main without GitHub iOS builds, then run the local release helper using Homebrew Ruby, Xcode 27 RC 27A266a and absolute BUNDLE_PATH. Build 17 remains the latest verified release until Apple/IPA readback succeeds.
-- Backend runtime aafd4fe is deployed and production verified. No repeat deployment/import/reindex. Owned fixture sessions remain 56346 (4236), 71116 (4237), 32046 (4203), 68285 (4238). Stop these and continuous simulator location after no verification depends on them.
-- Release helpers ready: ~/tmp/review/pocket-pitch-apple-readback.rb, pocket-pitch-verify-ipa.py and pocket-pitch-native-tested-source.json. Next: commit/push, local archive/upload, independent Apple and IPA/source/catalog reads, final document sync and cleanup. Commercial billing and physical acceptance remain separate.
+Latest checkpoint, 2026-09-16 04:17 AEST:
+- Roadshow implementation is delivered. Backend runtime aafd4fe is deployed through workflow 34998228931. Native source d8d4114 is published locally as TestFlight 0.1.0 (18), with [skip ci]. Independent Apple reads confirm VALID, IN_BETA_TESTING and Hackathon Internal. External distribution is not verified.
+- Independent IPA reads confirm signature, get-task-allow:false, unchanged tested runtime source and ten 542-entry catalogs. IPA SHA256: b6a753efb77b7026ee7e23bb77bf435bfa8d9c15d214caf4380a82661a4c25a2. Apple build ID: 79a87d4a-854c-4c3b-9437-9b327ceff677. Release evidence: ~/tmp/review/pocket-pitch-testflight-18/apple-readback.json and ipa-readback.json.
+- Native qualification has 248 latest per-test passes, four gated skips and no unresolved failure across full/targeted runs. All 40 changed Swift files meet exact-hash coverage, minimum 89.28%, aggregate 96.24%. Backend passes 246 tests, 34 Chromium and 34 WebKit scenarios, and 81 actual production requests with cleanup.
+- All 60 Marketing packages, 66 image/audio assets and 60 Vectorize records are independently verified. Semantic and repeated-query reuse pass. The legacy user share remains valid. Do not repeat content writes or deployment without a new runtime change.
+- Final profile, interest, usage/demo contrast, RTL/large-text, messages and exchanged-card screenshots are reviewed. Integration preserves upstream 906e743 native and ac94a26 web updates. Primary checkout drafts are untouched.
+- Test and release sessions have ended. Owned ports 4203, 4236, 4237 and 4238 are independently confirmed closed. Continuous simulator location is cleared. The temporary signing keychain is removed. No native GitHub workflow ran, and no new automation or agent was started.
+- Remaining acceptance: the physical iPhone is disconnected. Microphone, camera, headphones, interruptions, listening quality and human visual approval need real-device use. Four deliberately gated native checks remain explicitly recorded. Commercial billing is not enabled.
+- PLAN, PROMPT, TODO, release evidence and local Chinese review/quickstart are synchronized. Documentation-only commits after d8d4114 are not the IPA source. Continue from the delivered baseline only when the user supplies the next task or physical feedback.
 
 Earlier checkpoint:
 
