@@ -1,5 +1,5 @@
 {
-  "status": "qualified-for-local-release",
+  "status": "released-and-independently-verified",
   "baseCommit": "c16eb4684313194db005e54ee5d8f3e95eeaf517",
   "coverage": {
     "base": "c16eb4684313194db005e54ee5d8f3e95eeaf517",
@@ -165,5 +165,50 @@
     "zh-Hans.lproj": 346,
     "zh-Hant.lproj": 346
   },
-  "backendSource": "ac493873a30d4c12341752c1fcd123ae753e2fa4"
+  "backendSource": "ac493873a30d4c12341752c1fcd123ae753e2fa4",
+  "nativeReleasedBuild": "0.1.0 (17)",
+  "nativeSourceCommit": "bd75c0cea853b97912b989bd9b22f08a394d9ad9",
+  "appleReadback": {
+    "checkedAt": "2026-09-15T10:28:05Z",
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 17,
+    "build_id": "4c1bb37e-b567-47cf-8777-4906b358fb93",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "internal_group_id": "61f0eb50-fc33-4ee4-93fd-2844342c7584",
+    "independentlyVerified": true,
+    "internalStateReadback": "IN_BETA_TESTING",
+    "externalDistributionVerified": false,
+    "preparedPresentationNotesVerified": true
+  },
+  "ipaReadback": {
+    "ipaSHA256": "84dbe448e812f7bf51e1e262297bf6b7fe568c9d07c63e79622b89cb1d9b611b",
+    "bundleIdentifier": "com.haichang.pocketexplorer",
+    "version": "0.1.0",
+    "build": "17",
+    "xcodeBuild": "27A266a",
+    "sdkBuild": "24A430",
+    "signatureVerified": true,
+    "getTaskAllow": false,
+    "sourceUnchanged": true,
+    "sourceCommit": "bd75c0cea853b97912b989bd9b22f08a394d9ad9",
+    "sourceSHA256": "7492a066a1c9440ab649da26d51ce2be18fe1eec6b67b1b18cac801fcff50354",
+    "testedApplicationSourceUnchanged": true,
+    "nonRuntimeChangesAfterTests": [],
+    "temporarySigningKeychainRemoved": true,
+    "catalogs": {
+      "de.lproj": 346,
+      "ar.lproj": 346,
+      "zh-Hans.lproj": 346,
+      "ja.lproj": 346,
+      "en.lproj": 346,
+      "es.lproj": 346,
+      "ko.lproj": 346,
+      "zh-Hant.lproj": 346,
+      "pt-BR.lproj": 346,
+      "fr.lproj": 346
+    }
+  }
 }

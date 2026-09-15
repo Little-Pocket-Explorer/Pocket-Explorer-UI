@@ -1,6 +1,6 @@
 # Private demo and prepared-answer presentation review
 
-This candidate adds private content management, one-use phone activation, supplied artwork and backgrounds, and progressive text with automatic narration for prepared answers. The released native version is still 0.1.0 (16). Native changes passed final qualification. Backend source ac49387 is deployed through workflow 34954953344.
+This candidate adds private content management, one-use phone activation, supplied artwork and backgrounds, and progressive text with automatic narration for prepared answers. TestFlight 0.1.0 (17) is independently VALID and IN_BETA_TESTING in Hackathon Internal. Native changes passed final qualification. Backend source ac49387 is deployed through workflow 34954953344.
 
 ## Corrected findings
 
@@ -27,6 +27,6 @@ This candidate adds private content management, one-use phone activation, suppli
 
 ## Remaining gates
 
-Native qualification is complete: 139 unit tests and 25 UI tests pass across matching-source runs. One host-microphone test remains skipped. The final supplement passed one real HTTP test and five UI tests. Changed executable-line coverage is 334/344 (97.09%), every changed file at least 85.37%. The collection cards have a 14pt gap, 20pt outside margins and equal 263.33pt heights. Final Home and Collection screenshots are inspected. Local TestFlight publication remains.
+Native qualification is complete: 139 unit tests and 25 UI tests pass across matching-source runs. One host-microphone test remains skipped. The final supplement passed one real HTTP test and five UI tests. Changed executable-line coverage is 334/344 (97.09%), every changed file at least 85.37%. The collection cards have a 14pt gap, 20pt outside margins and equal 263.33pt heights. Final Home and Collection screenshots are inspected. Local publication is complete. Independent Apple and IPA reads verify build 17, its group, signing, all ten catalogs and unchanged tested source.
 Physical iPhone microphone, listening quality, camera and operating-system interruptions still require device verification. Simulator state and validated audio files cannot substitute for them.
 Event flows, real accounts and friend chat are not implemented. Miro references were thumbnail-limited, so pixel-exact implementation is not claimed.
