@@ -15,6 +15,9 @@ final class FakeVoiceTransport: VoiceTransport {
     var speakError = false
     var starts = 0
     var stops = 0
+    var played: Data?
+    var playError = false
+    func play(_ data: Data) throws { if playError { throw VoiceError.unavailable }; played = data }
     var spoken = ""
     var spokenLanguage = ""
     var recognitionLanguage = ""

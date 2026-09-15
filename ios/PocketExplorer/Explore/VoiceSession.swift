@@ -13,6 +13,7 @@ protocol VoiceTransport: AnyObject {
     func speechAllowed() async -> Bool
     func startRecognition(language: String) throws
     func speak(_ text: String, language: String) throws
+    func play(_ data: Data) throws
     func finishRecognition() async
     func stop()
 }
@@ -25,6 +26,7 @@ final class VoiceSession {
     var onFinishedListening: (() -> Void)?
     var onInterrupted: (() -> Void)?
     private let transport: VoiceTransport
+    private var narrationTask: Task<Void, Never>?
     private var generation = UUID()
 
     init(transport: VoiceTransport? = nil) {
@@ -63,21 +65,39 @@ final class VoiceSession {
         guard token == generation else { return }
         stop(); onFinishedListening?()
     }
-    func speak(_ text: String, language: String = AppLanguage.current.rawValue) throws {
+    func speak(_ text: String, language: String = AppLanguage.current.rawValue, cloud: (() async throws -> Data)? = nil) throws {
         stop()
         let token = generation
+        transport.onError = { [weak self] error in
+            guard let self, token == self.generation else { return }
+            self.stop(); self.onError?(error)
+        }
         transport.onFinishedSpeaking = { [weak self] in
             guard let self, token == self.generation else { return }
             self.onFinishedSpeaking?()
         }
+        if let cloud {
+            narrationTask = Task { @MainActor [weak self] in
+                do {
+                    let audio = try await cloud()
+                    guard let self, token == self.generation, !Task.isCancelled else { return }
+                    try self.transport.play(audio)
+                } catch {
+                    guard let self, token == self.generation, !Task.isCancelled else { return }
+                    do { try self.transport.speak(text, language: language) }
+                    catch { self.stop(); self.onError?(VoiceError.unavailable.localizedDescription) }
+                }
+            }
+            return
+        }
         do { try transport.speak(text, language: language) }
         catch { stop(); throw error }
     }
-    func stop() { generation = UUID(); transport.stop() }
+    func stop() { generation = UUID(); narrationTask?.cancel(); narrationTask = nil; transport.stop() }
 }
 
 @MainActor
-final class SystemVoiceTransport: NSObject, VoiceTransport, AVSpeechSynthesizerDelegate {
+final class SystemVoiceTransport: NSObject, VoiceTransport, AVSpeechSynthesizerDelegate, AVAudioPlayerDelegate {
     var onTranscript: ((String) -> Void)?
     var onError: ((String) -> Void)?
     var onFinishedSpeaking: (() -> Void)?
@@ -85,6 +105,7 @@ final class SystemVoiceTransport: NSObject, VoiceTransport, AVSpeechSynthesizerD
     var onInterrupted: (() -> Void)?
     private let engine = AVAudioEngine()
     private let speaker = AVSpeechSynthesizer()
+    private var player: AVAudioPlayer?
     private var recognition: SFSpeechRecognitionTask?
     private var request: SFSpeechAudioBufferRecognitionRequest?
     private var hasTap = false
@@ -156,6 +177,28 @@ final class SystemVoiceTransport: NSObject, VoiceTransport, AVSpeechSynthesizerD
         activeUtterance = last
         for utterance in utterances { speaker.speak(utterance) }
     }
+    func play(_ data: Data) throws {
+        guard NarrationClient.isAudio(data) else { throw VoiceError.unavailable }
+        let audio = try AVAudioPlayer(data: data)
+        guard audio.duration > 0, audio.duration <= 300 else { throw VoiceError.unavailable }
+        let session = AVAudioSession.sharedInstance()
+        try session.setCategory(.playback, mode: .spokenAudio)
+        try session.setActive(true)
+        audio.delegate = self
+        player = audio
+        guard audio.play() else { player = nil; throw VoiceError.unavailable }
+    }
+    nonisolated func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        Task { @MainActor in
+            guard self.player === player else { return }
+            self.player = nil
+            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+            if flag { onFinishedSpeaking?() } else { onError?(VoiceError.unavailable.localizedDescription) }
+        }
+    }
+    nonisolated func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        audioPlayerDidFinishPlaying(player, successfully: false)
+    }
     func stop() {
         generation = UUID()
         recognition?.cancel(); recognition = nil
@@ -163,6 +206,7 @@ final class SystemVoiceTransport: NSObject, VoiceTransport, AVSpeechSynthesizerD
         if hasTap { engine.inputNode.removeTap(onBus: 0); hasTap = false }
         request?.endAudio(); request = nil
         activeUtterance = nil
+        player?.stop(); player = nil
         speaker.stopSpeaking(at: .immediate)
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
     }

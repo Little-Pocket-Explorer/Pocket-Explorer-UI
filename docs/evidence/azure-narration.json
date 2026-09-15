@@ -1,0 +1,124 @@
+{
+  "phase": "released-internal-testflight-14",
+  "selectedVoices": {
+    "zh-Hans": "zh-CN-XiaoxiaoNeural gentle",
+    "en": "en-US-Emma:DragonHDLatestNeural"
+  },
+  "userApprovedSamples": true,
+  "runtimeTests": {
+    "unitPassed": 108,
+    "uiPassed": 3,
+    "failed": 0,
+    "result": "/Users/haichang/tmp/review/pocket-speech-20260915/narration-release-tests.xcresult"
+  },
+  "changedExecutableLineCoverage": {
+    "base": "0f326e0581651da2321162837556b7cd63ee4d0c",
+    "result": "/Users/haichang/tmp/review/pocket-speech-20260915/narration-release-tests.xcresult",
+    "covered": 101,
+    "executable": 104,
+    "percent": 97.12,
+    "files": [
+      {
+        "path": "ios/PocketExplorer/Explore/ExploreView.swift",
+        "covered": 12,
+        "executable": 12,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/NarrationClient.swift",
+        "covered": 49,
+        "executable": 49,
+        "percent": 100.0,
+        "uncovered": []
+      },
+      {
+        "path": "ios/PocketExplorer/Explore/VoiceSession.swift",
+        "covered": 40,
+        "executable": 43,
+        "percent": 93.02,
+        "uncovered": [
+          199,
+          200,
+          201
+        ]
+      }
+    ]
+  },
+  "backendSource": "9004928b405b5754ad5a1e33f05063fc97e5d815",
+  "backendWorkflow": 34924912737,
+  "sourceSnapshot": "/Users/haichang/tmp/review/pocket-speech-20260915/native-tested-source.json",
+  "physicalDevice": "unverified",
+  "preparedDailyAudio": "Separate prepared-content implementation pending",
+  "visualVerification": {
+    "result": "/Users/haichang/tmp/review/pocket-speech-20260915/narration-stable-visual.xcresult",
+    "passed": 1,
+    "failed": 0,
+    "screenshot": "/Users/haichang/tmp/review/pocket-speech-20260915/native-stable-ui/8DE65B6E-2C5C-4B1A-A43D-E0BE5AE70C33.png",
+    "inspected": true,
+    "diagnosticCollection": "Optional post-test simctl collector stopped after all tests passed. xcodebuild finalized with exit 0."
+  },
+  "testFlight": {
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 14,
+    "build_id": "272e4a35-0b05-4a44-9a86-c79deb8494e9",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "source_commit": "65b3084af1e70b30b1a53fdc6685a015d64e960e:d7770a214b99229a3874f6e8eac6bd565ecbfe674810dbb13c6564109e3ec054",
+    "release_origin": "local",
+    "run_url": null,
+    "independentAppleReadback": {
+      "checkedAt": "2026-09-15T03:50:23Z",
+      "app_id": "6810920731",
+      "version": "0.1.0",
+      "build_number": 14,
+      "build_id": "272e4a35-0b05-4a44-9a86-c79deb8494e9",
+      "processing_state": "VALID",
+      "internal_state": "IN_BETA_TESTING",
+      "internal_group": "Hackathon Internal",
+      "internal_group_id": "61f0eb50-fc33-4ee4-93fd-2844342c7584",
+      "independentlyVerified": true,
+      "internalStateReadback": "IN_BETA_TESTING",
+      "externalDistributionVerified": false,
+      "narrationReleaseNotesVerified": true
+    },
+    "independentIPAReadback": {
+      "ipaSHA256": "1a0304aa827ad03076ce1b047c40ea9740cde55465ffc1bd69cd723082eb14f4",
+      "bundleIdentifier": "com.haichang.pocketexplorer",
+      "version": "0.1.0",
+      "build": "14",
+      "xcodeBuild": "27A266a",
+      "sdkBuild": "24A430",
+      "signatureVerified": true,
+      "getTaskAllow": false,
+      "sourceUnchanged": true,
+      "sourceCommit": "65b3084af1e70b30b1a53fdc6685a015d64e960e",
+      "sourceSHA256": "d7770a214b99229a3874f6e8eac6bd565ecbfe674810dbb13c6564109e3ec054",
+      "testedApplicationSourceUnchanged": true,
+      "nonRuntimeChangesAfterTests": [],
+      "temporarySigningKeychainRemoved": true,
+      "catalogs": {
+        "de.lproj": 322,
+        "ar.lproj": 322,
+        "zh-Hans.lproj": 322,
+        "ja.lproj": 322,
+        "en.lproj": 322,
+        "es.lproj": 322,
+        "ko.lproj": 322,
+        "zh-Hant.lproj": 322,
+        "pt-BR.lproj": 322,
+        "fr.lproj": 322
+      }
+    }
+  },
+  "testFixtures": {
+    "ports": [
+      4213,
+      4215
+    ],
+    "stopped": true,
+    "independentPortReadback": true
+  }
+}

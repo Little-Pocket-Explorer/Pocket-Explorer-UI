@@ -1,15 +1,25 @@
 # Pocket Explorer: Current Execution State
 
-Updated 2026-09-15. The eight-hour refinement window ended at 08:39:34 AEST. Build 13 is released and the five-minute checkpoint is paused.
+## Azure narration integration (2026-09-15)
+
+- DONE S1: the existing hai managed identity serves the dedicated Azure adapter. Speech S0 keeps local authentication disabled and uses a resource-scoped Speech User grant. The user approved Xiaoxiao gentle Chinese and Emma Dragon HD English. All ten language routes produced non-silent audio. The other eight voices still need human listening review.
+- DONE S2: backend source 9004928 is deployed through workflow 34924912737 as Worker d6580f71-d1ca-4d7c-89ab-9a297de9aaf9 at 100%. Production synthesis, byte-identical cache replay and ownership checks passed. No Azure keys were retrieved, and service credentials stay on servers. Existing 120/18 safeguards are unchanged.
+- DONE S3: final native runtime passed 108 unit tests and three narration UI tests. Changed executable-line coverage is 101/104 (97.12%), with each file above 80%. A further playback test passed and its settled screenshot was inspected. Cache expiry, corruption recovery, stop, timeout fallback and stale-response cancellation are verified.
+- DONE S4: TestFlight 0.1.0 (14) was published from this Mac using source 65b3084af1e70b30b1a53fdc6685a015d64e960e. Independent Apple reads confirm VALID, IN_BETA_TESTING and Hackathon Internal membership. IPA, signing, source fingerprint, ten 322-entry catalogs and temporary-keychain removal are verified. Native commits use [skip ci], and no GitHub iOS run was started.
+- REVIEW S5: physical iPhone playback, microphone, interruptions and the remaining voices' listening quality are unverified. Prepared daily recommendation audio and Vectorize knowledge reuse remain separate, unfinished work.
+
+Evidence: docs/evidence/azure-narration.json and ~/tmp/review/pocket-release-speech-14. Native tests and uploads have ended. This iteration's fixtures on ports 4213 and 4215 were stopped and independently checked. Keep the expired heartbeat paused.
+
+Work is isolated in ~/Worktrees/Pocket-Explorer-Backend-speech and ~/Worktrees/Pocket-Explorer-UI-speech. Preserve the primary checkouts' unpublished cache/content and design drafts. Earlier build checkpoints below are historical, and this section governs current narration delivery.
 
 ## Delivery
 
 | Deliverable | Verified state | Evidence |
 | --- | --- | --- |
-| TestFlight 0.1.0 (13) | VALID / IN_BETA_TESTING, Hackathon Internal, published from this Mac | docs/evidence/sharing-reentry.json and ~/tmp/review/pocket-release-polish-13 |
-| Cloudflare API and public viewer | Runtime 5dac559 deployed as Worker 44482a6c-a85a-488e-9acf-c8e763d11992, workflow 34894033434 succeeded | Sibling docs/evidence/png-integrity.json |
+| TestFlight 0.1.0 (14) | VALID / IN_BETA_TESTING, Hackathon Internal, published from this Mac | docs/evidence/azure-narration.json and ~/tmp/review/pocket-release-speech-14 |
+| Cloudflare API and public viewer | Runtime 9004928 deployed as Worker d6580f71-d1ca-4d7c-89ab-9a297de9aaf9, workflow 34924912737 succeeded | Sibling docs/evidence/azure-narration.json |
 
-Published application source is 339ff9e5832fb4cc8fa24cde30aa2f72a811e581, pushed to main. Later documentation evidence commits are not the IPA source. Changed-line coverage uses base d7cdec643b4eea6a6b57d1fe34d05da975fd96f1. Preserve untracked design/miro-sync.
+Published narration application source is 65b3084af1e70b30b1a53fdc6685a015d64e960e, pushed to main. Build 13 used 339ff9e5832fb4cc8fa24cde30aa2f72a811e581. Later documentation evidence commits are not the IPA source. Build 13 coverage uses base d7cdec643b4eea6a6b57d1fe34d05da975fd96f1. Build 14 uses 0f326e0. Preserve untracked design/miro-sync.
 
 ## Active work
 
@@ -24,7 +34,7 @@ Published application source is 339ff9e5832fb4cc8fa24cde30aa2f72a811e581, pushed
 | Final checkpoint | DONE | Evidence, Chinese copies and guides synchronized, checked and pushed. Checkpoint paused after the deadline with independent readback |
 | Accounts, friends and chat | DEFERRED | Explicitly outside this iteration |
 
-## Final verification and release
+## Earlier build 13 verification and release
 
 - Final complete native-final-13.xcresult: 154 passed, zero failed, two skipped. This includes 98 unit and 56 UI passes. Results are in ~/tmp/review/pocket-polish-20260915.
 - native-sharing-ios27-13.xcresult: all three checks passed using an independent simulator, DerivedData and fixture 4205.
@@ -48,7 +58,7 @@ Published application source is 339ff9e5832fb4cc8fa24cde30aa2f72a811e581, pushed
 ## Remaining acceptance and next priorities
 
 1. Follow [the five-minute iPhone check](docs/device-check.md) for recording, natural speech, camera, Safari, large text and language switching. Post-release device read still reports tunnelState disconnected and ddiServicesAvailable false.
-2. After physical voice acceptance, evaluate available high-quality multilingual voices. System resources vary by installation, cloud TTS is unavailable, and natural female narration in every language is not established.
+2. Accept the newly delivered cloud voices on iPhone. Xiaoxiao gentle and Emma HD samples are approved. Eight additional language routes were service-tested, but their listening quality is not established. Prepared daily audio and Vectorize knowledge reuse remain unfinished.
 3. Add durable sharing idempotency and recovery in the next iteration. Current continuity covers page navigation. A local Worker and D1 response-loss reproduction created a second link while leaving the first active. Evidence is docs/evidence/sharing-lost-response.json, with the correction contract in capabilities and remaining work.
 4. Later product extensions remain in [capabilities and remaining work](docs/next-iteration.md). Do not add deferred accounts/social features merely to fill time.
 

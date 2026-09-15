@@ -153,7 +153,8 @@ struct ExploreView: View {
                 Text(reply.answer).font(.system(.body, design: .rounded)).textSelection(.enabled).accessibilityIdentifier("live-answer")
                 Button { if speaking { stopVoice() } else { speak(reply.answer) } } label: {
                     Label(L10n.text(speaking ? "Stop reply" : "Listen"), systemImage: speaking ? "stop.fill" : "speaker.wave.2.fill")
-                }.frame(minHeight: 44).accessibilityIdentifier("listen-answer")
+                        .frame(minHeight: 44).contentShape(Rectangle())
+                }.buttonStyle(.plain).accessibilityIdentifier("listen-answer")
                 if let image = photoDraft.image {
                     Image(uiImage: image).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 18)).accessibilityIdentifier("exploration-photo")
                 }
@@ -213,7 +214,7 @@ struct ExploreView: View {
         guard !prepared else { return }
         prepared = true
         voice.onTranscript = { if recordingObservation { observation = dictation.applying($0) } else { question = dictation.applying($0) } }
-        voice.onError = { error = $0; listening = false; startingListening = false; finishingListening = false }
+        voice.onError = { error = $0; speaking = false; listening = false; startingListening = false; finishingListening = false }
         voice.onInterrupted = { listening = false; startingListening = false; finishingListening = false; speaking = false }
         voice.onFinishedSpeaking = { speaking = false }
         voice.onFinishedListening = { listening = false; startingListening = false }
@@ -301,7 +302,15 @@ struct ExploreView: View {
 
     private func speak(_ text: String) {
         stopVoice()
-        do { try voice.speak(text, language: record?.language ?? AppLanguage.current.rawValue); speaking = true }
+        do {
+            let saved = record
+            try voice.speak(text, language: saved?.language ?? AppLanguage.current.rawValue, cloud: {
+                guard let saved else { throw VoiceError.unavailable }
+                let connection = try ConnectionVault().loadOrCreate()
+                return try await NarrationClient().audio(for: saved, connection: connection)
+            })
+            speaking = true
+        }
         catch { speaking = false; self.error = L10n.text("The voice isn't available right now. You can read the answer or listen again later.") }
     }
 

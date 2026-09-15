@@ -4,6 +4,8 @@ import { randomUUID } from 'node:crypto';
 
 const port = Number(process.env.POCKET_FIXTURE_PORT || 4197);
 const image = readFileSync(process.env.POCKET_FIXTURE_IMAGE || new URL('../../shared/fixtures/generated-card.png', import.meta.url));
+const narration = readFileSync(new URL('../../shared/fixtures/narration-en.wav', import.meta.url));
+const narrationCounts = new Map();
 const questions = new Map();
 const jobs = new Map();
 const corruptPictures = new Set();
@@ -29,13 +31,23 @@ createServer(async (request, response) => {
     }
     return json(200, { completed: true });
   }
+  if (url.pathname === '/__fixture/narration-count') return json(200, { count: narrationCounts.get(url.searchParams.get('question')) || 0 });
   if (url.pathname === '/api/explorations' && request.method === 'POST') {
     if (input.question.includes('network failure')) return json(503, { error: 'fixture_failure' });
     if (input.question.includes('demo allowance')) return json(429, { error: 'demo_limit' });
     const first = !questions.has(input.id);
     const status = first && input.question.includes('slow answer') ? 'thinking' : first && input.question.includes('failed answer') ? 'failed' : 'ready';
-    const result = { id: input.id, question: input.question, status, reply: status === 'ready' ? reply : null };
+    const answer = input.question.includes('narration') ? { ...reply, answer: reply.answer + ' ' + input.question } : reply;
+    const result = { id: input.id, question: input.question, status, reply: status === 'ready' ? answer : null };
     questions.set(input.id, result); return json(200, result);
+  }
+  const audio = /^\/api\/narration\/([^/]+)$/.exec(url.pathname);
+  if (audio) {
+    const question = questions.get(audio[1])?.question || '';
+    narrationCounts.set(question, (narrationCounts.get(question) || 0) + 1);
+    if (question.includes('unavailable narration')) return json(503, { error: 'speech_unavailable' });
+    if (question.includes('slow narration')) await new Promise(resolve => setTimeout(resolve, 15000));
+    response.writeHead(200, { 'Content-Type': 'audio/wav' }); response.end(narration); return;
   }
   const exploration = /^\/api\/explorations\/([^/]+)$/.exec(url.pathname);
   if (exploration) return json(questions.has(exploration[1]) ? 200 : 404, questions.get(exploration[1]));
