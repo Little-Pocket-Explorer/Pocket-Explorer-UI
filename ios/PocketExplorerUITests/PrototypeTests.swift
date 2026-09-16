@@ -74,7 +74,7 @@ final class PrototypeTests: XCTestCase {
         app.buttons["memory-play-pause"].tap(); app.buttons["memory-play-pause"].tap()
         app.buttons["Next chapter"].tap(); app.buttons["Previous chapter"].tap(); app.buttons["memory-replay"].tap()
         capture("trip-memory")
-        app.buttons["Done"].tap(); scrollTo(app.buttons["share-trip"]); app.buttons["share-trip"].tap()
+        app.navigationBars.buttons["BackButton"].tap(); scrollTo(app.buttons["share-trip"]); app.buttons["share-trip"].tap()
         XCTAssertEqual(app.switches["Include a first name"].value as? String, "0")
         XCTAssertEqual(app.switches["Include the city"].value as? String, "0")
         XCTAssertFalse(app.secureTextFields["Family owner key"].exists)

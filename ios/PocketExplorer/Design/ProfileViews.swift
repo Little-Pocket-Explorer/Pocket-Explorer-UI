@@ -6,6 +6,7 @@ struct ExplorerProfileView: View {
     var onClose: () -> Void
     var onLanguage: () -> Void
     var onFamilySettings: () -> Void
+    @Environment(\.explorerNavigation) private var navigation
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var account = false
 
@@ -53,16 +54,16 @@ struct ExplorerProfileView: View {
                     Button(action: onFamilySettings) { row("Discovery preferences", icon: "leaf.fill") }
                         .accessibilityIdentifier("profile-preferences")
                     Divider().padding(.horizontal, 16)
-                    NavigationLink { DiscoveryRemindersView(store: store) } label: { row("Notifications", icon: "bell.fill") }
+                    NavigationLink(value: ExplorerRoute.reminders) { row("Notifications", icon: "bell.fill") }
                         .accessibilityIdentifier("profile-reminders")
                     Divider().padding(.horizontal, 16)
                     Button(action: onFamilySettings) { row("Privacy", icon: "checkmark.shield.fill") }
                         .accessibilityIdentifier("profile-privacy")
                     Divider().padding(.horizontal, 16)
-                    NavigationLink { SocialView(store: store) } label: { row("Friends & family", icon: "person.2.fill") }
+                    Button { navigation?.tab = .social } label: { row("Friends & family", icon: "person.2.fill") }
                         .accessibilityIdentifier("profile-friends")
                     Divider().padding(.horizontal, 16)
-                    NavigationLink { WorldView(store: store, explore: {}, changeLanguage: onLanguage) } label: { row("Location", icon: "mappin.circle.fill") }
+                    Button { navigation?.tab = .map } label: { row("Location", icon: "mappin.circle.fill") }
                         .accessibilityIdentifier("profile-location")
                     Divider().padding(.horizontal, 16)
                     Button(action: onFamilySettings) { row("Parent controls", icon: "lock.fill") }

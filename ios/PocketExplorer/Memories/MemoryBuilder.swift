@@ -16,7 +16,12 @@ enum ReminderPolicy {
     static let interval: TimeInterval = 7 * 86_400
 
     static func isEligible(_ discovery: Discovery, now: Date) -> Bool {
-        discovery.ai != nil && discovery.quizAnsweredAt == nil && now.timeIntervalSince(discovery.createdAt) >= 86400
+        discovery.ai != nil && now >= dueDate(discovery)
+    }
+
+    static func dueDate(_ discovery: Discovery) -> Date {
+        if let reviewed = discovery.recallReviewedAt ?? discovery.quizAnsweredAt { return reviewed.addingTimeInterval(interval) }
+        return discovery.createdAt.addingTimeInterval(86400)
     }
 
     static func isEligible(_ trip: Trip, now: Date) -> Bool {

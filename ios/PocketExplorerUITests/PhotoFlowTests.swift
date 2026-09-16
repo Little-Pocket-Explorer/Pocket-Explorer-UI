@@ -67,6 +67,7 @@ final class PhotoFlowTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["photo-error"].exists)
         capture("restored-answer-photo-error")
         app.buttons["Close"].tap()
+        app.buttons["navigation-home"].tap()
         app.buttons["question-history"].tap()
         XCTAssertTrue(app.buttons.matching(NSPredicate(format: "label CONTAINS 'Blue sky'")).firstMatch.waitForExistence(timeout: 8))
         XCTAssertEqual(app.buttons.matching(NSPredicate(format: "label CONTAINS %@", question)).count, 0, "The same question must be updated, not duplicated after a failed photo restore.")

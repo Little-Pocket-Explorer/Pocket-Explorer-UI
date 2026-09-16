@@ -54,7 +54,7 @@ struct SocialView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(store.social.friends) { friend in
-                        NavigationLink { FriendDetailView(store: store, friendID: friend.id) } label: {
+                        NavigationLink(value: ExplorerRoute.friendProfile(friend.id)) {
                             VStack(spacing: 6) { ExplorerAvatar(size: 60, avatar: friend.avatar); Text(friend.displayName).font(.caption).lineLimit(1) }
                         }.buttonStyle(.plain).accessibilityIdentifier("friend-open-\(friend.id)")
                     }
@@ -70,7 +70,7 @@ struct SocialView: View {
                         HStack { Button("Accept friendship") { act("accept", friend) }.accessibilityIdentifier("friend-accept-\(friend.id)"); Button("Decline") { act("remove", friend) } }
                     }
                 } else {
-                    NavigationLink { FriendDetailView(store: store, friendID: friend.id) } label: { activityRow(friend) }.buttonStyle(.plain)
+                    NavigationLink(value: ExplorerRoute.friendProfile(friend.id)) { activityRow(friend) }.buttonStyle(.plain)
                 }
             }
             if store.social.friends.isEmpty { Text("Curiosity is better together. Add a trusted explorer to share discoveries.").padding(16).background(.white.opacity(0.94), in: RoundedRectangle(cornerRadius: 20)) }
@@ -82,7 +82,7 @@ struct SocialView: View {
         VStack(alignment: .leading, spacing: 10) {
             Label("Search messages", systemImage: "magnifyingglass").padding(12).frame(maxWidth: .infinity, alignment: .leading).background(.white.opacity(0.94), in: Capsule())
             ForEach(store.social.friends) { friend in
-                NavigationLink { FriendDetailView(store: store, friendID: friend.id) } label: { activityRow(friend) }.buttonStyle(.plain)
+                NavigationLink(value: ExplorerRoute.friend(friend.id, 0)) { activityRow(friend) }.buttonStyle(.plain)
             }
             if store.social.friends.isEmpty { Text("Add a friend to start a conversation.").foregroundStyle(Theme.muted) }
         }
@@ -94,7 +94,7 @@ struct SocialView: View {
             ForEach(store.social.friends) { friend in
                 if let cards = store.social.cards[friend.id] {
                     ForEach(cards) { card in
-                        NavigationLink { FriendCardView(store: store, friendID: friend.id, card: card) } label: {
+                        NavigationLink(value: ExplorerRoute.friendCard(friend.id, card.id)) {
                             HStack { ExplorerAvatar(size: 42, avatar: friend.avatar); VStack(alignment: .leading) { Text(card.versions.last?.reply.title ?? "Discovery").font(.headline); Text(friend.displayName).font(.caption).foregroundStyle(Theme.muted) }; Spacer(); Image(systemName: "chevron.right") }.padding(13).background(.white.opacity(0.94), in: RoundedRectangle(cornerRadius: 20))
                         }.buttonStyle(.plain)
                     }

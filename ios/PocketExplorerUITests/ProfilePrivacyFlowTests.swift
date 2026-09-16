@@ -20,7 +20,7 @@ import XCTest
         reach(app.buttons["profile-friends"]); app.buttons["profile-friends"].tap()
         XCTAssertTrue(app.buttons["Family settings"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.textFields["friend-code-input"].exists)
-        app.navigationBars.buttons.element(boundBy: 0).tap()
+        app.tabBars.buttons["Chat"].tap()
         reach(app.buttons["profile-reminders"]); app.buttons["profile-reminders"].tap()
         XCTAssertTrue(app.staticTexts["A little look back"].waitForExistence(timeout: 5))
         app.navigationBars.buttons.element(boundBy: 0).tap()

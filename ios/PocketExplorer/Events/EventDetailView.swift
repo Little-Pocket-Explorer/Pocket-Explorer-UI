@@ -10,9 +10,10 @@ struct EventDetailView: View {
     @State private var error: String?
     @State private var earnedID: UUID?
     @State private var revealed = false
+    @Environment(\.explorerNavigation) private var navigation
     @Environment(\.dismiss) private var dismiss
     var body: some View {
-        NavigationStack {
+        FeatureNavigation {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     EventRow(event: event)
@@ -41,12 +42,15 @@ struct EventDetailView: View {
                             catch { self.error = error.localizedDescription }
                         }
                     }.frame(minHeight: 44)
+                    if store.family.allows(.sharing) && store.family.allows(.social) {
+                        Button("Share with friend") { navigation?.open(.eventShare(event.id)) }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("event-share-friend")
+                    }
                     if store.family.allows(.sharing), let base = try? ConnectionVault().loadOrCreate().validatedURL {
                         ShareLink(item: base.appendingPathComponent("events/\(event.id)")) { Label("Share event", systemImage: "square.and.arrow.up") }.frame(minHeight: 44)
                     }
                 }.padding(22)
             }.background(ExplorerBackdrop()).navigationTitle("Event discovery").navigationBarTitleDisplayMode(.inline)
-                .toolbar { Button("Done") { dismiss() } }
+                .toolbar { Button("Done") { if let navigation { navigation.back() } else { dismiss() } } }
                 .navigationDestination(item: $earnedID) { id in
                     if let discovery = store.state.discoveries.first(where: { $0.id == id }) {
                         if revealed { NewCardView(store: store, discoveryID: id, close: { dismiss() }) }
