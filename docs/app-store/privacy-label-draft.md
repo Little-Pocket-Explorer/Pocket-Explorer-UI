@@ -33,6 +33,6 @@ The installation credential associates records across features. A hashed install
 - KWS is deferred and is absent from the first-release runtime. No verification-provider email or identity data is collected through this experiment.
 - Relevant implementation lives in Backend `web/worker/family-api.ts`, `family-store.ts`, `event-store.ts`, `nearby-discoveries.ts`, `social-store.ts`, `ai.ts`, `ai-data-permission.ts`, `ai-provider.ts` and `web/src/browser-speech.ts`.
 
-The label is a disclosure, not evidence that parental verification, consent or Kids Category qualification is complete. The updated privacy and support pages are deployed and independently checked. Final App Store review submission remains pending.
+The label is a disclosure, not evidence that parental verification, consent or Kids Category qualification is complete. The updated privacy and support pages are deployed and independently checked. App Store 1.0 (21) was submitted on 2026-09-16 and is WAITING_FOR_REVIEW.
 
 Reference: [Apple App privacy details](https://developer.apple.com/app-store/app-privacy-details/).

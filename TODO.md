@@ -1,12 +1,15 @@
 # Pocket Explorer: Current Execution State
 
-## Release delivery checkpoint (2026-09-16 22:03 AEST)
+## App Store submission complete (2026-09-16 22:09 AEST)
 
-- Native c1cf01a is pushed to main with [skip ci]. Version 1.0 (21) was archived and uploaded from this Mac and is independently VALID, APP_STORE_ELIGIBLE and IN_BETA_TESTING in Hackathon Internal. The archive signature, ten languages and unchanged source snapshot are verified. Temporary signing keychain is removed.
-- Build 21 is attached to App Store 1.0. Apple's Add for Review validation passed and the version is READY_FOR_REVIEW. Final Submit for Review has not been clicked. The owner confirmed supplied content rights. The declaration is independently saved as USES_THIRD_PARTY_CONTENT. Thirteen privacy labels were published, and final metadata/reviewer notes are independently verified.
-- Backend 8244027 is deployed through successful Cloudflare workflow 35092615551. All CI jobs pass. Sixteen independent production checks pass, including a real AI answer, explicit grant, withdrawal, stale-grant rejection, deletion and retired-credential reads. The fictional test account was deleted. Native clients before 1.0 (21) must update for the new explicit AI permission flow.
-- The owner's mainland China ICP/availability answer is pending. All other scope, pricing, age and content-rights decisions are settled. Epic KWS remains deferred. No agent or automation was created. Owned native fixture 4237 is stopped.
-- Evidence: ~/tmp/review/pocket-app-store-release/release-progress.json and release-1.0-20260916. All owned tests, fixtures, upload and workflow-watch processes have ended. Next: apply the owner's mainland availability answer, then click Submit for Review on the existing ready draft and independently verify submission. Do not recreate the build or repeat completed qualification.
+- Pocket Explorer 1.0 (21) was submitted at 2026-09-16T12:09:12.422Z. Apple's page showed "1 Item Submitted", and independent version and submission API reads both confirm WAITING_FOR_REVIEW. Submission ID: 3ae5a282-1ec0-471b-a75f-2676572a254b. Release remains AFTER_APPROVAL. Approval and public availability have not yet occurred.
+- The owner authorized excluding China mainland from the first release. Paginated independent reads confirm 174 of 175 territories selected, only CHN unavailable, and every other territory unchanged, including Hong Kong, Macau and Taiwan. All required owner decisions are settled.
+- TestFlight 1.0 (21) remains VALID, APP_STORE_ELIGIBLE and IN_BETA_TESTING in Hackathon Internal. Native source c1cf01a was signed and uploaded from this Mac. No new binary was required for the territory change or final submission. Preserve ten languages and local native publishing with [skip ci].
+- Backend 8244027 remains deployed through successful workflow 35092615551 with 100% traffic. Sixteen independent production privacy and AI checks pass. The fictional test account is deleted. Older native clients must update for the explicit AI permission flow.
+- Release preparation and submission are complete. Await Apple's review, then address any concrete review response. Do not resubmit, rebuild or repeat completed qualification without a new reason. No new agent, timer or automation was created.
+- Evidence: native docs/app-store/release-status.json and local ~/tmp/review/pocket-app-store-release/{mainland-exclusion-verified,submitted-version-readback,submitted-review-readback}.json. All owned test, fixture, upload and workflow-watch processes have ended.
+
+Earlier dated checkpoints below are historical and superseded where they conflict with this submission record.
 
 ## Accepted submission scope and qualification checkpoint (2026-09-16)
 

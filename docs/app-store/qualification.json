@@ -118,8 +118,7 @@
   "missing": [],
   "evidenceRoot": "/Users/haichang/tmp/review/pocket-app-store-release/integration-20260916",
   "remaining": [
-    "Physical microphone, camera, listening and interruptions remain separate acceptance",
-    "Owner mainland China availability answer and final App Store submission"
+    "Physical microphone, camera, listening and interruptions remain separate acceptance"
   ],
   "runtimeWarnings": [
     "AVAudioSession activation on the main thread",

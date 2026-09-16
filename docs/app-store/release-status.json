@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-09-16T12:04:18.638274+00:00",
+  "checkedAt": "2026-09-16T12:09:23Z",
   "appId": "6810920731",
   "appStoreVersion": "1.0",
-  "appStoreState": "READY_FOR_REVIEW",
-  "submitted": false,
+  "appStoreState": "WAITING_FOR_REVIEW",
+  "submitted": true,
   "testFlight": {
     "app_id": "6810920731",
     "version": "1.0",
@@ -38,9 +38,7 @@
       "0014_ai_data_permission.sql"
     ]
   },
-  "ownerPending": [
-    "Mainland China ICP or first-release exclusion"
-  ],
+  "ownerPending": [],
   "productionChecks": [
     {
       "name": "/privacy/",
@@ -123,5 +121,30 @@
       "passed": true
     }
   ],
-  "productionFictionalAccountDeleted": true
+  "productionFictionalAccountDeleted": true,
+  "reviewSubmission": {
+    "id": "3ae5a282-1ec0-471b-a75f-2676572a254b",
+    "submittedDate": "2026-09-16T12:09:12.422Z",
+    "state": "WAITING_FOR_REVIEW",
+    "url": "https://appstoreconnect.apple.com/apps/6810920731/distribution/reviewsubmissions/details/3ae5a282-1ec0-471b-a75f-2676572a254b"
+  },
+  "releaseType": "AFTER_APPROVAL",
+  "approved": false,
+  "publiclyAvailable": false,
+  "availability": {
+    "checkedAt": "2026-09-16T12:09:05Z",
+    "totalTerritories": 175,
+    "selectedTerritories": 174,
+    "excluded": [
+      "CHN"
+    ],
+    "otherTerritoriesPreserved": true,
+    "hongKongMacauTaiwanRetained": true
+  },
+  "submissionEvidence": {
+    "versionReadback": "submitted-version-readback.json",
+    "reviewReadback": "submitted-review-readback.json",
+    "availabilityReadback": "mainland-exclusion-verified.json",
+    "uiConfirmation": "1 Item Submitted"
+  }
 }
