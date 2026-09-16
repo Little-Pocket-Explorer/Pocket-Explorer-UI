@@ -1,5 +1,11 @@
 # Pocket Explorer: Implementation Plan
 
+## Teammate TestFlight integration (2026-09-16)
+
+- T20: Pull upstream main, preserve independent App Store work, correct reproduced merge and resource failures, and qualify the three-tab navigation with actual fixture services.
+- Acceptance: successful native build, navigation/memory/profile/social and language checks, at least 80% coverage per changed Swift file, and independent production asset verification.
+- Delivery: commit the integration corrections with [skip ci], publish from this Mac, verify the signed IPA and Apple VALID / IN_BETA_TESTING assignment. Keep physical-device acceptance explicit.
+
 Navigation and the new identity were released locally as TestFlight 0.1.0 (19) on 2026-09-16. Independent reads confirm VALID / IN_BETA_TESTING in Hackathon Internal. Native source is f184e8674c7509a5d34c4366811b50e5dbb11db2. Qualification has 266 latest per-test passes, four explicit skips and current-hash coverage for all 30 changed product Swift files, minimum 88.27% and aggregate 95.53%. Physical-device and human visual acceptance remain separate. Do not repeat the completed release or resume expired timers.
 
 ## Delivered navigation and Jacky journey (2026-09-16)

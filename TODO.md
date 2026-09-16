@@ -1,5 +1,16 @@
 # Pocket Explorer: Current Execution State
 
+## Active teammate TestFlight release (2026-09-16)
+
+- Pulled upstream main 3151a0f into hai/teammate-testflight-20260916 in an isolated worktree. Preserve the separate, uncommitted App Store privacy work.
+- Qualify the Map/Social consolidation on macOS, correct release-blocking integration errors, then publish locally and independently verify internal TestFlight availability. Do not run native GitHub CI.
+- Evidence: ~/tmp/review/pocket-teammate-testflight-20260916. No new build uploaded yet.
+- Reproduced duplicate FriendProfileView compilation failure and stale background asset reference. Kept the released routed profile, removed the unused duplicate, and linked the new artwork. Updated renamed/moved-entry tests and all ten localization catalogs. build-3 succeeds.
+- regression-1 completed: 192 passes, two UI targeting failures and one gated skip. All eight changed product Swift files pass matching-source coverage, minimum 88.56%. All three social journeys pass against actual Worker/D1/R2 fixture handlers. Production prepared content and sampled artwork/narration hashes pass independently.
+- The return failure expected Done instead of the observed BackButton. The Arabic largest-text recording shows a partially visible toggle row whose switch midpoint was below the screen. Corrections update only the test targeting. build-4 succeeds, and corrections-1 rechecks both paths plus the new profile background. Product Swift hashes still match regression-1.
+- corrections-1 passes all three selected tests. Latest-per-test qualification is 194 passes, one gated skip and no unresolved failure. Product source still matches the broad regression and all eight file coverage gates. Successful navigation, Social, Chinese/Arabic layouts and the failure recording were visually reviewed.
+- Local archive/upload is next. The Apple preflight still reports build 19 as latest, and App Store 1.0 remains PREPARE_FOR_SUBMISSION.
+
 ## Current post-release navigation consolidation (2026-09-16)
 
 - The latest source after TestFlight 19 removes the standalone Memories and Friends tabs. Primary navigation is Chat, Map and Social. Existing memory playback remains routed from Map-owned trip, reminder and new-card flows.

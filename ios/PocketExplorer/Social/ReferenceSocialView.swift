@@ -105,7 +105,7 @@ struct SocialView: View {
     }
 
     private func activityRow(_ friend: ExplorerFriend) -> some View {
-        HStack(spacing: 12) { ExplorerAvatar(size: 46, avatar: friend.avatar); VStack(alignment: .leading, spacing: 3) { Text(friend.displayName).font(.headline); Text(friend.state == "outgoing" ? "Waiting for your friend" : store.social.messages[friend.id]?.last?.text ?? "Ready for an adventure").font(.caption).foregroundStyle(Theme.muted).lineLimit(1) }; Spacer(); Image(systemName: "chevron.right").foregroundStyle(Theme.muted) }
+        HStack(spacing: 12) { ExplorerAvatar(size: 46, avatar: friend.avatar); VStack(alignment: .leading, spacing: 3) { Text(friend.displayName).font(.headline); Text(friend.state == "outgoing" ? L10n.text("Waiting for your friend") : store.social.messages[friend.id]?.last?.text ?? L10n.text("Ready for an adventure")).font(.caption).foregroundStyle(Theme.muted).lineLimit(1) }; Spacer(); Image(systemName: "chevron.right").foregroundStyle(Theme.muted) }
             .padding(12).background(.white.opacity(0.94), in: RoundedRectangle(cornerRadius: 20))
     }
 

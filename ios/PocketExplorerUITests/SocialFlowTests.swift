@@ -61,6 +61,7 @@ import XCTest
     }
     func testJackyJourneyContinuesFromAIThroughMapEventProfileAndExchange() async throws {
         enableFriends(mapSharing: true)
+        tap("social-add-friend")
         let input = app.textFields["friend-code-input"]; reach(input); input.tap(); input.typeText(seed.code); tap("friend-invite")
         XCTAssertTrue(app.staticTexts["Waiting for your friend"].waitForExistence(timeout: 15))
         let requests: Page<Friend> = try await peer("/api/social/friends"), id = try XCTUnwrap(requests.items.first?.id)
@@ -139,6 +140,17 @@ import XCTest
         let offer = try XCTUnwrap(offers.items.first { $0.kind == "exchange" && $0.state == "pending" })
         let _: Transfer = try await peer("/api/social/transfers/\(offer.id)/actions", body: ["decision": "accept"])
         section("Gifts"); tap("friend-refresh"); XCTAssertTrue(app.staticTexts["A card exchange"].waitForExistence(timeout: 15)); capture("friend-exchange-accepted-both-copies")
+        for _ in 0..<5 where !app.segmentedControls["social-tabs"].exists { app.navigationBars.buttons["BackButton"].tap() }
+        let socialTabs = app.segmentedControls["social-tabs"]
+        socialTabs.buttons["Messages"].tap()
+        XCTAssertTrue(app.staticTexts["I saw the moon!"].waitForExistence(timeout: 5))
+        capture("social-message-overview")
+        socialTabs.buttons["Shared with Me"].tap()
+        let sharedCard = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "Moon neighbour")).firstMatch
+        XCTAssertTrue(sharedCard.waitForExistence(timeout: 5)); capture("social-shared-card-overview")
+        sharedCard.tap(); XCTAssertTrue(button("friend-exchange").waitForExistence(timeout: 5))
+        app.navigationBars.buttons["BackButton"].tap()
+        socialTabs.buttons["Friends"].tap(); tap("friend-open-\(id)"); tap("friend-profile-message")
         tap("Friendship options"); tap("Report a concern"); tap("Privacy")
         XCTAssertTrue(app.staticTexts["social-reported"].waitForExistence(timeout: 15))
         tap("Friendship options"); tap("Block friend")

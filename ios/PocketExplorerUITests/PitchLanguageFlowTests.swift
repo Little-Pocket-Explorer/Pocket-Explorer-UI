@@ -12,7 +12,9 @@ import XCTest
     }
     private func reach(_ element: XCUIElement) {
         _ = element.waitForExistence(timeout: 2)
-        for _ in 0..<20 where !element.isHittable { app.swipeUp() }
+        for _ in 0..<20 where !element.isHittable || (element.elementType == .switch && element.frame.midY > app.frame.maxY - 120) {
+            app.swipeUp()
+        }
         XCTAssertTrue(element.isHittable)
     }
     private func tap(_ id: String) { let element = button(id); reach(element); element.tap() }

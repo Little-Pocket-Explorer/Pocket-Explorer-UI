@@ -35,10 +35,13 @@ import XCTest
 
     func testProfileIncludesWebAlignedSettingsAndSocialEntries() {
         app.buttons["open-profile"].tap()
-        for identifier in ["open-family-settings", "profile-preferences", "profile-reminders", "profile-privacy", "choose-language", "profile-friends", "profile-location", "profile-parent-controls", "profile-account"] {
+        let image = XCTAttachment(screenshot: app.screenshot())
+        image.name = "profile-new-background"; image.lifetime = .keepAlways; add(image)
+        for identifier in ["open-family-settings", "profile-preferences", "profile-reminders", "profile-privacy", "profile-friends", "profile-location", "profile-parent-controls", "profile-account"] {
             reach(app.buttons[identifier])
         }
         app.buttons["profile-account"].tap()
         XCTAssertTrue(app.navigationBars["Account"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["choose-language"].exists)
     }
 }

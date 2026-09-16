@@ -26,7 +26,7 @@ final class AccessibilityFlowTests: XCTestCase {
         app.buttons["Previous chapter"].tap()
         XCTAssertEqual(chapter.label, firstText)
         capture("map-trip-player")
-        app.buttons["Done"].tap()
+        app.navigationBars.buttons["BackButton"].tap()
         XCTAssertTrue(memory.waitForExistence(timeout: 6))
         memory.tap()
         XCTAssertEqual(chapter.value as? String, "Chapter 1 of 6")

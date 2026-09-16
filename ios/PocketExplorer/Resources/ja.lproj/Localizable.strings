@@ -597,3 +597,22 @@
 "At most one afternoon reminder a day. No reminders while you explore." = "お知らせは午後に1日1回まで。探検中はじゃましないよ。";
 "You can allow reminders in iPhone Settings." = "iPhoneの設定で通知を許可できます。";
 "A discovery has a little question for you. Ready to look back?" = "前に見つけたことから、小さな質問だよ。一緒に振り返ってみる？";
+
+"Social" = "交流";
+"Shared with Me" = "届いた発見";
+"Your explorers" = "探検仲間";
+"Add friend" = "友だちを追加";
+"Recent activity" = "最近の活動";
+"Search messages" = "メッセージを検索";
+"Send invite" = "招待を送る";
+"Account" = "アカウント";
+"Explorer account" = "探検家アカウント";
+"Family friend" = "家族の友だち";
+"Ready for an adventure" = "冒険の準備ができたよ";
+"A grown-up can turn on friends and text chat in Family settings." = "保護者は家族設定で友だちと文字チャットを有効にできます。";
+"Add a friend to start a conversation." = "友だちを追加して、お話ししよう。";
+"Both explorers need a grown-up's approval before messaging or sharing cards." = "メッセージやカードを送るには、お互いの保護者の許可が必要です。";
+"Curiosity is better together. Add a trusted explorer to share discoveries." = "一緒に探検するともっと楽しい。知っている仲間と発見を共有しよう。";
+"Friends are approved by a parent" = "友だちは保護者が承認します";
+"Invite someone you know" = "知っている人を招待";
+"Shared discoveries will appear here." = "共有された発見がここに表示されます。";

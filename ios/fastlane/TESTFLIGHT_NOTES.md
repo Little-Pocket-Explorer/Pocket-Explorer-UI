@@ -1,11 +1,7 @@
-Pocket Explorer makes the next adventure easier to reach, with a new globe-and-discovery-card icon.
+Pocket Explorer brings your adventures into three main tabs: Chat, Map and Social.
 
-Chat, Map, Memories and Friends stay available while you browse. Use Home from a detail screen to return directly to Chat. Your exploration draft survives a detour and an app restart.
+Find trip memories from Map. Social brings friends, messages and shared discoveries together. Open your profile for discovery preferences, family settings and account options, with a new illustrated background.
 
-After unlocking a card, continue to map sharing and nearby adventures. Share an event with an accepted friend, open their recent discoveries, and request an exchange with one of your cards. Messages and exchanges retain their real service status.
+The centralized navigation keeps Home available from detail screens and preserves exploration drafts. This build includes integration fixes for friend profiles and the new background asset.
 
-Optional afternoon reminders return to the original discovery in Chat. Reviewing an already earned card keeps that card and does not award it again. Reminders are off until enabled.
-
-The new identity appears in the app icon, welcome screen and home header. All ten interface languages remain available.
-
-Please test your full journey on iPhone, including back navigation, Home, voice and camera, interrupted work, notification delivery, sharing and revocation. Try your preferred language and a larger text size.
+Please test moving between all three tabs, opening a trip memory, inviting and messaging a friend, sharing or exchanging a card, and returning Home. Also try your preferred language and a larger text size.
