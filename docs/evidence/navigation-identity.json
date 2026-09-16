@@ -1,7 +1,6 @@
 {
-  "status": "qualified-awaiting-local-release",
+  "status": "released-internal-testflight",
   "nativeBaseline": "a64576affd3d12bfec904e505d6517ffb3de9b2e",
-  "backendRuntimeUnchanged": "aafd4fe570e74113778dd77e181999d3059f0499",
   "qualification": {
     "basis": "Latest result per test across the recorded full and focused runs. Not one passing full final-source invocation. Coverage separately requires current hashes for every changed product Swift file.",
     "runs": {
@@ -79,5 +78,73 @@
   "physicalDeviceAvailable": false,
   "humanVisualApproval": false,
   "reviewer": "Self-review. Two bounded CLI review attempts returned no opinion.",
-  "knownWarning": "The Invalid frame dimension warning also occurs in the earlier pitch baseline. Its source is not isolated. Inspected settled screens show no corresponding display defect."
+  "knownWarning": "The Invalid frame dimension warning also occurs in the earlier pitch baseline. Its source is not isolated. Inspected settled screens show no corresponding display defect.",
+  "nativeSourceCommit": "f184e8674c7509a5d34c4366811b50e5dbb11db2",
+  "backendBaselineRuntime": "aafd4fe570e74113778dd77e181999d3059f0499",
+  "backendChangedByThisIteration": false,
+  "release": {
+    "evidenceRoot": "/Users/haichang/tmp/review/pocket-navigation-testflight-19",
+    "apple": {
+      "checkedAt": "2026-09-16T03:53:56Z",
+      "app_id": "6810920731",
+      "version": "0.1.0",
+      "build_number": 19,
+      "build_id": "89fb0dba-2128-48b8-a5ee-dfe62d1339cb",
+      "processing_state": "VALID",
+      "internal_state": "IN_BETA_TESTING",
+      "internal_group": "Hackathon Internal",
+      "internal_group_id": "61f0eb50-fc33-4ee4-93fd-2844342c7584",
+      "independentlyVerified": true,
+      "internalStateReadback": "IN_BETA_TESTING",
+      "externalDistributionVerified": false,
+      "navigationNotesVerified": true
+    },
+    "ipa": {
+      "ipaSHA256": "50d5ac09b39874caef63c1d2001c2057b6a9523a7caf3d23c9571f78ce771c87",
+      "bundleIdentifier": "com.haichang.pocketexplorer",
+      "version": "0.1.0",
+      "build": "19",
+      "xcodeBuild": "27A266a",
+      "sdkBuild": "24A430",
+      "signatureVerified": true,
+      "getTaskAllow": false,
+      "sourceUnchanged": true,
+      "sourceCommit": "f184e8674c7509a5d34c4366811b50e5dbb11db2",
+      "sourceSHA256": "eac6b35d0c182116ca3e4ec7cbb1312c2569d4c3970ee2b1991f267a3bd6fa6e",
+      "testedApplicationSourceUnchanged": true,
+      "nonRuntimeChangesAfterTests": [],
+      "temporarySigningKeychainRemoved": true,
+      "catalogs": {
+        "de.lproj": 565,
+        "ar.lproj": 565,
+        "zh-Hans.lproj": 565,
+        "ja.lproj": 565,
+        "en.lproj": 565,
+        "es.lproj": 565,
+        "ko.lproj": 565,
+        "zh-Hant.lproj": 565,
+        "pt-BR.lproj": 565,
+        "fr.lproj": 565
+      }
+    },
+    "icon": {
+      "primaryIconName": "AppIcon",
+      "iconSHA256": "0b0335d8221b08179408d6ddc6bb059a9dd653f7fea8fc19eda2957dbf473e0a",
+      "archiveAndIPAIconIdentical": true,
+      "visuallyInspectedArchiveIcon": true,
+      "appIconSourceSHA256": "d44fc400dd34acce9f4110842235e9e6239dcbfb38cba1f72c2224b70aa2921f"
+    }
+  },
+  "cleanup": {
+    "fixturePortsClosed": [
+      4203,
+      4236,
+      4237
+    ],
+    "temporarySigningKeychainRemoved": true,
+    "simulatorLocationCleared": true,
+    "testSimulatorShutDown": true,
+    "temporaryNotificationSimulatorRemoved": true,
+    "nativeGitHubWorkflowStarted": false
+  }
 }

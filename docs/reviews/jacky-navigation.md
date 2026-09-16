@@ -1,6 +1,6 @@
 # Navigation and discovery identity review
 
-Status: qualified for local release. The published baseline remains TestFlight 0.1.0 (18). This review does not claim a new release or human visual approval.
+Status: released locally as TestFlight 0.1.0 (19). Independent Apple and IPA reads confirm delivery to Hackathon Internal. Human visual approval remains open.
 
 ## Corrections and reproductions
 
@@ -25,3 +25,5 @@ No Backend runtime change is part of this iteration. The physical iPhone remains
 The earlier pocket-pitch-native-full-1.log also contains an Invalid frame dimension warning. Some current input transitions still log it. Its source is not isolated. Inspected settled screens show no corresponding display defect. Execution is not claimed to be warning-free.
 
 The four gated checks require a dedicated three-item catalog fixture, working host microphone input, opt-in production question access and opt-in production sharing. Local end-to-end tests use the production Backend handlers but are not claimed as another deployed-service run. See [evidence](../evidence/navigation-identity.json) and the [quick check](../testing/navigation-journey.md).
+
+The released source is f184e8674c7509a5d34c4366811b50e5dbb11db2 and Apple build ID is 89fb0dba-2128-48b8-a5ee-dfe62d1339cb. Release evidence is retained in ~/tmp/review/pocket-navigation-testflight-19. Later documentation commits do not change the IPA source.

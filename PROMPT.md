@@ -1,10 +1,10 @@
 # Pocket Explorer: Continuation Brief
 
-Navigation and identity are qualified for local release: 266 latest per-test passes, four explicit skips and current-hash coverage for all 30 changed product Swift files, minimum 88.27%. Next publish locally and independently verify Apple and the IPA. The published baseline remains build 18.
+Navigation and the new identity were released locally as TestFlight 0.1.0 (19) on 2026-09-16. Independent reads confirm VALID / IN_BETA_TESTING in Hackathon Internal. Native source is f184e8674c7509a5d34c4366811b50e5dbb11db2. Qualification has 266 latest per-test passes, four explicit skips and current-hash coverage for all 30 changed product Swift files, minimum 88.27% and aggregate 95.53%. Physical-device and human visual acceptance remain separate. Do not repeat the completed release or resume expired timers.
 
-## Active navigation continuation (2026-09-16)
+## Delivered navigation continuation (2026-09-16)
 
-Work in /Users/haichang/Worktrees/Pocket-Explorer-UI-jacky-navigation, branch hai/jacky-navigation. Follow docs/plans/jacky-navigation.md and the newest TODO checkpoint. Implement P40-P45 to remove repeated backtracking, complete Jacky's continuous demo route and redesign the app identity. The user says to proceed independently without waiting for teammate assignments. Keep the original primary-checkout drafts intact. No new timer or subagent is authorized. Preserve correct-answer unlocks, protected settings, ten languages, real services and private-demo isolation. Native publication remains local with [skip ci]. Older delivered checkpoints describe the baseline, not this unfinished iteration.
+Work in /Users/haichang/Worktrees/Pocket-Explorer-UI-jacky-navigation, branch hai/jacky-navigation. Follow docs/plans/jacky-navigation.md and the newest TODO checkpoint. P40-P45 implementation and local delivery are complete. Follow the next user feedback or physical-device acceptance findings. The user says to proceed independently without waiting for teammate assignments. Keep the original primary-checkout drafts intact. No new timer or subagent is authorized. Preserve correct-answer unlocks, protected settings, ten languages, real services and private-demo isolation. Native publication remains local with [skip ci]. Older delivered checkpoints are historical. See docs/evidence/navigation-identity.json and docs/testing/navigation-journey.md for current evidence and physical acceptance.
 
 ## Verified roadshow delivery (2026-09-16 04:17 AEST)
 

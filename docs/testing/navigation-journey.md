@@ -1,6 +1,6 @@
 # Navigation release quick check
 
-Use the published build identified in TODO. This guide supports physical-device acceptance and does not claim it is complete.
+Use TestFlight 0.1.0 (19), available in Hackathon Internal. This guide supports physical-device acceptance and does not claim it is complete.
 
 ## Everyday navigation
 

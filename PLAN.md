@@ -1,8 +1,8 @@
 # Pocket Explorer: Implementation Plan
 
-Navigation and identity are qualified for local release: 266 latest per-test passes, four explicit skips and current-hash coverage for all 30 changed product Swift files, minimum 88.27%. Next publish locally and independently verify Apple and the IPA. The published baseline remains build 18.
+Navigation and the new identity were released locally as TestFlight 0.1.0 (19) on 2026-09-16. Independent reads confirm VALID / IN_BETA_TESTING in Hackathon Internal. Native source is f184e8674c7509a5d34c4366811b50e5dbb11db2. Qualification has 266 latest per-test passes, four explicit skips and current-hash coverage for all 30 changed product Swift files, minimum 88.27% and aggregate 95.53%. Physical-device and human visual acceptance remain separate. Do not repeat the completed release or resume expired timers.
 
-## Active navigation and Jacky journey (2026-09-16)
+## Delivered navigation and Jacky journey (2026-09-16)
 
 The user prioritizes Jacky's demo flow and reports repeated backtracking during physical use. Follow [the navigation plan](docs/plans/jacky-navigation.md), P40 through P45, including the added app identity redesign. Proceed independently without waiting for teammate assignments. The current task supersedes historical continuation-only wording below. Preserve existing product rules, ten languages, data and permissions. Reuse the deployed Backend APIs where possible. Acceptance includes the whole journey and everyday detours, not only isolated feature tests.
 

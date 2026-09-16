@@ -1,10 +1,17 @@
 # Pocket Explorer: Current Execution State
 
-## Active navigation and Jacky journey (2026-09-16)
+## Delivered navigation and Jacky journey (2026-09-16)
 
-Worktree: /Users/haichang/Worktrees/Pocket-Explorer-UI-jacky-navigation, branch hai/jacky-navigation. All new changes are uncommitted. Baseline TestFlight remains 0.1.0 (18). No Backend mutation, push or publication in this iteration.
+Worktree: /Users/haichang/Worktrees/Pocket-Explorer-UI-jacky-navigation, branch hai/jacky-navigation. Native source f184e8674c7509a5d34c4366811b50e5dbb11db2 is pushed to main and published locally as TestFlight 0.1.0 (19). No Backend runtime change is part of this iteration. Later documentation commits are not the IPA source.
 
-Latest checkpoint, 2026-09-16 13:47 AEST:
+Latest checkpoint, 2026-09-16 13:56 AEST:
+- TestFlight 0.1.0 (19) is independently VALID / IN_BETA_TESTING and assigned to Hackathon Internal. Apple build ID: 89fb0dba-2128-48b8-a5ee-dfe62d1339cb. External distribution is not verified.
+- IPA signature, get-task-allow:false, tested runtime source, ten 565-entry catalogs and the new icon are independently verified. IPA SHA256: 50d5ac09b39874caef63c1d2001c2057b6a9523a7caf3d23c9571f78ce771c87. Evidence: ~/tmp/review/pocket-navigation-testflight-19 and docs/evidence/navigation-identity.json.
+- P40-P45 implementation, automated qualification and local delivery are complete. The latest-per-test matrix remains 266 passes and four explicit skips, with all 30 product Swift files meeting matching-source coverage. See docs/reviews/jacky-navigation.md for the exact scope and retained baseline warning.
+- The temporary signing keychain is removed. Owned fixture ports 4203/4236/4237 are independently closed. Simulated location is cleared, Pitch is shut down, and the temporary notification simulator is removed. No new timer, agent or external message was started. GitHub Actions has no run for the native source commit.
+- Physical microphone, camera, headphones, interruptions, notification delivery, listening quality and human visual approval remain REVIEW. Use docs/testing/navigation-journey.md for the next iPhone check. Preserve primary-checkout drafts and do not repeat this completed release.
+
+Earlier checkpoint, 2026-09-16 13:47 AEST:
 - Automated qualification is complete. review-followup-1 passes all 19 checks. The latest-per-test matrix across full and focused runs has 266 passes, four explicit skips and no unresolved assertion failure. This is not one passing full final-source invocation.
 - All 30 changed product Swift files have matching-hash coverage of at least 80%. Minimum is 88.27%, aggregate 95.53%. Runtime/asset hashes remain unchanged.
 - Final Chinese/Arabic event sharing, maximum-text memory sharing, accepted exchange and brand screenshots were inspected. Successful final-source Jacky recording is retained in final-jacky-video.
