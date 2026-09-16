@@ -1,0 +1,35 @@
+{
+  "sourceCommit": "9c568c122d5e95a5337b13c035990d71443703de",
+  "upstreamTeammateCommit": "3151a0f",
+  "releaseOrigin": "local",
+  "apple": {
+    "checkedAt": "2026-09-16T08:58:30Z",
+    "app_id": "6810920731",
+    "version": "0.1.0",
+    "build_number": 20,
+    "build_id": "e14bdfbb-cc35-40e3-afbf-bb7113060148",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "internal_group_id": "61f0eb50-fc33-4ee4-93fd-2844342c7584",
+    "independentlyVerified": true,
+    "internalStateReadback": "IN_BETA_TESTING",
+    "externalDistributionVerified": false,
+    "navigationNotesVerified": true
+  },
+  "qualification": {
+    "counts": {
+      "Passed": 194,
+      "Failed": 0,
+      "Skipped": 1
+    },
+    "policy": "Latest result per test case across matching product-source runs, not a single full final invocation.",
+    "coveragePassed": true,
+    "minimumChangedSwiftCoverage": 0.885558583106267,
+    "changedSwiftFiles": 8
+  },
+  "productionAssetsVerified": true,
+  "tenLanguageCatalogsVerified": true,
+  "physicalDeviceAcceptance": "Separate from simulator checks",
+  "evidenceDirectory": "/Users/haichang/tmp/review/pocket-teammate-testflight-20260916"
+}

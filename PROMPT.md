@@ -1,8 +1,8 @@
 # Pocket Explorer: Continuation Brief
 
-## Active teammate TestFlight request (2026-09-16)
+## Delivered teammate TestFlight request (2026-09-16)
 
-The user requested the latest teammate code and one local TestFlight release. Work in /Users/haichang/Worktrees/Pocket-Explorer-UI-teammate-testflight-20260916 on hai/teammate-testflight-20260916, based on upstream 3151a0f. Read the latest TODO for qualification and upload evidence. Keep the separate uncommitted App Store privacy worktrees intact. Publish native locally with [skip ci]. Do not restart historical timers or create agents.
+TestFlight 0.1.0 (20) is independently VALID / IN_BETA_TESTING in Hackathon Internal. Source 9c568c122d5e95a5337b13c035990d71443703de includes the latest teammate code and qualified integration fixes. This release request is complete. Follow the next user input or resume the separate App Store work only in its existing worktrees. Work in /Users/haichang/Worktrees/Pocket-Explorer-UI-teammate-testflight-20260916 on hai/teammate-testflight-20260916, based on upstream 3151a0f. Read the latest TODO for qualification and upload evidence. Keep the separate uncommitted App Store privacy worktrees intact. Publish native locally with [skip ci]. Do not restart historical timers or create agents.
 
 Navigation and the new identity were released locally as TestFlight 0.1.0 (19) on 2026-09-16. Independent reads confirm VALID / IN_BETA_TESTING in Hackathon Internal. Native source is f184e8674c7509a5d34c4366811b50e5dbb11db2. Qualification has 266 latest per-test passes, four explicit skips and current-hash coverage for all 30 changed product Swift files, minimum 88.27% and aggregate 95.53%. Physical-device and human visual acceptance remain separate. Do not repeat the completed release or resume expired timers.
 

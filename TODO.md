@@ -1,6 +1,6 @@
 # Pocket Explorer: Current Execution State
 
-## Active teammate TestFlight release (2026-09-16)
+## Delivered teammate TestFlight release (2026-09-16)
 
 - Pulled upstream main 3151a0f into hai/teammate-testflight-20260916 in an isolated worktree. Preserve the separate, uncommitted App Store privacy work.
 - Qualify the Map/Social consolidation on macOS, correct release-blocking integration errors, then publish locally and independently verify internal TestFlight availability. Do not run native GitHub CI.
@@ -9,7 +9,9 @@
 - regression-1 completed: 192 passes, two UI targeting failures and one gated skip. All eight changed product Swift files pass matching-source coverage, minimum 88.56%. All three social journeys pass against actual Worker/D1/R2 fixture handlers. Production prepared content and sampled artwork/narration hashes pass independently.
 - The return failure expected Done instead of the observed BackButton. The Arabic largest-text recording shows a partially visible toggle row whose switch midpoint was below the screen. Corrections update only the test targeting. build-4 succeeds, and corrections-1 rechecks both paths plus the new profile background. Product Swift hashes still match regression-1.
 - corrections-1 passes all three selected tests. Latest-per-test qualification is 194 passes, one gated skip and no unresolved failure. Product source still matches the broad regression and all eight file coverage gates. Successful navigation, Social, Chinese/Arabic layouts and the failure recording were visually reviewed.
-- Local archive/upload is next. The Apple preflight still reports build 19 as latest, and App Store 1.0 remains PREPARE_FOR_SUBMISSION.
+- TestFlight 0.1.0 (20) is independently VALID / IN_BETA_TESTING in Hackathon Internal, uploaded from this Mac. Source is 9c568c122d5e95a5337b13c035990d71443703de, pushed to main with no native GitHub run. Apple build ID: e14bdfbb-cc35-40e3-afbf-bb7113060148.
+- Independent IPA verification confirms signature, release entitlements, tested source, Xcode 27A266a and all ten 583-entry catalogs. Test fixtures and the simulator are stopped, and the temporary signing keychain is removed. External distribution and physical iPhone acceptance are not established. App Store 1.0 remains PREPARE_FOR_SUBMISSION.
+- See docs/evidence/teammate-testflight-20.json. This iteration is complete. Preserve the separate ongoing App Store privacy work and do not repeat this release without new input.
 
 ## Current post-release navigation consolidation (2026-09-16)
 

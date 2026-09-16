@@ -2,7 +2,7 @@
 
 ## Teammate TestFlight integration (2026-09-16)
 
-- T20: Pull upstream main, preserve independent App Store work, correct reproduced merge and resource failures, and qualify the three-tab navigation with actual fixture services.
+- T20 DONE: Pull upstream main, preserve independent App Store work, correct reproduced merge and resource failures, and qualify the three-tab navigation with actual fixture services.
 - Acceptance: successful native build, navigation/memory/profile/social and language checks, at least 80% coverage per changed Swift file, and independent production asset verification.
 - Delivery: commit the integration corrections with [skip ci], publish from this Mac, verify the signed IPA and Apple VALID / IN_BETA_TESTING assignment. Keep physical-device acceptance explicit.
 
