@@ -164,6 +164,11 @@ final class TripStore {
         var next = state
         next.discoveries[index].quizChoice = choice
         let discovery = state.discoveries[index]
+        if discovery.isUnlocked && discovery.quizAnsweredAt != nil {
+            next.discoveries[index].recallReviewedAt = now
+            try commit(next)
+            return
+        }
         if discovery.unlockRequired != true {
             next.discoveries[index].quizAnsweredAt = now
         } else {

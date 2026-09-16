@@ -3,6 +3,7 @@ import SwiftUI
 struct FriendsView: View {
     let store: TripStore
     @State private var code = ""
+    @FocusState private var codeFocused: Bool
     @State private var settings = false
     @State private var working = false
     @State private var error: String?
@@ -24,8 +25,8 @@ struct FriendsView: View {
                         Text("Share this code only with someone you know. Both of you choose to become friends.").font(.caption).foregroundStyle(Theme.muted)
                     }.padding(20).frame(maxWidth: .infinity, alignment: .leading).background(Theme.mint, in: RoundedRectangle(cornerRadius: 26))
                     VStack(spacing: 12) {
-                        TextField("Enter a friend's code", text: $code).textInputAutocapitalization(.characters).autocorrectionDisabled().textFieldStyle(.roundedBorder).accessibilityIdentifier("friend-code-input")
-                        Button("Ask to be friends") { run { connection in try await store.social.invite(code, connection: connection); code = "" } }
+                        TextField("Enter a friend's code", text: $code).focused($codeFocused).textInputAutocapitalization(.characters).autocorrectionDisabled().textFieldStyle(.roundedBorder).accessibilityIdentifier("friend-code-input")
+                        Button("Ask to be friends") { codeFocused = false; run { connection in try await store.social.invite(code, connection: connection); code = "" } }
                             .buttonStyle(ExplorerButtonStyle()).disabled(code.isEmpty || working).accessibilityIdentifier("friend-invite")
                     }
                     if store.social.friends.isEmpty { Text("Your next adventure could start with a friend.").foregroundStyle(Theme.muted) }
@@ -40,7 +41,7 @@ struct FriendsView: View {
                                 Spacer()
                             }
                             if friend.canInteract {
-                                NavigationLink { FriendDetailView(store: store, friendID: friend.id) } label: { Label("Open friendship", systemImage: "bubble.left.and.bubble.right.fill") }
+                                NavigationLink(value: ExplorerRoute.friendProfile(friend.id)) { Label("Open friendship", systemImage: "bubble.left.and.bubble.right.fill") }
                                     .accessibilityIdentifier("friend-open-\(friend.id)")
                             } else if friend.state == "incoming" && !friend.blocked {
                                 HStack {
@@ -59,7 +60,7 @@ struct FriendsView: View {
                 if working { ProgressView() }
                 if let error { Text(error).foregroundStyle(Theme.muted).accessibilityIdentifier("social-error") }
             }.padding(22)
-        }.background(ExplorerBackdrop()).navigationTitle("Friends").navigationBarTitleDisplayMode(.inline)
+        }.scrollDismissesKeyboard(.interactively).background(ExplorerBackdrop()).navigationTitle("Friends").navigationBarTitleDisplayMode(.inline)
             .toolbar { Button { settings = true } label: { Image(systemName: "gearshape") }.accessibilityLabel("Family settings") }
             .sheet(isPresented: $settings) { FamilySettingsView(family: store.family) }
             .task(id: allowed) {
@@ -76,24 +77,34 @@ struct FriendsView: View {
 }
 
 struct FriendDetailView: View {
+    @Environment(\.explorerNavigation) private var navigation
     let store: TripStore
     let friendID: String
-    @State private var page = 0
+    @State var page = 0
     @State private var text = ""
+    @FocusState private var messageFocused: Bool
     @State private var error: String?
     @State private var working = false
-    @State private var gift = false
     @State private var safety = false
     @State private var report = false
     @State private var reported = false
     @State private var reportID = UUID()
-    @State private var selected: KnowledgeCard?
     @Environment(\.scenePhase) private var phase
     private var friend: ExplorerFriend? { store.social.friends.first { $0.id == friendID } }
     private var allowed: Bool { store.family.allows(.social) && friend?.canInteract == true }
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
+                Button { navigation?.open(.friendProfile(friendID)) } label: {
+                    HStack(spacing: 14) {
+                        ExplorerAvatar(size: 64, avatar: friend?.avatar)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(friend?.displayName ?? L10n.text("Explorer friend")).font(.title2.bold())
+                            Text("View profile").font(.subheadline).foregroundStyle(Theme.muted)
+                        }
+                        Spacer(); Image(systemName: "chevron.right")
+                    }.padding(16).background(.white, in: RoundedRectangle(cornerRadius: 24))
+                }.buttonStyle(.plain).accessibilityIdentifier("conversation-profile")
                 Picker("Friendship", selection: $page) { Text("Messages").tag(0); Text("Cards").tag(1); Text("Gifts").tag(2) }.pickerStyle(.segmented).accessibilityIdentifier("friend-pages")
                 if !allowed { Text("This friendship is unavailable. Ask a grown-up to check your settings.") }
                 else if page == 0 {
@@ -101,18 +112,18 @@ struct FriendDetailView: View {
                     ForEach(store.social.messages[friendID] ?? []) { message in
                         HStack {
                             if message.mine { Spacer(minLength: 45) }
-                            Text(message.text).padding(15).background(message.mine ? Theme.mint : .white, in: RoundedRectangle(cornerRadius: 21))
+                            messageContent(message).padding(15).background(message.mine ? Theme.mint : .white, in: RoundedRectangle(cornerRadius: 21))
                                 .frame(maxWidth: .infinity, alignment: message.mine ? .trailing : .leading).accessibilityIdentifier("friend-message-\(message.sequence)")
                             if !message.mine { Spacer(minLength: 45) }
                         }
                     }
                     if store.social.messageCursors[friendID] != nil { Button("More messages") { reload() } }
-                    TextField("Write to your friend", text: $text, axis: .vertical).lineLimit(1...4).textFieldStyle(.roundedBorder).accessibilityIdentifier("friend-message-input")
+                    TextField("Write to your friend", text: $text, axis: .vertical).focused($messageFocused).lineLimit(1...4).textFieldStyle(.roundedBorder).accessibilityIdentifier("friend-message-input")
                         .onChange(of: text) { _, value in
                             do { try store.social.saveDraft(value, friendID: friendID, connection: ConnectionVault().loadOrCreate()) }
                             catch { self.error = error.localizedDescription }
                         }
-                    Button("Send message") { run { connection in
+                    Button("Send message") { messageFocused = false; run { connection in
                         try store.social.saveDraft(text, friendID: friendID, connection: connection)
                         try await store.social.send(friendID, connection: connection); text = store.social.draft(for: friendID)
                     } }.buttonStyle(ExplorerButtonStyle()).disabled(working || text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty).accessibilityIdentifier("friend-message-send")
@@ -121,13 +132,13 @@ struct FriendDetailView: View {
                     Text("Your friend's discoveries").font(.title2.bold())
                     if store.social.cards[friendID]?.isEmpty == true { Text("More discoveries are on their way.") }
                     ForEach(store.social.cards[friendID] ?? []) { card in
-                        Button { selected = card } label: {
+                        Button { navigation?.open(.friendCard(friendID, card.id)) } label: {
                             HStack { LeafBadge(); Text(card.versions.last!.reply.title).font(.headline); Spacer(); Image(systemName: "chevron.right") }.padding(18).background(.white, in: RoundedRectangle(cornerRadius: 24))
                         }.buttonStyle(.plain).accessibilityIdentifier("friend-card-\(card.id)")
                     }
                     if store.social.cardCursors[friendID] != nil { Button("More cards") { run { try await store.social.refreshCards(friendID, connection: $0, more: true) } } }
                 } else {
-                    Button("Give a card copy") { gift = true }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("friend-give")
+                    Button("Give a card copy") { navigation?.open(.exchange(friendID, nil)) }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("friend-give")
                     ForEach(store.social.transfers[friendID] ?? []) { transfer in
                         VStack(alignment: .leading, spacing: 12) {
                             Label(L10n.text(transfer.kind == "gift" ? "A discovery gift" : "A card exchange"), systemImage: transfer.kind == "gift" ? "gift.fill" : "arrow.left.arrow.right")
@@ -144,7 +155,7 @@ struct FriendDetailView: View {
                                 }
                             }
                             if let received = transfer.receivedCardID, let discovery = store.state.discoveries.first(where: { $0.collectionID == received }) {
-                                NavigationLink("Open received card") { CardDetailView(store: store, discoveryID: discovery.id) }.accessibilityIdentifier("received-card-\(received)")
+                                NavigationLink("Open received card", value: ExplorerRoute.card(discovery.id)).accessibilityIdentifier("received-card-\(received)")
                             }
                         }.padding(20).frame(maxWidth: .infinity, alignment: .leading).background(.white, in: RoundedRectangle(cornerRadius: 26))
                     }
@@ -155,7 +166,7 @@ struct FriendDetailView: View {
                 if reported { Text("Your report was saved for review.").accessibilityIdentifier("social-reported") }
                 Button("Refresh friendship") { reload() }.accessibilityIdentifier("friend-refresh")
             }.padding(22)
-        }.background(ExplorerBackdrop()).navigationTitle(friend?.displayName ?? L10n.text("Explorer friend"))
+        }.scrollDismissesKeyboard(.interactively).background(ExplorerBackdrop()).navigationTitle(friend?.displayName ?? L10n.text("Explorer friend"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { Button { safety = true } label: { Image(systemName: "ellipsis.circle") }.accessibilityLabel("Friendship options") }
             .confirmationDialog("Friendship options", isPresented: $safety) {
@@ -168,8 +179,6 @@ struct FriendDetailView: View {
                     Button(L10n.text(reason.capitalized)) { run { try await store.social.client.report(reportID, friendID: friendID, reason: reason, connection: $0); reported = true; reportID = UUID() } }
                 }
             }
-            .sheet(isPresented: $gift) { GiftComposerView(store: store, friendID: friendID) }
-            .sheet(item: $selected) { card in FriendCardView(store: store, friendID: friendID, card: card) }
             .onAppear { text = store.social.draft(for: friendID) }
             .task(id: "\(page):\(phase == .active):\(allowed)") {
                 guard allowed, phase == .active else { return }
@@ -180,6 +189,18 @@ struct FriendDetailView: View {
                 }
             }
     }
+    @ViewBuilder private func messageContent(_ message: ExplorerMessage) -> some View {
+        if let base = try? ConnectionVault().loadOrCreate().validatedURL, let invitation = EventMessage(text: message.text, base: base) {
+            Button { navigation?.open(.event(invitation.eventID)) } label: {
+                VStack(alignment: .leading, spacing: 12) {
+                    Label("Event invitation", systemImage: "map.fill").font(.caption).foregroundStyle(Theme.forest)
+                    Text(invitation.title).font(.headline)
+                    Label("View event", systemImage: "arrow.right.circle.fill").font(.subheadline.bold())
+                }.frame(maxWidth: .infinity, alignment: .leading).padding(6)
+            }.buttonStyle(.plain).accessibilityIdentifier("message-event-\(invitation.eventID)")
+        } else { Text(message.text) }
+    }
+
     private func decide(_ decision: String, _ transfer: CardTransfer) { run { try await store.social.decide(decision, transferID: transfer.id, store: store, connection: $0) } }
     private func reload() { run { connection in try await store.social.refreshFriends(connection: connection); await loadPage() } }
     private func loadPage() async {

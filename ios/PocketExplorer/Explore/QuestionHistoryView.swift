@@ -20,7 +20,7 @@ struct QuestionHistoryView: View {
     private var conversations: [ExplorationConversation] { ExplorationConversation.groups(store.questions) }
 
     var body: some View {
-        NavigationStack {
+        FeatureNavigation {
             List {
                 if conversations.isEmpty { Text("Your questions will appear here.").foregroundStyle(Theme.muted) }
                 ForEach(conversations) { conversation in

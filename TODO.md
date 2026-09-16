@@ -1,5 +1,97 @@
 # Pocket Explorer: Current Execution State
 
+## Active navigation and Jacky journey (2026-09-16)
+
+Worktree: /Users/haichang/Worktrees/Pocket-Explorer-UI-jacky-navigation, branch hai/jacky-navigation. All new changes are uncommitted. Baseline TestFlight remains 0.1.0 (18). No Backend mutation, push or publication in this iteration.
+
+Latest checkpoint, 2026-09-16 13:47 AEST:
+- Automated qualification is complete. review-followup-1 passes all 19 checks. The latest-per-test matrix across full and focused runs has 266 passes, four explicit skips and no unresolved assertion failure. This is not one passing full final-source invocation.
+- All 30 changed product Swift files have matching-hash coverage of at least 80%. Minimum is 88.27%, aggregate 95.53%. Runtime/asset hashes remain unchanged.
+- Final Chinese/Arabic event sharing, maximum-text memory sharing, accepted exchange and brand screenshots were inspected. Successful final-source Jacky recording is retained in final-jacky-video.
+- Review and quick-check guide are complete. Next commit/push with [skip ci], publish locally, then independently read Apple and IPA. Published baseline remains build 18 until those reads succeed.
+
+Latest checkpoint, 2026-09-16 13:33 AEST:
+- All ten base-language flows now pass, including the previously selected English/Arabic-largest cases. The expanded maximum-text memory toolbar sharing and return test passes.
+- review-followup-1 remains active in session 7713 for the three localized event-recipient flows and three social cases. Product hashes remain unchanged. The runtime snapshot includes 151 application/shared files and assets.
+- Apple API preflight succeeds and the latest build remains 18. Use PATH=/opt/homebrew/opt/ruby/bin:$PATH from docs/local-release.md for publication. Default system Ruby cannot load the current Bundler. No global environment or lockfile change was made.
+
+Latest checkpoint, 2026-09-16 13:23 AEST:
+- review-corrections-1 passed 21 tests with zero failures and one explicit host-microphone skip. Hidden capture, maximum-text memory, photo recovery, sharing navigation and the full Jacky real-service route pass.
+- The successful Jacky video is retained under jacky-success-video. Map, event message, accepted exchange and maximum-text memory screenshots were inspected. RootView is 92.94% and ExploreView 88.27% on matching source. All 30 changed product Swift files passed the coverage gate before the following cleanup.
+- Removed one unused environment value from the Friends root. Extended the maximum-text memory test to open the new toolbar share action and return. final-qualified-build succeeded. Next: remaining 12 global-language cases, three localized event-recipient flows, all three social flows and the expanded memory regression. Recheck FriendsView coverage after cleanup.
+- Six local-release helper tests and all ten 565-entry catalogs pass. The physical iPhone is unavailable. No commit, push or upload yet.
+
+Latest checkpoint, 2026-09-16 13:11 AEST:
+- native-regression-2 completed with 241 passes, 23 failures and four skips. Seventeen obsolete navigation assertions are updated. Three event-language failures came from an omitted fixture content directory, now restored. Two map/event failures show stale or unavailable simulator location. A finite normal-speed route replaces the stopped slow scenario without weakening app freshness checks.
+- The large-text memory reading regression exposed a crowded viewport. RootView now places sharing in the top toolbar. The new answered-draft regression independently reproduced a hidden microphone permission request. ExploreView now returns after restoring an answered record, preserving unsent-draft camera/voice entry.
+- review-fixed-build succeeded. Correction qualification starts next. A real UN pending-request readback test and expanded localized event-recipient checks are included.
+- All 30 changed product Swift files passed the previous exact-source coverage gate. The two latest runtime fixes require new matching RootView/ExploreView evidence. No commit, push or publication yet.
+
+Latest checkpoint, 2026-09-16 12:39 AEST:
+- native-regression-2 still runs. GlobalLanguageFlowTests failures are confirmed obsolete Done-button assertions at line 69. The independent failure hierarchy includes native BackButton and navigation-home. Update the tests after the source freeze, preserving the remaining sharing assertions.
+- EventFlowTests.testFamilySetupEventVisitChallengeAwardAndCoarseMapSharing fails at event-feedback after requesting location. The actual failure recording is required before classifying its cause.
+- MemoryReadingFlowTests.testPausePreservesReadingPositionAndReplayRevealsTheSameChapterOpening cannot scroll the large-text chapter. Review whether the new root-level bottom sharing action crowds the reading viewport and intercepts the test's central swipe. The recording and exact reproduction must guide the fix.
+- Native home-camera and restored typed-draft camera paths, denied microphone followed by typing, and the full AI/card/image/memory/share flow pass. Ten localization catalogs have 565 entries each with no missing or empty values. No product source edits during this run.
+- Export PNG screenshots and only needed recordings after completion to avoid duplicating the entire multi-gigabyte result bundle. Release readback helpers are prepared locally but have not run for a new release.
+
+Latest checkpoint, 2026-09-16 12:19 AEST:
+- native-regression-2 continues with no recorded failure so far. Runtime source and artifacts remain frozen.
+- The safe-mode CLI review attempt timed out after 180 seconds with an empty result. Both bounded reviewer attempts returned no opinion. Continue self-review and do not claim external reviewer approval.
+- Source review identified a possible hidden-recording path when a Home voice entry restores an already answered record. Reproduce after the full run, preserve answered/observation drafts, and restore the prior no-entry-action behavior for existing records if confirmed. Unsent draft camera/voice entry must remain usable.
+- Follow up with an independent read of actual UN pending requests. Unit scheduler and real permission UI checks alone do not establish request-content readback.
+
+Latest checkpoint, 2026-09-16 12:07 AEST:
+- navigation-final-targeted-2 passes both draft/Home/relaunch and true warm system URL routing with preserved Map context. Independent host driver records simctl exit 0. The earlier warm failure was the system Open confirmation alert, visible in the extracted video. The test now explicitly handles it through SpringBoard.
+- The failed draft screenshot shows the keyboard accessory overlay intercepting taps after an interactive swipe. The existing hide-exploration-keyboard Done button is now exercised explicitly, followed by a no-keyboard assertion. The same app source passes.
+- native-regression-2 is now running in session 82424 on the original iOS 27 simulator. No runtime edits, artifact replacements or second UI run on that device. Its driver preserves all automatic recordings and delivers real warm links. Source snapshot exists.
+- Local release materials are linked only under ignored .local, with no credential content copied into source. Six local-release helper tests pass. No release has started. Chinese PLAN, PROMPT and TODO current-status sections were refreshed.
+
+Latest checkpoint, 2026-09-16 12:04 AEST:
+- Share preview regression was reproduced: opening the routed preview with its own NavigationStack returned to the Map root without exposing create-share. Independent hierarchy and exported video frame confirm it. SharePreviewView now uses FeatureNavigation and contextual back. The exact preview/Home/Done UI test passes in navigation-final-targeted-1.
+- In-app original-context recall, wrong-answer review retaining the existing card, one-action Home and cold recall/unavailable links now pass on iOS 27 in navigation-final-targeted-1. Real warm simctl delivery and authorization tests are still running in session 38739.
+- The same run's draft test failed immediately after swipeDown because Map was not hittable. Inspect the saved screenshot. An explicit hide-exploration-keyboard button already exists, so qualify actual dismissal rather than assuming every swipe closes the keyboard.
+- native-regression-1 actually recorded 174 unit passes and one skip, with no unit failures. The interrupted bundle has no usable coverage report. A new uninterrupted broad run is still required.
+
+Latest checkpoint, 2026-09-16 12:01 AEST:
+- native-regression-1 passed 174 unit tests before UI qualification. It was intentionally interrupted (exit 75) after review found a remaining nested NavigationStack in SharePreviewView. Do not count this interrupted run as complete regression.
+- share-navigation-baseline-1 is reproducing global Home and contextual Done from that preview before fixing it. Test session is recorded in the task tool output. Do not edit runtime source while this test runs.
+- recall-fixed-1 passed four notification units, the restored-draft camera UI and actual system opt-in/disable with an exported permission screenshot. Its route test reached original context, review and retained card. The subsequent Map assertion failed because XCUIApplication.open launches a fresh app and does not simulate warm delivery.
+- Warm URL delivery has a host-driven test with a simctl readiness marker. The local run-native.py driver handles it and records its actual exit/output. No runtime debug backdoor is added. A separate in-app recall plus cold-link test remains.
+- Full test recording will use the documented xctestrun SystemAttachmentLifetime=keepAlways. The generated plan uses the legacy top-level target dictionary format, now handled by the local driver. The earlier interrupted run did not retain all automatic video.
+- Fixtures: 4237, 4236 and newly started delayed-share fixture 4203 (session 18681). Health read passed. Original iOS 27 simulator rebooted with fresh continuous location. iOS 26.4 simulator remains idle.
+
+Latest checkpoint, 2026-09-16 11:55 AEST:
+- User added app logo redesign to this iteration. Two high-quality Azure concepts generated and independently inspected at 1024, 80, 60 and 40 pixels. Discovery-card globe (B) is provisionally integrated in AppIcon, home header and language welcome. User preference is optional/pending. Both files are independently decoded RGB PNGs. See docs/design/app-icon-20260916.md and local brand/comparison.png.
+- Reminder authorization is supported and works. A stale system permission dialog was outside the app's accessibility tree. The SpringBoard interruption handler accepted it, and recall-springboard-1 passed actual opt-in/disable. Its route failure was an incorrect Other-element assertion: the independent hierarchy shows the original question as visible StaticText in Chat. No platform limitation or unresolved authorization API hang is claimed.
+- Authorization can now be cancelled in the app, and late approval/error cannot reverse a newer choice. A suspended-client test covers this race. Home camera/voice entries now honor the explicit action after restoring a draft.
+- recall-fixed-1 is running in session 27968 on iOS 26.4 after uninstalling the test app to reset authorization. Four notification units, two routing/system UI cases and restored-draft camera UI are selected. Source snapshot recorded. No runtime edits while it runs.
+- Original iOS 27 simulator and continuous location were stopped to leave resources for the first-boot investigation. Reboot/set a fresh location before the complete map journey.
+
+Latest checkpoint, 2026-09-16:
+- jacky-flow-3 independently passed the full real-service journey: cached AI, correct unlock, card, current-area map publication, nearby event, actual friend message, recent friend card, bilateral exchange acceptance and one-action Home. Recipient, map and exchange readbacks passed. The overall run failed its separate notification opt-in test, so it is not a passing full suite.
+- Navigation/draft regression navigation-drafts-3 passed 12 units and the Home/relaunch UI case. Draft and route implementation is verified for those paths. Broader exact-source coverage remains pending.
+- Screenshots of map publication, event conversation and accepted exchange were independently reviewed. A complete successful-route video was not retained and is still required.
+- iOS 27 reminder opt-in repeatedly stays disabled without completing authorization in recall-warm-1 and recall-diagnostic-1. App logs confirm requestAuthorization(options: 6), but no completion was observed. Diagnostic prints were removed. No platform support limitation is established.
+- A fresh iOS 26.4 simulator (3F7B0D13-FFAB-48CF-BEDA-7CBBC6F28687) is investigating notification behavior. Test session 51665, boot session 66750, recall-ios26-1.xcresult and derived-notifications. Do not edit runtime source while it runs. The original iOS 27 simulator is idle with continuous location active.
+- Next: qualify or correct notification opt-in, independently test original-context warm/cold routing, run broad native regression, meet matching-source per-file coverage, inspect multilingual/large-text layouts, review, integrate upstream and release locally. All changes remain uncommitted, with no new TestFlight upload.
+
+Earlier implementation notes:
+
+- P40 IN_PROGRESS: baseline-2 shows exploration as a sheet hiding the tab bar. The routed navigation builds in navigation-build-4 and passes navigation-fixed-2: type a question, dismiss keyboard, switch to Map, return to the same text. Screenshot independently inspected. The initial keyboard-visible test could not distinguish native keyboard occlusion from sheet behavior. The updated regression explicitly dismisses the keyboard.
+- Added persistent exploration text/observation/photo drafts, scoped by family, language, demo mode and exploration context. One-action Home, app-link routes, memory routes and Home/relaunch draft tests await navigation-drafts-3.
+- P41 IN_PROGRESS: card to map publication and nearby continuation are implemented. Cards without a saved place can explicitly use the current area. Existing coarse-location/privacy API and publication readback remain in place. Complete path verification is pending.
+- P42 IN_PROGRESS: friend profile/activity, canonical event links, durable independent event-message drafts and exchange continuation are implemented. Unit tests cover hostile URLs, activity timestamps and offline retry without overwriting ordinary message drafts. Actual fixture integration is pending. New owner-change guard and visible-route check prevent stale send completions from changing another session or destination.
+- P43 IN_PROGRESS: recall opens the original question in Chat. Already-earned cards can be reviewed after seven days without repeated awards. Opt-in afternoon notification scheduling, foreground suppression, click routing and private demo preview are implemented but not yet qualified. Physical notification acceptance remains separate.
+- P44 IN_PROGRESS: 23 new keys added to all ten catalogs (565 entries each). Six language and three notification unit tests pass in jacky-flow-2, but complete qualification still requires exact-source per-file 80% coverage, Jacky journey, secondary/denied/offline paths, Chinese/Arabic/maximum text screenshots, review, upstream integration and local TestFlight release.
+- Current test: session 30821, jacky-flow-3.xcresult, notification route UI and the full Jacky flow. navigation-drafts-3 passed 12 unit tests and the Home/relaunch draft UI test. Previous compilation failures are not test evidence. Do not edit runtime files or start another simulator test until the active run finishes.
+- Read-only CLI review exceeded 240 seconds with no output. The process ended, and no reviewer approval is claimed. Continue self-review.
+- Fixtures: session 24421 port 4237 native AI fallback, session 74622 port 4236 actual Miniflare D1/R2 and production handlers. Both health/seed reads succeeded. The fixed-2 test ran before the pitch fixture started, without consuming fixture content. This simulator is 810BF22C-8F9B-4C4C-9888-C804D524C5CA and requires DEVELOPER_DIR=/Applications/Xcode-27-RC.app/Contents/Developer.
+- Evidence root: ~/tmp/review/pocket-jacky-navigation. Fixed-2 has a matching source hash snapshot and exported screenshot. Current source postdates it.
+- Jacky-flow-1 reproduced the invitation keyboard obscuring tabs: UI hierarchy E8771981 and extracted video frame friend-keyboard-failure.png independently show Friends selected with the emoji keyboard. Sending invitations and messages now resigns focus, and social scrolling dismisses the keyboard. Jacky-flow-2 passed the invitation, cached answer, unlock and map-share entry, then reproduced unavailable simulator location. The end-of-video screenshot map-location-failure.png confirms a bounded timeout and preserved global navigation. The simulator had shut down after testing, so static location setup was lost. It is now explicitly booted with location permission and a continuous slow route. Jacky-flow-3 is active. Native screenshot command timed out waiting for screen surfaces and has ended. XCUITest video/frame evidence is available instead.
+- New reminder unit checks pass: opt-in denial/disable/failure, owned-notification isolation, afternoon/day caps, hidden demo cards, review persistence without duplicate awards. Horizon expanded to eight days so a newly unlocked card can schedule its first weekly afternoon reminder. The new RecallRouteFlowTests tests real system opt-in and warm/cold app-link navigation. Its first run in jacky-flow-3 failed waiting for the enabled button after no permission alert appeared. Inspect its actual error/UI evidence when the complete run ends. Actual notification delivery still requires device acceptance.
+- Remote main was rechecked and remains a64576a. The initial hash-matched coverage has AppNavigation 94.29%, ExplorationDraft 96.77%, EventMessage 97.78%, SocialStore 94.86%. RootView and ExploreView still need broader paths and later source changes require new matching snapshots.
+- Next: finish notification integration/callback checks and the full real-service event/profile/exchange path. Do not claim release or complete navigation acceptance yet. Proceed independently without teammate assignments.
+
 ## Active roadshow implementation (2026-09-15)
 
 Latest checkpoint, 2026-09-16 04:17 AEST:

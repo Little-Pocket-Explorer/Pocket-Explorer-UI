@@ -3,22 +3,22 @@ import XCTest
 final class GlobalLanguageFlowTests: XCTestCase {
     private let app = XCUIApplication()
 
-    func testEnglish() { exercise("english", map: "Map", title: "The day we met the ducks", done: "Done") }
-    func testSimplifiedChinese() { exercise("chinese", map: "地图", title: "遇见鸭子的那一天", done: "完成") }
-    func testTraditionalChinese() { exercise("traditionalChinese", map: "地圖", title: "遇見鴨子的那一天", done: "完成") }
-    func testSpanish() { exercise("spanish", map: "Mapa", title: "El día que conocimos a los patos", done: "Listo") }
-    func testFrench() { exercise("french", map: "Carte", title: "Le jour où nous avons rencontré les canards", done: "Terminé") }
-    func testGerman() { exercise("german", map: "Karte", title: "Der Tag, an dem wir die Enten trafen", done: "Fertig") }
-    func testPortuguese() { exercise("portuguese", map: "Mapa", title: "O dia em que conhecemos os patos", done: "Pronto") }
-    func testJapanese() { exercise("japanese", map: "地図", title: "アヒルに出会った日", done: "完了") }
-    func testKorean() { exercise("korean", map: "지도", title: "오리를 만난 날", done: "완료") }
-    func testArabic() { exercise("arabic", map: "الخريطة", title: "اليوم الذي التقينا فيه بالبط", done: "تم") }
-    func testArabicAtTheLargestTextSize() { exercise("arabic", map: "الخريطة", title: "اليوم الذي التقينا فيه بالبط", done: "تم", large: true) }
-    func testGermanAtTheLargestTextSize() { exercise("german", map: "Karte", title: "Der Tag, an dem wir die Enten trafen", done: "Fertig", large: true) }
-    func testFrenchAtTheLargestTextSize() { exercise("french", map: "Carte", title: "Le jour où nous avons rencontré les canards", done: "Terminé", large: true) }
-    func testPortugueseAtTheLargestTextSize() { exercise("portuguese", map: "Mapa", title: "O dia em que conhecemos os patos", done: "Pronto", large: true) }
+    func testEnglish() { exercise("english", map: "Map", title: "The day we met the ducks") }
+    func testSimplifiedChinese() { exercise("chinese", map: "地图", title: "遇见鸭子的那一天") }
+    func testTraditionalChinese() { exercise("traditionalChinese", map: "地圖", title: "遇見鴨子的那一天") }
+    func testSpanish() { exercise("spanish", map: "Mapa", title: "El día que conocimos a los patos") }
+    func testFrench() { exercise("french", map: "Carte", title: "Le jour où nous avons rencontré les canards") }
+    func testGerman() { exercise("german", map: "Karte", title: "Der Tag, an dem wir die Enten trafen") }
+    func testPortuguese() { exercise("portuguese", map: "Mapa", title: "O dia em que conhecemos os patos") }
+    func testJapanese() { exercise("japanese", map: "地図", title: "アヒルに出会った日") }
+    func testKorean() { exercise("korean", map: "지도", title: "오리를 만난 날") }
+    func testArabic() { exercise("arabic", map: "الخريطة", title: "اليوم الذي التقينا فيه بالبط") }
+    func testArabicAtTheLargestTextSize() { exercise("arabic", map: "الخريطة", title: "اليوم الذي التقينا فيه بالبط", large: true) }
+    func testGermanAtTheLargestTextSize() { exercise("german", map: "Karte", title: "Der Tag, an dem wir die Enten trafen", large: true) }
+    func testFrenchAtTheLargestTextSize() { exercise("french", map: "Carte", title: "Le jour où nous avons rencontré les canards", large: true) }
+    func testPortugueseAtTheLargestTextSize() { exercise("portuguese", map: "Mapa", title: "O dia em que conhecemos os patos", large: true) }
 
-    private func exercise(_ preference: String, map: String, title: String, done: String, large: Bool = false) {
+    private func exercise(_ preference: String, map: String, title: String, large: Bool = false) {
         continueAfterFailure = false
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
         if large { app.launchArguments += ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"] }
@@ -66,7 +66,8 @@ final class GlobalLanguageFlowTests: XCTestCase {
         XCTAssertTrue(app.buttons["memory-play-pause"].isHittable)
         if large { XCTAssertLessThan(app.buttons["memory-play-pause"].frame.height, 115) }
         capture("\(preference)-memory\(large ? "-large" : "")")
-        app.buttons[done].tap()
+        app.navigationBars.buttons["BackButton"].tap()
+        XCTAssertTrue(app.staticTexts["trip-title"].waitForExistence(timeout: 5))
         scrollTo(app.buttons["share-trip"])
         capture("\(preference)-before-sharing\(large ? "-large" : "")")
         let hierarchy = XCTAttachment(string: app.debugDescription)

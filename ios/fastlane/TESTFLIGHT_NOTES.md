@@ -1,11 +1,11 @@
-Pocket Explorer now connects the roadshow experience: personalized exploration, delayed recall, evolving knowledge cards, nearby adventures and sharing with friends.
+Pocket Explorer makes the next adventure easier to reach, with a new globe-and-discovery-card icon.
 
-Set up an explorer's nickname, age, interests and avatar from Profile > Family settings. A six-digit parent PIN protects social permissions, sharing, map privacy and daily screen time. Save the recovery code privately.
+Chat, Map, Memories and Friends stay available while you browse. Use Home from a detail screen to return directly to Chat. Your exploration draft survives a detour and an app restart.
 
-Questions stay together in conversations. A saved discovery begins with a pending card. Answer its recall question correctly to unlock it, then explore something new to build an evolving card history. Try the forest, ocean and cosmos styles.
+After unlocking a card, continue to map sharing and nearby adventures. Share an event with an accepted friend, open their recent discoveries, and request an exchange with one of your cards. Messages and exchanges retain their real service status.
 
-The map now includes nearby events and publicly shared discoveries. Event rewards follow their time, age, location and challenge requirements. Personal map shares show a broad area. Friends exchange private codes, accept each other, send text messages and give or exchange card copies.
+Optional afternoon reminders return to the original discovery in Chat. Reviewing an already earned card keeps that card and does not award it again. Reminders are off until enabled.
 
-The refreshed profile uses the supplied meadow artwork and real collection statistics. Six new illustrated topics include prepared answers and narration in all ten supported languages. Cached discoveries keep progressive text and warm narration. Private demo content remains separate.
+The new identity appears in the app icon, welcome screen and home header. All ten interface languages remain available.
 
-Please test on your iPhone: profile setup and PIN recovery, microphone and camera permission, narration and interruptions, a wrong then correct recall answer, nearby location access, sharing and revocation, and an accepted friendship with messages and a card exchange. Check your preferred language and larger text sizes.
+Please test your full journey on iPhone, including back navigation, Home, voice and camera, interrupted work, notification delivery, sharing and revocation. Try your preferred language and a larger text size.

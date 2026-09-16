@@ -51,6 +51,26 @@ final class HomeEntryTests: XCTestCase {
         XCTAssertTrue(app.buttons["speak-button"].exists)
     }
 
+    func testHomeCameraStillOpensAfterRestoringTypedDraft() {
+        app.buttons["home-question"].tap()
+        let input = app.textViews["exploration-input"].exists ? app.textViews["exploration-input"] : app.textFields["exploration-input"]
+        XCTAssertTrue(input.waitForExistence(timeout: 5))
+        input.tap(); input.typeText("What is on this leaf?")
+        app.swipeDown(); app.buttons["navigation-home"].tap()
+        XCTAssertTrue(app.buttons["home-camera"].waitForExistence(timeout: 5))
+        app.buttons["home-camera"].tap()
+        let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let permission = system.alerts.containing(NSPredicate(format: "label CONTAINS[c] 'camera'")).firstMatch
+        if permission.waitForExistence(timeout: 2) { permission.buttons["Allow"].tap() }
+        if app.buttons["PhotoCapture"].waitForExistence(timeout: 3) {
+            app.buttons.matching(NSPredicate(format: "identifier IN %@", ["DismissImagePickerButton", "DismissButton"])).firstMatch.tap()
+        } else {
+            XCTAssertTrue(app.staticTexts["exploration-error"].waitForExistence(timeout: 5))
+            XCTAssertTrue(app.staticTexts["exploration-error"].label.lowercased().contains("camera"))
+        }
+        XCTAssertEqual(input.value as? String, "What is on this leaf?")
+    }
+
     func testHomeMicrophoneRequestsAccessAndDenialKeepsTypingAvailable() {
         app.resetAuthorizationStatus(for: .microphone)
         app.launch()
@@ -101,6 +121,38 @@ final class HomeEntryTests: XCTestCase {
         app.buttons["home-question"].tap()
         XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 8))
         XCTAssertFalse(app.staticTexts["I'm listening…"].exists)
+    }
+
+    func testRestoringAnAnsweredDraftNeverStartsHiddenCapture() {
+        app.resetAuthorizationStatus(for: .microphone)
+        app.launch()
+        XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
+        app.buttons["language-continue"].tap(); app.buttons["home-question"].tap()
+        let input = app.textFields["exploration-input"]
+        XCTAssertTrue(input.waitForExistence(timeout: 5)); input.typeText("Why is the sky blue?")
+        app.buttons["ask-button"].tap()
+        XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 10))
+        let observation = app.textViews["observation-input"].exists ? app.textViews["observation-input"] : app.textFields["observation-input"]
+        for _ in 0..<5 where !observation.isHittable { app.swipeUp() }
+        observation.tap(); observation.typeText("I noticed pale blue above the trees.")
+        app.buttons["navigation-home"].tap(); app.buttons["home-ask"].tap()
+        let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let requested = system.alerts.firstMatch.waitForExistence(timeout: 3)
+        if requested {
+            let screenshot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+            screenshot.name = "unexpected-recording-on-answered-draft"; screenshot.lifetime = .keepAlways; add(screenshot)
+            system.alerts.buttons.matching(NSPredicate(format: "label BEGINSWITH[c] 'Don'")).firstMatch.tap()
+        }
+        XCTAssertFalse(requested, "An answered screen has no question-recording controls")
+        XCTAssertTrue(app.staticTexts["live-answer"].exists)
+        XCTAssertFalse(app.staticTexts["exploration-error"].exists)
+        XCTAssertEqual(observation.value as? String, "I noticed pale blue above the trees.")
+        app.buttons["navigation-home"].tap(); app.buttons["home-camera"].tap()
+        XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["PhotoCapture"].waitForExistence(timeout: 2))
+        XCTAssertFalse(app.staticTexts["exploration-error"].exists)
+        XCTAssertEqual(observation.value as? String, "I noticed pale blue above the trees.")
+        capture("answered-draft-restores-without-hidden-capture")
     }
 
     private func capture(_ name: String) {

@@ -14,6 +14,7 @@ struct PocketExplorerApp: App {
     private var resolvedLanguage: AppLanguage { language?.language ?? deviceLanguage }
 
     init() {
+        RecallNotifications.shared.install()
         #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("--ui-testing"), ProcessInfo.processInfo.arguments.contains("--reset-language") {
             LanguageSettings.preferences.removeObject(forKey: "app-language")
@@ -28,9 +29,8 @@ struct PocketExplorerApp: App {
                 if language == nil {
                     LanguageSelectionView(onSelect: selectLanguage)
                 } else if let store {
-                    RootView(store: store, changeLanguage: { choosingLanguage = true })
+                    RootView(store: store, changeLanguage: { choosingLanguage = true }, discoveryLink: $discoveryLink)
                         .sheet(item: $demoActivation) { activation in DemoActivationView(activation: activation, demo: store.demo) }
-                        .sheet(item: $discoveryLink) { link in DiscoveryLinkView(store: store, link: link).id(link.id) }
                 } else if let loadError {
                     ContentUnavailableView("Your journal needs a moment", systemImage: "book.closed", description: Text(loadError))
                 } else {
@@ -46,6 +46,7 @@ struct PocketExplorerApp: App {
             .onOpenURL { url in
                 if let activation = DemoActivation(url: url) { demoActivation = activation }
                 else if let link = DiscoveryLink(url: url) { discoveryLink = link }
+                else { RecallNotifications.shared.open(url) }
             }
             .onReceive(NotificationCenter.default.publisher(for: NSLocale.currentLocaleDidChangeNotification)) { _ in
                 deviceLanguage = AppLanguage.resolve(Locale.preferredLanguages)

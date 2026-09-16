@@ -85,6 +85,7 @@ struct Discovery: Codable, Equatable, Identifiable {
     var unlockRequired: Bool? = nil
     var collectible: KnowledgeCard? = nil
     var evolvesFrom: String? = nil
+    var recallReviewedAt: Date? = nil
 
     var isUnlocked: Bool { unlockRequired != true || unlockedAt != nil }
     var isVerified: Bool {

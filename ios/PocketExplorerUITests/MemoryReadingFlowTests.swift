@@ -49,6 +49,16 @@ final class MemoryReadingFlowTests: XCTestCase {
         assertOpeningIsVisible(chapter)
         capture("replay-same-long-chapter")
         play.tap()
+        let sharing = app.buttons["memory-share-preview"]
+        XCTAssertTrue(sharing.isHittable)
+        sharing.tap()
+        XCTAssertTrue(app.buttons["create-share"].waitForExistence(timeout: 6))
+        XCTAssertTrue(app.buttons["navigation-home"].isHittable)
+        XCTAssertTrue(app.tabBars.buttons["Memories"].isHittable)
+        capture("memory-toolbar-share-at-maximum-text")
+        app.navigationBars.buttons["BackButton"].tap()
+        XCTAssertTrue(chapter.waitForExistence(timeout: 5))
+        XCTAssertEqual(chapter.label, longQuestion)
     }
 
     private func exerciseNavigation(large: Bool) throws {

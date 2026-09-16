@@ -9,6 +9,7 @@ struct GiftComposerView: View {
     @State private var error: String?
     @State private var sent = false
     @State private var sentExchange = false
+    @Environment(\.explorerNavigation) private var navigation
     @Environment(\.dismiss) private var dismiss
     private var pending: TransferDraft? { store.social.pendingTransfer(for: friendID) }
     private var isExchange: Bool { wanted != nil || pending?.kind == "exchange" || sentExchange }
@@ -19,14 +20,16 @@ struct GiftComposerView: View {
             .filter { $0.versions.allSatisfy { $0.audience == "public" } && ids.insert($0.id).inserted }
     }
     var body: some View {
-        NavigationStack {
+        FeatureNavigation {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     LeafBadge(symbol: "gift.fill")
                     Text(L10n.text(isExchange ? "Choose a card to exchange" : "Give a little discovery")).font(.system(.largeTitle, design: .rounded, weight: .bold))
                     Text(L10n.text(isExchange ? "Both of you keep your original cards and receive a copy." : "You keep your original card. Your friend receives a copy.")).foregroundStyle(Theme.muted)
                     if let wantedTitle { Text("↔ \(wantedTitle)").font(.title2.bold()) }
-                    if sent { Label(L10n.text(isExchange ? "Your friend can now review this exchange." : "Your gift is on its way!"), systemImage: "checkmark.circle.fill").accessibilityIdentifier("transfer-sent") }
+                    if sent {
+                        Button("View gifts and exchanges") { navigation?.open(.friend(friendID, 2), in: .friends) }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("transfer-open-conversation")
+                        Label(L10n.text(isExchange ? "Your friend can now review this exchange." : "Your gift is on its way!"), systemImage: "checkmark.circle.fill").accessibilityIdentifier("transfer-sent") }
                     else {
                         if cards.isEmpty { Text("Explore and unlock a card to share with a friend.") }
                         ForEach(cards) { card in
@@ -44,7 +47,7 @@ struct GiftComposerView: View {
                     if working { ProgressView() }
                     if let error { Text(error).foregroundStyle(Theme.muted).accessibilityIdentifier("social-error") }
                 }.padding(24)
-            }.background(ExplorerBackdrop()).toolbar { Button("Done") { dismiss() } }
+            }.background(ExplorerBackdrop()).toolbar { Button("Done") { if let navigation { navigation.back() } else { dismiss() } } }
         }.onAppear { selected = store.social.pendingTransfer(for: friendID)?.offeredID ?? cards.first?.id ?? "" }
     }
     private func send() {
@@ -65,10 +68,10 @@ struct FriendCardView: View {
     let card: KnowledgeCard
     @State private var bytes: Data?
     @State private var error: String?
-    @State private var exchange = false
+    @Environment(\.explorerNavigation) private var navigation
     @Environment(\.dismiss) private var dismiss
     var body: some View {
-        NavigationStack {
+        FeatureNavigation {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     if let bytes, let image = UIImage(data: bytes) { Image(uiImage: image).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 28)).accessibilityLabel(card.versions.last!.reply.title) }
@@ -76,11 +79,11 @@ struct FriendCardView: View {
                     Text(card.versions.last!.question).font(.title2)
                     Text(card.versions.last!.reply.answer)
                     Label(L10n.text(card.tier.rawValue.capitalized), systemImage: "sparkles")
-                    Button("Offer an exchange") { exchange = true }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("friend-exchange")
+                    Button("Offer an exchange") { navigation?.open(.exchange(friendID, card.id)) }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("friend-exchange")
                     if let error { Text(error).foregroundStyle(Theme.muted) }
                 }.padding(24)
-            }.background(ExplorerBackdrop()).toolbar { Button("Done") { dismiss() } }
-        }.sheet(isPresented: $exchange) { GiftComposerView(store: store, friendID: friendID, wanted: card) }
+            }.background(ExplorerBackdrop()).toolbar { Button("Done") { if let navigation { navigation.back() } else { dismiss() } } }
+        }
             .task {
                 do { bytes = try await store.social.client.artwork(card, friendID: friendID, connection: ConnectionVault().loadOrCreate()) }
                 catch { self.error = error.localizedDescription }

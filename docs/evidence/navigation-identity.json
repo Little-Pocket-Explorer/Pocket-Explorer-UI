@@ -1,0 +1,83 @@
+{
+  "status": "qualified-awaiting-local-release",
+  "nativeBaseline": "a64576affd3d12bfec904e505d6517ffb3de9b2e",
+  "backendRuntimeUnchanged": "aafd4fe570e74113778dd77e181999d3059f0499",
+  "qualification": {
+    "basis": "Latest result per test across the recorded full and focused runs. Not one passing full final-source invocation. Coverage separately requires current hashes for every changed product Swift file.",
+    "runs": {
+      "native-regression-2": {
+        "totalTestCount": 268,
+        "passedTests": 241,
+        "failedTests": 23,
+        "skippedTests": 4
+      },
+      "review-corrections-1": {
+        "totalTestCount": 22,
+        "passedTests": 21,
+        "failedTests": 0,
+        "skippedTests": 1
+      },
+      "review-followup-1": {
+        "totalTestCount": 19,
+        "passedTests": 19,
+        "failedTests": 0,
+        "skippedTests": 0
+      }
+    },
+    "counts": {
+      "Passed": 266,
+      "Skipped": 4
+    },
+    "skipped": [
+      "PreparedDiscoveryTests/testRealHTTPFixtureCatalogRoundTrip()",
+      "HomeEntryTests/testMicrophonePermissionStartsCaptureAndFinishingReturnsToTyping()",
+      "LiveShareTests/testNativeQuestionUsesTheLiveWorkerWithoutGeneratingAnotherImage()",
+      "LiveShareTests/testNativeSharingUsesTheDeployedServiceAndCanBeRevoked()"
+    ],
+    "changedSwiftFiles": 30,
+    "minimumCoverage": 0.8826754385964912,
+    "aggregateCoverage": 0.9553448921042784
+  },
+  "evidenceRoot": "/Users/haichang/tmp/review/pocket-jacky-navigation",
+  "coverageFile": "coverage-final.json",
+  "matrixFile": "qualification-matrix.json",
+  "runtimeFile": "final-tested-runtime.json",
+  "video": "final-jacky-video/jacky-demo.mp4",
+  "logo": {
+    "ios/PocketExplorer/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png": {
+      "sha256": "d44fc400dd34acce9f4110842235e9e6239dcbfb38cba1f72c2224b70aa2921f",
+      "independentImageRead": "/Users/haichang/Worktrees/Pocket-Explorer-UI-jacky-navigation/ios/PocketExplorer/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png\n  pixelWidth: 1024\n  pixelHeight: 1024\n  hasAlpha: no"
+    },
+    "ios/PocketExplorer/Resources/Assets.xcassets/brand-logo.imageset/brand-logo.png": {
+      "sha256": "78eaa56bc58bebb35bcaa6337a790d7994dbcc648cea355c7696ff6dca8f76f2",
+      "independentImageRead": "/Users/haichang/Worktrees/Pocket-Explorer-UI-jacky-navigation/ios/PocketExplorer/Resources/Assets.xcassets/brand-logo.imageset/brand-logo.png\n  pixelWidth: 256\n  pixelHeight: 256\n  hasAlpha: no"
+    },
+    "observedAfterTestStart": true,
+    "note": "The original test source snapshots contain Swift files only. These asset hashes were read during qualification and are not retroactively claimed as start-of-run snapshots.",
+    "compiledPrimaryIcon": {
+      "path": "/Users/haichang/tmp/review/pocket-jacky-navigation/derived/Build/Products/Debug-iphonesimulator/PocketExplorer.app/AppIcon60x60@2x.png",
+      "sha256": "0b0335d8221b08179408d6ddc6bb059a9dd653f7fea8fc19eda2957dbf473e0a",
+      "dimensions": "/Users/haichang/tmp/review/pocket-jacky-navigation/derived/Build/Products/Debug-iphonesimulator/PocketExplorer.app/AppIcon60x60@2x.png\n  pixelWidth: 120\n  pixelHeight: 120\n  hasAlpha: yes",
+      "info": {
+        "CFBundlePrimaryIcon": {
+          "CFBundleIconFiles": [
+            "AppIcon60x60"
+          ],
+          "CFBundleIconName": "AppIcon"
+        }
+      },
+      "visuallyInspected": true
+    }
+  },
+  "reviewedScreenshots": [
+    "Chinese and Arabic home",
+    "Compiled app icon and language welcome",
+    "Maximum-text memory and sharing",
+    "Chinese and Arabic event recipient selection",
+    "Accepted bilateral exchange"
+  ],
+  "physicalDeviceAvailable": false,
+  "humanVisualApproval": false,
+  "reviewer": "Self-review. Two bounded CLI review attempts returned no opinion.",
+  "knownWarning": "The Invalid frame dimension warning also occurs in the earlier pitch baseline. Its source is not isolated. Inspected settled screens show no corresponding display defect."
+}

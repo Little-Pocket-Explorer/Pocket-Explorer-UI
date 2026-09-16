@@ -91,6 +91,7 @@ struct CardUnlockView: View {
 }
 
 struct CardDetailView: View {
+    @Environment(\.explorerNavigation) private var navigation
     let store: TripStore
     let discoveryID: UUID
     var isNew = false
@@ -100,9 +101,7 @@ struct CardDetailView: View {
     @State private var observation = ""
     @State private var error: String?
     @State private var section = 0
-    @State private var evolving = false
     @State private var styling = false
-    @State private var mapSharing = false
     private var discovery: Discovery? { store.state.discoveries.first { $0.id == discoveryID } }
 
     var body: some View {
@@ -112,7 +111,7 @@ struct CardDetailView: View {
                     VStack(alignment: .leading, spacing: 24) {
                         if !discovery.isUnlocked {
                             Text("Your discovery is saved").font(.title2.bold())
-                            NavigationLink { DiscoveryQuizView(store: store, discoveryID: discovery.id) } label: { Label("Quiz me now", systemImage: "sparkles") }
+                            NavigationLink(value: ExplorerRoute.recall(discovery.id)) { Label("Quiz me now", systemImage: "sparkles") }
                                 .buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("pending-quiz")
                         }
                         if store.preparedContentNeedsUpdate(discovery.explorationID) {
@@ -156,16 +155,16 @@ struct CardDetailView: View {
                             }.clipShape(RoundedRectangle(cornerRadius: 20))
                         }
                         if let trip = store.state.trips.first(where: { $0.id == discovery.tripID }) {
-                            NavigationLink { SharePreviewView(trip: trip, discoveries: [discovery], store: store, singleCardID: discovery.id) } label: { Label("Preview & share", systemImage: "square.and.arrow.up") }
+                            NavigationLink(value: ExplorerRoute.share(trip.id, discovery.id)) { Label("Preview & share", systemImage: "square.and.arrow.up") }
                                 .buttonStyle(ExplorerButtonStyle()).disabled(!discovery.isUnlocked).accessibilityIdentifier("card-share-preview")
-                            NavigationLink("See this adventure") { TripDetailView(store: store, tripID: discovery.tripID) }.frame(maxWidth: .infinity, minHeight: 44)
+                            NavigationLink("See this adventure", value: ExplorerRoute.trip(discovery.tripID)).frame(maxWidth: .infinity, minHeight: 44)
                         }
                         if let origin = discovery.collectible?.origin { Label(origin.displayLabel, systemImage: origin.kind == "event" ? "mappin.and.ellipse" : "gift").font(.headline) }
                         if let card = discovery.collectible, discovery.isUnlocked {
                             VStack(alignment: .leading, spacing: 14) {
                                 NavigationLink { CardHistoryView(card: card) } label: { Label("Card history", systemImage: "clock.arrow.circlepath") }.accessibilityIdentifier("card-history")
-                                Button("Share on map") { mapSharing = true }.frame(minHeight: 44).accessibilityIdentifier("card-map-sharing")
-                                Button("Help this card grow") { evolving = true }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("evolve-card")
+                                Button("Share on map") { navigation?.open(.mapShare(discovery.id)) }.frame(minHeight: 44).accessibilityIdentifier("card-map-sharing")
+                                Button("Help this card grow") { navigation?.open(.explore(.init(tripID: discovery.tripID, parentID: discovery.explorationID, evolveFrom: card.id)), in: .chat) }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("evolve-card")
                                     .disabled(!store.family.allows(.exploration))
                                 Picker("Card style", selection: Binding(get: { card.style }, set: { style in
                                     styling = true; error = nil
@@ -184,10 +183,6 @@ struct CardDetailView: View {
                 proxy.scrollTo("card-section-start", anchor: .top)
             }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink)
             .navigationTitle(discovery?.title ?? L10n.text("My discovery")).navigationBarTitleDisplayMode(.inline)
-            .sheet(isPresented: $mapSharing) { if let discovery { MapSharingView(store: store, discovery: discovery) } }
-            .sheet(isPresented: $evolving) {
-                if let discovery { ExplorationFlow(store: store, tripID: discovery.tripID, parentQuestionID: discovery.explorationID, evolveFrom: discovery.collectible?.id) }
-            }
             .sheet(isPresented: $editing) {
                 NavigationStack {
                     Form {
@@ -262,7 +257,7 @@ struct CollectionView: View {
                 }
                 LazyVGrid(columns: dynamicTypeSize.isAccessibilitySize ? [GridItem(.flexible())] : [GridItem(.flexible(), spacing: 14), GridItem(.flexible())], spacing: 18) {
                     ForEach(discoveries) { discovery in
-                        NavigationLink { CardDetailView(store: store, discoveryID: discovery.id) } label: {
+                        NavigationLink(value: ExplorerRoute.card(discovery.id)) {
                             DiscoveryCard(discovery: discovery, store: store, compact: true)
                                 .contentShape(RoundedRectangle(cornerRadius: 29))
                         }.buttonStyle(.plain).accessibilityIdentifier("collection-card-\(discovery.id)")
@@ -273,7 +268,7 @@ struct CollectionView: View {
         }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink).navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink { DiscoveryRemindersView(store: store) } label: { Label("Discovery Quiz", systemImage: "leaf.arrow.triangle.circlepath") }
+                    NavigationLink(value: ExplorerRoute.reminders) { Label("Discovery Quiz", systemImage: "leaf.arrow.triangle.circlepath") }
                         .accessibilityIdentifier("collection-reminders")
                 }
             }

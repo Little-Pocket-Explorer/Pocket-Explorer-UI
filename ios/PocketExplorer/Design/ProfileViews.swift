@@ -6,6 +6,7 @@ struct ExplorerProfileView: View {
     var onClose: () -> Void
     var onLanguage: () -> Void
     var onFamilySettings: () -> Void
+    @Environment(\.explorerNavigation) private var navigation
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private var profile: ExplorerProfile {
@@ -51,10 +52,10 @@ struct ExplorerProfileView: View {
                     Divider().padding(.horizontal, 16)
                     Button(action: onLanguage) { row("Language", icon: "globe") }.accessibilityIdentifier("choose-language")
                     Divider().padding(.horizontal, 16)
-                    NavigationLink { FriendsView(store: store) } label: { row("Friends and text chat", icon: "person.2.fill") }
+                    Button { navigation?.tab = .friends } label: { row("Friends and text chat", icon: "person.2.fill") }
                         .accessibilityIdentifier("profile-friends")
                     Divider().padding(.horizontal, 16)
-                    NavigationLink { DiscoveryRemindersView(store: store) } label: { row("Discovery reminders", icon: "bell.fill") }
+                    NavigationLink(value: ExplorerRoute.reminders) { row("Discovery reminders", icon: "bell.fill") }
                         .accessibilityIdentifier("profile-reminders")
                 }.buttonStyle(.plain).background(.white.opacity(0.96), in: RoundedRectangle(cornerRadius: 24))
                 if store.family.family != nil {

@@ -10,7 +10,7 @@ struct MemoriesView: View {
                 Text("Small moments.\nBig feelings.").font(.system(.largeTitle, design: .rounded, weight: .heavy))
                 Text("The questions, the adventures, the things you noticed. All yours to keep.").foregroundStyle(Theme.muted)
                 ForEach(store.state.trips.filter { $0.memory != nil }) { trip in
-                    NavigationLink { MemoryPlayer(trip: trip, store: store) } label: {
+                    NavigationLink(value: ExplorerRoute.memory(trip.id)) {
                         VStack(alignment: .leading, spacing: 0) {
                             if let discovery = store.discoveries(in: trip.id).first {
                             DiscoveryArtwork(discovery: discovery, store: store).aspectRatio(1.35, contentMode: .fit).clipped()
@@ -26,7 +26,7 @@ struct MemoriesView: View {
                             }.padding(22)
                         }.background(.white.opacity(0.8)).clipShape(RoundedRectangle(cornerRadius: 29))
                     }.buttonStyle(.plain).accessibilityIdentifier("memory-\(trip.id)")
-                    NavigationLink("Preview & share") { SharePreviewView(trip: trip, discoveries: store.discoveries(in: trip.id), store: store) }
+                    NavigationLink("Preview & share", value: ExplorerRoute.share(trip.id, nil))
                         .buttonStyle(ExplorerButtonStyle(secondary: true))
                 }
                 if !store.state.trips.contains(where: { $0.memory != nil }) {

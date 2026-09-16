@@ -4,14 +4,13 @@ import SwiftUI
 struct NearbyDiscoveryView: View {
     let store: TripStore
     @State private var location = DiscoveryLocation()
-    @State private var selectedEvent: ExplorerEvent?
-    @State private var selectedCard: SharedMapCard?
     @State private var familySettings = false
     @State private var camera: MapCameraPosition = .automatic
+    @Environment(\.explorerNavigation) private var navigation
     @Environment(\.dismiss) private var dismiss
     private var permitted: Bool { store.family.family != nil && store.family.allows(.events) }
     var body: some View {
-        NavigationStack {
+        FeatureNavigation {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     Text("A little adventure nearby").font(.system(.largeTitle, design: .rounded, weight: .bold))
@@ -23,13 +22,13 @@ struct NearbyDiscoveryView: View {
                         Map(position: $camera) {
                             ForEach(store.events.events) { event in
                                 Annotation(event.title, coordinate: CLLocationCoordinate2D(latitude: event.location.latitude, longitude: event.location.longitude)) {
-                                    Button { selectedEvent = event } label: { Image(systemName: "sparkles").font(.title2).padding(12).background(Theme.sun, in: Circle()) }
+                                    Button { navigation?.open(.event(event.id)) } label: { Image(systemName: "sparkles").font(.title2).padding(12).background(Theme.sun, in: Circle()) }
                                         .accessibilityIdentifier("event-pin-\(event.id)")
                                 }
                             }
                             ForEach(store.events.shared) { card in
                                 Annotation(card.title, coordinate: CLLocationCoordinate2D(latitude: card.location.latitude, longitude: card.location.longitude)) {
-                                    Button { selectedCard = card } label: { Image(systemName: "rectangle.stack.fill").padding(12).background(Theme.mint, in: Circle()) }.accessibilityIdentifier("shared-map-pin-\(card.id)")
+                                    Button { navigation?.open(.sharedDiscovery(card.id)) } label: { Image(systemName: "rectangle.stack.fill").padding(12).background(Theme.mint, in: Circle()) }.accessibilityIdentifier("shared-map-pin-\(card.id)")
                                 }
                             }
                         }.mapStyle(.hybrid).frame(height: 230).clipShape(RoundedRectangle(cornerRadius: 26)).accessibilityIdentifier("nearby-map")
@@ -39,7 +38,7 @@ struct NearbyDiscoveryView: View {
                         if store.events.busy { ProgressView("Finding nearby adventures…") }
                         if let error = location.error ?? store.events.error { Text(error).foregroundStyle(Theme.muted).accessibilityIdentifier("events-error") }
                         ForEach(store.events.events) { event in
-                            Button { selectedEvent = event } label: { EventRow(event: event) }.buttonStyle(.plain).accessibilityIdentifier("nearby-event-\(event.id)")
+                            Button { navigation?.open(.event(event.id)) } label: { EventRow(event: event) }.buttonStyle(.plain).accessibilityIdentifier("nearby-event-\(event.id)")
                         }
                         if location.reading != nil && !store.events.busy && store.events.events.isEmpty {
                             Text("No events nearby right now. Your next discovery can still start anywhere.").foregroundStyle(Theme.muted)
@@ -48,7 +47,7 @@ struct NearbyDiscoveryView: View {
                             Text("Discoveries shared nearby").font(.title2.bold())
                             Text("These pins show a broad area, never another child's exact location.").font(.caption).foregroundStyle(Theme.muted)
                             ForEach(store.events.shared) { card in
-                                Button { selectedCard = card } label: {
+                                Button { navigation?.open(.sharedDiscovery(card.id)) } label: {
                                     HStack { LeafBadge(); Text(card.title).font(.headline); Spacer(); Image(systemName: "chevron.right") }.padding(16).background(.white, in: RoundedRectangle(cornerRadius: 22))
                                 }.buttonStyle(.plain).accessibilityIdentifier("nearby-shared-\(card.id)")
                             }
@@ -57,9 +56,7 @@ struct NearbyDiscoveryView: View {
                     }
                 }.padding(22)
             }.background(ExplorerBackdrop()).navigationTitle("Nearby").navigationBarTitleDisplayMode(.inline)
-                .toolbar { Button("Done") { dismiss() } }
-                .sheet(item: $selectedEvent) { event in EventDetailView(store: store, event: event) }
-                .sheet(item: $selectedCard) { card in SharedMapCardView(card: card) }
+                .toolbar { Button("Done") { if let navigation { navigation.back() } else { dismiss() } } }
                 .sheet(isPresented: $familySettings) { FamilySettingsView(family: store.family) }
                 .task(id: location.reading?.observedAt) {
                     guard permitted, let reading = location.reading, let connection = try? ConnectionVault().loadOrCreate() else { return }
@@ -86,9 +83,10 @@ struct SharedMapCardView: View {
     let card: SharedMapCard
     @State private var bytes: Data?
     @State private var error: String?
+    @Environment(\.explorerNavigation) private var navigation
     @Environment(\.dismiss) private var dismiss
     var body: some View {
-        NavigationStack {
+        FeatureNavigation {
             ScrollView {
                 VStack(alignment: .leading, spacing: 22) {
                     if let bytes, let image = UIImage(data: bytes) { Image(uiImage: image).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 26)).accessibilityLabel(card.title) }
@@ -99,7 +97,7 @@ struct SharedMapCardView: View {
                     Text("Shared in this area").font(.caption).foregroundStyle(Theme.muted)
                     if let error { Text(error).font(.caption).foregroundStyle(Theme.muted) }
                 }.padding(24)
-            }.background(ExplorerBackdrop()).toolbar { Button("Done") { dismiss() } }
+            }.background(ExplorerBackdrop()).toolbar { Button("Done") { if let navigation { navigation.back() } else { dismiss() } } }
         }.task {
             do { bytes = try await EventClient().mapArtwork(card, connection: ConnectionVault().loadOrCreate()) }
             catch { self.error = error.localizedDescription }

@@ -2,7 +2,7 @@ import AVFoundation
 import PhotosUI
 import SwiftUI
 
-enum ExplorationEntry {
+enum ExplorationEntry: Hashable {
     case compose, voice, camera, question
 }
 
@@ -33,6 +33,9 @@ struct ExploreView: View {
     @State private var voiceTask: Task<Void, Never>?
     @State private var dictation = DictationDraft(original: "")
     @State private var prepared = false
+    @State private var draftFile: ExplorationDraftFile?
+    @State private var draftLoadFailed = false
+    @State private var finished = false
     @State private var recordingObservation = false
     @State private var speaking = false
     @State private var answerPresentation = AnswerPresentation()
@@ -134,16 +137,27 @@ struct ExploreView: View {
                 } else { composer }
             }
         }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") { focused = false }.accessibilityIdentifier("hide-exploration-keyboard")
+            }
+        }
         .onAppear(perform: prepare)
+        .task(id: draft) {
+            do { try await Task.sleep(for: .milliseconds(350)) } catch { return }
+            saveDraft()
+        }
         .task(id: answerPresentation.generation) { [generation = answerPresentation.generation] in
             await answerPresentation.reveal(generation: generation)
         }
-        .onDisappear { replyTask?.cancel(); photoDraft.cancel(); answerPresentation.finish(); stopVoice() }
+        .onDisappear { if thinking { pauseQuestion() }; saveDraft(); photoDraft.cancel(); answerPresentation.finish(); stopVoice() }
         .onChange(of: reduceMotion) { _, enabled in if enabled { answerPresentation.finish() } }
         .onChange(of: voiceOver) { _, enabled in if enabled { answerPresentation.finish(); stopVoice() } }
         .onChange(of: scenePhase) { _, next in
             if next == .background {
                 if thinking { pauseQuestion() }
+                saveDraft()
                 photoDraft.cancel(); answerPresentation.finish(); stopVoice()
             }
         }
@@ -247,9 +261,22 @@ struct ExploreView: View {
         voice.onInterrupted = { listening = false; startingListening = false; finishingListening = false; speaking = false }
         voice.onFinishedSpeaking = { speaking = false }
         voice.onFinishedListening = { listening = false; startingListening = false }
-        if let recordID, let existing = store.questions.first(where: { $0.id == recordID }) {
-            record = existing; question = existing.question
-            if let filename = existing.photoFilename {
+        let file = ExplorationDraftFile(journal: store.fileURL, context: [store.family.family?.id ?? "local", AppLanguage.current.rawValue,
+            String(store.demo.enabled), recordID?.uuidString ?? "", parentQuestionID?.uuidString ?? "", tripID?.uuidString ?? "", evolveFrom ?? "", initialQuestion])
+        draftFile = file
+        var restored: ExplorationDraft?
+        do { restored = try file.load() }
+        catch { draftLoadFailed = true; self.error = journalMessage(error) }
+        question = restored?.question ?? initialQuestion
+        observation = restored?.observation ?? ""
+        followupID = restored?.parentID
+        if let bytes = restored?.photo {
+            photoDraft.load(preservingData: restored?.photoChanged != true) { bytes }
+        } else if restored?.photoChanged == true { photoDraft.clear() }
+        if let id = restored?.recordID ?? recordID, let existing = store.questions.first(where: { $0.id == id }) {
+            record = existing
+            if restored == nil { question = existing.question }
+            if restored?.photo == nil, restored?.photoChanged != true, let filename = existing.photoFilename {
                 let url = store.mediaURL(filename)
                 photoDraft.load(preservingData: true) { try Data(contentsOf: url) }
             }
@@ -261,13 +288,23 @@ struct ExploreView: View {
             }
             return
         }
-        if question.isEmpty { question = initialQuestion }
         switch entry {
-        case .compose: focused = true
+        case .compose: focused = record == nil
         case .voice: toggleRecording()
         case .camera: openCamera()
-        case .question: ask()
+        case .question: if restored == nil && record == nil { ask() }
         }
+    }
+
+    private var draft: ExplorationDraft {
+        ExplorationDraft(question: question, observation: observation, recordID: record?.id, parentID: followupID,
+            photo: photoDraft.hasChanges || record == nil ? photo : nil, photoChanged: photoDraft.hasChanges)
+    }
+
+    private func saveDraft() {
+        guard prepared, !finished, !draftLoadFailed, !photoDraft.isLoading else { return }
+        do { try draftFile?.save(draft) }
+        catch { self.error = journalMessage(error) }
     }
 
     private func ask() {
@@ -328,6 +365,8 @@ struct ExploreView: View {
             let image = record.preparedContent.flatMap { PreparedAssets().cached($0.artwork, bundled: $0.bundledArtwork) }
             let card = try store.keepQuestion(record.id, observation: observation, tripID: tripID, place: location.place, preparedImage: image)
             self.record = store.questions.first { $0.id == record.id } ?? record
+            try draftFile?.remove()
+            finished = true
             onSave(card, isNew)
         }
         catch { self.error = journalMessage(error) }

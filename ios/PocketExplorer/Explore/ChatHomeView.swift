@@ -4,6 +4,7 @@ struct ChatHomeView: View {
     let store: TripStore
     var changeLanguage: () -> Void
     var isActive = true
+    @Environment(\.explorerNavigation) private var navigation
     @Environment(\.scenePhase) private var scenePhase
     @State private var recommendations: RecommendationStore
     @State private var visible = false
@@ -16,34 +17,26 @@ struct ChatHomeView: View {
         _recommendations = State(initialValue: store.recommendations)
     }
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @State private var launch: ExplorationLaunch?
-    @State private var selectedQuestion: ExplorationRecord?
-    @State private var presentSelectedAnswer = false
-    @State private var history = false
-    @State private var profile = false
-    @State private var pendingQuestion: ExplorationRecord?
-    @State private var pendingLanguage = false
     @State private var allDemoQuestions = false
-    @State private var familySettings = false
     @AppStorage("explorer-age") private var age = 7
 
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
                 HStack(spacing: 8) {
-                    Button { history = true } label: { Image(systemName: "rectangle.leftthird.inset.filled").font(.system(size: 21)).frame(width: 44, height: 44).background(.white.opacity(0.85), in: Circle()) }
+                    Button { navigation?.open(.history) } label: { Image(systemName: "rectangle.leftthird.inset.filled").font(.system(size: 21)).frame(width: 44, height: 44).background(.white.opacity(0.85), in: Circle()) }
                         .accessibilityLabel("Question history").accessibilityIdentifier("question-history")
                     if !dynamicTypeSize.isAccessibilitySize {
-                        Image(systemName: "leaf.fill").font(.system(size: 23)).foregroundStyle(Theme.forest).accessibilityHidden(true)
+                        Image("brand-logo").resizable().scaledToFit().frame(width: 30, height: 30).clipShape(RoundedRectangle(cornerRadius: 8)).accessibilityHidden(true)
                     }
                     Text("Pocket Explorer").font(.system(.title3, design: .rounded, weight: .black))
                         .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                         .fixedSize(horizontal: false, vertical: true).layoutPriority(1)
                     Spacer(minLength: 0)
-                    Button { profile = true } label: { ExplorerAvatar(size: 44, avatar: store.family.family?.profile.avatar) }.buttonStyle(.plain).accessibilityLabel("My profile").accessibilityIdentifier("open-profile")
+                    Button { navigation?.open(.profile) } label: { ExplorerAvatar(size: 44, avatar: store.family.family?.profile.avatar) }.buttonStyle(.plain).accessibilityLabel("My profile").accessibilityIdentifier("open-profile")
                 }.padding(.horizontal, 18).padding(.top, 8)
                 if store.state.discoveries.contains(where: { ReminderPolicy.isEligible($0, now: Date()) }) {
-                    NavigationLink { DiscoveryRemindersView(store: store) } label: {
+                    NavigationLink(value: ExplorerRoute.reminders) {
                         HStack { LeafBadge(symbol: "leaf.arrow.triangle.circlepath"); Text("A little look back").font(.subheadline.bold()); Spacer(); Image(systemName: "chevron.right") }
                             .padding(12).background(.white, in: Capsule())
                     }.padding(.horizontal, 18).padding(.top, 12).accessibilityIdentifier("home-reminders")
@@ -123,36 +116,18 @@ struct ChatHomeView: View {
             }
             await recommendations.prefetch(base: base)
         }
-        .sheet(item: $launch) { launch in ExplorationFlow(store: store, tripID: nil, initialQuestion: launch.question, entry: launch.entry) }
-        .sheet(item: $selectedQuestion) { record in ExplorationFlow(store: store, tripID: nil, recordID: record.id, presentAnswerOnOpen: presentSelectedAnswer) }
-        .sheet(isPresented: $allDemoQuestions, onDismiss: { selectedQuestion = pendingQuestion; pendingQuestion = nil }) {
+        .sheet(isPresented: $allDemoQuestions) {
             NavigationStack {
                 List(store.demo.items) { item in
-                    Button(item.question) {
-                        presentSelectedAnswer = true
-                        pendingQuestion = try? store.beginPrepared(item, age: age)
-                        allDemoQuestions = false
-                    }
+                    Button(item.question) { select(item) }
                 }.navigationTitle("All demo discoveries").toolbar { Button("Done") { allDemoQuestions = false } }
             }.tint(Theme.forest)
-        }
-        .sheet(isPresented: $history, onDismiss: { selectedQuestion = pendingQuestion; pendingQuestion = nil }) {
-            QuestionHistoryView(store: store, select: { record in
-                presentSelectedAnswer = false; pendingQuestion = record; history = false
-            }, done: { history = false })
-        }
-        .sheet(isPresented: $profile, onDismiss: { if pendingLanguage { pendingLanguage = false; changeLanguage() } }) {
-            NavigationStack {
-                ExplorerProfileView(store: store, age: $age, onClose: { profile = false },
-                    onLanguage: { pendingLanguage = true; profile = false }, onFamilySettings: { familySettings = true })
-            }.tint(Theme.forest)
-                .sheet(isPresented: $familySettings) { FamilySettingsView(family: store.family) }
         }
         .onChange(of: store.family.family?.profile.age) { _, value in if let value { age = value } }
     }
 
     private var safeHome: Bool {
-        visible && isActive && scenePhase == .active && launch == nil && selectedQuestion == nil && !history && !profile && !allDemoQuestions
+        visible && isActive && scenePhase == .active && !allDemoQuestions
     }
 
     private var homeContext: String { "\(safeHome):\(AppLanguage.current.rawValue):\(age)" }
@@ -160,9 +135,7 @@ struct ChatHomeView: View {
     private func suggestion(_ item: PreparedContent) -> some View {
         let symbol = item.reply.category == "nature" ? "leaf.fill" : "sparkles"
         return Button {
-            guard store.family.allows(.exploration) else { recommendationError = FamilyError.disabled.localizedDescription; return }
-            do { presentSelectedAnswer = true; selectedQuestion = try store.beginPrepared(item, age: age); recommendationError = nil }
-            catch { recommendationError = L10n.text("Your discoveries could not be saved. Please try again.") }
+            select(item)
         } label: {
             HStack(spacing: 14) {
                 Image(systemName: symbol).font(.system(size: 24)).foregroundStyle(Theme.forest)
@@ -174,14 +147,18 @@ struct ChatHomeView: View {
         }.buttonStyle(.plain).accessibilityIdentifier("daily-question-\(item.topicID)")
     }
 
+    private func select(_ item: PreparedContent) {
+        guard store.family.allows(.exploration) else { recommendationError = FamilyError.disabled.localizedDescription; return }
+        do {
+            let record = try store.beginPrepared(item, age: age)
+            allDemoQuestions = false
+            navigation?.open(.explore(.init(recordID: record.id, presentAnswer: true)))
+            recommendationError = nil
+        } catch { recommendationError = L10n.text("Your discoveries could not be saved. Please try again.") }
+    }
+
     private func open(_ entry: ExplorationEntry, question: String = "") {
         guard store.family.allows(.exploration) else { recommendationError = FamilyError.disabled.localizedDescription; return }
-        launch = ExplorationLaunch(entry: entry, question: question)
+        navigation?.open(.explore(.init(question: question, entry: entry)))
     }
-}
-
-private struct ExplorationLaunch: Identifiable {
-    let id = UUID()
-    let entry: ExplorationEntry
-    let question: String
 }

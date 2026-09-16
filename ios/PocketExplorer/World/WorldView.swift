@@ -5,16 +5,14 @@ struct WorldView: View {
     let store: TripStore
     var explore: () -> Void
     var changeLanguage: () -> Void
-    @State private var selectedTripID: UUID?
+    @Environment(\.explorerNavigation) private var navigation
     @State private var expanded = false
-    @State private var showReminders = false
-    @State private var nearby = false
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         GeometryReader { geometry in
-            WorldMap(trips: store.state.trips, select: { selectedTripID = $0.id }, store: store)
+            WorldMap(trips: store.state.trips, select: { navigation?.open(.trip($0.id)) }, store: store)
                 .overlay(alignment: .top) { mapControls }
                 .safeAreaInset(edge: .bottom, spacing: 0) {
                     Group {
@@ -25,14 +23,11 @@ struct WorldView: View {
                 }
         }
         .foregroundStyle(Theme.ink).toolbar(.hidden, for: .navigationBar)
-        .navigationDestination(item: $selectedTripID) { id in TripDetailView(store: store, tripID: id) }
-        .sheet(isPresented: $nearby) { NearbyDiscoveryView(store: store) }
-        .sheet(isPresented: $showReminders) { NavigationStack { DiscoveryRemindersView(store: store) } }
     }
 
     private var mapControls: some View {
         HStack(alignment: .top) {
-            NavigationLink { CollectionView(store: store, explore: explore) } label: {
+            NavigationLink(value: ExplorerRoute.collection) {
                 VStack(spacing: 3) {
                     Image(systemName: "rectangle.stack.fill").font(.system(size: 22))
                     if !dynamicTypeSize.isAccessibilitySize { Text("\(store.state.discoveries.count)").font(.caption.bold()) }
@@ -44,7 +39,7 @@ struct WorldView: View {
                     .padding(14).background(.white, in: Capsule())
                 Spacer()
             }
-            Button { showReminders = true } label: {
+            Button { navigation?.open(.reminders) } label: {
                 Image(systemName: "leaf.arrow.triangle.circlepath").font(.system(size: 22)).frame(width: 52, height: 52).background(.white, in: Circle())
             }.accessibilityLabel("Discovery reminders").accessibilityIdentifier("open-reminders")
         }.padding(16).shadow(color: .black.opacity(0.13), radius: 8, y: 3)
@@ -66,7 +61,7 @@ struct WorldView: View {
             }
             if dynamicTypeSize.isAccessibilitySize { tripRows }
             else { ScrollView { tripRows }.frame(maxHeight: expanded ? 370 : 105) }
-            Button { nearby = true } label: { Label("Nearby events & discoveries", systemImage: "map") }.frame(minHeight: 44).accessibilityIdentifier("open-nearby")
+            Button { navigation?.open(.nearby) } label: { Label("Nearby events & discoveries", systemImage: "map") }.frame(minHeight: 44).accessibilityIdentifier("open-nearby")
             Button(action: explore) { Label("Find another wonder", systemImage: "mic.fill") }.buttonStyle(ExplorerButtonStyle())
         }.padding(18)
     }
@@ -74,7 +69,7 @@ struct WorldView: View {
     private var tripRows: some View {
         VStack(spacing: 10) {
             ForEach(store.state.trips) { trip in
-                NavigationLink { TripDetailView(store: store, tripID: trip.id) } label: {
+                NavigationLink(value: ExplorerRoute.trip(trip.id)) {
                     TripRow(trip: trip, discoveries: store.discoveries(in: trip.id), store: store)
                 }.buttonStyle(.plain).accessibilityIdentifier("trip-\(trip.id)")
             }

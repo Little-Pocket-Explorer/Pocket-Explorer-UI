@@ -160,6 +160,72 @@ import XCTest
         while stream.hasBytesAvailable { let count = stream.read(&buffer, maxLength: buffer.count); if count <= 0 { break }; bytes.append(buffer, count: count) }
         return bytes
     }
+    private var event: ExplorerEvent {
+        ExplorerEvent(id: transferID, revision: 1, title: "Sky watchers", description: "Look at the sky.", language: "en", organizer: "Nature club", place: "Park",
+            location: .init(latitude: 0, longitude: 0), radius: 200, startsAt: 0, endsAt: 9999999999999, minAge: 5, maxAge: 18, background: "stargazing",
+            demonstration: true, challenge: .init(question: "Why blue?", choices: ["Air", "Paint", "Moon"]), artworkPath: "/api/events/\(transferID)/artwork?language=en")
+    }
+    func testEventMessagesOnlyOpenCanonicalServiceLinks() throws {
+        let base = try XCTUnwrap(connection.validatedURL), message = EventMessage(event: event, base: base)
+        XCTAssertEqual(EventMessage(text: message.text, base: base), message)
+        let prefix = "Sky watchers\n"
+        for value in ["http://pocket.example/events/\(transferID)", "https://evil.example/events/\(transferID)",
+            "https://pocket.example.evil/events/\(transferID)", "https://user@pocket.example/events/\(transferID)",
+            "https://pocket.example:444/events/\(transferID)", "https://pocket.example/events/\(transferID)?x=1",
+            "https://pocket.example/events/\(transferID)#x", "https://pocket.example/events/\(transferID)/extra",
+            "https://pocket.example/events/nope", "https://pocket.example/discoveries/\(transferID)",
+            "https://pocket.example/events/%33\(transferID.dropFirst())"] {
+            XCTAssertNil(EventMessage(text: prefix + value, base: base), value)
+        }
+        XCTAssertNil(EventMessage(text: "\n" + message.url.absoluteString, base: base))
+        XCTAssertNil(EventMessage(text: message.text + "\n", base: base))
+        var multiline = event; multiline.title = "Sky\nwatchers"
+        XCTAssertNotNil(EventMessage(text: EventMessage(event: multiline, base: base).text, base: base))
+    }
+    func testRecentActivityUsesDiscoveryOrVersionTimeAndExcludesPrivateContent() {
+        var gift = card
+        XCTAssertEqual(FriendActivity(card: gift).kind, .gift)
+        XCTAssertEqual(FriendActivity(card: gift).date, Date(timeIntervalSince1970: 2))
+        gift.updatedAt = 99999
+        XCTAssertEqual(FriendActivity(card: gift).date, Date(timeIntervalSince1970: 2))
+        gift.origin?.kind = "exchange"; XCTAssertEqual(FriendActivity(card: gift).kind, .exchange)
+        gift.origin = nil; XCTAssertEqual(FriendActivity(card: gift).kind, .discovery)
+        var next = gift.versions[0]; next.version = 2; next.awardedAt = 5000; next.explorationID = transferID
+        gift.versions.append(next)
+        XCTAssertEqual(FriendActivity(card: gift).kind, .growth)
+        XCTAssertFalse(FriendActivity(card: gift).label.isEmpty)
+        var privateCard = gift; privateCard.versions[1].audience = "demo"
+        var empty = gift; empty.versions = []
+        XCTAssertEqual(FriendActivity.recent([card, privateCard, empty, gift]).map(\.date), [Date(timeIntervalSince1970: 5), Date(timeIntervalSince1970: 2)])
+        var sameDate = card; sameDate.id = requestID
+        XCTAssertEqual(FriendActivity.recent([sameDate, card]).map(\.id), [id, requestID])
+        for item in [card, sameDate, gift] { XCTAssertFalse(FriendActivity(card: item).label.isEmpty) }
+    }
+    func testEventShareRetryIsDurableAndPreservesUnsentConversation() async throws {
+        try store.social.saveDraft("My unfinished thought", friendID: id, connection: connection)
+        var requestIDs: [String] = []
+        DiscoveryHTTPProtocol.respond = { request in
+            let draft = try JSONDecoder().decode(MessageDraft.self, from: self.body(request))
+            requestIDs.append(draft.id)
+            throw URLError(.notConnectedToInternet)
+        }
+        await fails { try await self.store.social.shareEvent(self.event, friendID: self.id, connection: self.connection) }
+        let restored = try SocialStore(file: folder.appendingPathComponent("social.json"), client: client)
+        DiscoveryHTTPProtocol.respond = { request in
+            let draft = try JSONDecoder().decode(MessageDraft.self, from: self.body(request))
+            requestIDs.append(draft.id)
+            XCTAssertEqual(EventMessage(text: draft.text, base: self.connection.validatedURL!)?.eventID, self.event.id)
+            return (200, [:], try JSONEncoder().encode(ExplorerMessage(sequence: 4, requestID: draft.id, text: draft.text, createdAt: 1000, mine: true)))
+        }
+        try await restored.shareEvent(event, friendID: id, connection: connection)
+        XCTAssertEqual(requestIDs.count, 2); XCTAssertEqual(requestIDs[0], requestIDs[1])
+        XCTAssertEqual(restored.draft(for: id), "My unfinished thought")
+        XCTAssertEqual(restored.messages[id]?.count, 1)
+        let reloaded = try SocialStore(file: folder.appendingPathComponent("social.json"), client: client)
+        XCTAssertEqual(reloaded.draft(for: id), "My unfinished thought")
+        try await reloaded.shareEvent(event, friendID: id, connection: connection)
+        XCTAssertNotEqual(requestIDs[1], requestIDs[2], "A new deliberate share must receive a new request ID")
+    }
     func testOwnedReceiptsRecoverWithoutFriendshipAndValidatePagination() async throws {
         let card = self.card
         var offsetReads: [Int] = []

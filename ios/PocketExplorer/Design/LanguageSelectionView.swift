@@ -15,7 +15,7 @@ struct LanguageSelectionView: View {
                         Text(L10n.text("Choose your language", language: language))
                             .font(.system(.title2, design: .rounded, weight: .heavy))
                     }
-                    Image("duck").resizable().scaledToFit().frame(width: 80)
+                    Image("brand-logo").resizable().scaledToFit().frame(width: 80)
                         .clipShape(RoundedRectangle(cornerRadius: 24)).accessibilityHidden(true)
                 }
                 Text(L10n.text("For your words, questions and discoveries.", language: language))

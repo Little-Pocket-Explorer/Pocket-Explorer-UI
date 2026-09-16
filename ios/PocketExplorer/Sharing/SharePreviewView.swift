@@ -5,6 +5,7 @@ struct SharePreviewView: View {
     let discoveries: [Discovery]
     var store: TripStore?
     var singleCardID: UUID?
+    @Environment(\.explorerNavigation) private var navigation
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var textSize
     @State private var includeName = false
@@ -24,7 +25,7 @@ struct SharePreviewView: View {
     private var inlineActions: Bool { textSize.isAccessibilitySize && published != nil }
 
     var body: some View {
-        NavigationStack {
+        FeatureNavigation {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 22) {
@@ -59,7 +60,7 @@ struct SharePreviewView: View {
                 }
                 .background(Theme.paper).foregroundStyle(Theme.ink)
                 .navigationTitle("Share a little wonder").navigationBarTitleDisplayMode(.inline)
-                .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Done") { dismiss() } } }
+                .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Done") { if let navigation { navigation.back() } else { dismiss() } } } }
                 .safeAreaInset(edge: .bottom) { if !inlineActions { shareActions } }
                 .onChange(of: published?.receipt.token) { _, _ in
                     if textSize.isAccessibilitySize { proxy.scrollTo(inlineActions ? "share-actions" : "share-introduction", anchor: .top) }

@@ -49,12 +49,19 @@ import XCTest
         }
         let invited = try await peer("/api/social/friends", ["code": code.label]), id = try XCTUnwrap(invited["id"] as? String)
         tap("friends-refresh"); tap("friend-accept-\(id)"); tap("friend-open-\(id)")
+        capture("pitch-\(language)-friend-profile-\(large)"); tap("friend-profile-message")
         _ = try await peer("/api/social/friends/\(id)/messages", ["id": UUID().uuidString.lowercased(), "text": language == "ar" ? "رأيت قوس قزح!" : "我发现了彩虹！"])
         tap("friend-refresh"); reach(button("friend-message-send")); capture("pitch-\(language)-messages-\(large)")
         app.launchArguments.removeAll { ["--reset-journal", "--reset-language"].contains($0) }
         app.open(URL(string: "pocketexplorer://events/77777777-7777-4777-8777-777777777777")!)
         reach(button("event-location")); capture("pitch-\(language)-event-\(large)")
-        reach(button("event-choice-0")); capture("pitch-\(language)-challenge-\(large)"); tap(done)
+        reach(button("event-choice-0")); capture("pitch-\(language)-challenge-\(large)")
+        tap("event-share-friend")
+        XCTAssertTrue(button("event-recipient-\(id)").waitForExistence(timeout: 10))
+        tap("event-recipient-\(id)")
+        reach(button("event-share-send")); capture("pitch-\(language)-event-share-\(large)")
+        XCTAssertTrue(button("navigation-home").isHittable)
+        app.navigationBars.buttons["BackButton"].tap(); tap(done)
         app.tabBars.buttons.element(boundBy: 1).tap(); tap("open-nearby"); tap("find-events")
         if app.alerts.firstMatch.waitForExistence(timeout: 2) {
             let allow = app.alerts.buttons.matching(NSPredicate(format: "label CONTAINS %@", "While Using")).firstMatch

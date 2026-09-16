@@ -7,6 +7,7 @@ import Observation
         var owner = ""
         var messages: [String: MessageDraft] = [:]
         var transfers: [String: TransferDraft] = [:]
+        var eventMessages: [String: MessageDraft]? = nil
     }
     private var state: State
     private let file: URL
@@ -76,6 +77,27 @@ import Observation
         messages[id] = merge(messages[id] ?? [], [sent]).sorted { $0.sequence < $1.sequence }
         if state.messages[id] == draft { var next = state; next.messages[id] = nil; try persist(next) }
     }
+    func shareEvent(_ event: ExplorerEvent, friendID: String, connection: ShareConnection) async throws {
+        try bind(connection)
+        guard let base = connection.validatedURL else { throw ShareError.configuration }
+        guard !busy else { throw SocialError.changed }
+        let owner = state.owner
+        busy = true; defer { busy = false }
+        let key = "\(friendID):\(event.id)"
+        if state.eventMessages?[key] == nil {
+            var next = state
+            var drafts = next.eventMessages ?? [:]
+            drafts[key] = MessageDraft(id: UUID().uuidString.lowercased(), text: EventMessage(event: event, base: base).text)
+            next.eventMessages = drafts
+            try persist(next)
+        }
+        guard let draft = state.eventMessages?[key] else { throw SocialError.saveFailed }
+        let sent = try await client.message(draft, friendID: friendID, connection: connection)
+        guard state.owner == owner else { throw SocialError.changed }
+        messages[friendID] = merge(messages[friendID] ?? [], [sent]).sorted { $0.sequence < $1.sequence }
+        var next = state; next.eventMessages?[key] = nil; try persist(next)
+    }
+
     func refreshCards(_ id: String, connection: ShareConnection, more: Bool = false) async throws {
         try bind(connection)
         do {
