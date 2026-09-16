@@ -76,7 +76,7 @@ struct FriendCardView: View {
                     Text(card.versions.last!.question).font(.title2)
                     Text(card.versions.last!.reply.answer)
                     Label(L10n.text(card.tier.rawValue.capitalized), systemImage: "sparkles")
-                    Button("Offer an exchange") { exchange = true }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("friend-exchange")
+                    Button("Request this card") { exchange = true }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("friend-exchange")
                     if let error { Text(error).foregroundStyle(Theme.muted) }
                 }.padding(24)
             }.background(ExplorerBackdrop()).toolbar { Button("Done") { dismiss() } }

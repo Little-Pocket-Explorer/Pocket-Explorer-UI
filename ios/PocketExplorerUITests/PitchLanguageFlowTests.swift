@@ -36,7 +36,7 @@ import XCTest
         tap("family-save")
         XCTAssertTrue(app.staticTexts["family-saved"].waitForExistence(timeout: 15) || app.otherElements["family-saved"].exists)
         tap("family-done"); tap(done)
-        app.tabBars.buttons.element(boundBy: 3).tap()
+        app.tabBars.buttons.element(boundBy: 2).tap()
         let code = app.staticTexts["friend-code"]; reach(code); capture("pitch-\(language)-friend-code-\(large)")
         let (seedData, _) = try await URLSession.shared.data(from: URL(string: base + "/__fixture/social/seed")!)
         let seed = try XCTUnwrap(JSONSerialization.jsonObject(with: seedData) as? [String: String])

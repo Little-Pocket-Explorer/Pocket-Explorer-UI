@@ -9,13 +9,13 @@ final class AccessibilityFlowTests: XCTestCase {
         try audit()
     }
 
-    func testMemoriesTabKeepsChapterNavigationAndCanReturnToTheList() throws {
+    func testMapTripKeepsChapterNavigationAndCanReturnToTheTrip() throws {
         launch(language: "en", large: false)
-        app.tabBars.buttons["Memories"].tap()
-        let memory = app.buttons["memory-10000000-0000-4000-8000-000000000001"]
-        scrollTo(memory)
-        capture("memories-tab-list")
-        memory.tap()
+        app.tabBars.buttons["Map"].tap()
+        let trip = app.buttons["trip-10000000-0000-4000-8000-000000000001"]
+        scrollTo(trip); trip.tap()
+        let memory = app.buttons["make-memory"]
+        scrollTo(memory); memory.tap()
         let chapter = app.staticTexts["memory-chapter"]
         XCTAssertTrue(chapter.waitForExistence(timeout: 6))
         XCTAssertEqual(chapter.value as? String, "Chapter 1 of 6")
@@ -25,10 +25,8 @@ final class AccessibilityFlowTests: XCTestCase {
         XCTAssertNotEqual(chapter.label, firstText)
         app.buttons["Previous chapter"].tap()
         XCTAssertEqual(chapter.label, firstText)
-        capture("memories-tab-player")
-        let back = app.navigationBars.buttons.element(boundBy: 0)
-        XCTAssertTrue(back.isHittable)
-        back.tap()
+        capture("map-trip-player")
+        app.buttons["Done"].tap()
         XCTAssertTrue(memory.waitForExistence(timeout: 6))
         memory.tap()
         XCTAssertEqual(chapter.value as? String, "Chapter 1 of 6")

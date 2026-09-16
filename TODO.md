@@ -2,6 +2,25 @@
 
 ## Active roadshow implementation (2026-09-15)
 
+## Map and Social consolidation (2026-09-16)
+
+- Native primary navigation now matches the approved Collection reference with Chat, Map and Social only. The standalone Memories tab and `MemoriesView` list are removed. Existing question-observation-discovery playback remains available from Map trip details, Map-owned reminders and the new-card flow; `TripMemory`, `MemoryPlayer` and public sharing data remain intact.
+- All user-facing friend routes now open `SocialView`: the primary Social tab and Profile's Friends & family row. The unused standalone `FriendsView` shell is removed, while its shared friend detail, chat, gift, exchange, report and profile views remain in use by Social.
+- UI tests now enter playback through Map and address Social as the third tab. Workspace Swift diagnostics report no errors, and searches find no `MemoriesView`, `FriendsView`, `ReferenceSocialView`, Memories-tab tap or fourth-tab index references.
+- This Windows host has no Xcode, Swift or xcodegen executable, so XCTest/XCUITest execution and changed-Swift coverage are not claimed here. The adapted native tests require the established macOS/Xcode qualification before a new TestFlight release.
+
+## Profile and Social alignment (2026-09-16)
+
+- App Profile now follows the Web settings hierarchy: child profile, discovery preferences, notifications, privacy, language, friends and family, location, parent controls and account. Each row connects to an existing native Family, language, reminders, map or Social screen.
+- Language remains out of the native Chat home and now lives in Account. Native Friends & family is available and keeps the existing Family policy checks, message, card and gift flows.
+- Social now uses the roadshow hierarchy: Friends, Messages and Shared with Me. Existing protected invitations, chats, cards, exchanges and reporting remain behind the reference-style Social entry points.
+- Friend Chat now opens a Friend Profile with message, gift, statistics, recent activity, shared collection and local mute state. Shared friend cards use the existing exchange workflow through Request this card.
+- Swift diagnostics pass for the touched Profile views and UI tests. XCTest/XCUITest execution remains a macOS/Xcode check.
+
+## Web and native presentation parity (2026-09-16)
+
+- Both products now expose the same primary order: Chat, Map and Social. Collection and question-observation-discovery playback live under Map; Profile, avatar and Social hierarchy remain aligned.
+
 Latest checkpoint, 2026-09-16 04:17 AEST:
 - Roadshow implementation is delivered. Backend runtime aafd4fe is deployed through workflow 34998228931. Native source d8d4114 is published locally as TestFlight 0.1.0 (18), with [skip ci]. Independent Apple reads confirm VALID, IN_BETA_TESTING and Hackathon Internal. External distribution is not verified.
 - Independent IPA reads confirm signature, get-task-allow:false, unchanged tested runtime source and ten 542-entry catalogs. IPA SHA256: b6a753efb77b7026ee7e23bb77bf435bfa8d9c15d214caf4380a82661a4c25a2. Apple build ID: 79a87d4a-854c-4c3b-9437-9b327ceff677. Release evidence: ~/tmp/review/pocket-pitch-testflight-18/apple-readback.json and ipa-readback.json.

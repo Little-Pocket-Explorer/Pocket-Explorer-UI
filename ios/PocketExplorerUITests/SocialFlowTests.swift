@@ -46,7 +46,7 @@ import XCTest
         XCTAssertEqual(actual, state)
     }
     private func enableFriends() {
-        app.tabBars.buttons["Friends"].tap(); tap("friends-family-settings")
+        app.tabBars.buttons["Social"].tap(); tap("friends-family-settings")
         for id in ["family-pin", "family-confirm-pin"] { let input = app.secureTextFields[id]; reach(input); input.tap(); input.typeText("926418") }
         tap("family-create"); XCTAssertTrue(app.staticTexts["family-recovery-code"].waitForExistence(timeout: 15)); tap("family-recovery-saved")
         let social = app.switches["family-social"]; reach(social); social.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
@@ -58,11 +58,13 @@ import XCTest
     }
     func testPrivateFriendshipTextChatGiftExchangeAndBlock() async throws {
         enableFriends()
+        tap("social-add-friend")
         let input = app.textFields["friend-code-input"]; reach(input); input.tap(); input.typeText(seed.code); tap("friend-invite")
         XCTAssertTrue(app.staticTexts["Waiting for your friend"].waitForExistence(timeout: 15)); capture("friend-private-code-and-outgoing-request")
         let requests: Page<Friend> = try await peer("/api/social/friends"), id = try XCTUnwrap(requests.items.first?.id)
         let _: Friend = try await peer("/api/social/friends/\(id)/actions", body: ["action": "accept"])
         tap("friends-refresh"); tap("friend-open-\(id)")
+        tap("open-friend-profile"); XCTAssertTrue(app.buttons["friend-mute"].waitForExistence(timeout: 10)); tap("Done")
         let message = app.textFields["friend-message-input"].exists ? app.textFields["friend-message-input"] : app.textViews["friend-message-input"]
         reach(message); message.tap(); message.typeText("I found a green leaf!"); tap("friend-message-send")
         let thread: Page<[String: AnyDecodable]> = try await peer("/api/social/friends/\(id)/messages")

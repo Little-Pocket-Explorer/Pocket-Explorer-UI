@@ -1,42 +1,5 @@
 import SwiftUI
 
-struct MemoriesView: View {
-    let store: TripStore
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                BrandHeader()
-                Eyebrow(text: "A little look back")
-                Text("Small moments.\nBig feelings.").font(.system(.largeTitle, design: .rounded, weight: .heavy))
-                Text("The questions, the adventures, the things you noticed. All yours to keep.").foregroundStyle(Theme.muted)
-                ForEach(store.state.trips.filter { $0.memory != nil }) { trip in
-                    NavigationLink { MemoryPlayer(trip: trip, store: store) } label: {
-                        VStack(alignment: .leading, spacing: 0) {
-                            if let discovery = store.discoveries(in: trip.id).first {
-                            DiscoveryArtwork(discovery: discovery, store: store).aspectRatio(1.35, contentMode: .fit).clipped()
-                                .overlay(alignment: .bottomTrailing) {
-                                    Image(systemName: "play.fill").foregroundStyle(Theme.paper)
-                                        .frame(width: 54, height: 54).background(Theme.forest, in: Circle()).padding(20)
-                                }
-                            }
-                            VStack(alignment: .leading, spacing: 9) {
-                                Eyebrow(text: "A memory, made by you")
-                                Text(trip.title).font(.system(.title2, design: .rounded, weight: .heavy))
-                                Text("\(store.discoveries(in: trip.id).count) discoveries · Tap to relive it").font(.footnote).foregroundStyle(Theme.muted)
-                            }.padding(22)
-                        }.background(.white.opacity(0.8)).clipShape(RoundedRectangle(cornerRadius: 29))
-                    }.buttonStyle(.plain).accessibilityIdentifier("memory-\(trip.id)")
-                    NavigationLink("Preview & share") { SharePreviewView(trip: trip, discoveries: store.discoveries(in: trip.id), store: store) }
-                        .buttonStyle(ExplorerButtonStyle(secondary: true))
-                }
-                if !store.state.trips.contains(where: { $0.memory != nil }) {
-                    ContentUnavailableView("A memory is waiting to happen", systemImage: "sparkles", description: Text("Finish an adventure to keep its story here."))
-                }
-            }.padding(26)
-        }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink).toolbar(.hidden, for: .navigationBar)
-    }
-}
-
 struct MemoryPlayer: View {
     let trip: Trip
     var store: TripStore?

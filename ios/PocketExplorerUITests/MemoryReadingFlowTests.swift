@@ -96,9 +96,12 @@ final class MemoryReadingFlowTests: XCTestCase {
         app.launch()
         XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
         app.buttons["language-continue"].tap()
-        app.tabBars.buttons["Memories"].tap()
-        let memory = app.buttons["memory-\(tripID)"]
-        XCTAssertTrue(memory.waitForExistence(timeout: 8))
+        app.tabBars.buttons["Map"].tap()
+        let trip = app.buttons["trip-\(tripID)"]
+        XCTAssertTrue(trip.waitForExistence(timeout: 8))
+        if !trip.isHittable { app.swipeUp() }
+        trip.tap()
+        let memory = app.buttons["make-memory"]
         if !memory.isHittable { app.swipeUp() }
         memory.tap()
         XCTAssertTrue(app.staticTexts["memory-chapter"].waitForExistence(timeout: 8))

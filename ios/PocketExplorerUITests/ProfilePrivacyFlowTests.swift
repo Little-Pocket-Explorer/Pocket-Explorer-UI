@@ -32,4 +32,13 @@ import XCTest
         XCTAssertFalse(app.buttons["signup-google-option"].exists)
         XCTAssertFalse(app.buttons["privacy-save"].exists)
     }
+
+    func testProfileIncludesWebAlignedSettingsAndSocialEntries() {
+        app.buttons["open-profile"].tap()
+        for identifier in ["open-family-settings", "profile-preferences", "profile-reminders", "profile-privacy", "choose-language", "profile-friends", "profile-location", "profile-parent-controls", "profile-account"] {
+            reach(app.buttons[identifier])
+        }
+        app.buttons["profile-account"].tap()
+        XCTAssertTrue(app.navigationBars["Account"].waitForExistence(timeout: 5))
+    }
 }

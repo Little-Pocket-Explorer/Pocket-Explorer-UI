@@ -14,10 +14,8 @@ struct RootView: View {
                 .tabItem { Label("Chat", systemImage: "bubble.left.fill") }.tag(0)
             NavigationStack { WorldView(store: store, explore: { exploring = true }, changeLanguage: changeLanguage) }
                 .tabItem { Label("Map", systemImage: "map.fill") }.tag(1)
-            NavigationStack { MemoriesView(store: store) }
-                .tabItem { Label("Memories", systemImage: "sparkles.tv.fill") }.tag(2)
-            NavigationStack { FriendsView(store: store) }
-                .tabItem { Label("Friends", systemImage: "person.2.fill") }.tag(3)
+            NavigationStack { SocialView(store: store) }
+                .tabItem { Label("Social", systemImage: "person.2.fill") }.tag(2)
         }
         .tint(Theme.forest)
         .environment(artwork)

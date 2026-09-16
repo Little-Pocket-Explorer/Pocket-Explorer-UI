@@ -7,6 +7,7 @@ struct ExplorerProfileView: View {
     var onLanguage: () -> Void
     var onFamilySettings: () -> Void
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @State private var account = false
 
     private var profile: ExplorerProfile {
         if let profile = store.family.family?.profile { return profile }
@@ -46,16 +47,29 @@ struct ExplorerProfileView: View {
                     Text("Your guide adjusts explanations to your age.").font(.caption).foregroundStyle(Theme.muted)
                 }
                 VStack(spacing: 0) {
-                    Button(action: onFamilySettings) { row("Family settings", icon: "lock.shield.fill") }
+                    Button(action: onFamilySettings) { row("Child profile", icon: "person.fill") }
                         .accessibilityIdentifier("open-family-settings")
                     Divider().padding(.horizontal, 16)
-                    Button(action: onLanguage) { row("Language", icon: "globe") }.accessibilityIdentifier("choose-language")
+                    Button(action: onFamilySettings) { row("Discovery preferences", icon: "leaf.fill") }
+                        .accessibilityIdentifier("profile-preferences")
                     Divider().padding(.horizontal, 16)
-                    NavigationLink { FriendsView(store: store) } label: { row("Friends and text chat", icon: "person.2.fill") }
+                    NavigationLink { DiscoveryRemindersView(store: store) } label: { row("Notifications", icon: "bell.fill") }
+                        .accessibilityIdentifier("profile-reminders")
+                    Divider().padding(.horizontal, 16)
+                    Button(action: onFamilySettings) { row("Privacy", icon: "checkmark.shield.fill") }
+                        .accessibilityIdentifier("profile-privacy")
+                    Divider().padding(.horizontal, 16)
+                    NavigationLink { SocialView(store: store) } label: { row("Friends & family", icon: "person.2.fill") }
                         .accessibilityIdentifier("profile-friends")
                     Divider().padding(.horizontal, 16)
-                    NavigationLink { DiscoveryRemindersView(store: store) } label: { row("Discovery reminders", icon: "bell.fill") }
-                        .accessibilityIdentifier("profile-reminders")
+                    NavigationLink { WorldView(store: store, explore: {}, changeLanguage: onLanguage) } label: { row("Location", icon: "mappin.circle.fill") }
+                        .accessibilityIdentifier("profile-location")
+                    Divider().padding(.horizontal, 16)
+                    Button(action: onFamilySettings) { row("Parent controls", icon: "lock.fill") }
+                        .accessibilityIdentifier("profile-parent-controls")
+                    Divider().padding(.horizontal, 16)
+                    Button { account = true } label: { row("Account", icon: "person.crop.circle") }
+                        .accessibilityIdentifier("profile-account")
                 }.buttonStyle(.plain).background(.white.opacity(0.96), in: RoundedRectangle(cornerRadius: 24))
                 if store.family.family != nil {
                     Text("Used today: \(store.family.usedSeconds / 60) minutes").font(.caption).foregroundStyle(Theme.ink)
@@ -71,6 +85,7 @@ struct ExplorerProfileView: View {
         }.background(ProfileBackdrop()).foregroundStyle(Theme.ink)
             .navigationTitle("My profile").navigationBarTitleDisplayMode(.inline)
             .toolbar { Button("Done", action: onClose) }
+            .sheet(isPresented: $account) { ProfileAccountSheet(profile: profile, onLanguage: onLanguage) }
             .onAppear {
                 if store.family.family == nil, UserDefaults.standard.object(forKey: "explorer-age") == nil,
                    let draft = LegacyProfileMigration.draft() { age = draft.age }
@@ -97,5 +112,26 @@ struct ExplorerProfileView: View {
             Spacer(minLength: 4)
             Image(systemName: "chevron.right").font(.caption).foregroundStyle(Theme.muted)
         }.padding(16).frame(maxWidth: .infinity, minHeight: 56, alignment: .leading).contentShape(Rectangle())
+    }
+}
+
+private struct ProfileAccountSheet: View {
+    let profile: ExplorerProfile
+    var onLanguage: () -> Void
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section("Explorer account") {
+                    LabeledContent("Nickname", value: profile.nickname)
+                    Button { dismiss(); onLanguage() } label: { LabeledContent("Language", value: AppLanguage(rawValue: profile.language)?.name ?? profile.language) }
+                        .accessibilityIdentifier("choose-language")
+                    LabeledContent("Storage", value: "This iPhone")
+                }
+            }
+            .navigationTitle("Account")
+            .toolbar { Button("Done") { dismiss() } }
+        }.tint(Theme.forest)
     }
 }
