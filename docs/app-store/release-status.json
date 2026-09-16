@@ -1,0 +1,127 @@
+{
+  "checkedAt": "2026-09-16T12:04:18.638274+00:00",
+  "appId": "6810920731",
+  "appStoreVersion": "1.0",
+  "appStoreState": "READY_FOR_REVIEW",
+  "submitted": false,
+  "testFlight": {
+    "app_id": "6810920731",
+    "version": "1.0",
+    "build_number": 21,
+    "build_id": "aeb45ee2-57e6-48c4-b247-49f0c476cd8d",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "source_commit": "c1cf01a6cf19fb9ec98f74db27777743bd29fe9f:b22d78655fd00b757b994d3751e0d7bf0b242cd733fc7e94f684cd71c868bfd9",
+    "release_origin": "local",
+    "run_url": null
+  },
+  "privacyLabels": {
+    "published": true,
+    "dataTypes": 13,
+    "tracking": false,
+    "linkage": "linked"
+  },
+  "contentRights": "USES_THIRD_PARTY_CONTENT",
+  "contentRightsReadback": "content-rights-delayed-readback.json",
+  "backend": {
+    "source": "8244027df620a84293fa63ceee967b9aed75c18a",
+    "workflowRun": 35092615551,
+    "status": "success",
+    "deployed": true,
+    "workflowUrl": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/35092615551",
+    "versionId": "a0ae4085-2f04-45e4-b766-4e55f8c0a53f",
+    "deploymentId": "d5df6fcf-5a30-4ee3-bf85-551f88355451",
+    "trafficPercent": 100,
+    "migrations": [
+      "0013_account_deletion.sql",
+      "0014_ai_data_permission.sql"
+    ]
+  },
+  "ownerPending": [
+    "Mainland China ICP or first-release exclusion"
+  ],
+  "productionChecks": [
+    {
+      "name": "/privacy/",
+      "passed": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "/support/",
+      "passed": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "AI defaults off",
+      "passed": true
+    },
+    {
+      "name": "AI blocked before permission",
+      "passed": true
+    },
+    {
+      "name": "Create fictional family",
+      "passed": true,
+      "detail": {
+        "status": 201
+      }
+    },
+    {
+      "name": "Explicit permission grant",
+      "passed": true
+    },
+    {
+      "name": "Independent permission read",
+      "passed": true
+    },
+    {
+      "name": "Real live answer",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "seconds": 13.199
+      }
+    },
+    {
+      "name": "Independent saved-answer read",
+      "passed": true
+    },
+    {
+      "name": "Withdrawal",
+      "passed": true
+    },
+    {
+      "name": "AI blocked after withdrawal",
+      "passed": true
+    },
+    {
+      "name": "Stale grant cannot undo withdrawal",
+      "passed": true
+    },
+    {
+      "name": "Fictional account deleted",
+      "passed": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "Retired credential /api/family",
+      "passed": true
+    },
+    {
+      "name": "Retired credential /api/privacy/ai",
+      "passed": true
+    },
+    {
+      "name": "Retired credential /api/social/friends",
+      "passed": true
+    }
+  ],
+  "productionFictionalAccountDeleted": true
+}

@@ -20,6 +20,6 @@ Earlier local callback tests qualified only the experiment. They did not exercis
 2. Qualify the native release and reconcile Apple declarations with actual behavior.
 3. Deploy Backend through its workflow, archive and upload native 1.0 from this Mac, then submit review.
 
-The formal release remains unsubmitted. TestFlight remains 0.1.0 (20).
+The formal release is READY_FOR_REVIEW but remains unsubmitted. TestFlight 1.0 (21) and the updated Backend are published and verified. Only the mainland China availability choice remains before final submission.
 
 References: [Apple guidelines](https://developer.apple.com/app-store/review/guidelines/), [KWS notice and consent boundary](https://dev.epicgames.com/docs/kids-web-services/parent-verification-service/pv-service-flow).

@@ -53,5 +53,7 @@
     "Review details",
     "Version 1.0 local upload and build association",
     "Review submission"
-  ]
+  ],
+  "historicalSnapshot": true,
+  "supersededBy": "release-status.json"
 }

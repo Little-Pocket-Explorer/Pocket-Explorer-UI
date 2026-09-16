@@ -12,9 +12,9 @@ English description, keywords, promotional text, subtitle, Education category, f
 
 The owner approved the full feature set and Apple's current ratings: 13+ in 171 territories, 16+ in Australia, Vietnam and Brazil, and 15+ in Korea. The older FOUR_PLUS field applies only before OS version 26. This release is not submitted to the Kids Category. DSA non-trader status shows Active. All 175 territories are configured for release and independently checked through the paginated API. Mainland China's ICP and other regional requirements still require verification. Configured availability does not guarantee distribution eligibility.
 
-All 13 privacy categories, purposes, identity linkage and no-advertising-tracking declarations are saved as drafts, not published. Reconcile them with the actual released data handling and provider retention conditions. See [the label mapping](privacy-label-draft.md).
+All 13 privacy categories, purposes, identity linkage and no-advertising-tracking declarations are published and independently observed on Apple's page. Reconcile them with the actual released data handling and provider retention conditions. See [the label mapping](privacy-label-draft.md).
 
-App Store 1.0 remains PREPARE_FOR_SUBMISSION without an attached build. The latest TestFlight remains 0.1.0 (20), independently VALID / IN_BETA_TESTING in Hackathon Internal, without the pending privacy changes. Main 41a6356 is integrated, preserving teammate changes and ten matching catalogs of 609 unique keys. Apple website and API authentication both work.
+App Store 1.0 is READY_FOR_REVIEW with build 21 attached and Apple's submission preparation validation passed. Final submission has not occurred. TestFlight 1.0 (21) is independently VALID / APP_STORE_ELIGIBLE / IN_BETA_TESTING in Hackathon Internal. It was published locally from c1cf01a, preserving teammate changes and ten matching catalogs of 609 unique keys. The archive signature and source snapshot are verified. The temporary signing keychain is removed.
 
 ## Implementation and qualification
 
@@ -32,11 +32,8 @@ The integrated native unit run passes 190 tests and skips one. All 23 selected m
 
 The owner confirms Azure AI for question answering, images and narration. Images and speech also have independent call evidence. Semantic caching still uses Cloudflare Workers AI embeddings and remains disclosed. store:false and disabled redirects do not establish zero provider retention. See Backend docs/ai-service-evidence.md.
 
-1. KWS is deferred by the owner. Complete the existing release flow without introducing this provider.
-2. Implementation, automated coverage, browser visuals and review instructions are qualified. Native 1.0 packaging and independent production checks remain.
-3. The owner confirmed publication rights for supplied content. Publish the final privacy labels and resolve China mainland availability. Do not repeat settled content-rights, pricing, age, project-nature or login questions.
-4. Coordinate TestFlight 20, Web and the new native client so a server-only restriction does not leave older clients receiving unexplained 403 responses. Then deploy Backend through its workflow, archive/upload 1.0 locally and submit review.
+Backend 8244027 is deployed through successful workflow [35092615551](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/35092615551). Sixteen independent production checks verify public privacy/support pages, a real AI answer, separate permission, withdrawal, rejection of stale grants, deletion and retired credentials. The fictional test account was deleted. Users of older TestFlight versions should update to 1.0 (21) for live AI.
 
-No commit, push, production deployment, new binary upload or review submission occurred in this increment. Evidence is under ~/tmp/review/pocket-app-store-release, with integrated-source testing in integration-20260916.
+Only the owner's mainland China ICP/initial availability answer remains before final submission. All other publication decisions are settled. On receipt, apply that choice and submit the existing ready draft. Do not introduce KWS or repeat the completed release. See [the release record](release-status.json). All owned test, fixture, upload and workflow-watch processes have ended.
 
 References: [Apple review guidelines](https://developer.apple.com/app-store/review/guidelines/), [Apple privacy labels](https://developer.apple.com/app-store/app-privacy-details/), [FTC COPPA](https://www.ftc.gov/business-guidance/resources/complying-coppa-frequently-asked-questions), [KWS](https://kidswebservices.com/).

@@ -1,5 +1,13 @@
 # Pocket Explorer: Current Execution State
 
+## Release delivery checkpoint (2026-09-16 22:03 AEST)
+
+- Native c1cf01a is pushed to main with [skip ci]. Version 1.0 (21) was archived and uploaded from this Mac and is independently VALID, APP_STORE_ELIGIBLE and IN_BETA_TESTING in Hackathon Internal. The archive signature, ten languages and unchanged source snapshot are verified. Temporary signing keychain is removed.
+- Build 21 is attached to App Store 1.0. Apple's Add for Review validation passed and the version is READY_FOR_REVIEW. Final Submit for Review has not been clicked. The owner confirmed supplied content rights. The declaration is independently saved as USES_THIRD_PARTY_CONTENT. Thirteen privacy labels were published, and final metadata/reviewer notes are independently verified.
+- Backend 8244027 is deployed through successful Cloudflare workflow 35092615551. All CI jobs pass. Sixteen independent production checks pass, including a real AI answer, explicit grant, withdrawal, stale-grant rejection, deletion and retired-credential reads. The fictional test account was deleted. Native clients before 1.0 (21) must update for the new explicit AI permission flow.
+- The owner's mainland China ICP/availability answer is pending. All other scope, pricing, age and content-rights decisions are settled. Epic KWS remains deferred. No agent or automation was created. Owned native fixture 4237 is stopped.
+- Evidence: ~/tmp/review/pocket-app-store-release/release-progress.json and release-1.0-20260916. All owned tests, fixtures, upload and workflow-watch processes have ended. Next: apply the owner's mainland availability answer, then click Submit for Review on the existing ready draft and independently verify submission. Do not recreate the build or repeat completed qualification.
+
 ## Accepted submission scope and qualification checkpoint (2026-09-16)
 
 The owner explicitly approved preserving all features and submitting at Apple's current calculated age ratings: 13+ in 171 territories, 16+ in Australia, Vietnam and Brazil, and 15+ in Korea. FOUR_PLUS in older API records describes operating systems before version 26. Do not remove public discovery or social functionality to lower the rating. Kids Category enrollment is not requested for this release. The age rating does not replace applicable privacy obligations.
