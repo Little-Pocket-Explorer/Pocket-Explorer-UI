@@ -9,6 +9,7 @@ struct RootView: View {
     @AppStorage("explorer-age") private var age = 7
     @State private var familySettings = false
     @State private var artwork = ArtworkCoordinator()
+    @State private var aiPermission = AIDataPermission()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
@@ -41,6 +42,10 @@ struct RootView: View {
             await notifications.synchronize(store.family.allows(.exploration) ? RecallNotice.plan(discoveries) : [])
         }
         .sheet(isPresented: $familySettings) { FamilySettingsView(family: store.family) }
+        .task(id: scenePhase) {
+            guard scenePhase == .active, let connection = try? ConnectionVault().loadOrCreate() else { return }
+            await aiPermission.synchronize(connection: connection)
+        }
         .background(FamilyPauseShield(family: store.family).frame(width: 0, height: 0))
         .task(id: scenePhase) {
             guard scenePhase == .active else { try? store.family.endActive(); return }

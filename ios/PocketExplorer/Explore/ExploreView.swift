@@ -49,6 +49,7 @@ struct ExploreView: View {
     @State private var selection: PhotosPickerItem?
     @State private var photoPickerOpen = false
     @State private var cameraOpen = false
+    @State private var privacyOpen = false
     @State private var replyTask: Task<Void, Never>?
     @FocusState private var focused: Bool
 
@@ -164,6 +165,12 @@ struct ExploreView: View {
         .onChange(of: store.family.allows(.exploration)) { _, allowed in
             if !allowed { if thinking { pauseQuestion() }; cameraOpen = false; photoPickerOpen = false; stopVoice() }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .aiDataPermissionChanged)) { _ in
+            guard let connection = try? ConnectionVault().loadOrCreate(), !AIPermissionCache().allows(connection) else { return }
+            if thinking { pauseQuestion() }
+            stopVoice()
+        }
+        .sheet(isPresented: $privacyOpen) { FamilySettingsView(family: store.family, reviewAI: true) }
         .onChange(of: selection) { _, item in
             if let item {
                 focused = false
@@ -312,6 +319,11 @@ struct ExploreView: View {
         guard !thinking, !photoDraft.isLoading, !question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         if listening { finishRecording(then: ask); return }
         guard !startingListening, !finishingListening else { return }
+        if record?.reply == nil {
+            guard let connection = try? ConnectionVault().loadOrCreate(), AIPermissionCache().allows(connection) else {
+                focused = false; saveDraft(); stopVoice(); error = AIDataPermissionError.required.localizedDescription; privacyOpen = true; return
+            }
+        }
         let previousID = record?.id
         let readSavedAnswer = questionError != .answerFailed
         focused = false; stopVoice(); error = nil; questionError = nil
@@ -339,6 +351,9 @@ struct ExploreView: View {
                     self.record = store.questions.first { $0.id == record.id }
                     present(reply, animated: true)
                 } catch is CancellationError {}
+                catch let error as AIDataPermissionError {
+                    self.error = error.localizedDescription; privacyOpen = true
+                }
                 catch {
                     if !Task.isCancelled, requestToken == token {
                         questionError = error as? AIClientError

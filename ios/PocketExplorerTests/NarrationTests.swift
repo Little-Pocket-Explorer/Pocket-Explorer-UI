@@ -32,7 +32,7 @@ final class NarrationTests: XCTestCase {
         directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [NarrationHTTPProtocol.self]
-        client = NarrationClient(session: URLSession(configuration: configuration), directory: directory)
+        client = NarrationClient(session: URLSession(configuration: configuration), directory: directory, permission: { _ in })
     }
     override func tearDown() async throws { try? FileManager.default.removeItem(at: directory); NarrationHTTPProtocol.response = nil }
 
@@ -60,7 +60,7 @@ final class NarrationTests: XCTestCase {
         }
         let first = try await client.audio(for: record, connection: connection)
         XCTAssertEqual(first, Self.wave())
-        let second = try await NarrationClient(session: client.session, directory: directory).audio(for: record, connection: connection)
+        let second = try await NarrationClient(session: client.session, directory: directory, permission: { _ in }).audio(for: record, connection: connection)
         XCTAssertEqual(second, first); XCTAssertEqual(calls, 1)
         let files = try FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)
         XCTAssertEqual(files.count, 1); XCTAssertEqual(files[0].lastPathComponent.count, 68)

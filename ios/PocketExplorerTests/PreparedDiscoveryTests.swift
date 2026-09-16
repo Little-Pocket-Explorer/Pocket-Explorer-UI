@@ -350,7 +350,7 @@ final class PreparedDiscoveryTests: XCTestCase {
         let content = item()
         let record = ExplorationRecord(id: UUID(), question: content.question, language: "en", age: 7, createdAt: now,
             reply: content.reply, preparedContent: content, preparedRegistered: true)
-        var client = NarrationClient(session: session, directory: directory.appendingPathComponent("owned"))
+        var client = NarrationClient(session: session, directory: directory.appendingPathComponent("owned"), permission: { _ in })
         client.preparedAssets = PreparedAssets(directory: directory.appendingPathComponent("public"), session: session)
         var paths: [String] = []
         DiscoveryHTTPProtocol.respond = { request in

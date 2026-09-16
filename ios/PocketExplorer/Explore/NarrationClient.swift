@@ -10,6 +10,7 @@ struct NarrationClient {
     var now: Date = Date()
     static let maximumBytes = 12_000_000
     var preparedAssets = PreparedAssets()
+    var permission: @Sendable (ShareConnection) throws -> Void = { try AIPermissionCache().require($0) }
 
     func audio(for record: ExplorationRecord, connection: ShareConnection) async throws -> Data {
         guard let base = connection.validatedURL, let answer = record.reply?.answer else { throw VoiceError.unavailable }
@@ -28,6 +29,7 @@ struct NarrationClient {
             try Task.checkCancellation()
             return data
         }
+        try permission(connection)
         var request = URLRequest(url: base.appendingPathComponent("api/narration/\(record.id.uuidString.lowercased())"), timeoutInterval: 12)
         request.httpMethod = "POST"
         request.setValue("Bearer \(connection.ownerKey)", forHTTPHeaderField: "Authorization")

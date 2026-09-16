@@ -1,0 +1,57 @@
+{
+  "appID": "6810920731",
+  "version": "1.0",
+  "versionID": "d5ceaae6-e206-49c4-8952-bcb0b9ea051d",
+  "submission": "Not submitted",
+  "locale": "en-AU",
+  "verifiedDraft": {
+    "listingCheckedAt": "2026-09-16T04:46:35Z",
+    "fields": [
+      "description",
+      "keywords",
+      "promotionalText",
+      "subtitle"
+    ],
+    "priceCheckedAt": "2026-09-16T04:46:36Z",
+    "baseTerritory": "USA",
+    "price": "0.0",
+    "categoryCheckedAt": "2026-09-16T04:56:15Z",
+    "primaryCategory": "EDUCATION",
+    "screenshotsCheckedAt": "2026-09-16T04:54:46Z",
+    "screenshots": [
+      {
+        "id": "a6a265d8-57bc-436f-bcfc-af5aa86e4346",
+        "name": "01.png",
+        "state": "COMPLETE",
+        "width": 1320,
+        "height": 2868
+      },
+      {
+        "id": "3bc29060-19c5-4add-b527-4ef25756dec7",
+        "name": "02.png",
+        "state": "COMPLETE",
+        "width": 1320,
+        "height": 2868
+      },
+      {
+        "id": "f611e61b-831b-4ebd-963b-83ff895b99af",
+        "name": "03.png",
+        "state": "COMPLETE",
+        "width": 1320,
+        "height": 2868
+      }
+    ]
+  },
+  "pending": [
+    "AI permission and data handling",
+    "Kids Category decision",
+    "Age questionnaire",
+    "Privacy labels",
+    "Support and privacy URLs after deployment",
+    "DSA declaration",
+    "Territory availability",
+    "Review details",
+    "Version 1.0 local upload and build association",
+    "Review submission"
+  ]
+}

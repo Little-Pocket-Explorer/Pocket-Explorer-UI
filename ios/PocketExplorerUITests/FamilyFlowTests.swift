@@ -6,7 +6,7 @@ import XCTest
 
     override func setUp() async throws {
         continueAfterFailure = false
-        _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/reset")!)
+        _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/reset?privacy=required")!)
     }
     private func launch(_ language: String = "en", reset: Bool = true) {
         app.launchArguments = ["--ui-testing", "-AppleLanguages", "(\(language))", "-AppleLocale", language]
@@ -17,8 +17,17 @@ import XCTest
         XCTAssertTrue(app.buttons["open-profile"].waitForExistence(timeout: 15))
     }
     private func reach(_ element: XCUIElement) {
-        for _ in 0..<12 where !element.isHittable { app.swipeUp() }
-        XCTAssertTrue(element.isHittable)
+        func visible() -> Bool {
+            guard element.exists, element.isHittable else { return false }
+            let viewport = app.frame.insetBy(dx: 0, dy: 1)
+            return viewport.contains(CGPoint(x: element.frame.midX, y: element.frame.midY))
+        }
+        for _ in 0..<12 {
+            if visible() { break }
+            app.swipeUp()
+        }
+        if !visible() { capture("unreachable-\(element.identifier)") }
+        XCTAssertTrue(visible(), "Element frame \(element.frame), application frame \(app.frame)")
     }
     private func settings() {
         app.buttons["open-profile"].tap()
@@ -105,4 +114,103 @@ import XCTest
         XCTAssertFalse(pause.exists)
         capture("parent-restores-original-profile-sheet")
     }
+    func testAccountDeletionRequiresParentConfirmationAndRevokesTheInstallation() async throws {
+        launch(); _ = create()
+        reach(app.buttons["delete-account"]); app.buttons["delete-account"].tap()
+        let cancel = app.alerts.buttons["Cancel"]
+        XCTAssertTrue(cancel.waitForExistence(timeout: 5))
+        cancel.tap()
+        XCTAssertTrue(app.buttons["delete-account"].isHittable)
+        XCTAssertFalse(app.staticTexts["Account deleted"].exists)
+        app.buttons["family-done"].tap()
+        reach(app.buttons["open-family-settings"]); app.buttons["open-family-settings"].tap()
+        XCTAssertFalse(app.buttons["delete-account"].exists)
+        enterPIN("926418"); app.buttons["family-unlock"].tap()
+        reach(app.buttons["delete-account"]); app.buttons["delete-account"].tap()
+        app.buttons.matching(identifier: "confirm-delete-account").firstMatch.tap()
+        XCTAssertTrue(app.staticTexts["Account deleted"].waitForExistence(timeout: 20))
+        capture("account-deletion-completed-English")
+        let (data, _) = try await URLSession.shared.data(from: URL(string: base + "/__fixture/account/status")!)
+        let result = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+        XCTAssertEqual(result["completed"] as? Bool, true)
+        XCTAssertEqual(result["familiesRemaining"] as? Int, 0)
+        XCTAssertEqual(result["retiredCredentialStatus"] as? Int, 410)
+        app.terminate(); launch(reset: false)
+        settings()
+        XCTAssertTrue(app.textFields["family-nickname"].waitForExistence(timeout: 5))
+        reach(app.buttons["family-create"])
+        XCTAssertFalse(app.buttons["family-unlock"].exists)
+        enterPIN("173926"); enterPIN("173926", confirm: true)
+        reach(app.buttons["family-create"]); app.buttons["family-create"].tap()
+        XCTAssertTrue(app.staticTexts["family-recovery-code"].waitForExistence(timeout: 10))
+        capture("new-family-after-account-deletion")
+    }
+
+    func testAccountDeletionCanRetryAfterAnOfflineFailure() async throws {
+        launch(); settings()
+        _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/offline")!)
+        reach(app.buttons["delete-account"]); app.buttons["delete-account"].tap()
+        app.buttons.matching(identifier: "confirm-delete-account").firstMatch.tap()
+        XCTAssertTrue(app.buttons["account-deletion-retry"].waitForExistence(timeout: 20))
+        XCTAssertFalse(app.staticTexts["Account deleted"].exists)
+        capture("account-deletion-offline-English")
+        _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/online")!)
+        app.buttons["account-deletion-retry"].tap()
+        XCTAssertTrue(app.staticTexts["Account deleted"].waitForExistence(timeout: 20))
+    }
+
+    private func privacyState() async throws -> [String: Any] {
+        let (data, _) = try await URLSession.shared.data(from: URL(string: base + "/__fixture/privacy/status")!)
+        return try JSONSerialization.jsonObject(with: data) as! [String: Any]
+    }
+    private func allowAI() {
+        let allow = app.buttons["allow-ai-data"]
+        reach(allow); capture("cloud-AI-disclosure")
+        allow.tap()
+        XCTAssertTrue(app.buttons["withdraw-ai-data"].waitForExistence(timeout: 15))
+    }
+    func testAIDataPermissionRequiresParentAndCanBeWithdrawnWhileLocked() async throws {
+        launch(); _ = create(); allowAI()
+        let accepted = try await privacyState()
+        XCTAssertEqual((accepted["permission"] as? [String: Any])?["granted"] as? Int, 1)
+        app.terminate(); launch(reset: false); settings()
+        reach(app.buttons["withdraw-ai-data"])
+        XCTAssertFalse(app.buttons["allow-ai-data"].exists)
+        app.buttons["withdraw-ai-data"].tap()
+        XCTAssertTrue(app.staticTexts["Cloud AI is off"].waitForExistence(timeout: 10))
+        let withdrawn = try await privacyState()
+        XCTAssertEqual((withdrawn["permission"] as? [String: Any])?["granted"] as? Int, 0)
+        capture("cloud-AI-withdrawn-without-unlock")
+    }
+    func testAIWithdrawalSurvivesOfflineAndResumesAfterRelaunchInChinese() async throws {
+        launch("zh-Hans"); _ = create(); allowAI()
+        _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/offline")!)
+        app.buttons["withdraw-ai-data"].tap()
+        let pending = app.staticTexts["ai-withdrawal-pending"]
+        XCTAssertTrue(pending.waitForExistence(timeout: 15))
+        reach(pending); capture("cloud-AI-offline-withdrawal-Chinese")
+        XCTAssertFalse(app.buttons["allow-ai-data"].exists)
+        _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/online")!)
+        app.terminate(); launch("zh-Hans", reset: false); settings()
+        reach(app.staticTexts["ai-permission-status"])
+        XCTAssertFalse(app.buttons["withdraw-ai-data"].exists)
+        let withdrawn = try await privacyState()
+        XCTAssertEqual((withdrawn["permission"] as? [String: Any])?["granted"] as? Int, 0)
+    }
+    func testUnapprovedQuestionStaysLocalAndReturnsToItsDraft() async throws {
+        launch()
+        app.buttons["home-question"].tap()
+        let input = app.textViews["exploration-input"].exists ? app.textViews["exploration-input"] : app.textFields["exploration-input"]
+        XCTAssertTrue(input.waitForExistence(timeout: 5)); input.tap(); input.typeText("Why do leaves change colour?")
+        app.buttons["ask-button"].tap()
+        XCTAssertTrue(app.textFields["family-nickname"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.buttons["allow-ai-data"].exists)
+        let state = try await privacyState()
+        XCTAssertEqual(state["questions"] as? Int, 0)
+        app.buttons["family-done"].tap()
+        XCTAssertEqual(input.value as? String, "Why do leaves change colour?")
+        XCTAssertTrue(app.buttons["navigation-home"].isHittable)
+        capture("cloud-AI-declined-draft-preserved")
+    }
+
 }

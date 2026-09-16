@@ -60,6 +60,7 @@ struct AIReceipt: Codable, Equatable {
 
 struct AIClient {
     var session: URLSession = .shared
+    var permission: @Sendable (ShareConnection) throws -> Void = { try AIPermissionCache().require($0) }
 
     func answer(_ record: ExplorationRecord, photo: Data?, connection: ShareConnection,
                 resume: Bool = false, deadline: Duration = .seconds(125), pollInterval: Duration = .seconds(3)) async throws -> AIReceipt {
@@ -90,6 +91,7 @@ struct AIClient {
     }
 
     func ask(_ record: ExplorationRecord, photo: Data?, connection: ShareConnection) async throws -> AIReceipt {
+        if record.preparedContent == nil { try permission(connection) }
         struct Input: Encodable {
             var id: String; var question: String; var language: String; var age: Int; var photo: String?; var prepared: PreparedReference?
             var conversationID: String?; var parentID: String?; var evolveFrom: String?
@@ -106,12 +108,14 @@ struct AIClient {
         try await decode(AIReceipt.self, path: "api/explorations/\(id.uuidString.lowercased())", connection: connection)
     }
 
-    func createArtwork(_ id: UUID, connection: ShareConnection) async throws -> ArtworkJob {
-        try await decode(ArtworkJob.self, path: "api/explorations/\(id.uuidString.lowercased())/artwork", method: "POST", connection: connection)
+    func createArtwork(_ id: UUID, connection: ShareConnection, prepared: Bool = false) async throws -> ArtworkJob {
+        if !prepared { try permission(connection) }
+        return try await decode(ArtworkJob.self, path: "api/explorations/\(id.uuidString.lowercased())/artwork", method: "POST", connection: connection)
     }
 
     func artwork(_ id: String, retry: Bool = false, connection: ShareConnection) async throws -> ArtworkJob {
         guard UUID(uuidString: id) != nil else { throw AIClientError.invalidResponse }
+        if retry { try permission(connection) }
         return try await decode(ArtworkJob.self, path: "api/artwork/\(id)" + (retry ? "/retry" : ""), method: retry ? "POST" : "GET", connection: connection)
     }
 
@@ -154,6 +158,8 @@ struct AIClient {
             throw AIClientError.unavailable
         }
         guard let http = response as? HTTPURLResponse else { throw AIClientError.invalidResponse }
+        if http.statusCode == 403,
+           (try? JSONDecoder().decode([String: String].self, from: data)["error"]) == "ai_permission_required" { throw AIDataPermissionError.required }
         if http.statusCode == 429 {
             struct Failure: Decodable { var error: String }
             let code = data.count <= 4096 ? (try? JSONDecoder().decode(Failure.self, from: data).error) : nil

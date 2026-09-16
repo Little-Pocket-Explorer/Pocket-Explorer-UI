@@ -79,6 +79,10 @@ final class FamilyStore {
         guard let saved = response.family else { throw FamilyError.invalidResponse }
         try accept(saved)
     }
+    func deletionToken() throws -> String? {
+        guard family == nil || parentUnlocked else { throw FamilyError.parentRequired }
+        return parent?.token
+    }
     func clearRecoveryCode() { recoveryCode = nil }
     func lock(connection: ShareConnection? = nil) async {
         let token = parent?.token

@@ -1,5 +1,61 @@
 # Pocket Explorer: Continuation Brief
 
+## Accepted submission scope and qualification checkpoint (2026-09-16)
+
+The owner explicitly approved preserving all features and submitting at Apple's current calculated age ratings: 13+ in 171 territories, 16+ in Australia, Vietnam and Brazil, and 15+ in Korea. FOUR_PLUS in older API records describes operating systems before version 26. Do not remove public discovery or social functionality to lower the rating. Kids Category enrollment is not requested for this release. The age rating does not replace applicable privacy obligations.
+
+Epic KWS is deferred by the owner and removed from the release runtime. Existing family PIN, separate explicit Azure AI data permission, withdrawal, local-only speech recognition and account deletion are retained. A PIN is not verified parental consent. Previous KWS checkpoints are historical and superseded.
+
+Backend/Web now pass 319 tests in 45 files with every-file coverage gates, 99.18% lines and 94.13% branches. Production build and an actual Chromium Worker/D1 create-unlock-grant-withdraw-delete flow pass. Browser activation and account deletion are implemented. Evidence: ~/tmp/review/pocket-app-store-release/no-kws-*.
+
+Native integrated baseline has 190 passing units and 23 passing main UI journeys. Additional daily background refresh, invalid demo recovery, complete private-demo flow and speech-denial typing recovery pass. The corrected audio callback test passes. All 15 changed product Swift files pass same-source 80% line coverage, with a minimum of 81.75%. Final Chromium and WebKit regressions each pass 37 tests with one explicit fixture skip. All five artwork/actual-account flows pass, and the actual-account flow also passes WebKit with its mobile screenshot inspected.
+
+The owner confirmed all supplied artwork and example content may be published. Mainland ICP availability is awaiting the owner. Version 1.0 and final review instructions are prepared. Next: finish Apple declarations, deploy Backend through its workflow, upload native 1.0 locally, attach the build and submit review. Publication is authorized. TestFlight remains 0.1.0 (20), App Store 1.0 is not submitted, and no release commit or production deployment has occurred. Do not start agents, timers or native GitHub builds.
+
+## First-release scope correction (2026-09-16 21:21 AEST)
+
+The owner explicitly deferred Epic KWS and asked to proceed with publication. Do not request Epic login or treat KWS approval as a release prerequisite. Preserve existing family PIN, explicit cloud AI permission and withdrawal, deletion, accurate provider disclosure and teammate features. The KWS experiment is archived outside the release worktrees at ~/tmp/review/pocket-app-store-release/kws-deferred-20260916 with file hashes. Its eleven dedicated files, runtime routes, page, migration and deletion dependencies are removed from the release candidate. No production deployment occurred.
+
+Current work: complete browser grant activation using the existing family API, then finish native qualification and Apple declarations. Deploy Backend via its workflow and upload native 1.0 locally. App Store remains unsubmitted and TestFlight remains 0.1.0 (20). Deferring a vendor does not turn a PIN into verified parental consent or justify inaccurate declarations. Earlier KWS checkpoints below are historical and superseded.
+
+
+## Current continuation (2026-09-16 21:14 AEST)
+
+KWS first-use verification is accepted. Continue the App Store release from the latest TODO and native docs/app-store/parent-verification.md. Backend callbacks, consent state, secure parent sessions and a ten-language parent page are implemented locally and pass a 337-test regression plus per-file coverage gates. Live KWS initiation, native/Web activation and complete cloud-scope enforcement are still incomplete. Epic login and public privacy contact address/phone are pending owner inputs. KWS production setup also requires its own review. Do not deploy the partial gate or claim real KWS verification passed. No Swift product code changed this increment, and prior native coverage gaps remain. TestFlight stays at 0.1.0 (20), App Store 1.0 is unsubmitted, and all owned processes have stopped. Native publishing remains local and Backend uses its workflow. Do not repeat accepted product or publication permission questions.
+
+## Current continuation (2026-09-16 19:49 AEST)
+
+Continue the first App Store release from the latest TODO checkpoint. Review has not been submitted. Apple website/API login is working. Age questionnaire, DSA, all 175 territories, URLs and reviewer contact are saved. Thirteen privacy categories are only drafts. The owner accepted KWS first-use verification on 2026-09-16, and must cover profile/social/location uploads as well as AI. Web read/withdrawal and local speech safeguards are qualified, but activation/deletion are unfinished. Native units pass 190 with one skip and 23 UI journeys pass. Two changed Swift files still miss the 80% coverage gate. Do not deploy the server restriction alone because TestFlight 20 lacks the new flow. Tests and owned fixtures are stopped. Native release stays local and Backend uses its existing workflow. No commit, push, new upload or review submission occurred.
+
+This summary supersedes conflicting historical checkpoints below. Use native docs/app-store/release-readiness.md and parent-verification.md for the remaining work.
+
+## App Store continuation: integrated baseline (2026-09-16)
+
+- Current native baseline is main 41a6356, including TestFlight 20. The pending privacy work was backed up and restored with all upstream changes. The stash and 62-file hash manifest remain in the local integration evidence directory.
+- Resolved additive document and localization conflicts. All ten catalogs have 609 unique keys and matching key sets. The combined native test build succeeds. Final qualification remains in progress.
+- App Store Connect website is signed in as Hai Chang. API and website independently show version 1.0 in PREPARE_FOR_SUBMISSION with no build or review detail. Free price, Education and English text remain saved. Support URL, copyright, review information, age questionnaire, availability and privacy declarations remain unfinished.
+- Parent verification preference was requested with the concrete KWS first-use proposal. No new service account or terms have been accepted. Continue independent privacy/Web work while that input is pending.
+- Evidence: ~/tmp/review/pocket-app-store-release/integration-20260916 and resume-*.json. No deployment or review submission occurred.
+
+
+## Latest baseline update (2026-09-16 18:58 AEST)
+
+The user requested the teammate update as a separate TestFlight delivery. Build 0.1.0 (20) is independently VALID / IN_BETA_TESTING in Hackathon Internal, published locally from 9c568c1. Remote main includes delivery record 41a6356. Preserve all uncommitted App Store privacy changes in this worktree, and integrate current main before further qualification. The teammate release did not include or deploy these incomplete privacy changes. App Store 1.0 remains PREPARE_FOR_SUBMISSION. No website-login claim follows from the successful Apple API authentication. Evidence: ~/tmp/review/pocket-teammate-testflight-20260916.
+
+## Active: first App Store release (2026-09-16)
+
+Provider clarification, 2026-09-16: the owner confirms Azure AI for question answering, image generation and narration. Treat the previous reasoning-provider question as answered. Use the updated Backend docs/ai-service-evidence.md and native release-readiness.md. Keep the observed Cloudflare embedding processing in the privacy description. No runtime endpoint changes follow from this documentation update. Parent verification, Web compatibility, qualification and Apple declarations remain active.
+
+The owner reaffirmed publication and authorized continued children's privacy work. Versioned AI data permission is implemented locally and undergoing qualification. Use the latest TODO checkpoint rather than the historical unresolved product-direction question. Provider facts and remaining Apple declarations still require accurate evidence before submission.
+
+Current draft and qualification evidence are in the latest TODO and native docs/app-store/release-readiness.md. Native and Backend versioned AI permission are implemented locally, with final UI regression and broader coverage still pending. Web permission compatibility, parent verification, final provider disclosure and Apple declarations remain unfinished. No review has been submitted. See native docs/app-store/parent-verification.md and Backend docs/ai-service-evidence.md.
+
+The user authorized public App Store publication. Work in /Users/haichang/Worktrees/Pocket-Explorer-UI-app-store-release, branch hai/app-store-release, from 257b1d4. Follow docs/plans/app-store-release.md, AS1-AS5. Backend worktree is /Users/haichang/Worktrees/Pocket-Explorer-Backend-app-store-release, from 732b6e6. Do not resume completed navigation work or old timers. Keep local-only native publishing and ten languages.
+
+- AS1 AUDITED: Apple confirms build 19 is APP_STORE_ELIGIBLE. Existing App Store 1.0 has no attached build. English listing text, free pricing and three screenshots are saved. Owner confirmed free download, no IAP, ages 6-8 with a parent, and a non-commercial hobby project for non-trader declaration.
+- AS2 IN_PROGRESS: correct missing AI data disclosure, remote-family deletion, public privacy and support pages. Social report/block already exist.
+- AS3 IN_PROGRESS, AS4-AS5 PENDING: store materials, declarations, qualification, local binary and submission. Draft listing and free pricing are saved. Review submission remains pending.
+- Evidence: ~/tmp/review/pocket-app-store-release. Current published native runtime remains build 19. Prior release checkpoints below are historical.
 ## Delivered teammate TestFlight request (2026-09-16)
 
 TestFlight 0.1.0 (20) is independently VALID / IN_BETA_TESTING in Hackathon Internal. Source 9c568c122d5e95a5337b13c035990d71443703de includes the latest teammate code and qualified integration fixes. This release request is complete. Follow the next user input or resume the separate App Store work only in its existing worktrees. Work in /Users/haichang/Worktrees/Pocket-Explorer-UI-teammate-testflight-20260916 on hai/teammate-testflight-20260916, based on upstream 3151a0f. Read the latest TODO for qualification and upload evidence. Keep the separate uncommitted App Store privacy worktrees intact. Publish native locally with [skip ci]. Do not restart historical timers or create agents.

@@ -3,6 +3,7 @@ import Security
 
 @main
 struct PocketExplorerApp: App {
+    @State private var removal = AccountRemoval()
     @State private var store: TripStore?
     @State private var loadError: String?
     @State private var language: LanguagePreference?
@@ -26,7 +27,9 @@ struct PocketExplorerApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
-                if language == nil {
+                if removal.active {
+                    AccountRemovalView(removal: removal)
+                } else if language == nil {
                     LanguageSelectionView(onSelect: selectLanguage)
                 } else if let store {
                     RootView(store: store, changeLanguage: { choosingLanguage = true }, discoveryLink: $discoveryLink)
@@ -37,6 +40,8 @@ struct PocketExplorerApp: App {
                     ProgressView("Opening your little world…")
                 }
             }
+            .environment(removal)
+            .alert("For grown-ups", isPresented: $removal.unlockMessage) { Button("OK") { } } message: { Text("Ask a grown-up to unlock family settings.") }
             .id("\(language?.rawValue ?? "choose")-\(resolvedLanguage.rawValue)")
             .environment(\.locale, Locale(identifier: resolvedLanguage.rawValue))
             .environment(\.layoutDirection, resolvedLanguage.isRightToLeft ? .rightToLeft : .leftToRight)
@@ -56,7 +61,7 @@ struct PocketExplorerApp: App {
             }
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .background, language != nil { RecommendationRefresh.schedule() }
+            if phase == .background, language != nil, !removal.active { RecommendationRefresh.schedule() }
             #if DEBUG
             // Exercise the app's refresh entry point without relying on nondeterministic OS scheduling.
             if phase == .background, ProcessInfo.processInfo.arguments.contains("--simulate-discovery-refresh") {
@@ -71,6 +76,7 @@ struct PocketExplorerApp: App {
 
     @MainActor
     private func refreshRecommendations() async {
+        guard !removal.active else { return }
         defer { RecommendationRefresh.schedule() }
         openJournal()
         guard let store, let base = try? ConnectionVault().loadOrCreate().validatedURL else { return }
@@ -85,7 +91,7 @@ struct PocketExplorerApp: App {
     }
 
     private func openJournal() {
-        guard language != nil, store == nil, loadError == nil else { return }
+        guard store == nil, loadError == nil else { return }
         do {
             var url = TripStore.defaultURL
             #if DEBUG
@@ -98,6 +104,12 @@ struct PocketExplorerApp: App {
                 }
             }
             #endif
+            try removal.prepareOnLaunch(file: url)
+            if removal.active {
+                Task { await removal.resume() }
+                return
+            }
+            guard language != nil else { return }
             let initial: JournalState
             #if DEBUG
             if ProcessInfo.processInfo.arguments.contains("--ui-testing"),

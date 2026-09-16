@@ -1,4 +1,4 @@
 "NSMicrophoneUsageDescription" = "話すボタンをタップしたときに、質問や発見を録音します。";
 "NSSpeechRecognitionUsageDescription" = "声で話した質問や気づいたことを、発見カードの文字にします。";
 "NSCameraUsageDescription" = "見つけたものを写真に残します。写真は、それをつけた質問を送るときだけAIガイドに送信されます。";
-"NSLocationWhenInUseUsageDescription" = "場所を追加することを選んだときだけ、自分用の地図に発見を保存します。";
+"NSLocationWhenInUseUsageDescription" = "あなたが操作したときに位置情報を使い、発見した場所の保存、近くのイベントの検索、イベントへの訪問確認を行います。";

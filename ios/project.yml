@@ -14,11 +14,11 @@ settings:
     INFOPLIST_KEY_NSMicrophoneUsageDescription: Record your questions and discoveries when you tap to speak.
     INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: Turn your spoken questions and observations into your own discovery cards.
     INFOPLIST_KEY_NSCameraUsageDescription: Photograph things you discover during an adventure.
-    INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Save a discovery on your private map only when you choose to add its place.
+    INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Use your location to save discoveries, find nearby activities and check event visits when you request them.
     INFOPLIST_KEY_CFBundleDisplayName: Pocket Explorer
     INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
     ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-    MARKETING_VERSION: 0.1.0
+    MARKETING_VERSION: 1.0
     CURRENT_PROJECT_VERSION: 5
     # Prepared resource hashes must match the immutable server bytes.
     COMPRESS_PNG_FILES: NO

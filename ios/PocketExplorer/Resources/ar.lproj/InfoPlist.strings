@@ -1,4 +1,4 @@
 "NSMicrophoneUsageDescription" = "سجّل أسئلتك واكتشافاتك عندما تضغط للتحدث.";
 "NSSpeechRecognitionUsageDescription" = "حوّل أسئلتك وملاحظاتك المنطوقة إلى كلمات على بطاقات اكتشافك.";
 "NSCameraUsageDescription" = "التقط صورًا لاكتشافاتك. لا تُرسل الصورة إلى دليل الذكاء الاصطناعي إلا عندما ترسل السؤال الذي أرفقتها به.";
-"NSLocationWhenInUseUsageDescription" = "احفظ اكتشافًا على خريطتك الخاصة فقط عندما تختار إضافة مكانه.";
+"NSLocationWhenInUseUsageDescription" = "عندما تطلب ذلك، يُستخدم موقعك لحفظ الاكتشافات والعثور على أنشطة قريبة والتحقق من زيارات الفعاليات.";

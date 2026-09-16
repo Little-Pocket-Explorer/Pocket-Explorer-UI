@@ -11,7 +11,7 @@ final class QuestionRecoveryTests: XCTestCase {
     override func setUp() {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockShareProtocol.self]
-        client = AIClient(session: URLSession(configuration: configuration))
+        client = AIClient(session: URLSession(configuration: configuration), permission: { _ in })
     }
 
     override func tearDown() { MockShareProtocol.reply = nil; SuspendedAIProtocol.onStart = nil; SuspendedAIProtocol.onStop = nil }
@@ -85,7 +85,7 @@ final class QuestionRecoveryTests: XCTestCase {
     func testOverallDeadlineCancelsEvenAnInitialRequestThatNeverReturns() async {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [SuspendedAIProtocol.self]
-        client = AIClient(session: URLSession(configuration: configuration))
+        client = AIClient(session: URLSession(configuration: configuration), permission: { _ in })
         let stopped = expectation(description: "Timed-out URL task was cancelled")
         SuspendedAIProtocol.onStop = { stopped.fulfill() }
         let start = ContinuousClock.now
@@ -98,7 +98,7 @@ final class QuestionRecoveryTests: XCTestCase {
     func testExplicitCancellationDoesNotWaitForTheNetworkDeadline() async {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [SuspendedAIProtocol.self]
-        client = AIClient(session: URLSession(configuration: configuration))
+        client = AIClient(session: URLSession(configuration: configuration), permission: { _ in })
         let started = expectation(description: "Request is waiting")
         let stopped = expectation(description: "Cancelled URL task")
         SuspendedAIProtocol.onStart = { started.fulfill() }

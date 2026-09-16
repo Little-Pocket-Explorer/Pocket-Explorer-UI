@@ -84,6 +84,11 @@ struct ConnectionVault {
         guard try read() == connection else { throw ShareError.configuration }
     }
 
+    func erase() throws {
+        let status = SecItemDelete(baseQuery as CFDictionary)
+        guard status == errSecSuccess || status == errSecItemNotFound, try read() == nil else { throw ShareError.configuration }
+    }
+
     private var baseQuery: [String: Any] {
         [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: service, kSecAttrAccount as String: "owner"]
     }

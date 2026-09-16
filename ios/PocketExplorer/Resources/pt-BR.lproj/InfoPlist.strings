@@ -1,4 +1,4 @@
 "NSMicrophoneUsageDescription" = "Grave suas perguntas e descobertas quando tocar para falar.";
 "NSSpeechRecognitionUsageDescription" = "Transforme suas perguntas e observações faladas em palavras nos cartões.";
 "NSCameraUsageDescription" = "Fotografe suas descobertas. A foto só será enviada ao guia de IA quando você enviar a pergunta que a acompanha.";
-"NSLocationWhenInUseUsageDescription" = "Salve uma descoberta no mapa privado apenas quando você escolher adicionar o lugar.";
+"NSLocationWhenInUseUsageDescription" = "Quando você solicitar, sua localização será usada para salvar descobertas, encontrar atividades próximas e confirmar visitas a eventos.";

@@ -131,7 +131,8 @@ final class SystemVoiceTransport: NSObject, VoiceTransport, AVSpeechSynthesizerD
         return status == .authorized
     }
     func startRecognition(language: String) throws {
-        guard let recognizer = SFSpeechRecognizer(locale: Locale(identifier: NarrationStyle.locale(for: language))), recognizer.isAvailable else { throw VoiceError.unavailable }
+        guard let recognizer = SFSpeechRecognizer(locale: Locale(identifier: NarrationStyle.locale(for: language))),
+              recognizer.isAvailable, recognizer.supportsOnDeviceRecognition else { throw VoiceError.unavailable }
         let token = generation
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(.playAndRecord, mode: .measurement, options: [.defaultToSpeaker])
@@ -140,6 +141,7 @@ final class SystemVoiceTransport: NSObject, VoiceTransport, AVSpeechSynthesizerD
         let format = input.outputFormat(forBus: 0)
         guard format.sampleRate > 0, format.channelCount > 0 else { throw VoiceError.unavailable }
         let bufferRequest = SFSpeechAudioBufferRecognitionRequest()
+        bufferRequest.requiresOnDeviceRecognition = true
         bufferRequest.shouldReportPartialResults = true
         bufferRequest.addsPunctuation = true
         request = bufferRequest

@@ -56,6 +56,8 @@ createServer(async (request, response) => {
   let input;
   try { input = text ? JSON.parse(text) : null; } catch { response.writeHead(400); response.end(); return; }
   function json(status, value) { response.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }); response.end(JSON.stringify(value)); }
+  // Exploration-only scenarios model an installation whose grown-up already granted permission.
+  if (url.pathname === '/api/privacy/ai' && request.method === 'GET') return json(200, { policyVersion: '2026-09-16', granted: true, revision: 1, updatedAt: Date.now() });
   if (url.pathname === '/__fixture/demo/reset') { demoOwner = undefined; demoAccessReads = 0; dailyOffline = false; return json(200, { reset: true }); }
   if (url.pathname === '/__fixture/demo/revoke') { demoOwner = undefined; return json(200, { revoked: true }); }
   if (url.pathname === '/__fixture/demo/status') return json(200, { demoAccessReads });

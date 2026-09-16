@@ -90,11 +90,15 @@ final class DemoFlowTests: XCTestCase {
     }
 
     private func reach(_ element: XCUIElement) {
-        for _ in 0..<12 where !element.isHittable {
+        func visibleCenter() -> Bool {
+            element.isHittable && element.frame.midY > app.navigationBars.firstMatch.frame.maxY + 12
+                && element.frame.midY < app.tabBars.firstMatch.frame.minY - 18
+        }
+        for _ in 0..<12 where !visibleCenter() {
             let origin = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.6))
             origin.press(forDuration: 0.05, thenDragTo: origin.withOffset(CGVector(dx: 0, dy: -180)))
         }
-        XCTAssertTrue(element.isHittable)
+        XCTAssertTrue(visibleCenter())
     }
 
     private func questions() -> [String] {

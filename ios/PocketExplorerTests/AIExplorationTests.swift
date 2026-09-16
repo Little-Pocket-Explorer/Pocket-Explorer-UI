@@ -12,7 +12,7 @@ final class AIExplorationTests: XCTestCase {
     private var client: AIClient {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockShareProtocol.self]
-        return AIClient(session: URLSession(configuration: configuration))
+        return AIClient(session: URLSession(configuration: configuration), permission: { _ in })
     }
     override func setUp() async throws { directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString) }
     override func tearDown() async throws { try? FileManager.default.removeItem(at: directory); MockShareProtocol.reply = nil }

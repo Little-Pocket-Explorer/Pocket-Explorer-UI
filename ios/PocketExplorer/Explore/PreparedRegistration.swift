@@ -18,7 +18,7 @@ final class PreparedRegistration {
             do {
                 let receipt = try await client.ask(record, photo: nil, connection: connection)
                 guard receipt.id == id, receipt.status == "ready", receipt.reply == prepared.reply else { throw AIClientError.invalidResponse }
-                let job = try await client.createArtwork(id, connection: connection)
+                let job = try await client.createArtwork(id, connection: connection, prepared: true)
                 try store.markPreparedRegistered(id, artwork: job)
             } catch AIClientError.preparedUnavailable {
                 try store.markPreparedUnavailable(id)

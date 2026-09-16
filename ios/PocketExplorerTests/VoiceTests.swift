@@ -42,6 +42,17 @@ final class FakeVoiceTransport: VoiceTransport {
 
 @MainActor
 final class VoiceTests: XCTestCase {
+    func testUnrelatedPlayerDecodeFailureDoesNotInterruptCurrentSpeech() async throws {
+        let hardware = SystemVoiceTransport()
+        let unexpected = expectation(description: "Unrelated player failure is ignored")
+        unexpected.isInverted = true
+        hardware.onError = { _ in unexpected.fulfill() }
+        let unrelated = try AVAudioPlayer(data: NarrationTests.wave())
+        hardware.audioPlayerDecodeErrorDidOccur(unrelated, error: VoiceError.unavailable)
+        await fulfillment(of: [unexpected], timeout: 0.2)
+        hardware.stop()
+    }
+
     func testInterruptionEndDoesNotInterruptANewSession() async {
         let hardware = SystemVoiceTransport()
         let unexpected = expectation(description: "Ended and malformed interruptions are ignored")

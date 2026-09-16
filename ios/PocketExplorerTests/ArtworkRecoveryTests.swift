@@ -20,7 +20,7 @@ final class ArtworkRecoveryTests: XCTestCase {
         coordinator = ArtworkCoordinator()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockShareProtocol.self]
-        coordinator.client = AIClient(session: URLSession(configuration: configuration))
+        coordinator.client = AIClient(session: URLSession(configuration: configuration), permission: { _ in })
     }
 
     override func tearDown() async throws {

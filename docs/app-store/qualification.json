@@ -1,0 +1,140 @@
+{
+  "checkedAt": "2026-09-16T11:47:43.817498+00:00",
+  "scope": "Integrated main 41a6356 and uncommitted privacy source. Not release approval.",
+  "unitTestsPassed": 190,
+  "unitTestsSkipped": 1,
+  "uiTestsPassed": 23,
+  "uiTestsFailed": 0,
+  "coverageGatePassed": true,
+  "coveragePolicy": "80% lines per changed Swift file. Apple xccov merged same-product-source reports. Individual failed test-fixture runs are not full-suite pass claims.",
+  "files": [
+    {
+      "file": "ios/PocketExplorer/Sharing/ShareClient.swift",
+      "sha256": "6cbe0a7222933192ae659b40ca6598858061407bba8ab283b12c91772d09c441",
+      "covered": 105,
+      "executable": 105,
+      "coverage": 1
+    },
+    {
+      "file": "ios/PocketExplorer/Family/FamilyStore.swift",
+      "sha256": "4cf261dedb3701fb8826dc0453530cda80aa591429bcaa09aa31ecd45342c3ac",
+      "covered": 142,
+      "executable": 142,
+      "coverage": 1
+    },
+    {
+      "file": "ios/PocketExplorer/App/PocketExplorerApp.swift",
+      "sha256": "902f57d08f04078ec66741af1dd0488144f7953fb82c7f723fd366f58d8f6a7b",
+      "covered": 165,
+      "executable": 190,
+      "coverage": 0.868421052631579
+    },
+    {
+      "file": "ios/PocketExplorer/App/RootView.swift",
+      "sha256": "929b96810f007f006114762384513f24b0c58729d02f30b5ace0dc7aaeab21a8",
+      "covered": 305,
+      "executable": 342,
+      "coverage": 0.8918128654970761
+    },
+    {
+      "file": "ios/PocketExplorer/Family/FamilyPauseShield.swift",
+      "sha256": "7da94285e7273ad3b998f818d8b813ef0d0812177d96bdd402757dc9d94c7011",
+      "covered": 43,
+      "executable": 43,
+      "coverage": 1
+    },
+    {
+      "file": "ios/PocketExplorer/Explore/ExploreView.swift",
+      "sha256": "6c275e1f526113f50276e36abb3af6c99e2a2d04ddbd21c65016bb64d31f5114",
+      "covered": 836,
+      "executable": 935,
+      "coverage": 0.8941176470588236
+    },
+    {
+      "file": "ios/PocketExplorer/Explore/NarrationClient.swift",
+      "sha256": "30b2a9cef4cf31c5fb1458b1db92578062628315e3e31c94f3e34987a498ce19",
+      "covered": 70,
+      "executable": 70,
+      "coverage": 1
+    },
+    {
+      "file": "ios/PocketExplorer/Privacy/AIDataPermissionView.swift",
+      "sha256": "7898a0d71c7f6a1b33266d2bde44d8dccfaf89b4d7facf12b784215ff329e9ad",
+      "covered": 94,
+      "executable": 94,
+      "coverage": 1
+    },
+    {
+      "file": "ios/PocketExplorer/Explore/AIClient.swift",
+      "sha256": "aff3f09ff052b5111304b497b8f44dd6958dd4904f90e9098067c571c641b6d5",
+      "covered": 195,
+      "executable": 195,
+      "coverage": 1
+    },
+    {
+      "file": "ios/PocketExplorer/Privacy/AccountRemovalView.swift",
+      "sha256": "dbc3c57e0d09559ab8404ff6d516ebfe79427dc8e8a0d21c5ffcbdcf47f5d1e6",
+      "covered": 53,
+      "executable": 53,
+      "coverage": 1
+    },
+    {
+      "file": "ios/PocketExplorer/Explore/VoiceSession.swift",
+      "sha256": "59cee57b42e6e86e0e7ba6f6313495d5a95f1ac1155372ecd2e890226c09ca9c",
+      "covered": 206,
+      "executable": 252,
+      "coverage": 0.8174603174603174
+    },
+    {
+      "file": "ios/PocketExplorer/Explore/PreparedRegistration.swift",
+      "sha256": "18d84f59c3d93e80a7144438ac4c6eb4ed0a279a11f9db1aa5c1d5b8492c3732",
+      "covered": 70,
+      "executable": 70,
+      "coverage": 1
+    },
+    {
+      "file": "ios/PocketExplorer/Family/FamilySettingsView.swift",
+      "sha256": "0afe1d1a97feb21f5bba462fec2fbdcba53055325ea8089d75e63d8795513672",
+      "covered": 715,
+      "executable": 728,
+      "coverage": 0.9821428571428571
+    },
+    {
+      "file": "ios/PocketExplorer/Privacy/AIDataPermission.swift",
+      "sha256": "983e6bbcb755acc4ab6e4794890e2c9318948cffcd92bb990864fe3da6ed7cf8",
+      "covered": 114,
+      "executable": 114,
+      "coverage": 1
+    },
+    {
+      "file": "ios/PocketExplorer/Privacy/AccountRemoval.swift",
+      "sha256": "efcb2257bf37cb24ae2a2b5861a257e0de062d0c17a84c27864b4315e2af2a4c",
+      "covered": 88,
+      "executable": 88,
+      "coverage": 1
+    }
+  ],
+  "belowThreshold": [],
+  "missing": [],
+  "evidenceRoot": "/Users/haichang/tmp/review/pocket-app-store-release/integration-20260916",
+  "remaining": [
+    "Physical microphone, camera, listening and interruptions",
+    "Final Apple declarations, deployment, archive, upload and review submission"
+  ],
+  "runtimeWarnings": [
+    "AVAudioSession activation on the main thread",
+    "Invalid frame dimensions during simulator rendering"
+  ],
+  "additionalTests": {
+    "voiceCallbackUnit": 1,
+    "dailyRefreshAndInvalidDemoUI": 2,
+    "privateDemoAndSpeechDenialUI": 2
+  },
+  "coverageEvidence": [
+    "units-1",
+    "privacy-journeys-4",
+    "entry-coverage-7",
+    "final-journeys-9",
+    "voice-callback-10"
+  ]
+}

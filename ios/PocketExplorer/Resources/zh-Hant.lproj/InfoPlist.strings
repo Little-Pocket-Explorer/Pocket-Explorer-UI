@@ -1,4 +1,4 @@
 "NSMicrophoneUsageDescription" = "當你點選說話時，錄下你的問題和發現。";
 "NSSpeechRecognitionUsageDescription" = "把你說的問題和觀察變成發現卡片上的文字。";
 "NSCameraUsageDescription" = "拍下探索中發現的東西。只有送出問題時，附上的照片才會傳給 AI 嚮導。";
-"NSLocationWhenInUseUsageDescription" = "只有你選擇加入地點時，才把發現儲存到私人地圖上。";
+"NSLocationWhenInUseUsageDescription" = "在你主動操作時，使用你的位置儲存發現、尋找附近活動並驗證活動到訪。";

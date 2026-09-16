@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FamilyPauseShield: UIViewRepresentable {
     let family: FamilyStore
+    @Environment(AccountRemoval.self) private var removal
     @Environment(\.locale) private var locale
     @Environment(\.layoutDirection) private var direction
     @Environment(\.dynamicTypeSize) private var typeSize
@@ -10,6 +11,7 @@ struct FamilyPauseShield: UIViewRepresentable {
     func updateUIView(_ view: Surface, context: Context) {
         view.update(blocked: family.timeFinished || family.storageFailed, content: AnyView(
             FamilyPauseView(family: family)
+                .environment(removal)
                 .environment(\.locale, locale)
                 .environment(\.layoutDirection, direction)
                 .environment(\.dynamicTypeSize, typeSize)

@@ -1,4 +1,4 @@
 "NSMicrophoneUsageDescription" = "Nimm deine Fragen und Entdeckungen auf, wenn du zum Sprechen tippst.";
 "NSSpeechRecognitionUsageDescription" = "Verwandle deine gesprochenen Fragen und Beobachtungen in Worte auf deinen Karten.";
 "NSCameraUsageDescription" = "Fotografiere deine Entdeckungen. Ein Foto wird nur an deinen KI-Begleiter gesendet, wenn du die zugehörige Frage sendest.";
-"NSLocationWhenInUseUsageDescription" = "Speichere eine Entdeckung nur dann auf deiner privaten Karte, wenn du ihren Ort hinzufügen möchtest.";
+"NSLocationWhenInUseUsageDescription" = "Auf deinen Wunsch wird dein Standort verwendet, um Entdeckungen zu speichern, Aktivitäten in der Nähe zu finden und Besuche bei Veranstaltungen zu bestätigen.";

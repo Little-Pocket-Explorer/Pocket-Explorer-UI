@@ -1,0 +1,86 @@
+[
+  {
+    "locale": "en-AU",
+    "file": "screenshots/en-AU/01.png",
+    "sourceEvidence": "/Users/haichang/tmp/review/pocket-jacky-navigation/review-corrections-1-attachments/23A6F31C-D419-4142-8A0D-C810A755D18F.png",
+    "sourceSHA256": "41ea5cdbd30686fcd4228534df94a14c6db7d73457fce5c47d1159decd83ec8b",
+    "width": 1320,
+    "height": 2868,
+    "mode": "RGB",
+    "title": [
+      "Turn every why",
+      "into a discovery."
+    ],
+    "treatment": "Unchanged full native screenshot scaled proportionally on a captioned background."
+  },
+  {
+    "locale": "en-AU",
+    "file": "screenshots/en-AU/02.png",
+    "sourceEvidence": "/Users/haichang/tmp/review/pocket-jacky-navigation/review-corrections-1-attachments/07910379-735A-4EDE-8969-6B6D6AD3A1C5.png",
+    "sourceSHA256": "e058c69fc13ca1a6d1cbec46e7eb5cbab8e2770d2e980e56d5be297c71d80c3e",
+    "width": 1320,
+    "height": 2868,
+    "mode": "RGB",
+    "title": [
+      "Your world,",
+      "one discovery at a time."
+    ],
+    "treatment": "Unchanged full native screenshot scaled proportionally on a captioned background."
+  },
+  {
+    "locale": "en-AU",
+    "file": "screenshots/en-AU/03.png",
+    "sourceEvidence": "/Users/haichang/tmp/review/pocket-jacky-navigation/review-corrections-1-attachments/287732B0-0CB7-4B5C-ABBF-6A091ABEFB95.png",
+    "sourceSHA256": "e889d221672e90c19ea43924ef34b1349046cc8d49604477749a99c17cca3cae",
+    "width": 1320,
+    "height": 2868,
+    "mode": "RGB",
+    "title": [
+      "Little adventures.",
+      "Wonderful memories."
+    ],
+    "treatment": "Unchanged full native screenshot scaled proportionally on a captioned background."
+  },
+  {
+    "locale": "zh-Hans",
+    "file": "screenshots/zh-Hans/01.png",
+    "sourceEvidence": "/Users/haichang/tmp/review/pocket-jacky-navigation/review-followup-1-attachments/5B5BE9FE-CEF9-41CA-9075-D98B952A52BA.png",
+    "sourceSHA256": "6b07cd508c755d3f3ef53bca17ea79befddbf7f97128ba81dc13edaca9e12ef0",
+    "width": 1320,
+    "height": 2868,
+    "mode": "RGB",
+    "title": [
+      "把每一个为什么",
+      "变成一份新发现"
+    ],
+    "treatment": "Unchanged full native screenshot scaled proportionally on a captioned background."
+  },
+  {
+    "locale": "zh-Hans",
+    "file": "screenshots/zh-Hans/02.png",
+    "sourceEvidence": "/Users/haichang/tmp/review/pocket-jacky-navigation/review-followup-1-attachments/3EDEDE13-AB4D-4361-AF33-7016750EE6A9.png",
+    "sourceSHA256": "af630e6223c26cb4ece0f1cfa7227062ca8117e5b716d60b39d4075cd4024664",
+    "width": 1320,
+    "height": 2868,
+    "mode": "RGB",
+    "title": [
+      "走过的地方",
+      "藏着你的探索故事"
+    ],
+    "treatment": "Unchanged full native screenshot scaled proportionally on a captioned background."
+  },
+  {
+    "locale": "zh-Hans",
+    "file": "screenshots/zh-Hans/03.png",
+    "sourceEvidence": "/Users/haichang/tmp/review/pocket-jacky-navigation/review-followup-1-attachments/0CC2E562-4B2D-4E2F-B73F-415B7E370437.png",
+    "sourceSHA256": "a80a01250b09603470c882bfcd2f353c8de9d0bf0cb71e8374634f08907941b2",
+    "width": 1320,
+    "height": 2868,
+    "mode": "RGB",
+    "title": [
+      "小小的探险",
+      "值得珍藏的回忆"
+    ],
+    "treatment": "Unchanged full native screenshot scaled proportionally on a captioned background."
+  }
+]

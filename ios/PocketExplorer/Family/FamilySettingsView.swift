@@ -2,7 +2,10 @@ import SwiftUI
 
 struct FamilySettingsView: View {
     let family: FamilyStore
+    var reviewAI = false
     @Environment(\.dismiss) private var dismiss
+    @Environment(AccountRemoval.self) private var removal
+    @State private var confirmDeletion = false
     @State private var profile = ExplorerProfile()
     @State private var policy = FamilyPolicy()
     @State private var pin = ""
@@ -16,6 +19,7 @@ struct FamilySettingsView: View {
     var body: some View {
         NavigationStack {
             TimelineView(.periodic(from: .now, by: 5)) { _ in
+                ScrollViewReader { reader in
                 Form {
                     Section {
                         HStack(spacing: 16) {
@@ -75,14 +79,44 @@ struct FamilySettingsView: View {
                         }
                     }
                     if working { ProgressView("Saving…") }
-                    if let error { Section { Text(error).foregroundStyle(Theme.ink).accessibilityIdentifier("family-error") } }
+                    if let error { Section { Text(error).foregroundStyle(Theme.ink).accessibilityIdentifier("family-error") }.id("family-error-section") }
+                    AIDataPermissionView(family: family)
+                    if family.family == nil || family.parentUnlocked {
+                        Section("Privacy and support") {
+                            Link("Privacy policy", destination: URL(string: "https://pocket.changhai.me/privacy")!)
+                            Link("Contact support", destination: URL(string: "https://pocket.changhai.me/support")!)
+                            Button("Delete account and data", role: .destructive) { confirmDeletion = true }
+                                .accessibilityIdentifier("delete-account")
+                        }
+                    }
                 }.disabled(working).scrollContentBackground(.hidden).background(ExplorerBackdrop())
+                    .onChange(of: error) { _, message in
+                        if message != nil { reader.scrollTo("family-error-section", anchor: .center) }
+                    }
+                    .onChange(of: family.parentUnlocked, initial: true) { _, unlocked in
+                        if reviewAI && unlocked && family.recoveryCode == nil { reader.scrollTo("ai-permission-section", anchor: .top) }
+                    }
+                    .onChange(of: family.recoveryCode) { _, code in
+                        if reviewAI && code == nil && family.parentUnlocked { reader.scrollTo("ai-permission-section", anchor: .top) }
+                    }
+                }
             }
             .navigationTitle("Family settings").navigationBarTitleDisplayMode(.inline)
             .toolbar { Button("Done") { dismiss() }.accessibilityIdentifier("family-done") }
         }.tint(Theme.forest)
+            .alert("Delete account and data?", isPresented: $confirmDeletion) {
+                Button("Delete permanently", role: .destructive) {
+                    do {
+                        let token = try family.deletionToken()
+                        Task { await removal.start(parent: token) }
+                    } catch { self.error = error.localizedDescription }
+                }.accessibilityIdentifier("confirm-delete-account")
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                Text("This removes your profile, journal, conversations and shared links. Cards already received by friends remain with them. This cannot be undone.")
+            }
             .onAppear { loadProfile(); try? family.endActive() }
-            .onDisappear { family.beginActive(); Task { await family.lock(connection: try? ConnectionVault().loadOrCreate()) } }
+            .onDisappear { if !removal.active { family.beginActive(); Task { await family.lock(connection: try? ConnectionVault().loadOrCreate()) } } }
     }
 
     private var profileFields: some View {

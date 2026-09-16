@@ -32,6 +32,19 @@ final class QuestionFlowTests: XCTestCase {
         capture("question-resumed-answer")
     }
 
+    func testSpeechPermissionDenialKeepsTypingAvailable() {
+        app.buttons["home-ask"].tap()
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let deny = springboard.buttons.matching(NSPredicate(format: "label IN %@", ["Don't Allow", "Don’t Allow"])).firstMatch
+        if deny.waitForExistence(timeout: 10) { deny.tap() }
+        let error = app.staticTexts["exploration-error"]
+        XCTAssertTrue(error.waitForExistence(timeout: 10))
+        XCTAssertTrue(error.label.contains("Speech recognition is off"))
+        input.tap(); input.typeText("Why is the Moon bright?")
+        XCTAssertEqual(input.value as? String, "Why is the Moon bright?")
+        capture("speech-permission-denied-typing-available")
+    }
+
     private func completePendingAnswer() {
         let complete = expectation(description: "The answer finishes while the child is away")
         var request = URLRequest(url: URL(string: (FixtureServer.base + "/__fixture/answers/complete"))!)

@@ -37,6 +37,15 @@ final class FamilyTests: XCTestCase {
         while stream.hasBytesAvailable { let n = stream.read(&buffer, maxLength: buffer.count); if n <= 0 { break }; data.append(buffer, count: n) }
         return data
     }
+    func testDeletionAuthorizationRequiresAnUnexpiredParentSession() async throws {
+        let family = try make()
+        XCTAssertNil(try family.deletionToken())
+        serve()
+        try await family.setup(profile: remote.profile, pin: "926418", connection: connection)
+        XCTAssertEqual(try family.deletionToken(), token)
+        elapsed += 601
+        XCTAssertThrowsError(try family.deletionToken())
+    }
     func serve() {
         DiscoveryHTTPProtocol.respond = { request in
             XCTAssertEqual(request.value(forHTTPHeaderField: "Authorization"), "Bearer \(self.connection.ownerKey)")
