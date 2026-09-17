@@ -12,6 +12,7 @@ import XCTest
         continueAfterFailure = false
         _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/reset")!)
         let (data, _) = try await URLSession.shared.data(from: URL(string: base + "/__fixture/social/seed")!); seed = try JSONDecoder().decode(Seed.self, from: data)
+        app.resetAuthorizationStatus(for: .location)
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "--empty-journal", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
         app.launchEnvironment["POCKET_SHARE_BASE_URL"] = base; app.launch()
         XCTAssertTrue(button("language-continue").waitForExistence(timeout: 15)); button("language-continue").tap()
@@ -21,9 +22,21 @@ import XCTest
     }
     private func reach(_ element: XCUIElement) {
         _ = element.waitForExistence(timeout: 2)
-        for _ in 0..<12 where !element.isHittable { app.swipeUp() }; XCTAssertTrue(element.isHittable)
+        for attempt in 0..<20 {
+            if element.isHittable { break }
+            if element.exists && element.frame.maxY < app.navigationBars.firstMatch.frame.maxY + 10 {
+                app.swipeDown()
+            } else if !element.exists && attempt >= 5 && attempt < 15 {
+                app.swipeDown()
+            } else { app.swipeUp() }
+        }
+        XCTAssertTrue(element.isHittable)
     }
-    private func tap(_ id: String) { let target = button(id); reach(target); target.tap() }
+    private func tap(_ id: String) {
+        let target = button(id); reach(target)
+        if ["map-share-location", "find-events"].contains(id) { PitchFixtureServer.setEventLocation() }
+        target.tap()
+    }
     private func capture(_ name: String) {
         let image = XCTAttachment(screenshot: app.screenshot()); image.name = name; image.lifetime = .keepAlways; add(image)
     }
@@ -83,10 +96,7 @@ import XCTest
         tap("save-discovery"); app.unlockSavedObservation(); tap("reveal-card")
         XCTAssertTrue(app.tabBars.buttons["Map"].isHittable)
         tap("new-card-map"); tap("map-share-location")
-        if app.alerts.firstMatch.waitForExistence(timeout: 2) {
-            let allow = app.alerts.buttons.matching(NSPredicate(format: "label CONTAINS %@", "While Using")).firstMatch
-            if allow.exists { allow.tap() }
-        }
+        app.allowLocationIfRequested()
         tap("publish-map-card")
         XCTAssertTrue(app.staticTexts["map-published"].waitForExistence(timeout: 15) || app.otherElements["map-published"].exists)
         let (bytes, response) = try await URLSession.shared.data(from: URL(string: base + "/api/map-discoveries?latitude=-33.87&longitude=151.21")!)
@@ -115,7 +125,7 @@ import XCTest
         XCTAssertTrue(button("friend-shared-map").waitForExistence(timeout: 15))
         XCTAssertTrue(button("friend-shared-cards").exists)
         tap("friend-shared-map")
-        XCTAssertTrue(button("friend-section-cards").isSelected)
+        XCTAssertTrue(app.staticTexts["Your friend's discoveries"].waitForExistence(timeout: 10))
         app.navigationBars.buttons["BackButton"].tap()
         tap("friend-options")
         for option in ["Mute notifications", "Remove friend", "Block friend", "Report a concern"] {
@@ -143,7 +153,10 @@ import XCTest
         XCTAssertTrue(button("home-question").waitForExistence(timeout: 5))
         app.tabBars.buttons["Map"].tap()
         XCTAssertTrue(button("event-share-send").exists, "Map keeps its last browsing position after Home")
-        tap("navigation-home"); app.tabBars.buttons["Map"].tap()
+        for _ in 0..<4 {
+            if button("open-collection").exists { break }
+            app.navigationBars.buttons["BackButton"].tap()
+        }
         tap("open-collection"); tap("collection-quiz-notification")
         let practice = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'practice-open-'" )).firstMatch
         reach(practice); practice.tap()
@@ -189,7 +202,7 @@ import XCTest
         socialTabs.buttons["Shared with Me"].tap()
         let sharedCard = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "Moon neighbour")).firstMatch
         XCTAssertTrue(sharedCard.waitForExistence(timeout: 5)); capture("social-shared-card-overview")
-        sharedCard.tap(); XCTAssertTrue(button("friend-exchange").waitForExistence(timeout: 5))
+        sharedCard.tap(); XCTAssertTrue(button("friend-request-card").waitForExistence(timeout: 5))
         app.navigationBars.buttons["BackButton"].tap()
         socialTabs.buttons["Friends"].tap(); tap("friend-open-\(id)"); tap("friend-profile-message")
         tap("Friendship options"); tap("Report a concern"); tap("Privacy")

@@ -18,7 +18,14 @@ import XCTest
     }
     private func reach(_ element: XCUIElement) {
         XCTAssertTrue(element.waitForExistence(timeout: 10))
-        for _ in 0..<10 where !element.isHittable { app.swipeUp() }
+        for _ in 0..<24 {
+            let top = app.navigationBars.firstMatch.exists ? app.navigationBars.firstMatch.frame.maxY + 12 : 62
+            let mapAction = button("new-card-map")
+            let bottom = mapAction.exists ? mapAction.frame.minY - 20 : app.tabBars.firstMatch.frame.minY - 12
+            if element.isHittable && element.frame.minY >= top && element.frame.midY < bottom { break }
+            let start = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: app.frame.midX, dy: (top + bottom) / 2))
+            start.press(forDuration: 0.05, thenDragTo: start.withOffset(CGVector(dx: 0, dy: element.frame.minY < top ? 150 : -150)))
+        }
         XCTAssertTrue(element.isHittable)
     }
     private func capture(_ name: String) {
@@ -50,6 +57,9 @@ import XCTest
         capture("card-wrong-answer-retry")
         button("quiz-retry").tap()
         correctAndReveal()
+        reach(button("Versions")); button("Versions").tap()
+        XCTAssertTrue(app.staticTexts["V1"].waitForExistence(timeout: 5))
+        capture("card-version-gallery-v1")
         reach(button("card-history")); button("card-history").tap()
         XCTAssertTrue(app.staticTexts["Growing knowledge"].waitForExistence(timeout: 5))
         capture("card-immutable-history-v1")
@@ -62,6 +72,10 @@ import XCTest
         button("save-discovery").tap()
         reach(button("pending-quiz")); button("pending-quiz").tap()
         correctAndReveal()
+        reach(button("Versions")); button("Versions").tap()
+        XCTAssertTrue(app.staticTexts["V1"].exists)
+        XCTAssertTrue(app.staticTexts["V2"].exists)
+        capture("card-version-gallery-v1-v2")
         reach(button("card-history")); button("card-history").tap()
         XCTAssertTrue(app.staticTexts["V2"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["V1"].exists)

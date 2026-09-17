@@ -9,7 +9,7 @@ The ignored .local/testflight directory contains the existing App Store Connect 
 Use the installed Homebrew Ruby and existing local bundle:
 
 ```sh
-DEVELOPER_DIR="/Applications/Xcode-27-RC.app/Contents/Developer" \
+DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" \
 PATH="/opt/homebrew/opt/ruby/bin:$PATH" \
   python3 scripts/release/local-testflight.py --expected-xcode-build 27A266a \
   --output "$HOME/tmp/review/pocket-release-archive" --archive-only
@@ -20,7 +20,7 @@ The output directory must be new. Without either release flag, the script only w
 After verification, use a new output directory and --publish:
 
 ```sh
-DEVELOPER_DIR="/Applications/Xcode-27-RC.app/Contents/Developer" \
+DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" \
 PATH="/opt/homebrew/opt/ruby/bin:$PATH" \
   python3 scripts/release/local-testflight.py --expected-xcode-build 27A266a \
   --output "$HOME/tmp/review/pocket-release-upload" --publish

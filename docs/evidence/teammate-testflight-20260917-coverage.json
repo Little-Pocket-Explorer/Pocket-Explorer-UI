@@ -1,0 +1,93 @@
+{
+  "policy": "Every changed Swift file needs 80% lines from a matching-source test run. Use the best complete run for each file.",
+  "passed": true,
+  "files": [
+    {
+      "file": "ios/PocketExplorer/Cards/CardViews.swift",
+      "coverage": 0.8899398108340498,
+      "covered": 1035,
+      "executable": 1163,
+      "sourceHash": "a3c432caf6efe0d28e49b5a11eb18a5205087ccf460426d998447c83d9c81ec2"
+    },
+    {
+      "file": "ios/PocketExplorer/Events/EventDetailView.swift",
+      "coverage": 0.9035294117647059,
+      "covered": 384,
+      "executable": 425,
+      "sourceHash": "f9fbc67aa4e87a6f12751c4255bb1a07b30f919fc103a31e680468e54bf27062"
+    },
+    {
+      "file": "ios/PocketExplorer/Memories/DiscoveryRemindersView.swift",
+      "coverage": 0.8467153284671532,
+      "covered": 464,
+      "executable": 548,
+      "sourceHash": "1fb7bd21974a711fc838a65d49dc7f56d0e3b7d90916ef3e5a23eac0a3cb539b"
+    },
+    {
+      "file": "ios/PocketExplorer/Memories/MemoryBuilder.swift",
+      "coverage": 1,
+      "covered": 60,
+      "executable": 60,
+      "sourceHash": "26cb514ff4c10f2908fab7e0ccfbac0b17dbebf398a371b2cac7d986df2a605b"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/EventMessage.swift",
+      "coverage": 0.9777777777777777,
+      "covered": 44,
+      "executable": 45,
+      "sourceHash": "fe789b729605e3f70cdea9150630098f93448e45bc415c831f4137ae8452a6b6"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/EventShareView.swift",
+      "coverage": 0.9653179190751445,
+      "covered": 167,
+      "executable": 173,
+      "sourceHash": "6a845f7efc813c2ba00aeb1cfbf29918224d6a8ca4d37d677997fd4e520ee783"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/FriendProfileView.swift",
+      "coverage": 0.9185441941074524,
+      "covered": 530,
+      "executable": 577,
+      "sourceHash": "700817bf42e552f99d6c59f9ba18fe58a7ca9a9fbc95dc1d7d8c3d322d88eb72"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/FriendsView.swift",
+      "coverage": 0.8528138528138528,
+      "covered": 394,
+      "executable": 462,
+      "sourceHash": "8cf24fc1efb8c82cc14f22cff824e9dd6e03853881e03269b73d534fa62a56de"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/GiftComposerView.swift",
+      "coverage": 0.9854014598540146,
+      "covered": 270,
+      "executable": 274,
+      "sourceHash": "c0e5f6e1d1ec1b2bb467fcfc9ed4f1bbd592e0542adb9518c5747c4e09620567"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/ReferenceSocialView.swift",
+      "coverage": 0.9633699633699634,
+      "covered": 526,
+      "executable": 546,
+      "sourceHash": "de2c388c488f1b3d41b75c19c4bacd83dd42a17cbc795005052ad97a74b89f2a"
+    },
+    {
+      "file": "ios/PocketExplorer/Social/SocialStore.swift",
+      "coverage": 0.9533678756476683,
+      "covered": 184,
+      "executable": 193,
+      "sourceHash": "e5ca8dac9fc4603ce716f3713fc9497abba04f803926ecb424f173d35ba096d0"
+    },
+    {
+      "file": "ios/PocketExplorer/World/WorldView.swift",
+      "coverage": 0.9915611814345991,
+      "covered": 235,
+      "executable": 237,
+      "sourceHash": "1d6cc33110818a95577411f2b7a7cdc4d558f18c6ff556a6e00a2177a827703d"
+    }
+  ],
+  "missing": [],
+  "belowThreshold": [],
+  "evidenceDirectory": "~/tmp/review/pocket-testflight-20260917"
+}

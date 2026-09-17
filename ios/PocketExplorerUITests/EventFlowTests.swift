@@ -6,6 +6,7 @@ import XCTest
     override func setUp() async throws {
         continueAfterFailure = false
         _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/reset")!)
+        app.resetAuthorizationStatus(for: .location)
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "--empty-journal", "-AppleLanguages", "(en)", "-AppleLocale", "en_AU"]
         app.launchEnvironment["POCKET_SHARE_BASE_URL"] = base
         app.launch()
@@ -34,11 +35,8 @@ import XCTest
         reach(button("family-create")); button("family-create").tap()
         XCTAssertTrue(app.staticTexts["family-recovery-code"].waitForExistence(timeout: 15)); button("family-recovery-saved").tap()
         button("family-done").tap()
-        reach(button("find-events")); button("find-events").tap()
-        if app.alerts.firstMatch.waitForExistence(timeout: 2) {
-            let allow = app.alerts.buttons.matching(NSPredicate(format: "label CONTAINS %@", "While Using")).firstMatch
-            if allow.exists { allow.tap() }
-        }
+        reach(button("find-events")); PitchFixtureServer.setEventLocation(); button("find-events").tap()
+        app.allowLocationIfRequested()
         let event = button("nearby-event-77777777-7777-4777-8777-777777777777")
         reach(event); capture("nearby-native-map-and-event"); event.tap()
         reach(button("Refresh event")); button("Refresh event").tap()
@@ -46,7 +44,7 @@ import XCTest
         reach(button("event-claim")); button("event-claim").tap()
         XCTAssertTrue(app.staticTexts["event-error"].waitForExistence(timeout: 5))
         for _ in 0..<5 where !button("event-location").isHittable { app.swipeDown() }
-        button("event-location").tap()
+        PitchFixtureServer.setEventLocation(); button("event-location").tap()
         reach(button("event-choice-1")); button("event-choice-1").tap()
         reach(button("event-claim")); button("event-claim").tap()
         XCTAssertTrue(app.staticTexts["event-feedback"].waitForExistence(timeout: 15)); capture("event-wrong-answer-keeps-challenge")
@@ -93,11 +91,8 @@ import XCTest
         reach(button("Family settings")); button("Family settings").tap()
         pin("926418"); pin("926418", confirm: true); reach(button("family-create")); button("family-create").tap()
         XCTAssertTrue(app.staticTexts["family-recovery-code"].waitForExistence(timeout: 15)); button("family-recovery-saved").tap(); button("family-done").tap()
-        reach(button("find-events")); button("find-events").tap()
-        if app.alerts.firstMatch.waitForExistence(timeout: 2) {
-            let allow = app.alerts.buttons.matching(NSPredicate(format: "label CONTAINS %@", "While Using")).firstMatch
-            if allow.exists { allow.tap() }
-        }
+        reach(button("find-events")); PitchFixtureServer.setEventLocation(); button("find-events").tap()
+        app.allowLocationIfRequested()
         let shared = button("nearby-shared-\(mapID)"); reach(shared); shared.tap()
         XCTAssertTrue(app.staticTexts["Moon neighbour"].waitForExistence(timeout: 10))
         reach(app.staticTexts["Shared in this area"]); capture("shared-card-opened-from-nearby-map")
@@ -110,7 +105,7 @@ import XCTest
         app.open(URL(string: "pocketexplorer://events/77777777-7777-4777-8777-777777777777")!)
         XCTAssertTrue(app.staticTexts["Sky watchers"].waitForExistence(timeout: 15))
         capture("event-link-over-profile-sheet")
-        button("Done").tap()
+        app.navigationBars.buttons["BackButton"].tap()
         XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 5))
     }
 }

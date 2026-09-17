@@ -12,18 +12,31 @@ import XCTest
     }
     private func reach(_ element: XCUIElement) {
         _ = element.waitForExistence(timeout: 2)
-        for _ in 0..<20 where !element.isHittable || (element.elementType == .switch && element.frame.midY > app.frame.maxY - 120) {
-            app.swipeUp()
+        for attempt in 0..<30 {
+            let top = (app.navigationBars.allElementsBoundByIndex.last?.frame.maxY ?? 100) + 12
+            let bottom = app.keyboards.firstMatch.exists ? app.keyboards.firstMatch.frame.minY - 20 : app.frame.maxY - 120
+            let centerVisible = element.exists && element.frame.midY >= top && element.frame.midY <= bottom
+            let inToolbar = element.exists && app.navigationBars.allElementsBoundByIndex.contains { $0.frame.contains(element.frame) }
+            let needsCenter = element.exists && (element.frame.height > 80 || element.elementType == .switch)
+            if element.isHittable && (element.elementType == .staticText || !needsCenter || centerVisible || inToolbar) { break }
+            let downward = element.exists ? element.frame.midY < top : attempt >= 12 && attempt < 24
+            let start = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: app.frame.midX, dy: (top + bottom) / 2))
+            start.press(forDuration: 0.05, thenDragTo: start.withOffset(CGVector(dx: 0, dy: downward ? 160 : -160)))
         }
         XCTAssertTrue(element.isHittable)
     }
-    private func tap(_ id: String) { let element = button(id); reach(element); element.tap() }
+    private func tap(_ id: String) {
+        let element = button(id); reach(element)
+        if id == "find-events" { PitchFixtureServer.setEventLocation() }
+        element.tap()
+    }
     private func capture(_ name: String) {
         let shot = XCTAttachment(screenshot: app.screenshot()); shot.name = name; shot.lifetime = .keepAlways; add(shot)
     }
     private func exercise(_ language: String, done: String, large: Bool = false) async throws {
         continueAfterFailure = false; self.done = done
         _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/reset")!)
+        app.resetAuthorizationStatus(for: .location)
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "--empty-journal", "-AppleLanguages", "(\(language))", "-AppleLocale", language]
         if large { app.launchArguments += ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"] }
         app.launchEnvironment["POCKET_SHARE_BASE_URL"] = base; app.launch()
@@ -65,12 +78,10 @@ import XCTest
         tap("event-recipient-\(id)")
         reach(button("event-share-send")); capture("pitch-\(language)-event-share-\(large)")
         XCTAssertTrue(button("navigation-home").isHittable)
-        app.navigationBars.buttons["BackButton"].tap(); tap(done)
+        app.navigationBars.buttons["BackButton"].tap()
+        app.navigationBars.buttons["BackButton"].tap()
         app.tabBars.buttons.element(boundBy: 1).tap(); tap("open-nearby"); tap("find-events")
-        if app.alerts.firstMatch.waitForExistence(timeout: 2) {
-            let allow = app.alerts.buttons.matching(NSPredicate(format: "label CONTAINS %@", "While Using")).firstMatch
-            if allow.exists { allow.tap() }
-        }
+        app.allowLocationIfRequested()
         reach(button("nearby-event-77777777-7777-4777-8777-777777777777")); capture("pitch-\(language)-nearby-\(large)")
         app.terminate()
     }

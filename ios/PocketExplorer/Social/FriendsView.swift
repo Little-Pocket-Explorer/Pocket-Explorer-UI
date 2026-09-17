@@ -24,7 +24,11 @@ struct FriendDetailView: View {
         }
         .safeAreaInset(edge: .bottom, spacing: 0) { if allowed && page == 0 { composer } }
         .scrollDismissesKeyboard(.interactively).background(ExplorerBackdrop()).navigationBarTitleDisplayMode(.inline)
-            .toolbar { Button { safety = true } label: { Image(systemName: "ellipsis.circle") }.accessibilityLabel("Friendship options") }
+            .toolbar {
+                Button { reload() } label: { Image(systemName: "arrow.clockwise").frame(minWidth: 44, minHeight: 44) }
+                    .accessibilityLabel("Refresh friendship").accessibilityIdentifier("friend-refresh").disabled(working)
+                Button { safety = true } label: { Image(systemName: "ellipsis.circle") }.accessibilityLabel("Friendship options")
+            }
             .confirmationDialog("Friendship options", isPresented: $safety) {
                 Button("Report a concern") { report = true }
                 Button("Block friend", role: .destructive) { run { try await store.social.action("block", friendID: friendID, connection: $0) } }
@@ -125,7 +129,6 @@ struct FriendDetailView: View {
                 else { transfers }
                 if working { ProgressView() }
                 if let error { Text(error).foregroundStyle(Theme.muted).accessibilityIdentifier("social-error") }
-                Button("Refresh friendship") { reload() }.accessibilityIdentifier("friend-refresh")
             }.padding(20)
         }
     }

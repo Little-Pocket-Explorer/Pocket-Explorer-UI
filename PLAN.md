@@ -1,5 +1,10 @@
 # Pocket Explorer: Implementation Plan
 
+## Teammate TestFlight delivery (2026-09-17)
+
+Qualify upstream c0149a6 against build 21, including social messages, event sharing, card versions and recall entry. Run native units, affected UI journeys and the 80% changed-Swift coverage gate. Fix reproduced release defects, preserve all ten languages and publish from this Mac. Independently read Apple's build processing and internal group membership. Keep the submitted App Store version attached to build 21.
+
+
 ## App Store submission complete (2026-09-16 22:09 AEST)
 
 - Pocket Explorer 1.0 (21) was submitted at 2026-09-16T12:09:12.422Z. Apple's page showed "1 Item Submitted", and independent version and submission API reads both confirm WAITING_FOR_REVIEW. Submission ID: 3ae5a282-1ec0-471b-a75f-2676572a254b. Release remains AFTER_APPROVAL. Approval and public availability have not yet occurred.

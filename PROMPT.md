@@ -1,5 +1,10 @@
 # Pocket Explorer: Continuation Brief
 
+## Active: teammate TestFlight update (2026-09-17)
+
+The owner requested pulling and publishing the newly pushed c0149a6. The clean release worktree has fast-forwarded to that commit. Use TODO's current qualification record, preserve the dirty primary checkout, and release locally with Xcode 27A266a. Do not replace or withdraw App Store 1.0 build 21. Native runtime qualification now passes on this Mac. See the current TODO and dated evidence document, then complete the authorized local upload and independent verification.
+
+
 ## App Store submission complete (2026-09-16 22:09 AEST)
 
 - Pocket Explorer 1.0 (21) was submitted at 2026-09-16T12:09:12.422Z. Apple's page showed "1 Item Submitted", and independent version and submission API reads both confirm WAITING_FOR_REVIEW. Submission ID: 3ae5a282-1ec0-471b-a75f-2676572a254b. Release remains AFTER_APPROVAL. Approval and public availability have not yet occurred.

@@ -1,7 +1,10 @@
-Pocket Explorer 1.0 adds explicit cloud AI data permission and account deletion while preserving Chat, Map, Social, memories, cards and all ten languages.
+This update improves the connected discovery journey, friend conversations and event sharing.
 
-To use live AI, open your profile and Family settings, create or unlock the six-digit PIN, then review and allow Cloud AI data use. Prepared discoveries remain available before permission. You can withdraw AI permission and delete the account from Family settings.
+- Open event sharing from the event's top-right share button, copy its link, or search for a friend and send the invitation.
+- Browse friend activity and shared cards, send messages, and offer a card when requesting an exchange.
+- Open Discovery Quizzes from Map or Collection. Fresh discoveries can be practiced with Quiz me now.
+- Inspect Story, Knowledge, Versions and Location in card details.
 
-Speech recognition now requires on-device support. If it is unavailable or permission is denied, continue typing. Please test AI permission, withdrawal, deletion, voice fallback, card creation, sharing and navigation in your preferred language.
+Please test the journey from an answer to a card, Map, a nearby event, friend sharing, card exchange and a quiz. Also check large text, your preferred language and returning Home from each step.
 
-The new backend requires this version for live AI. Update from earlier TestFlight builds before testing new questions.
+All ten languages, private demonstration content, existing cards, family permissions and account deletion remain available. Prepared demo content updates through Refresh demo content in My profile. Live AI still requires explicit Cloud AI data permission in Family settings.

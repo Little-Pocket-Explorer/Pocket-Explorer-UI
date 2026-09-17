@@ -151,7 +151,8 @@ struct CardDetailView: View {
                                                     Text("V\(version.version)").font(.caption.bold()).foregroundStyle(Theme.forest)
                                                     Text(version.reply.title).font(.subheadline.bold()).lineLimit(2)
                                                     Text(L10n.date(Date(timeIntervalSince1970: version.awardedAt / 1000))).font(.caption2).foregroundStyle(Theme.muted)
-                                                }.padding(12).frame(width: 138, minHeight: 96, alignment: .leading)
+                                                }.padding(12).frame(width: 138, alignment: .leading)
+                                                    .frame(minHeight: 96, alignment: .leading)
                                                     .background(Theme.mint, in: RoundedRectangle(cornerRadius: 16))
                                             }
                                         }

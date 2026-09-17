@@ -78,7 +78,7 @@ struct EventDetailView: View {
                     openingFriendShare = true
                     sharing = false
                 })
-                .presentationDetents([.medium]).presentationDragIndicator(.visible)
+                .presentationDetents([.medium, .large]).presentationDragIndicator(.visible)
             }
     }
     private var challengeChoices: some View {
@@ -111,29 +111,31 @@ private struct EventShareOptions: View {
     let allowsFriends: Bool
     let onFriend: () -> Void
     @Environment(\.dismiss) private var dismiss
-    private var url: URL? { try? ConnectionVault().loadOrCreate().validatedURL.appendingPathComponent("events/\(event.id)") }
+    private var url: URL? { try? ConnectionVault().loadOrCreate().validatedURL?.appendingPathComponent("events/\(event.id)") }
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 12) {
-                EventSharePreview(event: event)
-                if let message { Text(message).font(.caption).foregroundStyle(Theme.muted).accessibilityIdentifier("event-share-message") }
-                if allowsFriends {
-                    Button(action: onFriend) { shareRow("Share to friend", detail: "Send privately in Messages", symbol: "person.2.fill") }
-                        .buttonStyle(.plain).accessibilityIdentifier("event-share-friend")
-                }
-                if let url, allowsSharing {
-                    Button {
-                        UIPasteboard.general.url = url
-                        message = L10n.text("Link copied.")
-                    } label: { shareRow("Copy link", detail: "Share outside Pocket Explorer", symbol: "link") }
-                        .buttonStyle(.plain).accessibilityIdentifier("event-copy-link")
-                }
-                if !allowsSharing {
-                    Text("A grown-up can turn on sharing in Family settings.").font(.callout).foregroundStyle(Theme.muted)
-                }
-                Spacer(minLength: 0)
-            }.padding(20).background(Theme.paper)
+            ScrollView {
+                VStack(spacing: 12) {
+                    EventSharePreview(event: event)
+                    if let message { Text(message).font(.caption).foregroundStyle(Theme.muted).accessibilityIdentifier("event-share-message") }
+                    if allowsFriends {
+                        Button(action: onFriend) { shareRow("Share to friend", detail: "Send privately in Messages", symbol: "person.2.fill") }
+                            .buttonStyle(.plain).accessibilityIdentifier("event-share-friend")
+                    }
+                    if let url, allowsSharing {
+                        Button {
+                            UIPasteboard.general.url = url
+                            message = L10n.text("Link copied.")
+                        } label: { shareRow("Copy link", detail: "Share outside Pocket Explorer", symbol: "link") }
+                            .buttonStyle(.plain).accessibilityIdentifier("event-copy-link")
+                    }
+                    if !allowsSharing {
+                        Text("A grown-up can turn on sharing in Family settings.").font(.callout).foregroundStyle(Theme.muted)
+                    }
+                    Spacer(minLength: 0)
+                }.padding(20)
+            }.background(Theme.paper)
                 .navigationTitle("Share event").navigationBarTitleDisplayMode(.inline)
                 .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Done") { dismiss() } } }
         }.tint(Theme.forest)
