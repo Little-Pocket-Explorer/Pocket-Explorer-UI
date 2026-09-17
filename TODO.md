@@ -1,12 +1,16 @@
 # Pocket Explorer: Current Execution State
 
-## IN_PROGRESS: qualified teammate TestFlight upload (2026-09-17)
+## DONE: teammate TestFlight 1.0 (22) delivered (2026-09-17)
 
 - Pulled c0149a6 and preserved the primary checkout. Corrected the two Swift compilation failures, restored conversation refresh, and made event sharing scrollable and expandable.
 - Qualification is complete: all 193 unit cases pass after their prerequisites, 19 affected UI cases have passing latest results, zero latest failures, and one unchanged warm-link driver test is explicitly skipped. Every changed product Swift file exceeds 80% coverage, minimum 84.67%. Ten catalogs have 650 matching keys.
 - Actual local Worker/D1/R2 integration, event award and map revocation, message retry and exchanges, Chinese/Arabic including maximum text, card V1/V2 evolution and persistence, and Jacky's complete journey pass. Reviewed screenshots are in ~/tmp/review/pocket-testflight-20260917.
-- Next: commit and push with [skip ci], publish using scripts/release/local-testflight.py from this Mac, then independently verify Apple processing, group membership, IPA signature/source hashes, and continued App Store submission on build 21. No new upload has occurred yet.
+- Published source 2cb49c6 from this Mac with Xcode 27A266a. Independent Apple reads at 2026-09-17T11:01:21Z confirm build 22 is VALID and belongs to Hackathon Internal. The release lane confirms IN_BETA_TESTING. The IPA signature, release entitlements, source snapshot and all ten compiled localization dictionaries were verified.
+- App Store review remains WAITING_FOR_REVIEW with build 21 attached. No review submission was replaced or withdrawn. No Backend deployment or native GitHub runner was needed.
+- Release work is complete. Evidence: docs/evidence/teammate-testflight-22.json and docs/evidence/teammate-testflight-20260917.md. Owned test processes, fixtures, simulators and temporary signing resources have been cleaned up. Do not repeat qualification or upload without a new change.
 - The warm-link host-driver check and physical-device acceptance are distinct from the completed regression. Follow-up UI semantics are recorded in docs/evidence/teammate-testflight-20260917.md.
+
+Earlier dated checkpoints below are historical and superseded where they conflict with this delivery record.
 
 ## Native Event share reference alignment pending macOS qualification (2026-09-17)
 

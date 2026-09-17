@@ -1,0 +1,68 @@
+{
+  "sourceCommit": "2cb49c6ce92799f4be9bc63d679783f574566f3e",
+  "upstreamTeammateCommit": "c0149a60dea3d151ac8caa9cc17c866a7bd4aeac",
+  "sourceSnapshotSHA256": "0e99ba8649e2f5cafc85c76c3fc093541ba43d2e5cf035a0abcda3f7bcf475f3",
+  "releaseOrigin": "local",
+  "apple": {
+    "checkedAt": "2026-09-17T11:01:21.420642+00:00",
+    "appId": "6810920731",
+    "version": "1.0",
+    "buildNumber": 22,
+    "buildId": "10d8a391-a095-49ad-9e2f-6a6614bea32d",
+    "processingState": "VALID",
+    "internalState": "IN_BETA_TESTING",
+    "internalStateEvidence": "Local release lane Apple API readback",
+    "internalGroup": "Hackathon Internal",
+    "internalGroupId": "61f0eb50-fc33-4ee4-93fd-2844342c7584",
+    "processingAndGroupIndependentlyVerified": true,
+    "externalDistributionVerified": false
+  },
+  "appStoreSubmission": {
+    "versionId": "d5ceaae6-e206-49c4-8952-bcb0b9ea051d",
+    "buildNumber": 21,
+    "buildId": "aeb45ee2-57e6-48c4-b247-49f0c476cd8d",
+    "reviewSubmissionId": "3ae5a282-1ec0-471b-a75f-2676572a254b",
+    "state": "WAITING_FOR_REVIEW",
+    "preserved": true
+  },
+  "qualification": {
+    "unitCasesPassed": 193,
+    "affectedUICasesPassed": 19,
+    "affectedUICasesFailed": 0,
+    "affectedUICasesSkipped": 1,
+    "policy": "Passing latest results across prerequisite-aware runs with matching product source, not a single full final invocation.",
+    "coveragePassed": true,
+    "minimumChangedSwiftLineCoverage": 0.8467153284671532,
+    "changedProductSwiftFiles": 12,
+    "coveragePolicy": "Every changed Swift file needs 80% lines from a matching-source test run. Use the best complete run for each file.",
+    "coverageRecord": "teammate-testflight-20260917-coverage.json",
+    "warmSystemLinkHostDriver": "Explicitly skipped because its separate host driver was not run",
+    "physicalDeviceAcceptance": "Separate from simulator qualification"
+  },
+  "ipaVerification": {
+    "bundleId": "com.haichang.pocketexplorer",
+    "version": "1.0",
+    "build": "22",
+    "xcodeBuild": "27A266a",
+    "teamId": "5B858997A3",
+    "signatureVerified": true,
+    "debugEntitlement": false,
+    "ipaSHA256": "f686c27ecf1b246376fb25e25eea09ecd4d937e40cf674f36f57508a65895cba",
+    "localizations": {
+      "ar.lproj": 650,
+      "de.lproj": 650,
+      "en.lproj": 650,
+      "es.lproj": 650,
+      "fr.lproj": 650,
+      "ja.lproj": 650,
+      "ko.lproj": 650,
+      "pt-BR.lproj": 650,
+      "zh-Hans.lproj": 650,
+      "zh-Hant.lproj": 650
+    }
+  },
+  "compiledLocalizationDictionariesMatchSource": true,
+  "backendDeploymentRequired": false,
+  "ownedTemporaryResourcesCleaned": true,
+  "evidenceDirectory": "/Users/haichang/tmp/review/pocket-testflight-20260917"
+}

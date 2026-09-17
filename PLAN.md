@@ -1,8 +1,10 @@
 # Pocket Explorer: Implementation Plan
 
-## Teammate TestFlight delivery (2026-09-17)
+## DONE: teammate TestFlight delivery (2026-09-17)
 
 Qualify upstream c0149a6 against build 21, including social messages, event sharing, card versions and recall entry. Run native units, affected UI journeys and the 80% changed-Swift coverage gate. Fix reproduced release defects, preserve all ten languages and publish from this Mac. Independently read Apple's build processing and internal group membership. Keep the submitted App Store version attached to build 21.
+
+Completed: source 2cb49c6 is available as TestFlight 1.0 (22) in Hackathon Internal. All 193 unit cases and 19 affected UI cases have passing results. All 12 changed product Swift files exceed 80% line coverage. Apple processing, group membership, the signed IPA and compiled localization catalogs are verified. App Store build 21 remains WAITING_FOR_REVIEW. See [delivery evidence](docs/evidence/teammate-testflight-22.json) and [qualification details](docs/evidence/teammate-testflight-20260917.md). Physical-device acceptance and the explicitly skipped warm-link host-driver check remain separate from this completed delivery.
 
 
 ## App Store submission complete (2026-09-16 22:09 AEST)

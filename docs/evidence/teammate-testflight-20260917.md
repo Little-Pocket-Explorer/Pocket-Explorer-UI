@@ -1,4 +1,4 @@
-# Teammate TestFlight qualification, 2026-09-17
+# Teammate TestFlight delivery, 2026-09-17
 
 The owner requested the latest teammate update as a new local TestFlight release. The release worktree fast-forwarded to `c0149a6`. The primary checkout and App Store submission using build 21 are preserved.
 
@@ -26,6 +26,12 @@ The teammate's Online label represents friendship availability, not a live conne
 
 ## Delivery
 
-Qualification is complete. Upload is pending. Native publication uses the existing local Fastlane lane, without a GitHub runner. The final Apple readback must confirm the new build is valid and assigned to Hackathon Internal, and that App Store review still uses build 21.
+TestFlight **1.0 (22)** is available in **Hackathon Internal**. Source `2cb49c6ce92799f4be9bc63d679783f574566f3e` was signed and uploaded with the existing local Fastlane lane and Xcode 27A266a. No GitHub runner or Backend deployment was used.
+
+Independent Apple API reads at `2026-09-17T11:01:21Z` confirm build `10d8a391-a095-49ad-9e2f-6a6614bea32d` is VALID and included in the internal group. The release lane reports IN_BETA_TESTING. App Store review remains WAITING_FOR_REVIEW with build 21 attached. The existing submission was not replaced or withdrawn.
+
+The exported IPA independently passes strict signature, bundle/version/build and release-entitlement checks. All ten compiled localization dictionaries exactly match source. Its SHA256 is `f686c27ecf1b246376fb25e25eea09ecd4d937e40cf674f36f57508a65895cba`. Owned fixtures, test simulators, processes and temporary signing resources were cleaned up.
+
+Machine-readable record: [teammate-testflight-22.json](teammate-testflight-22.json). Coverage record: [teammate-testflight-20260917-coverage.json](teammate-testflight-20260917-coverage.json).
 
 Local evidence: `~/tmp/review/pocket-testflight-20260917`.
