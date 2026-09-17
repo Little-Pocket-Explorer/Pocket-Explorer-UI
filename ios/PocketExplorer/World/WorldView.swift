@@ -9,6 +9,7 @@ struct WorldView: View {
     @State private var expanded = false
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    private var readyQuizCount: Int { store.state.discoveries.filter { ReminderPolicy.isEligible($0, now: Date()) }.count }
 
     var body: some View {
         GeometryReader { geometry in
@@ -41,6 +42,13 @@ struct WorldView: View {
             }
             Button { navigation?.open(.reminders) } label: {
                 Image(systemName: "leaf.arrow.triangle.circlepath").font(.system(size: 22)).frame(width: 52, height: 52).background(.white, in: Circle())
+                    .overlay(alignment: .topTrailing) {
+                        if readyQuizCount > 0 {
+                            Text(min(readyQuizCount, 99).formatted()).font(.caption2.bold()).foregroundStyle(Theme.forest)
+                                .frame(minWidth: 22, minHeight: 22).background(Theme.mint, in: Circle()).overlay(Circle().stroke(.white, lineWidth: 2))
+                                .accessibilityIdentifier("map-quiz-count")
+                        }
+                    }
             }.accessibilityLabel("Discovery reminders").accessibilityIdentifier("open-reminders")
         }.padding(16).shadow(color: .black.opacity(0.13), radius: 8, y: 3)
     }

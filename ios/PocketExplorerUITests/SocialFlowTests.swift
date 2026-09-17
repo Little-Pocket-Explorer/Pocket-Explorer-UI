@@ -5,7 +5,7 @@ import XCTest
     private var base: String { PitchFixtureServer.base }
     private struct Seed: Decodable { var key: String; var code: String; var cardID: String }
     private struct Page<T: Decodable>: Decodable { var items: [T] }
-    private struct Friend: Decodable { var id: String }
+    private struct Friend: Decodable { var id: String; var nickname: String? }
     private struct Transfer: Decodable { var id: String; var receivedCardID: String?; var kind: String; var state: String }
     private var seed: Seed!
     override func setUp() async throws {
@@ -56,8 +56,8 @@ import XCTest
         tap("family-save"); XCTAssertTrue(app.staticTexts["Family settings saved"].waitForExistence(timeout: 10)); tap("family-done")
     }
     private func section(_ name: String) {
-        for _ in 0..<10 where !app.segmentedControls["friend-pages"].buttons[name].isHittable { app.swipeDown() }
-        let target = app.segmentedControls["friend-pages"].buttons[name]; reach(target); target.tap()
+        let target = button("friend-section-\(name.lowercased())")
+        reach(target); target.tap()
     }
     func testJackyJourneyContinuesFromAIThroughMapEventProfileAndExchange() async throws {
         enableFriends(mapSharing: true)
@@ -65,8 +65,18 @@ import XCTest
         let input = app.textFields["friend-code-input"]; reach(input); input.tap(); input.typeText(seed.code); tap("friend-invite")
         XCTAssertTrue(app.staticTexts["Waiting for your friend"].waitForExistence(timeout: 15))
         let requests: Page<Friend> = try await peer("/api/social/friends"), id = try XCTUnwrap(requests.items.first?.id)
-        let _: Friend = try await peer("/api/social/friends/\(id)/actions", body: ["action": "accept"])
+        let accepted: Friend = try await peer("/api/social/friends/\(id)/actions", body: ["action": "accept"])
+        let _: [String: AnyDecodable] = try await peer("/api/social/friends/\(id)/messages", body: ["id": UUID().uuidString.lowercased(), "text": "I found a new card!"])
         tap("friends-refresh")
+        XCTAssertTrue(button("social-activity-\(seed.cardID)").waitForExistence(timeout: 15))
+        app.segmentedControls["social-tabs"].buttons["Messages"].tap()
+        XCTAssertTrue(app.staticTexts["Friends approved by a parent"].exists)
+        XCTAssertTrue(button("social-message-\(id)").waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["social-unread-\(id)"].exists)
+        tap("social-message-\(id)")
+        app.navigationBars.buttons["BackButton"].tap()
+        XCTAssertFalse(app.staticTexts["social-unread-\(id)"].exists)
+        app.segmentedControls["social-tabs"].buttons["Friends"].tap()
         app.tabBars.buttons["Chat"].tap()
         tap("daily-question-blue-sky")
         XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 10))
@@ -88,18 +98,40 @@ import XCTest
         tap("map-continue-nearby")
         XCTAssertTrue(app.tabBars.buttons["Map"].isSelected)
         tap("find-events"); tap("nearby-event-77777777-7777-4777-8777-777777777777")
-        tap("event-share-friend"); tap("event-recipient-\(id)"); tap("event-share-send")
+        tap("event-share-options"); tap("event-share-friend")
+        if let nickname = accepted.nickname {
+            let search = app.textFields["event-friend-search"]; reach(search); search.tap(); search.typeText(nickname)
+        }
+        tap("event-recipient-\(id)"); tap("event-share-send")
         XCTAssertTrue(button("conversation-profile").waitForExistence(timeout: 15))
+        XCTAssertTrue(app.descendants(matching: .any)["friend-presence-\(id)"].label.contains("Online"))
         XCTAssertTrue(app.tabBars.buttons["Social"].isSelected)
         struct Message: Decodable { var text: String }
         let messages: Page<Message> = try await peer("/api/social/friends/\(id)/messages")
-        XCTAssertEqual(messages.items.map(\.text), ["Sky watchers\n\(base)/events/77777777-7777-4777-8777-777777777777"])
+        XCTAssertEqual(messages.items.map(\.text), ["I found a new card!", "Sky watchers\n\(base)/events/77777777-7777-4777-8777-777777777777"])
         capture("jacky-event-shared-in-conversation")
         for _ in 0..<8 where !button("conversation-profile").isHittable { app.swipeDown() }
         tap("conversation-profile")
+        XCTAssertTrue(button("friend-shared-map").waitForExistence(timeout: 15))
+        XCTAssertTrue(button("friend-shared-cards").exists)
+        tap("friend-shared-map")
+        XCTAssertTrue(button("friend-section-cards").isSelected)
+        app.navigationBars.buttons["BackButton"].tap()
+        tap("friend-options")
+        for option in ["Mute notifications", "Remove friend", "Block friend", "Report a concern"] {
+            XCTAssertTrue(app.buttons[option].exists)
+        }
+        tap("Mute notifications")
+        XCTAssertTrue(app.staticTexts["Notifications muted"].waitForExistence(timeout: 5))
+        tap("friend-options"); tap("Report a concern"); tap("Privacy")
+        XCTAssertTrue(app.descendants(matching: .any)["friend-profile-reported"].waitForExistence(timeout: 15))
         tap("friend-activity-\(seed.cardID)")
         XCTAssertTrue(app.staticTexts["Moon neighbour"].waitForExistence(timeout: 10))
-        tap("friend-exchange"); tap("gift-send")
+        tap("friend-request-card")
+        XCTAssertTrue(app.descendants(matching: .any)["requested-card-title"].waitForExistence(timeout: 10))
+        let offered = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'exchange-offered-card-'")).firstMatch
+        reach(offered); offered.tap()
+        tap("exchange-send")
         XCTAssertTrue(app.staticTexts["transfer-sent"].waitForExistence(timeout: 15) || app.otherElements["transfer-sent"].exists)
         let offers: Page<Transfer> = try await peer("/api/social/friends/\(id)/transfers")
         let offer = try XCTUnwrap(offers.items.first { $0.kind == "exchange" && $0.state == "pending" })
@@ -111,7 +143,13 @@ import XCTest
         XCTAssertTrue(button("home-question").waitForExistence(timeout: 5))
         app.tabBars.buttons["Map"].tap()
         XCTAssertTrue(button("event-share-send").exists, "Map keeps its last browsing position after Home")
-        tap("navigation-home")
+        tap("navigation-home"); app.tabBars.buttons["Map"].tap()
+        tap("open-collection"); tap("collection-quiz-notification")
+        let practice = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'practice-open-'" )).firstMatch
+        reach(practice); practice.tap()
+        XCTAssertTrue(app.buttons["quiz-choice-0"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.tabBars.buttons["Chat"].isSelected)
+        capture("jacky-quiz-ready-in-chat")
     }
     func testPrivateFriendshipTextChatGiftExchangeAndBlock() async throws {
         enableFriends()
@@ -134,7 +172,10 @@ import XCTest
         capture("friend-gift-copy-confirmed"); tap("Done")
         let gifts: Page<Transfer> = try await peer("/api/social/friends/\(id)/transfers"); XCTAssertEqual(gifts.items.count, 2)
         section("Cards"); tap("friend-card-\(seed.cardID)"); XCTAssertTrue(app.staticTexts["Moon neighbour"].waitForExistence(timeout: 10)); capture("friend-card-original-artwork")
-        tap("friend-exchange"); tap("gift-send"); XCTAssertTrue(app.staticTexts["transfer-sent"].waitForExistence(timeout: 15) || app.otherElements["transfer-sent"].exists)
+        tap("friend-request-card")
+        let offered = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'exchange-offered-card-'")).firstMatch
+        reach(offered); offered.tap(); tap("exchange-send")
+        XCTAssertTrue(app.staticTexts["transfer-sent"].waitForExistence(timeout: 15) || app.otherElements["transfer-sent"].exists)
         tap("Done"); tap("Done")
         let offers: Page<Transfer> = try await peer("/api/social/friends/\(id)/transfers")
         let offer = try XCTUnwrap(offers.items.first { $0.kind == "exchange" && $0.state == "pending" })

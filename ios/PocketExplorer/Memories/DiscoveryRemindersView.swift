@@ -2,19 +2,27 @@ import SwiftUI
 
 struct DiscoveryRemindersView: View {
     let store: TripStore
+    var close: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @Environment(\.explorerNavigation) private var navigation
     @State private var notifications = RecallNotifications.shared
     @State private var requested = false
+    @State private var page = 0
     private var reminders: [Discovery] {
         store.state.discoveries.filter { ReminderPolicy.isEligible($0, now: Date()) }
     }
+    private var completed: [Discovery] { store.state.discoveries.filter { $0.recallReviewedAt != nil } }
+    private var practice: Discovery? { ReminderPolicy.practiceCandidate(store.state.discoveries, now: Date()) }
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 LeafBadge(symbol: "leaf.arrow.triangle.circlepath")
-                Text("A little look back").font(.system(.largeTitle, design: .rounded, weight: .black))
-                Text("Your past discoveries have a little question for you.").foregroundStyle(Theme.muted)
+                Text("Discovery Quizzes").font(.system(.largeTitle, design: .rounded, weight: .black))
+                Text("Ready when you are").foregroundStyle(Theme.muted)
+                Picker("Quiz status", selection: $page) {
+                    (Text("Ready") + Text(" \(reminders.count.formatted())")).tag(0)
+                    (Text("Completed") + Text(" \(completed.count.formatted())")).tag(1)
+                }.pickerStyle(.segmented).accessibilityIdentifier("quiz-status")
                 VStack(alignment: .leading, spacing: 12) {
                     Text("A gentle reminder, when you want one.").font(.headline)
                     Text("At most one afternoon reminder a day. No reminders while you explore.").font(.caption).foregroundStyle(Theme.muted)
@@ -29,8 +37,8 @@ struct DiscoveryRemindersView: View {
                     Button("Preview recall in Chat") { navigation?.open(.recall(discovery.id), in: .chat) }
                         .accessibilityIdentifier("demo-recall-preview").frame(minHeight: 44)
                 }
-                ForEach(reminders) { discovery in
-                    Button { navigation?.open(.recall(discovery.id), in: .chat) } label: {
+                ForEach(page == 0 ? reminders : completed) { discovery in
+                    Button { open(discovery.id) } label: {
                         HStack(spacing: 14) {
                             DiscoveryArtwork(discovery: discovery, store: store).frame(width: 70, height: 70).clipped().clipShape(RoundedRectangle(cornerRadius: 16))
                             VStack(alignment: .leading, spacing: 6) {
@@ -40,16 +48,35 @@ struct DiscoveryRemindersView: View {
                         }.padding(15).background(.white, in: RoundedRectangle(cornerRadius: 23))
                     }.buttonStyle(.plain).accessibilityIdentifier("recall-open-\(discovery.id)")
                 }
-                if reminders.isEmpty {
+                if page == 0, let practice {
+                    Button { open(practice.id) } label: {
+                        HStack(spacing: 14) {
+                            DiscoveryArtwork(discovery: practice, store: store).frame(width: 70, height: 70).clipped().clipShape(RoundedRectangle(cornerRadius: 16))
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Quiz me now").font(.headline)
+                                Text(practice.title).font(.subheadline)
+                            }; Spacer(); Image(systemName: "chevron.right")
+                        }.padding(15).background(.white, in: RoundedRectangle(cornerRadius: 23))
+                    }.buttonStyle(.plain).accessibilityIdentifier("practice-open-\(practice.id)")
+                }
+                if page == 0 && reminders.isEmpty && practice == nil {
                     Text("Nothing to catch up on. Come back after your next discovery.").padding(22).background(Theme.mint, in: RoundedRectangle(cornerRadius: 24))
                 }
-                ForEach(store.state.trips.filter { ReminderPolicy.isEligible($0, now: Date()) }) { trip in
+                if page == 1 && completed.isEmpty {
+                    Text("Completed quizzes will appear here.").padding(22).background(Theme.mint, in: RoundedRectangle(cornerRadius: 24))
+                }
+                ForEach(page == 0 ? store.state.trips.filter { ReminderPolicy.isEligible($0, now: Date()) } : []) { trip in
                     NavigationLink(value: ExplorerRoute.memory(trip.id)) {
                         TripRow(trip: trip, discoveries: store.discoveries(in: trip.id), store: store)
                     }.buttonStyle(.plain)
                 }
             }.padding(24)
-        }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink).toolbar { Button("Done") { if let navigation { navigation.back() } else { dismiss() } } }
+        }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink).toolbar { Button("Done") { if let close { close() } else if let navigation { navigation.back() } else { dismiss() } } }
+    }
+
+    private func open(_ id: UUID) {
+        close?()
+        navigation?.open(.recall(id), in: .chat)
     }
 }
 

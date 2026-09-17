@@ -24,31 +24,40 @@ struct GiftComposerView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     LeafBadge(symbol: "gift.fill")
-                    Text(L10n.text(isExchange ? "Choose a card to exchange" : "Give a little discovery")).font(.system(.largeTitle, design: .rounded, weight: .bold))
-                    Text(L10n.text(isExchange ? "Both of you keep your original cards and receive a copy." : "You keep your original card. Your friend receives a copy.")).foregroundStyle(Theme.muted)
-                    if let wantedTitle { Text("↔ \(wantedTitle)").font(.title2.bold()) }
+                    Text(L10n.text(isExchange ? "Choose a card to offer" : "Give a little discovery")).font(.system(.largeTitle, design: .rounded, weight: .bold))
+                    Text(L10n.text(isExchange ? "Request your friend's card and offer one of yours. Both of you keep the originals." : "You keep your original card. Your friend receives a copy.")).foregroundStyle(Theme.muted)
+                    if let wantedTitle {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("YOU'RE REQUESTING").font(.caption2.bold()).tracking(1).foregroundStyle(Theme.muted)
+                            Label(wantedTitle, systemImage: "rectangle.stack.fill").font(.title2.bold())
+                        }.padding(16).frame(maxWidth: .infinity, alignment: .leading).background(Theme.mint, in: RoundedRectangle(cornerRadius: 20))
+                            .accessibilityIdentifier("requested-card-title")
+                    }
                     if sent {
                         Button("View gifts and exchanges") { navigation?.open(.friend(friendID, 2), in: .social) }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("transfer-open-conversation")
                         Label(L10n.text(isExchange ? "Your friend can now review this exchange." : "Your gift is on its way!"), systemImage: "checkmark.circle.fill").accessibilityIdentifier("transfer-sent") }
                     else {
                         if cards.isEmpty { Text("Explore and unlock a card to share with a friend.") }
+                        else if isExchange { Text("Choose the card you'll offer").font(.headline) }
                         ForEach(cards) { card in
                             Button { selected = card.id } label: {
                                 HStack {
                                     Image(systemName: selected == card.id ? "checkmark.circle.fill" : "circle")
                                     Text(card.versions.last!.reply.title).font(.headline); Spacer()
                                 }.padding(18).background(.white, in: RoundedRectangle(cornerRadius: 22))
-                            }.buttonStyle(.plain).disabled(working || store.social.pendingTransfer(for: friendID) != nil).accessibilityIdentifier("gift-select-\(card.id)")
+                            }.buttonStyle(.plain).disabled(working || store.social.pendingTransfer(for: friendID) != nil)
+                                .accessibilityIdentifier(isExchange ? "exchange-offered-card-\(card.id)" : "gift-select-\(card.id)")
                         }
-                        Button(L10n.text(isExchange ? "Offer this exchange" : "Send card copy")) { send() }
-                            .buttonStyle(ExplorerButtonStyle()).disabled(selected.isEmpty || working).accessibilityIdentifier("gift-send")
+                        Button(L10n.text(isExchange ? "Send exchange request" : "Send card copy")) { send() }
+                            .buttonStyle(ExplorerButtonStyle()).disabled(selected.isEmpty || working)
+                            .accessibilityIdentifier(isExchange ? "exchange-send" : "gift-send")
                         if store.social.pendingTransfer(for: friendID) != nil { Text("The last request is saved. Retry it to confirm delivery.").font(.caption) }
                     }
                     if working { ProgressView() }
                     if let error { Text(error).foregroundStyle(Theme.muted).accessibilityIdentifier("social-error") }
                 }.padding(24)
             }.background(ExplorerBackdrop()).toolbar { Button("Done") { if let navigation { navigation.back() } else { dismiss() } } }
-        }.onAppear { selected = store.social.pendingTransfer(for: friendID)?.offeredID ?? cards.first?.id ?? "" }
+        }.onAppear { selected = store.social.pendingTransfer(for: friendID)?.offeredID ?? (isExchange ? "" : cards.first?.id ?? "") }
     }
     private func send() {
         working = true; error = nil; sentExchange = isExchange
@@ -79,7 +88,7 @@ struct FriendCardView: View {
                     Text(card.versions.last!.question).font(.title2)
                     Text(card.versions.last!.reply.answer)
                     Label(L10n.text(card.tier.rawValue.capitalized), systemImage: "sparkles")
-                    Button("Offer an exchange") { navigation?.open(.exchange(friendID, card.id)) }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("friend-exchange")
+                    Button("Request this card") { navigation?.open(.exchange(friendID, card.id)) }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("friend-request-card")
                     if let error { Text(error).foregroundStyle(Theme.muted) }
                 }.padding(24)
             }.background(ExplorerBackdrop()).toolbar { Button("Done") { if let navigation { navigation.back() } else { dismiss() } } }

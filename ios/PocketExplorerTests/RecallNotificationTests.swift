@@ -61,6 +61,16 @@ import UserNotifications
         XCTAssertTrue(ReminderPolicy.isEligible(reviewed, now: later.addingTimeInterval(7 * 86400)))
         XCTAssertEqual(try TripStore(fileURL: store.fileURL).state.discoveries[0].recallReviewedAt, later)
     }
+    func testPracticeCandidateOffersNewestFreshCardWithoutChangingDueState() throws {
+        let now = Date(timeIntervalSince1970: 1_700_000_000)
+        var older = try discovery(at: now.addingTimeInterval(-120)); older.unlockRequired = false
+        var newer = try discovery(at: now.addingTimeInterval(-60)); newer.unlockRequired = false
+        XCTAssertFalse(ReminderPolicy.isEligible(newer, now: now))
+        XCTAssertEqual(ReminderPolicy.practiceCandidate([older, newer], now: now)?.id, newer.id)
+        var reviewed = newer; reviewed.recallReviewedAt = now
+        XCTAssertEqual(ReminderPolicy.practiceCandidate([reviewed], now: now), nil)
+        XCTAssertNil(ReminderPolicy.practiceCandidate([older], now: older.createdAt.addingTimeInterval(86400)))
+    }
     func testPlansOnlyAfternoonsWithDailyCapAndSevenDayHorizon() throws {
         let now = ISO8601DateFormatter().date(from: "2026-09-16T08:00:00Z")!
         var calendar = Calendar(identifier: .gregorian); calendar.timeZone = TimeZone(secondsFromGMT: 0)!

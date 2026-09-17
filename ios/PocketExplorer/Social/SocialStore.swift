@@ -8,6 +8,7 @@ import Observation
         var messages: [String: MessageDraft] = [:]
         var transfers: [String: TransferDraft] = [:]
         var eventMessages: [String: MessageDraft]? = nil
+        var readSequences: [String: Int]? = nil
     }
     private var state: State
     private let file: URL
@@ -34,6 +35,14 @@ import Observation
     }
     func draft(for id: String) -> String { state.messages[id]?.text ?? "" }
     func pendingTransfer(for id: String) -> TransferDraft? { state.transfers[id] }
+    func unreadCount(for id: String) -> Int {
+        let lastRead = state.readSequences?[id] ?? 0
+        return messages[id, default: []].filter { !$0.mine && $0.sequence > lastRead }.count
+    }
+    func markRead(_ id: String) throws {
+        guard let sequence = messages[id]?.last?.sequence, sequence > (state.readSequences?[id] ?? 0) else { return }
+        var next = state; var reads = next.readSequences ?? [:]; reads[id] = sequence; next.readSequences = reads; try persist(next)
+    }
     func clearAccess() { friends = []; friendCursor = nil; messages = [:]; messageCursors = [:]; fetchedSequences = [:]; cards = [:]; cardCursors = [:]; transfers = [:]; transferCursors = [:] }
     func bind(_ connection: ShareConnection) throws {
         let owner = SHA256.hash(data: Data("\(connection.baseURL):\(connection.ownerKey)".utf8)).map { String(format: "%02x", $0) }.joined()
@@ -59,7 +68,10 @@ import Observation
         try bind(connection)
         let friend = try await client.action(action, friendID: friendID, connection: connection)
         friends = merge(friends, [friend])
-        if !friend.canInteract { messages[friendID] = nil; fetchedSequences[friendID] = nil; cards[friendID] = nil; transfers[friendID] = nil }
+        if !friend.canInteract {
+            messages[friendID] = nil; fetchedSequences[friendID] = nil; cards[friendID] = nil; transfers[friendID] = nil
+            var next = state; next.readSequences?[friendID] = nil; try persist(next)
+        }
     }
     func refreshMessages(_ id: String, connection: ShareConnection) async throws {
         try bind(connection)

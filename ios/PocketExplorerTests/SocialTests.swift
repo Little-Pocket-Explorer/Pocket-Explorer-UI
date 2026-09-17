@@ -107,6 +107,10 @@ import XCTest
         }
         try await restored.refreshMessages(id, connection: connection)
         XCTAssertEqual(restored.messages[id]?.map(\.sequence), [2, 3])
+        XCTAssertEqual(restored.unreadCount(for: id), 1)
+        try restored.markRead(id); XCTAssertEqual(restored.unreadCount(for: id), 0)
+        let readAgain = try SocialStore(file: folder.appendingPathComponent("social.json"), client: client)
+        XCTAssertEqual(readAgain.unreadCount(for: id), 0)
         try respond(["error": "friend_unavailable"], status: 403); await fails { try await restored.refreshMessages(self.id, connection: self.connection) }
         XCTAssertNil(restored.messages[id])
         try restored.saveDraft("Another thought", friendID: id, connection: connection)
@@ -189,7 +193,7 @@ import XCTest
         gift.updatedAt = 99999
         XCTAssertEqual(FriendActivity(card: gift).date, Date(timeIntervalSince1970: 2))
         gift.origin?.kind = "exchange"; XCTAssertEqual(FriendActivity(card: gift).kind, .exchange)
-        gift.origin = nil; XCTAssertEqual(FriendActivity(card: gift).kind, .discovery)
+        gift.origin = nil; XCTAssertEqual(FriendActivity(card: gift).kind, .discovery); XCTAssertEqual(FriendActivity(card: gift).label, L10n.text("A new card"))
         var next = gift.versions[0]; next.version = 2; next.awardedAt = 5000; next.explorationID = transferID
         gift.versions.append(next)
         XCTAssertEqual(FriendActivity(card: gift).kind, .growth)

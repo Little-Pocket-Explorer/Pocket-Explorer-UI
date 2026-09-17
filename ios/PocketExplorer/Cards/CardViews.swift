@@ -130,7 +130,7 @@ struct CardDetailView: View {
                             ArtworkStatusView(discovery: discovery, store: store)
                         }
                         Picker("Card details", selection: $section) {
-                            Text("Story").tag(0); Text("Knowledge").tag(1); Text("Location").tag(2)
+                            Text("Story").tag(0); Text("Knowledge").tag(1); Text("Versions").tag(2); Text("Location").tag(3)
                         }.pickerStyle(.segmented).id("card-section-start")
                         VStack(alignment: .leading, spacing: 14) {
                             if section == 0 {
@@ -141,6 +141,26 @@ struct CardDetailView: View {
                             } else if section == 1 {
                                 Text(discovery.explanation).font(.system(.body, design: .rounded))
                                 if let reply = discovery.ai { Text(reply.invitation).foregroundStyle(Theme.forest) }
+                            } else if section == 2 {
+                                Eyebrow(text: "Versions")
+                                if let card = discovery.collectible {
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        HStack(spacing: 12) {
+                                            ForEach(card.versions.reversed()) { version in
+                                                VStack(alignment: .leading, spacing: 5) {
+                                                    Text("V\(version.version)").font(.caption.bold()).foregroundStyle(Theme.forest)
+                                                    Text(version.reply.title).font(.subheadline.bold()).lineLimit(2)
+                                                    Text(L10n.date(Date(timeIntervalSince1970: version.awardedAt / 1000))).font(.caption2).foregroundStyle(Theme.muted)
+                                                }.padding(12).frame(width: 138, minHeight: 96, alignment: .leading)
+                                                    .background(Theme.mint, in: RoundedRectangle(cornerRadius: 16))
+                                            }
+                                        }
+                                    }
+                                    NavigationLink { CardHistoryView(card: card) } label: { Label("Card history", systemImage: "clock.arrow.circlepath") }
+                                        .accessibilityIdentifier("card-history-versions")
+                                } else {
+                                    Text("V1 · \(discovery.title)").font(.headline)
+                                }
                             } else {
                                 if let place = discovery.place ?? store.state.trips.first(where: { $0.id == discovery.tripID })?.place {
                                     Label(place.name, systemImage: "mappin.and.ellipse")
@@ -211,6 +231,9 @@ struct CollectionView: View {
     @State private var query = ""
     @State private var category = "All"
     @State private var newestFirst = true
+    @State private var showingQuizPrompt = false
+    @State private var prompted = false
+    private var readyQuizCount: Int { store.state.discoveries.filter { ReminderPolicy.isEligible($0, now: Date()) }.count }
     private var discoveries: [Discovery] {
         var seen = Set<String>()
         let latest = store.state.discoveries.sorted {
@@ -235,6 +258,19 @@ struct CollectionView: View {
                         Spacer(); ExplorerAvatar()
                     }
                 }
+                Button { showingQuizPrompt = true } label: {
+                    HStack(spacing: 12) {
+                        Image(systemName: "leaf.arrow.triangle.circlepath").font(.title2).foregroundStyle(Theme.forest)
+                            .frame(width: 46, height: 46).background(Theme.mint, in: Circle())
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text("Discovery Quizzes").font(.headline)
+                            if readyQuizCount > 0 {
+                                (Text(readyQuizCount.formatted()) + Text(" ready · Tap to start")).font(.caption).foregroundStyle(Theme.muted)
+                            } else { Text("Ready when you are").font(.caption).foregroundStyle(Theme.muted) }
+                        }
+                        Spacer(); Image(systemName: "chevron.right").foregroundStyle(Theme.muted)
+                    }.padding(13).background(.white.opacity(0.96), in: RoundedRectangle(cornerRadius: 22))
+                }.buttonStyle(.plain).accessibilityIdentifier("collection-quiz-notification")
                 HStack {
                     Image(systemName: "magnifyingglass").font(.system(size: 20)).foregroundStyle(Theme.muted).accessibilityHidden(true)
                     TextField(L10n.text(dynamicTypeSize.isAccessibilitySize ? "Search" : "Search discoveries"), text: $query)
@@ -266,6 +302,15 @@ struct CollectionView: View {
                 Button("Find another wonder", action: explore).buttonStyle(ExplorerButtonStyle())
             }.padding(20)
         }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink).navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                guard !prompted else { return }
+                prompted = true
+                showingQuizPrompt = readyQuizCount > 0
+            }
+            .sheet(isPresented: $showingQuizPrompt) {
+                NavigationStack { DiscoveryRemindersView(store: store, close: { showingQuizPrompt = false }) }
+                    .presentationDetents([.medium, .large]).presentationDragIndicator(.visible)
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink(value: ExplorerRoute.reminders) { Label("Discovery Quiz", systemImage: "leaf.arrow.triangle.circlepath") }

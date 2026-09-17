@@ -58,6 +58,8 @@ import XCTest
         app.open(URL(string: "pocketexplorer://events/77777777-7777-4777-8777-777777777777")!)
         reach(button("event-location")); capture("pitch-\(language)-event-\(large)")
         reach(button("event-choice-0")); capture("pitch-\(language)-challenge-\(large)")
+        tap("event-share-options"); tap("event-copy-link")
+        XCTAssertTrue(app.staticTexts["event-share-message"].waitForExistence(timeout: 5))
         tap("event-share-friend")
         XCTAssertTrue(button("event-recipient-\(id)").waitForExistence(timeout: 10))
         tap("event-recipient-\(id)")

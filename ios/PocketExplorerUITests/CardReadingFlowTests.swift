@@ -4,18 +4,18 @@ final class CardReadingFlowTests: XCTestCase {
     private let app = XCUIApplication()
 
     func testEnglishCardSectionsRemainVisibleAtStandardText() throws {
-        try exercise(language: "en", map: "Map", knowledge: "Knowledge", location: "Location", heading: "My question", large: false)
+        try exercise(language: "en", map: "Map", knowledge: "Knowledge", versions: "Versions", location: "Location", heading: "My question", large: false)
     }
 
     func testGermanCardSectionsRemainReadableAtMaximumText() throws {
-        try exercise(language: "de", map: "Karte", knowledge: "Wissen", location: "Ort", heading: "Meine Frage")
+        try exercise(language: "de", map: "Karte", knowledge: "Wissen", versions: "Versionen", location: "Ort", heading: "Meine Frage")
     }
 
     func testArabicCardSectionsRemainReadableAtMaximumText() throws {
-        try exercise(language: "ar", map: "الخريطة", knowledge: "ما تعلّمته", location: "الموقع", heading: "سؤالي")
+        try exercise(language: "ar", map: "الخريطة", knowledge: "ما تعلّمته", versions: "الإصدارات", location: "الموقع", heading: "سؤالي")
     }
 
-    private func exercise(language: String, map: String, knowledge: String, location: String, heading: String, large: Bool = true) throws {
+    private func exercise(language: String, map: String, knowledge: String, versions: String, location: String, heading: String, large: Bool = true) throws {
         continueAfterFailure = true
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(\(language))", "-AppleLocale", language]
         if large { app.launchArguments += ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"] }
@@ -66,6 +66,10 @@ final class CardReadingFlowTests: XCTestCase {
         picker.buttons[knowledge].tap()
         XCTAssertTrue(picker.buttons[knowledge].isSelected)
         capture("\(language)-large-card-knowledge")
+        picker.buttons[versions].tap()
+        XCTAssertTrue(picker.buttons[versions].isSelected)
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "V1")).firstMatch.exists)
+        capture("\(language)-large-card-versions")
         picker.buttons[location].tap()
         XCTAssertTrue(picker.buttons[location].isSelected)
         capture("\(language)-large-card-location")

@@ -1,5 +1,47 @@
 # Pocket Explorer: Current Execution State
 
+## Native Event share reference alignment pending macOS qualification (2026-09-17)
+
+- Native Event Detail now follows the supplied three-step reference: the top-right share icon opens a medium share-options sheet with compact Event preview, Share to friend and Copy link; friend sharing then shows a searchable single-select list and a recipient-specific `Send to ...` action.
+- The existing Event read/share APIs, parent-controlled Events/Social/Sharing gates, post-send conversation routing and accessibility identifiers remain intact. Existing English/Chinese/Arabic journey tests were updated to traverse the new intermediate sheet, exercise Copy link and search, and still verify backend message readback.
+- Swift diagnostics and `git diff --check` pass. All ten localization catalogs have 650 identical keys, zero duplicates and zero mismatches. This Windows host has no `xcodebuild` and no configured remote Mac, so the changed Swift runtime tests, screenshots and required 80% changed-file coverage are not yet claimed.
+- There is no `master` branch; `main` and `origin/main` are currently identical. Do not commit or push this native alignment until the macOS test and coverage gate passes.
+
+## Web Map card sharing restored (2026-09-17)
+
+- The sibling Web `From your map` card-story screen now exposes Share in its title bar and routes the current card through friend selection into the conversation as a persisted shared-card message.
+- `Rings of ice and rock` was shared with Dou Dou in the live browser. The Map/Social/journey regression, production build and per-file line/branch coverage gates pass. This is a Web correction; the TestFlight App Event sharing path remains unchanged and independently available.
+
+## Demo App Event open/share verification (2026-09-17)
+
+- The iOS Event path is independent of the Web Map filter that hid `Sky watchers`. Both the MapKit Event pin and Nearby Event row open `.event(id)`, `DiscoveryLinkView` reads the Event, and `EventDetailView` renders it.
+- Event Detail provides `Share with friend` when both Social and Sharing are allowed, plus the iOS system `Share event` action whenever Sharing is allowed. Friend sharing reloads the Event, sends it to the selected approved friend, and opens that friend conversation after success.
+- The six owning Event/navigation files have no differences from the exact TestFlight 1.0 (21) source commit `c1cf01a`. The existing full-journey XCUITest exercises Nearby -> `Sky watchers` -> friend selection -> send -> backend message readback, while final App Store qualification records 23 UI passes and zero failures. This Windows host cannot rerun XCUITest or perform a physical-device share; the presentation account must retain an approved friend and enabled Events, Social and Sharing permissions.
+
+## Web Map event visibility fix (2026-09-17)
+
+- The sibling Web Map now defaults to Nearby, so publishing `Moonlight is sunlight` no longer hides the Event marker behind the Me filter. The card remains available in Collection.
+- The real MapLibre `Sky watchers` marker was clicked in the live browser and opened Event Detail with View on Map and Share with friend. Map/Event/journey tests pass, production build passes and both changed TypeScript files exceed 80% line/branch coverage. Changes remain local and undeployed.
+
+## Moon private demo published (2026-09-17)
+
+- The existing English `Moonlight is sunlight` private Studio record is now production Priority 999, Published version 2, ages 5-18. Its question is `Why does the moon shine?`; the recall question and three choices now teach sunlight reflection instead of placeholder text.
+- An authenticated age-7 catalog read placed Moon first, ahead of Sky and Leaves, with prepared artwork and narration paths. The local Web filming browser independently displayed and opened that configured Moon answer without generation. Existing activated iPhones receive the same catalog after Demo mode refresh; physical iPhone display was not run on this Windows host.
+- The temporary verification device was revoked. A purpose-labelled Web filming browser remains active through 2026-09-24. Evidence is in the sibling Backend repository at `docs/evidence/moon-demo-production-20260917.md`.
+
+## Configurable shared questions and showcase flow (2026-09-17)
+
+- The sibling Web now reads the same configurable prepared-content contracts as the app: public `/api/recommendations`, or the private Studio `/api/demo/catalog` after explicit single-use browser activation. It shows three configured questions when available and fills any missing slots with localized offline-safe fallbacks.
+- Configured and fallback questions use the original native-style AI conversation without generation. Card Detail appears only after Make my card -> View my card. Native source already uses `RecommendationStore` / `DemoStore`; this increment adds compatible Web consumption and does not change the submitted app build.
+- Automated and live-browser verification cover the requested route: configured AI conversation -> card -> Card Detail -> Map -> nearby Event Detail -> friend share -> Friend Profile -> Recent activity `A new card` -> request -> reciprocal owned card -> exchange -> Discovery Quizzes -> `Quiz me now` -> Chat ready to answer.
+- In the live browser, production-configured Saturn/Mars/torii replaced the fallback questions. Saturn opened its configured reply with zero generation requests, and the route completed through quiz-ready Chat. Fresh practice preserves native due semantics with `Ready 0` plus one explicit `Quiz me now` row. The affected Web regression passes 154 tests, production build passes and all four changed TypeScript files exceed 80% line/branch coverage. Changes remain local and undeployed.
+
+## Web AI conversation parity (2026-09-17)
+
+- The sibling Web now ports the current native `ExploreView` visual hierarchy for arbitrary AI questions: focused title/close header, child question, leaf guide answer card, invitation, observation/location tools, pending safe-area bar, Make my card and persistent navigation. Stable recovery, explicit cloud permission and local-only speech safeguards remain intact.
+- Configured and fallback prepared questions use the same native conversation design without a generation request. Card Detail appears only after the new card is made and opened; native app source and the submitted App Store build are unchanged by this Web-only increment.
+- Ready and pending Web states were inspected at 390 x 844 with zero horizontal overflow, no nested scroller and no fixed-action overlap after scrolling. The affected Web regression passes 135 tests, production build passes and changed `App.tsx` coverage is 94.52% lines / 82.48% branches. Changes remain local and undeployed.
+
 ## App Store submission complete (2026-09-16 22:09 AEST)
 
 - Pocket Explorer 1.0 (21) was submitted at 2026-09-16T12:09:12.422Z. Apple's page showed "1 Item Submitted", and independent version and submission API reads both confirm WAITING_FOR_REVIEW. Submission ID: 3ae5a282-1ec0-471b-a75f-2676572a254b. Release remains AFTER_APPROVAL. Approval and public availability have not yet occurred.
@@ -129,7 +171,57 @@ The user authorized public App Store publication. Work in /Users/haichang/Worktr
 - TestFlight 0.1.0 (20) is independently VALID / IN_BETA_TESTING in Hackathon Internal, uploaded from this Mac. Source is 9c568c122d5e95a5337b13c035990d71443703de, pushed to main with no native GitHub run. Apple build ID: e14bdfbb-cc35-40e3-afbf-bb7113060148.
 - Independent IPA verification confirms signature, release entitlements, tested source, Xcode 27A266a and all ten 583-entry catalogs. Test fixtures and the simulator are stopped, and the temporary signing keychain is removed. External distribution and physical iPhone acceptance are not established. App Store 1.0 remains PREPARE_FOR_SUBMISSION.
 - See docs/evidence/teammate-testflight-20.json. This iteration is complete. Preserve the separate ongoing App Store privacy work and do not repeat this release without new input.
+## Historical Web filming prototype (superseded 2026-09-17)
 
+This prototype hard-coded Duck/Leaf/Moon and routed prepared answers directly to Card Detail. It is superseded by the configurable Web/App question flow at the top of this document: prepared questions use the native conversation design, and Card Detail follows card creation.
+
+- The sibling Web prepared-question result now directly uses the supplied Card Detail reference rather than an AI chat-bubble answer: back/title/Home header, tappable answer/illustration card, category, Story/Knowledge/Location, My Question, optional story entry, Preview & share and fixed navigation. Arbitrary live AI answers still use conversation UI.
+- Both Moon card faces were inspected at 390 x 844 with zero horizontal overflow, no nested scroller, clear fixed actions and a nonblank NASA image. The changed `App.tsx` passes 92.66% line / 80.10% branch coverage. This remains local and undeployed.
+- The sibling Web no longer creates a nested `.home-shell` scrollbar on conversation or card reveal. At 390 x 844, Home has zero scrollable children and zero horizontal overflow; longer Moon screens use only document scrolling. Browser screenshots, 86 affected tests and production build pass. This remains local and undeployed.
+- The sibling Web Home now treats Duck, Leaf and Moon as repeatable filming shortcuts: each opens its fixed localized answer immediately without live AI, and each run can reveal a fresh card under the exact `Discover a new card` heading.
+- The third shortcut is `Why does the moon shine?`, with a fixed sunlight-reflection answer, `Moonlight is sunlight` card and local NASA/JPL/USGS PIA00405 artwork. All ten language catalogs contain matching Moon copy.
+- Automated coverage verifies all three shortcuts, zero network calls and three consecutive card reveals. The affected regression passes 86 tests, production build passes and all changed TypeScript files exceed 80% line/branch coverage. The Moon shortcut, fixed answer and nonblank reveal image were checked in the live local browser. This remains local and undeployed.
+
+## Historical production Web AI blocker (resolved upstream)
+
+- The age-10 report is verified: production returns HTTP 403 `ai_permission_required`. Fresh `family:null` and explicit age-10 family `policy.exploration:true` installations receive the same response, so age and parent policy are not the cause.
+- Current sibling Backend source has no such gate and its new regression verifies a fresh installation reaches the exploration route. Web now reports the service permission error accurately and preserves the question for retry. Focused tests and build pass; the full Node 24 release gate remains pending.
+- No commit, push, workflow run or deployment was performed. Production AI remains blocked until an authorized Backend deployment and real age-10 answer readback succeed.
+
+## Complete explorer journey continuation (2026-09-16)
+
+- The three user-supplied Miro screenshot panels are the explicit reference for Map/Event/Quiz, Collection/Shared cards and Card Detail/share surfaces. Web alignment and browser geometry are recorded in [reference UI alignment](docs/evidence/reference-ui-alignment-20260917.md).
+- Native Card Detail now matches the reference four-tab structure: Story, Knowledge, Versions and Location. Versions shows immutable version title/date cards and preserves Card history. Multilingual CardReadingFlowTests now address the new tab in English, maximum-size German and maximum-size Arabic.
+- `SocialFlowTests.testJackyJourneyContinuesFromAIThroughMapEventProfileAndExchange` now continues after the accepted reciprocal exchange through Home -> Map -> Collection -> Discovery Quizzes -> voluntary practice -> recall prepared in the Chat tab.
+- Fresh verified cards can be practiced early through `ReminderPolicy.practiceCandidate` only when no reminder is due. This does not alter the one-day / seven-day due policy or Ready badge count. A focused unit test covers newest-card selection, reviewed exclusion and due-reminder precedence.
+- Swift workspace diagnostics pass and all ten catalogs retain 598 matching keys. This Windows host has no `xcodebuild`, so the extended unit/UI tests and changed-Swift coverage are not claimed as executed. Exact macOS commands and Web browser evidence are in [full journey evidence](docs/evidence/full-journey-20260916.md).
+
+## Web AI Chat parity (2026-09-16)
+
+- Web Map now ports the native always-visible Discovery Quizzes notification, top reminders badge, automatic due prompt, Ready/Completed sheet and persisted answer feedback. Empty Collection visibility and a due-quiz browser journey are verified. Native source remains unchanged.
+- The sibling Web implementation now follows the native `ChatHomeView`, `ExploreView`, `AIClient` and `AnswerPresentation` flow: persistent questions/drafts, stable request IDs, live Worker polling, Later/Check answer recovery, quiet History restoration, text/photo/dictation input, optional observations and explicit card creation. The native implementation itself is unchanged in this checkpoint.
+- Web Question History now follows the approved Chats drawer reference with grouped/searchable conversations, New chat, persistent row menus and the managed profile footer. Duplicate development records are coalesced without deleting their stored data.
+- Web pending and completed AI conversations retain the fixed Chat / Map / Social bar; Chat provides the return path to a fresh question. The native implementation remains unchanged.
+- Web now also ports the native observation dictation, separate photo-library/camera entries, optional location and safe-area card actions. Local places remain browser-private and drive the owner's Map marker. The native source remains unchanged.
+- Web verification passes the affected test set, per-file 80% line/branch coverage gates, production build, ten 118-key catalog parity and a browser live-answer/recovery journey. The Web source remains local and undeployed.
+
+## Social five-surface demo (2026-09-16)
+
+- Web and native Social now share the same visible hierarchy: Friends / Messages / Shared with Me, avatar presence, parent approval in Messages, exact message time, durable unread badges, reference-style conversation, Cards / Places / Rare profile metrics, privacy-safe Shared map, a shared-card entry, Recent activity, collection and friend options. The Web production build and 17 focused tests pass; the 390 x 844 Friend Profile browser check reports zero bottom-navigation overlap and confirms Recent activity opens Card detail and returns correctly. Web remains browser-local; native remains protected by the real Social service and family policy.
+- Friend conversation now follows the approved chat reference: a compact avatar/status/profile header, friend avatars on incoming messages, right-aligned child messages, full event invitation cards, and a fixed bottom composer with gifts/exchanges, text, friend cards and send controls. Cards and Gifts remain reachable as focused subviews without occupying the chat canvas.
+- Presence is no longer decorative: Social friend tiles, activity rows, message rows, conversation headers and Friend Profile all read `ExplorerFriend.available`. Online uses a green dot and localized label; offline uses gray and a localized label. The real-service Social flow asserts the seeded friend is Online.
+- Existing real behavior is preserved: durable text drafts, offline retry, 15-second refresh, protected event opening, friend-card browsing and gift/exchange receipts. Social UI tests now address the new section controls. This layout is diagnostics-verified on Windows but still requires macOS simulator screenshot and interaction qualification.
+- Social now implements the five connected surfaces in the approved flow: Friends with real newest-card activity, searchable Messages with event previews, the event conversation, an interactive Friend Profile, and its mute/remove/block/report menu.
+- Opening Social prefetches a bounded set of accepted friends' latest messages and public cards. Activity and collection artwork use the protected Social API. The Friend Profile shows card/rarity/growth metrics, a privacy-safe shared-map summary with exact locations hidden, newest activity and a tappable collection.
+- The complete demo route is wired through existing idempotent and atomic service behavior: share an event to an accepted friend, open the resulting conversation, open the friend profile, choose the friend's newest card, request it, explicitly choose one verified public card to offer, submit the exchange, and return to the conversation to observe acceptance. The exchange screen no longer silently preselects a reciprocal card.
+- Friend Profile mute state persists locally and displays a `bell.slash` state. Remove, block and report call the protected Social endpoints. Ten language catalogs contain the same 597 keys with no duplicates or omissions.
+- The existing real-service `SocialFlowTests.testJackyJourneyContinuesFromAIThroughMapEventProfileAndExchange` now exercises all five surfaces and the reciprocal card choice. Windows workspace diagnostics pass, but this host cannot run Xcode/XCUITest or collect changed-Swift coverage; macOS qualification remains required before release.
+
+## Default Map quiz notification (2026-09-16)
+
+- Map now shows a real Ready-quiz count badge on the Discovery Quiz control. Collection always shows a visible Discovery Quizzes prompt, and automatically presents the medium-height Ready/Completed quiz sheet on first entry whenever `ReminderPolicy` reports at least one due discovery.
+- The prompt uses real due-state counts rather than seeded display numbers. Selecting a ready quiz dismisses the sheet, switches to Chat and opens the existing recall question. With no ready quiz, Collection remains uninterrupted and the prompt stays available manually.
+- `RecallRouteFlowTests.testMapCollectionShowsReadyQuizPromptByDefault` covers badge, default presentation, Ready count and Chat routing. Ten language catalogs contain the same 597 keys. Windows diagnostics pass; simulator execution and changed-Swift coverage remain pending on macOS.
 ## Current post-release navigation consolidation (2026-09-16)
 
 - The latest source after TestFlight 19 removes the standalone Memories and Friends tabs. Primary navigation is Chat, Map and Social. Existing memory playback remains routed from Map-owned trip, reminder and new-card flows.

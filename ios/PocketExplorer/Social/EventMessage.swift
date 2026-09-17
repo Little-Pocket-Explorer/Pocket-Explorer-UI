@@ -41,7 +41,7 @@ struct FriendActivity: Identifiable, Equatable {
     }
     var label: String {
         switch kind {
-        case .discovery: L10n.text("A new discovery")
+        case .discovery: L10n.text("A new card")
         case .growth: L10n.text("Growing knowledge")
         case .gift: L10n.text("A discovery gift")
         case .exchange: L10n.text("A card exchange")

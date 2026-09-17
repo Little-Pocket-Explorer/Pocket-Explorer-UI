@@ -24,6 +24,12 @@ enum ReminderPolicy {
         return discovery.createdAt.addingTimeInterval(86400)
     }
 
+    static func practiceCandidate(_ discoveries: [Discovery], now: Date) -> Discovery? {
+        guard !discoveries.contains(where: { isEligible($0, now: now) }) else { return nil }
+        return discoveries.filter { $0.ai?.quiz.isValid == true && $0.isVerified && $0.recallReviewedAt == nil }
+            .sorted { $0.createdAt > $1.createdAt }.first
+    }
+
     static func isEligible(_ trip: Trip, now: Date) -> Bool {
         guard let completed = trip.completedAt, trip.memory != nil else { return false }
         guard now >= completed.addingTimeInterval(interval) else { return false }

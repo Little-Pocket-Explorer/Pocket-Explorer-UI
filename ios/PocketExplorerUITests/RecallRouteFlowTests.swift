@@ -46,6 +46,18 @@ import Darwin
         wait(for: [disabled], timeout: 5)
     }
 
+    func testMapCollectionShowsReadyQuizPromptByDefault() {
+        app.tabBars.buttons["Map"].tap()
+        XCTAssertTrue(app.staticTexts["map-quiz-count"].waitForExistence(timeout: 5))
+        app.buttons["open-collection"].tap()
+        XCTAssertTrue(app.staticTexts["Discovery Quizzes"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.segmentedControls["quiz-status"].buttons["Ready 1"].isSelected)
+        XCTAssertTrue(app.buttons["recall-open-\(card.uppercased())"].isHittable)
+        app.buttons["recall-open-\(card.uppercased())"].tap()
+        XCTAssertTrue(app.buttons["quiz-choice-0"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.tabBars.buttons["Chat"].isSelected)
+    }
+
     func testOriginalContextRecallAndColdLinksWithOneStepHome() {
         app.tabBars.buttons["Map"].tap(); app.buttons["open-reminders"].tap()
         app.launchArguments = ["--ui-testing", "-AppleLanguages", "(en)"]
