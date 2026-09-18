@@ -1,10 +1,10 @@
 # Pocket Explorer: Implementation Plan
 
-## Teammate update delivery (2026-09-18)
+## DONE: teammate update delivery (2026-09-18)
 
 Qualify 784267f Profile and card-sharing changes using affected native integration journeys, screenshot review, localization parity and the 80% changed-Swift coverage gate. Preserve the existing Social gate and gift protocol restored by upstream. Fix reproduced release defects and publish from this Mac. Resolve the sibling Backend browser regression and deploy through its workflow. Independently verify TestFlight group membership and Cloudflare delivery. Preserve the App Store submission on build 21.
 
-Qualification is complete: 18 affected units and four integration UI journeys have passing latest results, and all three changed product Swift files exceed 89% line coverage. Ten catalogs contain 660 matching keys. Backend fbb5ccd is deployed and independently verified. Native local upload and Apple/IPA verification remain. See [qualification](docs/evidence/teammate-testflight-20260918.md).
+Qualification and delivery are complete: 18 affected units and four integration UI journeys have passing latest results, and all three changed product Swift files exceed 89% line coverage. Ten catalogs contain 660 matching keys. Backend fbb5ccd is deployed and independently verified. Source 0b909f7 is locally published as TestFlight 1.0 (23), with independent Apple internal-group, IPA and source verification. App Store build 21 remains WAITING_FOR_REVIEW. See [qualification](docs/evidence/teammate-testflight-20260918.md) and [delivery](docs/evidence/teammate-testflight-23.json).
 
 ## DONE: teammate TestFlight delivery (2026-09-17)
 

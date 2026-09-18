@@ -27,4 +27,12 @@ Coverage: [teammate-testflight-20260918-coverage.json](teammate-testflight-20260
 
 Backend source `fbb5ccd` is deployed through successful workflow [35297449490](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/35297449490). Independent reads confirm 100% traffic and production JS/CSS bytes matching the tested artifact. Health, home, privacy and support return HTTP 200.
 
-At `2026-09-18T03:14:03Z`, App Store 1.0 and its review submission remain WAITING_FOR_REVIEW with build 21 attached. Native TestFlight publication is next. The existing App Store submission must remain unchanged.
+At `2026-09-18T03:25:23Z`, App Store 1.0 and its review submission remain WAITING_FOR_REVIEW with build 21 attached. The submission was not replaced or withdrawn.
+
+## Delivery
+
+Source `0b909f72d025af1290592b94af2e62c2854aa419` was signed and uploaded from this Mac as **TestFlight 1.0 (23)**. Independent Apple reads confirm VALID, IN_BETA_TESTING and Hackathon Internal membership. No native GitHub runner or external beta review was started.
+
+The exported IPA passes strict signature, release entitlement, bundle/version/build, Xcode, ten compiled localization dictionaries and qualified-source checks. SHA256: `af5eaaeb01e10620b81860fffd94399303a8a472debe29507266f0944c60f55d`.
+
+Owned fixtures and the test simulator were removed. The temporary signing keychain and credential copies are removed, the original keychain search list is restored, and original credentials are preserved. Machine-readable evidence: [teammate-testflight-23.json](teammate-testflight-23.json).

@@ -1,0 +1,85 @@
+{
+  "checkedAt": "2026-09-18T03:25:26.400Z",
+  "sourceCommit": "0b909f72d025af1290592b94af2e62c2854aa419",
+  "sourceSnapshotSHA256": "6732cef238b045ad86d7cbe328ef0802c74bd2cbdf36754234ebfc8a93b4b091",
+  "upstreamQualified": "784267fef72a227746e4a5638494c717fd7f6671",
+  "testflight": {
+    "checkedAt": "2026-09-18T03:25:26.400Z",
+    "app_id": "6810920731",
+    "version": "1.0",
+    "build_number": 23,
+    "build_id": "840d4cd5-ca8f-4420-9440-80da8d07e82d",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "source_commit": "0b909f72d025af1290592b94af2e62c2854aa419:6732cef238b045ad86d7cbe328ef0802c74bd2cbdf36754234ebfc8a93b4b091",
+    "release_origin": "local",
+    "run_url": null,
+    "independentlyVerified": true,
+    "internalStateReadback": "IN_BETA_TESTING"
+  },
+  "ipa": {
+    "checkedAt": "2026-09-18T03:18:12.445891+00:00",
+    "bundleId": "com.haichang.pocketexplorer",
+    "version": "1.0",
+    "build": "23",
+    "xcodeBuild": "27A266a",
+    "teamId": "5B858997A3",
+    "signatureVerified": true,
+    "debugEntitlement": false,
+    "ipaSHA256": "af5eaaeb01e10620b81860fffd94399303a8a472debe29507266f0944c60f55d",
+    "localizations": {
+      "ar.lproj": 660,
+      "de.lproj": 660,
+      "en.lproj": 660,
+      "es.lproj": 660,
+      "fr.lproj": 660,
+      "ja.lproj": 660,
+      "ko.lproj": 660,
+      "pt-BR.lproj": 660,
+      "zh-Hans.lproj": 660,
+      "zh-Hant.lproj": 660
+    },
+    "compiledLocalizationDictionariesMatchSource": true,
+    "qualifiedProductSourceMatches": true,
+    "sourceCommit": "0b909f72d025af1290592b94af2e62c2854aa419",
+    "sourceSnapshotSHA256": "6732cef238b045ad86d7cbe328ef0802c74bd2cbdf36754234ebfc8a93b4b091"
+  },
+  "appStore": {
+    "checkedAt": "2026-09-18T03:25:23.454Z",
+    "version": "1.0",
+    "state": "WAITING_FOR_REVIEW",
+    "releaseType": "AFTER_APPROVAL",
+    "buildNumber": "21",
+    "buildID": "aeb45ee2-57e6-48c4-b247-49f0c476cd8d",
+    "reviewState": "WAITING_FOR_REVIEW",
+    "submittedDate": "2026-09-16T12:09:12.422Z"
+  },
+  "qualification": {
+    "affectedUnitsPassed": 18,
+    "affectedUIJourneysWithLatestPasses": 4,
+    "latestFailures": 0,
+    "changedProductSwiftFiles": 3,
+    "minimumFileLineCoverage": 0.8928,
+    "sameSourceCoverageVerified": true,
+    "localizationCatalogs": 10,
+    "keysPerCatalog": 660,
+    "physicalDeviceAcceptanceRepeated": false,
+    "notes": "The first gift readback failed in a test-only generic decoder. The typed decoder rerun passed with unchanged product code. Broader intermediate Social qualification was superseded by upstream revert."
+  },
+  "backendDeployment": {
+    "sourceCommit": "fbb5ccdc353ba49336ee385287ba1e10f7aa2a37",
+    "workflowURL": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/35297449490",
+    "conclusion": "success",
+    "independentTrafficAndArtifactVerification": true
+  },
+  "cleanup": {
+    "checkedAt": "2026-09-18T03:25:52.144800+00:00",
+    "temporarySigningKeychainRemoved": true,
+    "keychainSearchListRestored": true,
+    "temporarySigningCopiesRemoved": true,
+    "ownedFixturesStopped": true,
+    "ownedSimulatorRemoved": true,
+    "originalSigningCredentialsPreserved": true
+  }
+}

@@ -1,8 +1,8 @@
 # Pocket Explorer: Continuation Brief
 
-## Active: teammate update delivery (2026-09-18)
+## Complete: teammate update delivery (2026-09-18)
 
-The owner requested another update and deployment. Native 784267f Profile/card sharing is qualified with local localization and test corrections. Earlier intermediate Social changes were intentionally reverted by upstream and must not be reintroduced. Backend fbb5ccd is already deployed and independently verified. Follow TODO to publish native locally and independently verify Apple and the IPA. Preserve dirty primary checkouts and App Store submission build 21. Current evidence belongs in ~/tmp/review/pocket-release-20260918.
+Native upstream 784267f Profile/card sharing and local qualification corrections are published from source 0b909f7 as TestFlight 1.0 (23). Independent Apple reads confirm VALID, IN_BETA_TESTING and Hackathon Internal membership. The signed IPA and ten 660-entry dictionaries match the qualified source. Backend fbb5ccd is deployed and independently verified. App Store 1.0 remains WAITING_FOR_REVIEW on build 21. Earlier intermediate Social changes were intentionally reverted and must not be reintroduced. Dirty primary checkouts are preserved and owned test/signing resources cleaned up. See TODO and docs/evidence/teammate-testflight-23.json. Evidence belongs in ~/tmp/review/pocket-release-20260918. Do not repeat completed tests or publication without new changes.
 
 ## Complete: teammate TestFlight 1.0 (22) delivered (2026-09-17)
 

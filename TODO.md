@@ -1,13 +1,15 @@
 # Pocket Explorer: Current Execution State
 
-## IN_PROGRESS: final teammate update and local TestFlight release (2026-09-18)
+## DONE: teammate TestFlight 1.0 (23) and Backend update (2026-09-18)
 
 - Freeze this release at upstream 784267f, which deliberately restores the existing Social gate and gift-based card sharing. Profile settings and the share sheet remain. Earlier fb11b2c qualification is archived in ~/tmp/review/pocket-release-20260918 and does not define this release's feature scope.
 - Preserve primary checkouts and App Store submission build 21. Publish native from this Mac with [skip ci]. Backend fbb5ccd is already deployed through successful workflow 35297449490, with independently verified traffic and tested asset hashes.
 - Final-source qualification is complete: 18 affected units and four integration UI journeys have passing latest results. Gift retry and independent recipient readback, map publication/revocation, full settings persistence, copied-link reuse, events and exchanges pass. The first gift readback failed in the test decoder only. A typed response fixed that helper and gift-journey.xcresult passes with unchanged product source.
 - All three changed Swift files pass matching-source coverage: CardShareView 94.96%, CardViews 89.28%, ProfileViews 91.24%. Ten catalogs contain 660 matching keys. Final screenshots were inspected. Evidence: docs/evidence/teammate-testflight-20260918.md and the accompanying coverage JSON.
 - Apple independently read at 2026-09-18T03:14:03Z: version 1.0 and review submission both WAITING_FOR_REVIEW, build 21 unchanged. No owner action is required.
-- Next: commit qualification, upload locally and independently verify TestFlight and the preserved App Store submission. No external messages or native GitHub build. Physical-device acceptance remains separate.
+- Published source 0b909f7 from this Mac as TestFlight 1.0 (23). Apple build 840d4cd5-ca8f-4420-9440-80da8d07e82d is independently confirmed VALID, IN_BETA_TESTING and assigned to Hackathon Internal. No external beta review or native GitHub runner was started.
+- Independent IPA verification passes: strict signing, release entitlements, expected bundle/version/build/Xcode, all ten 660-entry dictionaries, and matching qualified product hashes. IPA SHA256: af5eaaeb01e10620b81860fffd94399303a8a472debe29507266f0944c60f55d. Owned fixtures, test simulator, temporary signing keychain and signing copies are removed. The keychain search list is restored and original credentials preserved.
+- Final App Store read at 2026-09-18T03:25:23Z still confirms WAITING_FOR_REVIEW and build 21 unchanged. Delivery is complete. Evidence: docs/evidence/teammate-testflight-23.json. Do not repeat completed qualification or upload without new changes. Physical-device acceptance remains separate.
 
 ## DONE: teammate TestFlight 1.0 (22) delivered (2026-09-17)
 
