@@ -661,6 +661,16 @@
 "Child profile" = "ملف الطفل";
 "Discovery preferences" = "تفضيلات الاكتشاف";
 "Parent controls" = "أدوات تحكم الوالدين";
+"Notifications" = "الإشعارات";
+"Requests, gifts and updates." = "الطلبات والهدايا والتحديثات.";
+"Notification settings" = "إعدادات الإشعارات";
+"No new updates" = "لا توجد تحديثات جديدة";
+"Friend requests, gifts, events and discovery quizzes will appear here." = "ستظهر طلبات الصداقة والهدايا والفعاليات واختبارات الاكتشاف هنا.";
+"Friend requests" = "طلبات الصداقة";
+"Wants to explore together" = "يريد الاستكشاف معك";
+"Cards and exchanges" = "البطاقات والتبادلات";
+"Events near you" = "فعاليات بالقرب منك";
+"Waiting for your answer" = "في انتظار إجابتك";
 "Share" = "مشاركة";
 "Share card" = "مشاركة البطاقة";
 "Public with approximate location" = "نشر مع موقع تقريبي";

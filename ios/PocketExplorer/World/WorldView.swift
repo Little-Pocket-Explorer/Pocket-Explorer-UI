@@ -10,6 +10,12 @@ struct WorldView: View {
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     private var readyQuizCount: Int { store.state.discoveries.filter { ReminderPolicy.isEligible($0, now: Date()) }.count }
+    private var notificationCount: Int {
+        let requests = store.social.friends.filter { $0.state == "incoming" && !$0.blocked }.count
+        let transfers = store.social.transfers.values.flatMap { $0 }.filter { !$0.outgoing && $0.state == "pending" }.count
+        let events = store.events.events.contains { $0.endsAt > Date.now.timeIntervalSince1970 * 1000 } ? 1 : 0
+        return requests + transfers + readyQuizCount + events
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -40,16 +46,16 @@ struct WorldView: View {
                     .padding(14).background(.white, in: Capsule())
                 Spacer()
             }
-            Button { navigation?.open(.reminders) } label: {
-                Image(systemName: "leaf.arrow.triangle.circlepath").font(.system(size: 22)).frame(width: 52, height: 52).background(.white, in: Circle())
+            Button { navigation?.open(.notifications) } label: {
+                Image(systemName: "bell.fill").font(.system(size: 22)).frame(width: 52, height: 52).background(.white, in: Circle())
                     .overlay(alignment: .topTrailing) {
-                        if readyQuizCount > 0 {
-                            Text(min(readyQuizCount, 99).formatted()).font(.caption2.bold()).foregroundStyle(Theme.forest)
+                        if notificationCount > 0 {
+                            Text(min(notificationCount, 99).formatted()).font(.caption2.bold()).foregroundStyle(Theme.forest)
                                 .frame(minWidth: 22, minHeight: 22).background(Theme.mint, in: Circle()).overlay(Circle().stroke(.white, lineWidth: 2))
-                                .accessibilityIdentifier("map-quiz-count")
+                                .accessibilityIdentifier("map-notification-count")
                         }
                     }
-            }.accessibilityLabel("Discovery reminders").accessibilityIdentifier("open-reminders")
+            }.accessibilityLabel("Notifications").accessibilityIdentifier("open-notifications")
         }.padding(16).shadow(color: .black.opacity(0.13), radius: 8, y: 3)
     }
 

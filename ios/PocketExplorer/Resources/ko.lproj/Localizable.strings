@@ -661,6 +661,16 @@
 "Child profile" = "어린이 프로필";
 "Discovery preferences" = "탐험 환경설정";
 "Parent controls" = "보호자 관리";
+"Notifications" = "알림";
+"Requests, gifts and updates." = "요청, 선물 및 새로운 소식.";
+"Notification settings" = "알림 설정";
+"No new updates" = "새로운 알림이 없어요";
+"Friend requests, gifts, events and discovery quizzes will appear here." = "친구 요청, 선물, 이벤트와 발견 퀴즈가 여기에 표시돼요.";
+"Friend requests" = "친구 요청";
+"Wants to explore together" = "함께 탐험하고 싶어 해요";
+"Cards and exchanges" = "카드와 교환";
+"Events near you" = "근처 이벤트";
+"Waiting for your answer" = "답변을 기다리고 있어요";
 "Share" = "공유";
 "Share card" = "카드 공유";
 "Public with approximate location" = "대략적인 위치와 함께 공개";

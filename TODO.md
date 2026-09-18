@@ -1,5 +1,12 @@
 # Pocket Explorer: Current Execution State
 
+## Video workflow notification alignment pending macOS qualification (2026-09-18)
+
+- Re-audited the supplied two-minute workflow as behavior rather than a pixel-exact Web copy. Existing native flows already cover prepared question -> conversation -> card reveal/detail -> friend/map/link sharing -> nearby Event -> event conversation -> Friend Profile -> card request/gift/exchange -> recall quiz.
+- Map now opens an App-styled Notifications destination that aggregates real incoming friendship requests, pending/received card transfers, cached nearby Events and due discovery quizzes. Actions reuse existing protected endpoints and routes: accept/decline, open received card, open Event, or switch to Chat recall. Notification settings remain reachable from the same screen.
+- The native share sheet retains the three implemented contracts: approved-friend card copy, public broad-area map publication and revocable public link. The video's unsupported `Friends with location` scope is not shown as a fake control.
+- Swift diagnostics, `git diff --check`, route assertions and ten-catalog parity pass; all catalogs contain 670 unique matching keys. Existing reminder UI tests now traverse Map -> Notifications -> settings, and a new UI case covers Notifications -> due quiz -> Chat. This Windows host cannot execute XCUITest or changed-Swift coverage. TestFlight 1.0 (23) does not contain this work.
+
 ## Social refresh cancellation fix pending macOS qualification (2026-09-18)
 
 - A physical iPhone reproduced `Swift.CancellationError error 1` after tapping Refresh friends while an outgoing request was still waiting. SwiftUI task cancellation was being surfaced as a user-facing network error even though the cached friendship row remained valid.

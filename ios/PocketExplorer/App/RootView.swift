@@ -123,6 +123,7 @@ struct RootView: View {
         case .mapShare(let id):
             if let discovery = store.state.discoveries.first(where: { $0.id == id }) { MapSharingView(store: store, discovery: discovery) }
         case .reminders: DiscoveryRemindersView(store: store)
+        case .notifications: ExplorerNotificationsView(store: store)
         case .recall(let id): DiscoveryQuizView(store: store, discoveryID: id, showContext: true)
         case .friendProfile(let id): FriendProfileView(store: store, friendID: id)
         case .friend(let id, let page): FriendDetailView(store: store, friendID: id, page: page)

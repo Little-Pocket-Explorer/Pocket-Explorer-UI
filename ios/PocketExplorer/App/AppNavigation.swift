@@ -19,7 +19,7 @@ enum ExplorerRoute: Hashable {
     case explore(ExplorationDestination)
     case card(UUID), newCard(UUID), trip(UUID), memory(UUID), mapShare(UUID), recall(UUID)
     case share(UUID, UUID?)
-    case collection, nearby, reminders, history, profile
+    case collection, nearby, reminders, notifications, history, profile
     case event(String), eventShare(String), sharedDiscovery(String)
     case friendProfile(String), friend(String, Int), friendCard(String, String), exchange(String, String?)
 }

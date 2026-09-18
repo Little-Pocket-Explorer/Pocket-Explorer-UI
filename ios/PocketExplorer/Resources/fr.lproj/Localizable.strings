@@ -661,6 +661,16 @@
 "Child profile" = "Profil de l’enfant";
 "Discovery preferences" = "Préférences de découverte";
 "Parent controls" = "Contrôle parental";
+"Notifications" = "Notifications";
+"Requests, gifts and updates." = "Demandes, cadeaux et nouveautés.";
+"Notification settings" = "Réglages des notifications";
+"No new updates" = "Aucune nouveauté";
+"Friend requests, gifts, events and discovery quizzes will appear here." = "Les demandes, cadeaux, événements et quiz apparaîtront ici.";
+"Friend requests" = "Demandes d’amis";
+"Wants to explore together" = "Veut explorer avec toi";
+"Cards and exchanges" = "Cartes et échanges";
+"Events near you" = "Événements à proximité";
+"Waiting for your answer" = "En attente de ta réponse";
 "Share" = "Partager";
 "Share card" = "Partager la carte";
 "Public with approximate location" = "Public avec une position approximative";

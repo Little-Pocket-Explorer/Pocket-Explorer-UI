@@ -28,7 +28,7 @@ final class ReminderFlowTests: XCTestCase {
         XCTAssertTrue(app.otherElements["quiz-feedback"].exists || app.staticTexts["Your card is yours to keep."].exists)
         XCTAssertTrue(app.staticTexts["Air scatters the blue part of sunlight."].exists)
         capture("quiz-wrong-answer")
-        relaunch(); app.tabBars.buttons["Map"].tap(); app.buttons["open-reminders"].tap()
+        relaunch(); openReminders()
         XCTAssertTrue(app.staticTexts["Nothing to catch up on. Come back after your next discovery."].exists)
         app.buttons["Done"].tap(); app.buttons["open-collection"].tap()
         XCTAssertTrue(app.staticTexts["journal-count"].label.contains("Discoveries: 1"))
@@ -51,7 +51,7 @@ final class ReminderFlowTests: XCTestCase {
     }
 
     private func openQuiz() {
-        app.tabBars.buttons["Map"].tap(); app.buttons["open-reminders"].tap()
+        openReminders()
         let quiz = app.buttons.matching(NSPredicate(format: "label CONTAINS 'What scatters sunlight?'")).firstMatch
         XCTAssertTrue(quiz.waitForExistence(timeout: 5)); quiz.tap()
         XCTAssertTrue(app.buttons["quiz-choice-0"].waitForExistence(timeout: 5))
@@ -66,5 +66,10 @@ final class ReminderFlowTests: XCTestCase {
     }
     private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: app.screenshot()); attachment.name = name; attachment.lifetime = .keepAlways; add(attachment)
+    }
+    private func openReminders() {
+        app.tabBars.buttons["Map"].tap(); app.buttons["open-notifications"].tap()
+        XCTAssertTrue(app.navigationBars["Notifications"].waitForExistence(timeout: 5))
+        app.buttons["notification-settings"].tap()
     }
 }

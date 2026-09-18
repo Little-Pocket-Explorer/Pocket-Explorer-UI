@@ -661,6 +661,16 @@
 "Child profile" = "子どものプロフィール";
 "Discovery preferences" = "発見の設定";
 "Parent controls" = "保護者による管理";
+"Notifications" = "お知らせ";
+"Requests, gifts and updates." = "リクエスト、ギフト、新しいお知らせ。";
+"Notification settings" = "通知設定";
+"No new updates" = "新しいお知らせはありません";
+"Friend requests, gifts, events and discovery quizzes will appear here." = "友だち申請、ギフト、イベント、発見クイズがここに表示されます。";
+"Friend requests" = "友だち申請";
+"Wants to explore together" = "いっしょに探検したがっています";
+"Cards and exchanges" = "カードと交換";
+"Events near you" = "近くのイベント";
+"Waiting for your answer" = "返事を待っています";
 "Share" = "共有";
 "Share card" = "カードを共有";
 "Public with approximate location" = "おおよその場所と一緒に公開";

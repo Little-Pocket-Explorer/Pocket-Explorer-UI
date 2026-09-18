@@ -28,7 +28,7 @@ import Darwin
     }
 
     func testReminderSystemOptInAndDisable() {
-        app.tabBars.buttons["Map"].tap(); app.buttons["open-reminders"].tap()
+        openReminders()
         let notifications = app.buttons["recall-notifications"]
         XCTAssertTrue(notifications.waitForExistence(timeout: 5)); notifications.tap()
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
@@ -48,7 +48,7 @@ import Darwin
 
     func testMapCollectionShowsReadyQuizPromptByDefault() {
         app.tabBars.buttons["Map"].tap()
-        XCTAssertTrue(app.staticTexts["map-quiz-count"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["map-notification-count"].waitForExistence(timeout: 5))
         app.buttons["open-collection"].tap()
         XCTAssertTrue(app.staticTexts["Discovery Quizzes"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.segmentedControls["quiz-status"].buttons["Ready 1"].isSelected)
@@ -58,8 +58,19 @@ import Darwin
         XCTAssertTrue(app.tabBars.buttons["Chat"].isSelected)
     }
 
+    func testMapNotificationsRouteDueQuizIntoChat() {
+        app.tabBars.buttons["Map"].tap()
+        XCTAssertTrue(app.staticTexts["map-notification-count"].waitForExistence(timeout: 5))
+        app.buttons["open-notifications"].tap()
+        XCTAssertTrue(app.navigationBars["Notifications"].waitForExistence(timeout: 5))
+        let quiz = app.buttons["notification-quiz-\(card.uppercased())"]
+        reach(quiz); quiz.tap()
+        XCTAssertTrue(app.buttons["quiz-choice-0"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.tabBars.buttons["Chat"].isSelected)
+    }
+
     func testOriginalContextRecallAndColdLinksWithOneStepHome() {
-        app.tabBars.buttons["Map"].tap(); app.buttons["open-reminders"].tap()
+        openReminders()
         app.launchArguments = ["--ui-testing", "-AppleLanguages", "(en)"]
         app.buttons["recall-open-\(card.uppercased())"].tap()
         XCTAssertTrue(app.staticTexts["recall-original-question"].waitForExistence(timeout: 10))
@@ -93,7 +104,7 @@ import Darwin
         guard ProcessInfo.processInfo.environment["POCKET_WARM_RECALL_DRIVER"] == "1" else {
             throw XCTSkip("Run with the host simctl link driver to test a real warm system URL delivery.")
         }
-        app.tabBars.buttons["Map"].tap(); app.buttons["open-reminders"].tap()
+        openReminders()
         XCTAssertTrue(app.buttons["recall-open-\(card.uppercased())"].exists)
         print("POCKET_WARM_RECALL_READY \(card)"); fflush(stdout)
         let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
@@ -110,6 +121,11 @@ import Darwin
     private func reach(_ element: XCUIElement) {
         for _ in 0..<8 where !element.isHittable { app.swipeUp() }
         XCTAssertTrue(element.isHittable)
+    }
+    private func openReminders() {
+        app.tabBars.buttons["Map"].tap(); app.buttons["open-notifications"].tap()
+        XCTAssertTrue(app.navigationBars["Notifications"].waitForExistence(timeout: 5))
+        app.buttons["notification-settings"].tap()
     }
     private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: app.screenshot()); attachment.name = name; attachment.lifetime = .keepAlways; add(attachment)
