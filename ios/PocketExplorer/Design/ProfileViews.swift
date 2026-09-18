@@ -61,6 +61,9 @@ struct ExplorerProfileView: View {
                     Button { settingsPage = .privacy } label: { row("Privacy", icon: "checkmark.shield.fill") }
                         .accessibilityIdentifier("profile-privacy")
                     Divider().padding(.horizontal, 16)
+                    Button { settingsPage = .cloudAI } label: { row("Cloud AI permission", icon: "brain.head.profile") }
+                        .accessibilityIdentifier("profile-cloud-ai")
+                    Divider().padding(.horizontal, 16)
                     Button { navigation?.tab = .social } label: { row("Friends & family", icon: "person.2.fill") }
                         .accessibilityIdentifier("profile-friends")
                     Divider().padding(.horizontal, 16)
@@ -124,13 +127,14 @@ struct ExplorerProfileView: View {
 }
 
 private enum ProfileSettingsPage: Hashable {
-    case child, preferences, privacy, location, parentControls
+    case child, preferences, privacy, cloudAI, location, parentControls
 
     var title: String {
         switch self {
         case .child: "Child profile"
         case .preferences: "Discovery preferences"
         case .privacy: "Privacy"
+        case .cloudAI: "Cloud AI permission"
         case .location: "Location"
         case .parentControls: "Parent controls"
         }
@@ -166,7 +170,7 @@ private struct ProfileSettingsPageView: View {
                 }
             }
 
-            fields.disabled(!family.parentUnlocked)
+            fields.disabled(page != .cloudAI && !family.parentUnlocked)
 
             if family.parentUnlocked {
                 Section {
@@ -224,6 +228,8 @@ private struct ProfileSettingsPageView: View {
                 Link("Privacy policy", destination: URL(string: "https://pocket.changhai.me/privacy")!)
                 Link("Contact support", destination: URL(string: "https://pocket.changhai.me/support")!)
             }
+        case .cloudAI:
+            AIDataPermissionView(family: family)
         case .location:
             Section("Location") {
                 Toggle("Publish discoveries on the map", isOn: $policy.mapSharing).disabled(!policy.sharing)

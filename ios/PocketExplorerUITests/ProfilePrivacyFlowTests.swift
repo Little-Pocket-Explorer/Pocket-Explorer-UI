@@ -43,12 +43,13 @@ import XCTest
         app.buttons["open-profile"].tap()
         let image = XCTAttachment(screenshot: app.screenshot())
         image.name = "profile-new-background"; image.lifetime = .keepAlways; add(image)
-        for identifier in ["profile-child", "profile-preferences", "profile-reminders", "profile-privacy", "profile-friends", "profile-location", "profile-parent-controls", "open-family-settings", "profile-account"] {
+        for identifier in ["profile-child", "profile-preferences", "profile-reminders", "profile-privacy", "profile-cloud-ai", "profile-friends", "profile-location", "profile-parent-controls", "open-family-settings", "profile-account"] {
             reach(app.buttons[identifier])
         }
-        for destination in [("profile-child", "Child profile"), ("profile-preferences", "Discovery preferences"), ("profile-privacy", "Privacy"), ("profile-location", "Location"), ("profile-parent-controls", "Parent controls")] {
+        for destination in [("profile-child", "Child profile"), ("profile-preferences", "Discovery preferences"), ("profile-privacy", "Privacy"), ("profile-cloud-ai", "Cloud AI permission"), ("profile-location", "Location"), ("profile-parent-controls", "Parent controls")] {
             reach(app.buttons[destination.0]); app.buttons[destination.0].tap()
             XCTAssertTrue(app.navigationBars[destination.1].waitForExistence(timeout: 5))
+            if destination.0 == "profile-cloud-ai" { XCTAssertTrue(app.descendants(matching: .any)["ai-permission-status"].exists) }
             app.navigationBars.buttons.element(boundBy: 0).tap()
         }
         reach(app.buttons["profile-account"])

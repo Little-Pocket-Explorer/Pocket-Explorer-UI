@@ -28,6 +28,39 @@ struct EventMessage: Equatable {
     var text: String { title.replacingOccurrences(of: "\n", with: " ") + "\n" + url.absoluteString }
 }
 
+struct SharedCardMessage: Equatable {
+    let discoveryID: UUID
+    let title: String
+    let url: URL
+
+    init(discoveryID: UUID, title: String, url: URL) {
+        self.discoveryID = discoveryID
+        self.title = title.replacingOccurrences(of: "\n", with: " ")
+        self.url = url
+    }
+
+    init?(text: String, base: URL) {
+        let lines = text.split(separator: "\n", omittingEmptySubsequences: false)
+        let label = "Shared a discovery: "
+        guard lines.count == 3, lines[0].hasPrefix(label), lines[0].count > label.count,
+              let discoveryID = UUID(uuidString: String(lines[1])),
+              let url = URL(string: String(lines[2])), url.scheme == base.scheme,
+              url.host == base.host, url.port == base.port, url.user == nil, url.password == nil,
+              url.query == nil, url.fragment == nil else { return nil }
+        let prefix = base.appendingPathComponent("s").path + "/"
+        guard url.path.hasPrefix(prefix) else { return nil }
+        let token = String(url.path.dropFirst(prefix.count))
+        guard token.range(of: "^[A-Za-z0-9_-]{32}$", options: .regularExpression) != nil,
+              url.path == prefix + token,
+              url.absoluteString == base.appendingPathComponent("s/\(token)").absoluteString else { return nil }
+        self.discoveryID = discoveryID
+        title = String(lines[0].dropFirst(label.count))
+        self.url = url
+    }
+
+    var text: String { "Shared a discovery: \(title)\n\(discoveryID.uuidString.lowercased())\n\(url.absoluteString)" }
+}
+
 struct FriendActivity: Identifiable, Equatable {
     enum Kind { case discovery, growth, gift, exchange }
     let card: KnowledgeCard
