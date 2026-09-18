@@ -1,5 +1,11 @@
 # Pocket Explorer: Current Execution State
 
+## Social refresh cancellation fix pending macOS qualification (2026-09-18)
+
+- A physical iPhone reproduced `Swift.CancellationError error 1` after tapping Refresh friends while an outgoing request was still waiting. SwiftUI task cancellation was being surfaced as a user-facing network error even though the cached friendship row remained valid.
+- Social refresh now clears stale errors when a new attempt starts, ignores expected cancellation and still presents real service failures. Unit coverage distinguishes cancellation from `SocialError`, and the accepted-friend UI journey asserts a successful refresh leaves no `social-error`.
+- Swift diagnostics and `git diff --check` pass on Windows. TestFlight 1.0 (23) does not contain this source correction; macOS XCTest/XCUITest and changed-file coverage remain required before another native upload.
+
 ## DONE: teammate TestFlight 1.0 (23) and Backend update (2026-09-18)
 
 - Freeze this release at upstream 784267f, which deliberately restores the existing Social gate and gift-based card sharing. Profile settings and the share sheet remain. Earlier fb11b2c qualification is archived in ~/tmp/review/pocket-release-20260918 and does not define this release's feature scope.

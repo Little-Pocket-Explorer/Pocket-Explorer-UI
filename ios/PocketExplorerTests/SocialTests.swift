@@ -53,6 +53,9 @@ import XCTest
         var exchange = card.origin!; exchange.kind = "exchange"; XCTAssertFalse(exchange.displayLabel.isEmpty)
         for code in ["family_feature_disabled", "family_time_finished", "family_required", "friend_not_found", "friend_code_unavailable", "message_changed", "transfer_changed", "unknown"] { XCTAssertFalse(SocialError.from(code).localizedDescription.isEmpty) }
         for value in [SocialError.unavailable, .invalidResponse, .friendUnavailable, .code, .changed, .invalidText, .saveFailed] { XCTAssertFalse(value.localizedDescription.isEmpty) }
+        XCTAssertNil(socialRefreshErrorMessage(CancellationError(), taskCancelled: false))
+        XCTAssertNil(socialRefreshErrorMessage(SocialError.unavailable, taskCancelled: true))
+        XCTAssertEqual(socialRefreshErrorMessage(SocialError.unavailable, taskCancelled: false), SocialError.unavailable.localizedDescription)
     }
     func testClientUsesAuthenticatedValidatedRoutesAndRejectsUnexpectedResponses() async throws {
         try respond(SocialPage(items: [friend], next: 50)); let friends = try await client.friends(connection: connection); XCTAssertEqual(friends.items, [friend])

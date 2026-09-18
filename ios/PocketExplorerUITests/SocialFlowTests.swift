@@ -193,7 +193,7 @@ import XCTest
         XCTAssertTrue(app.staticTexts["Waiting for your friend"].waitForExistence(timeout: 15)); capture("friend-private-code-and-outgoing-request")
         let requests: Page<Friend> = try await peer("/api/social/friends"), id = try XCTUnwrap(requests.items.first?.id)
         let _: Friend = try await peer("/api/social/friends/\(id)/actions", body: ["action": "accept"])
-        tap("friends-refresh"); tap("friend-open-\(id)"); tap("friend-profile-message")
+        tap("friends-refresh"); XCTAssertFalse(app.staticTexts["social-error"].exists); tap("friend-open-\(id)"); tap("friend-profile-message")
         let message = app.textFields["friend-message-input"].exists ? app.textFields["friend-message-input"] : app.textViews["friend-message-input"]
         reach(message); message.tap(); message.typeText("I found a green leaf!"); tap("friend-message-send")
         let thread: Page<[String: AnyDecodable]> = try await peer("/api/social/friends/\(id)/messages")

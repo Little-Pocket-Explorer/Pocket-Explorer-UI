@@ -191,6 +191,7 @@ struct SocialView: View {
     }
 
     private func refreshSocial() async {
+        error = nil
         do {
             let connection = try ConnectionVault().loadOrCreate()
             try await store.social.refreshFriends(connection: connection)
@@ -198,12 +199,19 @@ struct SocialView: View {
                 try? await store.social.refreshMessages(friend.id, connection: connection)
                 if store.family.allows(.sharing) { try? await store.social.refreshCards(friend.id, connection: connection) }
             }
-        } catch { self.error = error.localizedDescription }
+        } catch {
+            if let message = socialRefreshErrorMessage(error, taskCancelled: Task.isCancelled) { self.error = message }
+        }
     }
 
     private func act(_ action: String, _ friend: ExplorerFriend) {
         Task { do { try await store.social.action(action, friendID: friend.id, connection: ConnectionVault().loadOrCreate()) } catch { self.error = error.localizedDescription } }
     }
+}
+
+func socialRefreshErrorMessage(_ error: Error, taskCancelled: Bool) -> String? {
+    guard !(error is CancellationError), !taskCancelled else { return nil }
+    return error.localizedDescription
 }
 
 struct FriendPresenceDot: View {
