@@ -18,6 +18,7 @@ final class CardReadingFlowTests: XCTestCase {
     private func exercise(language: String, map: String, knowledge: String, versions: String, location: String, heading: String, large: Bool = true) throws {
         continueAfterFailure = true
         app.launchArguments = ["--ui-testing", "--reset-journal", "--reset-language", "-AppleLanguages", "(\(language))", "-AppleLocale", language]
+        app.launchEnvironment["POCKET_SHARE_BASE_URL"] = FixtureServer.base
         if large { app.launchArguments += ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"] }
         app.launch()
         XCTAssertTrue(app.buttons["language-continue"].waitForExistence(timeout: 15))
@@ -77,6 +78,16 @@ final class CardReadingFlowTests: XCTestCase {
         XCTAssertTrue(place.exists)
         XCTAssertGreaterThanOrEqual(place.frame.minY, app.navigationBars.firstMatch.frame.maxY)
         XCTAssertLessThan(place.frame.maxY, app.tabBars.firstMatch.frame.minY, "Selecting Location must reveal the saved place above the tab bar.")
+        app.buttons["card-share-options"].tap()
+        let title = language == "ar" ? "مشاركة" : language == "de" ? "Teilen" : "Share"
+        XCTAssertTrue(app.navigationBars[title].waitForExistence(timeout: 5))
+        for id in ["card-share-friend", "card-share-map", "card-share-copy"] {
+            let action = app.buttons[id]
+            for _ in 0..<10 where !action.isHittable { app.swipeUp() }
+            XCTAssertTrue(action.isHittable, id)
+        }
+        capture("\(language)-large-card-share")
+        app.buttons["card-share-close"].tap()
     }
 
     private func capture(_ name: String) {

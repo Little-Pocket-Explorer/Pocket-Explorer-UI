@@ -200,7 +200,7 @@ private struct ProfileSettingsPageView: View {
             Section("Explanation style") {
                 Picker("Explanation style", selection: $profile.learningLevel) {
                     Text("Simple discoveries").tag(1); Text("A little more detail").tag(2); Text("Deeper connections").tag(3)
-                }
+                }.accessibilityIdentifier("profile-learning-level")
             }
             Section("Interests") {
                 ForEach(ExplorerProfile.interestChoices, id: \.self) { interest in

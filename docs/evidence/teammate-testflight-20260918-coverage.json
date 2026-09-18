@@ -1,0 +1,32 @@
+{
+  "policy": "Every changed Swift file needs 80% lines from a matching-source test run. Use the best complete run for each file.",
+  "passed": true,
+  "files": [
+    {
+      "file": "ios/PocketExplorer/Cards/CardShareView.swift",
+      "coverage": 0.9495614035087719,
+      "covered": 433,
+      "executable": 456,
+      "report": "/Users/haichang/tmp/review/pocket-release-20260918/reverted-coverage.json",
+      "sourceHash": "382ecedd859aea2ef86017d19dea5288a41c90a9661a5d2d4e0b86720cc393df"
+    },
+    {
+      "file": "ios/PocketExplorer/Cards/CardViews.swift",
+      "coverage": 0.8928,
+      "covered": 1116,
+      "executable": 1250,
+      "report": "/Users/haichang/tmp/review/pocket-release-20260918/reverted-coverage.json",
+      "sourceHash": "546f0cb96de4777865f2f82a6add4f8b8d8f865428353ae1fdcf4c5d07adefe1"
+    },
+    {
+      "file": "ios/PocketExplorer/Design/ProfileViews.swift",
+      "coverage": 0.9123867069486404,
+      "covered": 604,
+      "executable": 662,
+      "report": "/Users/haichang/tmp/review/pocket-release-20260918/reverted-coverage.json",
+      "sourceHash": "1eb7dca3d0668265f86d8ae2f4c98c7508f751fbc071951441f3da718761c8f8"
+    }
+  ],
+  "missing": [],
+  "belowThreshold": []
+}

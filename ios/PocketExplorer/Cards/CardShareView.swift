@@ -30,7 +30,7 @@ struct CardShareOptionsView: View {
                 else { options }
             }
             .background(Theme.paper)
-            .navigationTitle(choosingFriend ? "Share to friend" : "Share")
+            .navigationTitle(L10n.text(choosingFriend ? "Share to friend" : "Share"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

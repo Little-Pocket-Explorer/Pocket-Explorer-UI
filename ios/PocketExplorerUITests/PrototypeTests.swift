@@ -68,6 +68,8 @@ final class PrototypeTests: XCTestCase {
         app.buttons["card-share-copy"].tap()
         XCTAssertTrue(app.staticTexts["card-share-message"].waitForExistence(timeout: 15))
         XCTAssertEqual(app.staticTexts["card-share-message"].label, "Link copied.")
+        app.buttons["card-share-copy"].tap()
+        XCTAssertEqual(app.staticTexts["card-share-message"].label, "Link copied.")
         capture("card-share-options")
         app.buttons["card-share-close"].tap()
         relaunch(); openCollection(); scrollTo(app.buttons["collection-card-\(shell)"]); app.buttons["collection-card-\(shell)"].tap()

@@ -178,7 +178,7 @@ struct CardDetailView: View {
                                 Theme.mint.opacity(0.4).frame(height: 160)
                             }.clipShape(RoundedRectangle(cornerRadius: 20))
                         }
-                        if let trip = store.state.trips.first(where: { $0.id == discovery.tripID }) {
+                        if store.state.trips.contains(where: { $0.id == discovery.tripID }) {
                             Button { sharing = true } label: { Label("Preview & share", systemImage: "square.and.arrow.up") }
                                 .buttonStyle(ExplorerButtonStyle()).disabled(!discovery.isUnlocked).accessibilityIdentifier("card-share-preview")
                             NavigationLink("See this adventure", value: ExplorerRoute.trip(discovery.tripID)).frame(maxWidth: .infinity, minHeight: 44)

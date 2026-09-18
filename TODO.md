@@ -1,5 +1,14 @@
 # Pocket Explorer: Current Execution State
 
+## IN_PROGRESS: final teammate update and local TestFlight release (2026-09-18)
+
+- Freeze this release at upstream 784267f, which deliberately restores the existing Social gate and gift-based card sharing. Profile settings and the share sheet remain. Earlier fb11b2c qualification is archived in ~/tmp/review/pocket-release-20260918 and does not define this release's feature scope.
+- Preserve primary checkouts and App Store submission build 21. Publish native from this Mac with [skip ci]. Backend fbb5ccd is already deployed through successful workflow 35297449490, with independently verified traffic and tested asset hashes.
+- Final-source qualification is complete: 18 affected units and four integration UI journeys have passing latest results. Gift retry and independent recipient readback, map publication/revocation, full settings persistence, copied-link reuse, events and exchanges pass. The first gift readback failed in the test decoder only. A typed response fixed that helper and gift-journey.xcresult passes with unchanged product source.
+- All three changed Swift files pass matching-source coverage: CardShareView 94.96%, CardViews 89.28%, ProfileViews 91.24%. Ten catalogs contain 660 matching keys. Final screenshots were inspected. Evidence: docs/evidence/teammate-testflight-20260918.md and the accompanying coverage JSON.
+- Apple independently read at 2026-09-18T03:14:03Z: version 1.0 and review submission both WAITING_FOR_REVIEW, build 21 unchanged. No owner action is required.
+- Next: commit qualification, upload locally and independently verify TestFlight and the preserved App Store submission. No external messages or native GitHub build. Physical-device acceptance remains separate.
+
 ## DONE: teammate TestFlight 1.0 (22) delivered (2026-09-17)
 
 - Pulled c0149a6 and preserved the primary checkout. Corrected the two Swift compilation failures, restored conversation refresh, and made event sharing scrollable and expandable.

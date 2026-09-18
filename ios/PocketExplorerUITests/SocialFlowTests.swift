@@ -7,6 +7,10 @@ import XCTest
     private struct Page<T: Decodable>: Decodable { var items: [T] }
     private struct Friend: Decodable { var id: String; var nickname: String? }
     private struct Transfer: Decodable { var id: String; var receivedCardID: String?; var kind: String; var state: String }
+    private struct ReceivedCard: Decodable {
+        struct Identity: Decodable { var id: String }
+        var collectible: Identity
+    }
     private var seed: Seed!
     override func setUp() async throws {
         continueAfterFailure = false
@@ -95,11 +99,22 @@ import XCTest
         XCTAssertTrue(app.staticTexts["live-answer"].waitForExistence(timeout: 10))
         tap("save-discovery"); app.unlockSavedObservation(); tap("reveal-card")
         tap("card-share-options"); tap("card-share-friend")
-        tap("card-share-recipient-\(id)"); tap("card-share-send")
+        tap("Back"); tap("card-share-friend")
+        tap("card-share-recipient-\(id)")
+        _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/offline")!)
+        tap("card-share-send")
+        XCTAssertTrue(app.staticTexts["card-share-error"].waitForExistence(timeout: 10))
+        _ = try await URLSession.shared.data(from: URL(string: base + "/__fixture/family/online")!)
+        tap("card-share-send")
         XCTAssertTrue(app.tabBars.buttons["Social"].waitForExistence(timeout: 10))
-        XCTAssertTrue(app.tabBars.buttons["Social"].isSelected)
+        let routedToSocial = XCTNSPredicateExpectation(predicate: NSPredicate(format: "selected == true"), object: app.tabBars.buttons["Social"])
+        XCTAssertEqual(XCTWaiter.wait(for: [routedToSocial], timeout: 10), .completed)
         let sharedTransfers: Page<Transfer> = try await peer("/api/social/friends/\(id)/transfers")
-        XCTAssertTrue(sharedTransfers.items.contains { $0.kind == "gift" && $0.state == "pending" })
+        let gifts = sharedTransfers.items.filter { $0.kind == "gift" && $0.state == "accepted" }
+        XCTAssertEqual(gifts.count, 1)
+        let receivedID = try XCTUnwrap(gifts.first?.receivedCardID)
+        let received: ReceivedCard = try await peer("/api/collectibles/\(receivedID)")
+        XCTAssertEqual(received.collectible.id, receivedID)
         app.tabBars.buttons["Chat"].tap()
         XCTAssertTrue(app.tabBars.buttons["Map"].isHittable)
         tap("new-card-map"); tap("map-share-location")
