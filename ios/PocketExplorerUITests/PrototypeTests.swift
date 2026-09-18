@@ -64,6 +64,7 @@ final class PrototypeTests: XCTestCase {
         capture("card-location")
         scrollTo(app.buttons["card-share-preview"]); app.buttons["card-share-preview"].tap()
         XCTAssertTrue(app.buttons["card-share-friend"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["card-share-friend"].isEnabled)
         XCTAssertTrue(app.buttons["card-share-map"].exists)
         app.buttons["card-share-copy"].tap()
         XCTAssertTrue(app.staticTexts["card-share-message"].waitForExistence(timeout: 15))

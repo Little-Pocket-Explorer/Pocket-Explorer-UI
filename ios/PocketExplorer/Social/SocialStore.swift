@@ -116,7 +116,7 @@ import Observation
         guard !busy else { throw SocialError.changed }
         let owner = state.owner
         busy = true; defer { busy = false }
-        let key = "\(friendID):\(card.discoveryID.uuidString.lowercased())"
+        let key = "\(friendID):\(card.cardID)"
         if state.cardMessages?[key] == nil {
             var next = state
             var drafts = next.cardMessages ?? [:]

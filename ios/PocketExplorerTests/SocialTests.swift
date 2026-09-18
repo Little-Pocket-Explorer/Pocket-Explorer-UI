@@ -186,15 +186,10 @@ import XCTest
         var multiline = event; multiline.title = "Sky\nwatchers"
         XCTAssertNotNil(EventMessage(text: EventMessage(event: multiline, base: base).text, base: base))
 
-        let discoveryID = UUID(uuidString: requestID)!, cardURL = base.appendingPathComponent("s/" + String(repeating: "a", count: 32))
-        let card = SharedCardMessage(discoveryID: discoveryID, title: "Blue\nsky", url: cardURL)
-        XCTAssertEqual(SharedCardMessage(text: card.text, base: base), card)
-        let cardPrefix = "Shared a discovery: Blue sky\n\(discoveryID.uuidString.lowercased())\n"
-        for value in ["http://pocket.example/s/" + String(repeating: "a", count: 32),
-            "https://evil.example/s/" + String(repeating: "a", count: 32),
-            "https://pocket.example/s/short", "https://pocket.example/events/" + String(repeating: "a", count: 32),
-            "https://pocket.example/s/" + String(repeating: "a", count: 32) + "?x=1"] {
-            XCTAssertNil(SharedCardMessage(text: cardPrefix + value, base: base), value)
+        let card = SharedCardMessage(cardID: requestID, title: "Blue\nsky")
+        XCTAssertEqual(SharedCardMessage(text: card.text), card)
+        for value in ["bad", requestID.uppercased(), requestID + "\nextra", "https://pocket.example/s/" + String(repeating: "a", count: 32)] {
+            XCTAssertNil(SharedCardMessage(text: "Shared a discovery: Blue sky\n" + value), value)
         }
     }
     func testRecentActivityUsesDiscoveryOrVersionTimeAndExcludesPrivateContent() {
@@ -243,8 +238,7 @@ import XCTest
     }
     func testCardShareRetryIsDurableAndPreservesUnsentConversation() async throws {
         try store.social.saveDraft("My unfinished thought", friendID: id, connection: connection)
-        let message = SharedCardMessage(discoveryID: UUID(uuidString: requestID)!, title: "Blue sky",
-            url: connection.validatedURL!.appendingPathComponent("s/" + String(repeating: "a", count: 32)))
+        let message = SharedCardMessage(cardID: requestID, title: "Blue sky")
         var requestIDs: [String] = []
         DiscoveryHTTPProtocol.respond = { request in
             let draft = try JSONDecoder().decode(MessageDraft.self, from: self.body(request))
@@ -256,7 +250,7 @@ import XCTest
         DiscoveryHTTPProtocol.respond = { request in
             let draft = try JSONDecoder().decode(MessageDraft.self, from: self.body(request))
             requestIDs.append(draft.id)
-            XCTAssertEqual(SharedCardMessage(text: draft.text, base: self.connection.validatedURL!), message)
+            XCTAssertEqual(SharedCardMessage(text: draft.text), message)
             return (200, [:], try JSONEncoder().encode(ExplorerMessage(sequence: 5, requestID: draft.id, text: draft.text, createdAt: 1000, mine: true)))
         }
         try await restored.shareCard(message, friendID: id, connection: connection)

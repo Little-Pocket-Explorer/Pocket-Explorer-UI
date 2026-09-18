@@ -191,7 +191,7 @@ struct FriendDetailView: View {
                 }.frame(width: 230, alignment: .leading).background(.white, in: RoundedRectangle(cornerRadius: 20))
             }.buttonStyle(.plain).accessibilityIdentifier("message-event-\(invitation.eventID)")
         } else if let card = sharedCardMessage(message) {
-            Link(destination: card.url) {
+            Button { openSharedCard(card) } label: {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 18).fill(Theme.mint)
@@ -203,7 +203,7 @@ struct FriendDetailView: View {
                         HStack { Text("Shared discovery").font(.caption).foregroundStyle(Theme.muted); Spacer(); Label("View", systemImage: "chevron.right").font(.subheadline.bold()).foregroundStyle(Theme.forest) }
                     }.padding(13)
                 }.frame(width: 230, alignment: .leading).background(.white, in: RoundedRectangle(cornerRadius: 20))
-            }.buttonStyle(.plain).accessibilityIdentifier("message-card-\(card.discoveryID.uuidString.lowercased())")
+            }.buttonStyle(.plain).accessibilityIdentifier("message-card-\(card.cardID)")
         } else { Text(message.text) }
     }
 
@@ -213,8 +213,21 @@ struct FriendDetailView: View {
     }
 
     private func sharedCardMessage(_ message: ExplorerMessage) -> SharedCardMessage? {
-        guard let connection = try? ConnectionVault().loadOrCreate(), let base = connection.validatedURL else { return nil }
-        return SharedCardMessage(text: message.text, base: base)
+        SharedCardMessage(text: message.text)
+    }
+
+    private func openSharedCard(_ card: SharedCardMessage) {
+        if let owned = store.state.discoveries.first(where: { $0.collectionID == card.cardID }) {
+            navigation?.open(.card(owned.id))
+            return
+        }
+        Task {
+            let connection = try? ConnectionVault().loadOrCreate()
+            if let connection { try? await store.social.refreshCards(friendID, connection: connection) }
+            if store.social.cards[friendID]?.contains(where: { $0.id == card.cardID }) == true {
+                navigation?.open(.friendCard(friendID, card.cardID))
+            }
+        }
     }
 
     private func decide(_ decision: String, _ transfer: CardTransfer) { run { try await store.social.decide(decision, transferID: transfer.id, store: store, connection: $0) } }

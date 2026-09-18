@@ -29,36 +29,25 @@ struct EventMessage: Equatable {
 }
 
 struct SharedCardMessage: Equatable {
-    let discoveryID: UUID
+    let cardID: String
     let title: String
-    let url: URL
 
-    init(discoveryID: UUID, title: String, url: URL) {
-        self.discoveryID = discoveryID
+    init(cardID: String, title: String) {
+        self.cardID = cardID.lowercased()
         self.title = title.replacingOccurrences(of: "\n", with: " ")
-        self.url = url
     }
 
-    init?(text: String, base: URL) {
+    init?(text: String) {
         let lines = text.split(separator: "\n", omittingEmptySubsequences: false)
         let label = "Shared a discovery: "
-        guard lines.count == 3, lines[0].hasPrefix(label), lines[0].count > label.count,
-              let discoveryID = UUID(uuidString: String(lines[1])),
-              let url = URL(string: String(lines[2])), url.scheme == base.scheme,
-              url.host == base.host, url.port == base.port, url.user == nil, url.password == nil,
-              url.query == nil, url.fragment == nil else { return nil }
-        let prefix = base.appendingPathComponent("s").path + "/"
-        guard url.path.hasPrefix(prefix) else { return nil }
-        let token = String(url.path.dropFirst(prefix.count))
-        guard token.range(of: "^[A-Za-z0-9_-]{32}$", options: .regularExpression) != nil,
-              url.path == prefix + token,
-              url.absoluteString == base.appendingPathComponent("s/\(token)").absoluteString else { return nil }
-        self.discoveryID = discoveryID
+        guard lines.count == 2, lines[0].hasPrefix(label), lines[0].count > label.count else { return nil }
+        let cardID = String(lines[1])
+        guard let canonical = UUID(uuidString: cardID)?.uuidString.lowercased(), cardID == canonical else { return nil }
+        self.cardID = cardID
         title = String(lines[0].dropFirst(label.count))
-        self.url = url
     }
 
-    var text: String { "Shared a discovery: \(title)\n\(discoveryID.uuidString.lowercased())\n\(url.absoluteString)" }
+    var text: String { "Shared a discovery: \(title)\n\(cardID)" }
 }
 
 struct FriendActivity: Identifiable, Equatable {

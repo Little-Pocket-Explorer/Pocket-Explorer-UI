@@ -13,13 +13,15 @@ struct CardShareOptionsView: View {
     @State private var message: String?
     @State private var error: String?
 
-    private var friendsAllowed: Bool { store.family.allows(.sharing) && store.family.allows(.social) }
+    private var friendsAllowed: Bool {
+        store.family.family != nil && store.family.allows(.sharing) && store.family.allows(.social)
+    }
     private var sharingAllowed: Bool { store.family.allows(.sharing) }
     private var friends: [ExplorerFriend] { store.social.friends.filter(\.canInteract) }
-    private var canShareCard: Bool {
+    private var cardID: String? {
         guard discovery.isVerified, let card = discovery.collectible,
-              card.versions.allSatisfy({ $0.audience == "public" }) else { return false }
-        return true
+              card.versions.allSatisfy({ $0.audience == "public" }) else { return nil }
+        return card.id
     }
     private var receiptKey: String { "share-receipt-\(trip.id)-card-\(discovery.id)" }
 
@@ -65,7 +67,7 @@ struct CardShareOptionsView: View {
                 } label: {
                     shareRow("Share to friend", detail: "Send privately in Messages", symbol: "person.2.fill")
                 }
-                .buttonStyle(.plain).disabled(!friendsAllowed || !canShareCard)
+                .buttonStyle(.plain).disabled(!friendsAllowed || cardID == nil)
                 .accessibilityIdentifier("card-share-friend")
                 if !friendsAllowed {
                     Text("A grown-up can turn on friends and text chat in Family settings.").font(.caption).foregroundStyle(Theme.muted)
@@ -115,7 +117,7 @@ struct CardShareOptionsView: View {
                 }
                 Button(selectedFriendID.flatMap { id in friends.first(where: { $0.id == id })?.displayName }
                     .map { String(format: L10n.text("Send to %@"), $0) } ?? L10n.text("Choose a friend"), action: sendToFriend)
-                    .buttonStyle(ExplorerButtonStyle()).disabled(selectedFriendID == nil || working || !canShareCard)
+                    .buttonStyle(ExplorerButtonStyle()).disabled(selectedFriendID == nil || working || cardID == nil)
                     .accessibilityIdentifier("card-share-send")
                 if working { ProgressView().frame(maxWidth: .infinity) }
                 if let error { Text(error).foregroundStyle(Theme.muted).accessibilityIdentifier("card-share-error") }
@@ -147,16 +149,14 @@ struct CardShareOptionsView: View {
     }
 
     private func sendToFriend() {
-        guard friendsAllowed, canShareCard, let friendID = selectedFriendID else { return }
+        guard friendsAllowed, let cardID, let friendID = selectedFriendID else { return }
         working = true; error = nil
         Task {
             defer { working = false }
             do {
-                let published = try await publishedShare()
                 let connection = try ConnectionVault().loadOrCreate()
-                guard let base = connection.validatedURL else { throw ShareError.configuration }
-                let card = SharedCardMessage(discoveryID: discovery.id, title: discovery.title, url: published.receipt.url)
-                guard SharedCardMessage(text: card.text, base: base) == card else { throw ShareError.invalidResponse }
+                let card = SharedCardMessage(cardID: cardID, title: discovery.title)
+                guard SharedCardMessage(text: card.text) == card else { throw SocialError.invalidResponse }
                 try await store.social.shareCard(card, friendID: friendID, connection: connection)
                 onFriendSent(friendID)
                 dismiss()
