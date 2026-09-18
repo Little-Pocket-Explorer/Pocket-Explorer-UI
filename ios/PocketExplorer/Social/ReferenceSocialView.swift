@@ -31,17 +31,9 @@ struct SocialView: View {
                 Picker("Social", selection: $tab) {
                     Text("Friends").tag(0); Text("Messages").tag(1); Text("Shared with Me").tag(2)
                 }.pickerStyle(.segmented).accessibilityIdentifier("social-tabs")
-                if allowed {
-                    if tab == 0 { friends }
-                    else if tab == 1 { messages }
-                    else { sharedCards }
-                } else {
-                    VStack(alignment: .leading, spacing: 12) {
-                        Label("Friends are approved by a parent", systemImage: "lock.shield.fill").font(.headline)
-                        Text("A grown-up can turn on friends and text chat in Family settings.").foregroundStyle(Theme.muted)
-                        Button("Family settings") { settings = true }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("friends-family-settings")
-                    }.padding(18).background(.white.opacity(0.94), in: RoundedRectangle(cornerRadius: 24))
-                }
+                if tab == 0 { friends }
+                else if tab == 1 { messages }
+                else { sharedCards }
                 if let error { Text(error).font(.caption).foregroundStyle(Theme.muted).accessibilityIdentifier("social-error") }
             }.padding(20)
         }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink).navigationTitle("Social").navigationBarTitleDisplayMode(.inline)
@@ -55,7 +47,18 @@ struct SocialView: View {
 
     private var friends: some View {
         VStack(alignment: .leading, spacing: 14) {
-            HStack { Text("Your explorers").font(.title3.bold()); Spacer(); Button { adding = true } label: { Label("Add friend", systemImage: "plus.circle.fill") }.accessibilityIdentifier("social-add-friend") }
+            if !allowed {
+                VStack(alignment: .leading, spacing: 8) {
+                    Label("Friends are approved by a parent", systemImage: "lock.shield.fill").font(.headline)
+                    Text("A grown-up can turn on friends and text chat in Family settings.").font(.subheadline).foregroundStyle(Theme.muted)
+                    Button("Family settings") { settings = true }.accessibilityIdentifier("friends-family-settings")
+                }.padding(14).background(.white.opacity(0.94), in: RoundedRectangle(cornerRadius: 20))
+            }
+            HStack {
+                Text("Your explorers").font(.title3.bold()); Spacer()
+                Button { if allowed { adding = true } else { settings = true } } label: { Label("Add friend", systemImage: "plus.circle.fill") }
+                    .accessibilityIdentifier("social-add-friend")
+            }
             if let code = store.family.family?.friendCode {
                 Label(code, systemImage: "lock.fill").font(.caption.monospaced()).foregroundStyle(Theme.muted).accessibilityIdentifier("friend-code")
             }
@@ -69,7 +72,7 @@ struct SocialView: View {
                             }
                         }.buttonStyle(.plain).accessibilityIdentifier("friend-open-\(friend.id)")
                     }
-                    Button { adding = true } label: { VStack(spacing: 6) { Image(systemName: "plus").font(.title2).frame(width: 60, height: 60).background(Theme.mint, in: Circle()); Text("Add friend").font(.caption) } }
+                    Button { if allowed { adding = true } else { settings = true } } label: { VStack(spacing: 6) { Image(systemName: "plus").font(.title2).frame(width: 60, height: 60).background(Theme.mint, in: Circle()); Text("Add friend").font(.caption) } }
                         .buttonStyle(.plain)
                 }
             }

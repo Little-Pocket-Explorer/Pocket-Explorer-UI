@@ -9,6 +9,7 @@ struct ExplorerProfileView: View {
     @Environment(\.explorerNavigation) private var navigation
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var account = false
+    @State private var settingsPage: ProfileSettingsPage?
 
     private var profile: ExplorerProfile {
         if let profile = store.family.family?.profile { return profile }
@@ -48,26 +49,29 @@ struct ExplorerProfileView: View {
                     Text("Your guide adjusts explanations to your age.").font(.caption).foregroundStyle(Theme.muted)
                 }
                 VStack(spacing: 0) {
-                    Button(action: onFamilySettings) { row("Child profile", icon: "person.fill") }
-                        .accessibilityIdentifier("open-family-settings")
+                    Button { settingsPage = .child } label: { row("Child profile", icon: "person.fill") }
+                        .accessibilityIdentifier("profile-child")
                     Divider().padding(.horizontal, 16)
-                    Button(action: onFamilySettings) { row("Discovery preferences", icon: "leaf.fill") }
+                    Button { settingsPage = .preferences } label: { row("Discovery preferences", icon: "leaf.fill") }
                         .accessibilityIdentifier("profile-preferences")
                     Divider().padding(.horizontal, 16)
                     NavigationLink(value: ExplorerRoute.reminders) { row("Notifications", icon: "bell.fill") }
                         .accessibilityIdentifier("profile-reminders")
                     Divider().padding(.horizontal, 16)
-                    Button(action: onFamilySettings) { row("Privacy", icon: "checkmark.shield.fill") }
+                    Button { settingsPage = .privacy } label: { row("Privacy", icon: "checkmark.shield.fill") }
                         .accessibilityIdentifier("profile-privacy")
                     Divider().padding(.horizontal, 16)
                     Button { navigation?.tab = .social } label: { row("Friends & family", icon: "person.2.fill") }
                         .accessibilityIdentifier("profile-friends")
                     Divider().padding(.horizontal, 16)
-                    Button { navigation?.tab = .map } label: { row("Location", icon: "mappin.circle.fill") }
+                    Button { settingsPage = .location } label: { row("Location", icon: "mappin.circle.fill") }
                         .accessibilityIdentifier("profile-location")
                     Divider().padding(.horizontal, 16)
-                    Button(action: onFamilySettings) { row("Parent controls", icon: "lock.fill") }
+                    Button { settingsPage = .parentControls } label: { row("Parent controls", icon: "lock.fill") }
                         .accessibilityIdentifier("profile-parent-controls")
+                    Divider().padding(.horizontal, 16)
+                    Button(action: onFamilySettings) { row("Family settings", icon: "slider.horizontal.3") }
+                        .accessibilityIdentifier("open-family-settings")
                     Divider().padding(.horizontal, 16)
                     Button { account = true } label: { row("Account", icon: "person.crop.circle") }
                         .accessibilityIdentifier("profile-account")
@@ -87,6 +91,9 @@ struct ExplorerProfileView: View {
             .navigationTitle("My profile").navigationBarTitleDisplayMode(.inline)
             .toolbar { Button("Done", action: onClose) }
             .sheet(isPresented: $account) { ProfileAccountSheet(profile: profile, onLanguage: onLanguage) }
+            .navigationDestination(item: $settingsPage) { page in
+                ProfileSettingsPageView(family: store.family, page: page, openFamilySettings: onFamilySettings)
+            }
             .onAppear {
                 if store.family.family == nil, UserDefaults.standard.object(forKey: "explorer-age") == nil,
                    let draft = LegacyProfileMigration.draft() { age = draft.age }
@@ -113,6 +120,158 @@ struct ExplorerProfileView: View {
             Spacer(minLength: 4)
             Image(systemName: "chevron.right").font(.caption).foregroundStyle(Theme.muted)
         }.padding(16).frame(maxWidth: .infinity, minHeight: 56, alignment: .leading).contentShape(Rectangle())
+    }
+}
+
+private enum ProfileSettingsPage: Hashable {
+    case child, preferences, privacy, location, parentControls
+
+    var title: String {
+        switch self {
+        case .child: "Child profile"
+        case .preferences: "Discovery preferences"
+        case .privacy: "Privacy"
+        case .location: "Location"
+        case .parentControls: "Parent controls"
+        }
+    }
+}
+
+private struct ProfileSettingsPageView: View {
+    let family: FamilyStore
+    let page: ProfileSettingsPage
+    var openFamilySettings: () -> Void
+    @State private var profile = ExplorerProfile()
+    @State private var policy = FamilyPolicy()
+    @State private var pin = ""
+    @State private var working = false
+    @State private var saved = false
+    @State private var error: String?
+
+    var body: some View {
+        Form {
+            if family.family == nil {
+                Section {
+                    Text("A grown-up needs to create family settings before these choices can be changed.")
+                        .foregroundStyle(Theme.muted)
+                    Button("Create family settings", action: openFamilySettings)
+                        .accessibilityIdentifier("profile-create-family")
+                }
+            } else if !family.parentUnlocked {
+                Section("For grown-ups") {
+                    SecureField("Six-digit parent PIN", text: $pin).keyboardType(.numberPad)
+                        .accessibilityIdentifier("profile-settings-pin")
+                    Button("Unlock family settings", action: unlock)
+                        .disabled(pin.count != 6 || working).accessibilityIdentifier("profile-settings-unlock")
+                }
+            }
+
+            fields.disabled(!family.parentUnlocked)
+
+            if family.parentUnlocked {
+                Section {
+                    Button("Save family settings", action: save).disabled(working)
+                        .accessibilityIdentifier("profile-settings-save")
+                    if saved { Label("Family settings saved", systemImage: "checkmark.circle.fill").foregroundStyle(Theme.forest) }
+                }
+            }
+            if working { ProgressView("Saving…") }
+            if let error { Section { Text(error).foregroundStyle(Theme.ink).accessibilityIdentifier("profile-settings-error") } }
+        }
+        .scrollContentBackground(.hidden).background(ProfileBackdrop())
+        .navigationTitle(L10n.text(page.title)).navigationBarTitleDisplayMode(.inline)
+        .onAppear(perform: load)
+        .onChange(of: family.family?.revision) { _, _ in load() }
+        .onDisappear { Task { await family.lock(connection: try? ConnectionVault().loadOrCreate()) } }
+    }
+
+    @ViewBuilder private var fields: some View {
+        switch page {
+        case .child:
+            Section("Explorer profile") {
+                HStack { Spacer(); ExplorerAvatar(size: 84, avatar: profile.avatar); Spacer() }.listRowBackground(Color.clear)
+                TextField("Nickname", text: $profile.nickname).accessibilityIdentifier("profile-child-nickname")
+                Stepper("Age: \(profile.age)", value: $profile.age, in: 5...18)
+                Picker("Explorer avatar", selection: $profile.avatar) {
+                    Text("Mimi").tag("mimi"); Text("Dou Dou").tag("dou-dou"); Text("AJ").tag("aj")
+                }
+            }
+        case .preferences:
+            Section("Explanation style") {
+                Picker("Explanation style", selection: $profile.learningLevel) {
+                    Text("Simple discoveries").tag(1); Text("A little more detail").tag(2); Text("Deeper connections").tag(3)
+                }
+            }
+            Section("Interests") {
+                ForEach(ExplorerProfile.interestChoices, id: \.self) { interest in
+                    Toggle(L10n.text(interest.capitalized), isOn: Binding(get: {
+                        profile.interests.contains(interest)
+                    }, set: { selected in
+                        profile.interests.removeAll { $0 == interest }
+                        if selected { profile.interests.append(interest) }
+                    }))
+                }
+            }
+        case .privacy:
+            Section("Family permissions") {
+                Toggle("Share links", isOn: $policy.sharing)
+                Toggle("Friends and text chat", isOn: $policy.social)
+                Toggle("Include a nickname in links", isOn: $policy.nameSharing).disabled(!policy.sharing)
+                Toggle("Include a city in links", isOn: $policy.citySharing).disabled(!policy.sharing)
+                Text("Private photos and exact personal locations stay private.").font(.caption).foregroundStyle(Theme.muted)
+            }
+            Section("Privacy and support") {
+                Link("Privacy policy", destination: URL(string: "https://pocket.changhai.me/privacy")!)
+                Link("Contact support", destination: URL(string: "https://pocket.changhai.me/support")!)
+            }
+        case .location:
+            Section("Location") {
+                Toggle("Publish discoveries on the map", isOn: $policy.mapSharing).disabled(!policy.sharing)
+                Toggle("Include a city in links", isOn: $policy.citySharing).disabled(!policy.sharing)
+                Text("Private photos and exact personal locations stay private.").font(.caption).foregroundStyle(Theme.muted)
+            }
+        case .parentControls:
+            Section("Family permissions") {
+                Toggle("AI exploration", isOn: $policy.exploration)
+                Toggle("Nearby events", isOn: $policy.events)
+                Toggle("Share links", isOn: $policy.sharing)
+                Toggle("Friends and text chat", isOn: $policy.social)
+            }
+            Section("Screen time") {
+                Stepper("Daily minutes: \(policy.dailyMinutes)", value: $policy.dailyMinutes, in: 0...240, step: 5)
+                Text("Used today: \(family.usedSeconds / 60) minutes").font(.subheadline)
+            }
+        }
+    }
+
+    private func load() {
+        if let current = family.family { profile = current.profile; policy = current.policy }
+    }
+
+    private func unlock() {
+        guard !working else { return }
+        working = true; error = nil
+        Task {
+            defer { working = false }
+            do {
+                try await family.unlock(pin: pin, connection: ConnectionVault().loadOrCreate())
+                pin = ""
+                load()
+            } catch { self.error = error.localizedDescription }
+        }
+    }
+
+    private func save() {
+        guard !working else { return }
+        working = true; saved = false; error = nil
+        Task {
+            defer { working = false }
+            do {
+                try await family.save(profile: profile, policy: policy, connection: ConnectionVault().loadOrCreate())
+                UserDefaults.standard.set(profile.age, forKey: "explorer-age")
+                saved = true
+            } catch { self.error = error.localizedDescription }
+        }
     }
 }
 

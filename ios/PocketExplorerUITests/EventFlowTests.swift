@@ -51,7 +51,10 @@ import XCTest
         reach(button("event-choice-0")); button("event-choice-0").tap()
         reach(button("event-claim")); button("event-claim").tap()
         reach(button("reveal-card")); capture("event-exclusive-card-awarded"); button("reveal-card").tap()
-        reach(button("card-map-sharing")); button("card-map-sharing").tap()
+        reach(button("card-share-options")); button("card-share-options").tap()
+        XCTAssertTrue(button("card-share-friend").waitForExistence(timeout: 5))
+        XCTAssertTrue(button("card-share-copy").exists)
+        button("card-share-map").tap()
         reach(button("Family settings")); button("Family settings").tap()
         pin("926418"); button("family-unlock").tap()
         let sharing = app.switches["family-mapSharing"]

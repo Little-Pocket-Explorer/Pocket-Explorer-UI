@@ -658,6 +658,16 @@
 "Invite someone you know" = "邀请你认识的人";
 "Shared discoveries will appear here." = "分享的发现会显示在这里。";
 "Privacy and support" = "隐私与支持";
+"Child profile" = "儿童资料";
+"Discovery preferences" = "探索偏好";
+"Parent controls" = "家长控制";
+"Share" = "分享";
+"Share card" = "分享卡片";
+"Public with approximate location" = "公开并显示大致位置";
+"Choose where to share" = "选择分享方式";
+"Who would enjoy this discovery?" = "谁会喜欢这个发现？";
+"Add a trusted explorer in Social before sharing this card." = "分享这张卡片前，请先在 Social 中添加可信的探险伙伴。";
+"A grown-up needs to create family settings before these choices can be changed." = "更改这些选项前，需要由家长先创建家庭设置。";
 "Privacy policy" = "隐私政策";
 "Contact support" = "联系支持";
 "Delete account and data" = "删除账号及数据";

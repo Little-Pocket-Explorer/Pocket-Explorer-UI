@@ -658,6 +658,16 @@
 "Invite someone you know" = "Lade jemanden ein, den du kennst";
 "Shared discoveries will appear here." = "Geteilte Entdeckungen erscheinen hier.";
 "Privacy and support" = "Datenschutz und Hilfe";
+"Child profile" = "Kinderprofil";
+"Discovery preferences" = "Entdeckungspräferenzen";
+"Parent controls" = "Elternkontrollen";
+"Share" = "Teilen";
+"Share card" = "Karte teilen";
+"Public with approximate location" = "Öffentlich mit ungefährem Ort";
+"Choose where to share" = "Wähle, wo du teilen möchtest";
+"Who would enjoy this discovery?" = "Wer würde sich über diese Entdeckung freuen?";
+"Add a trusted explorer in Social before sharing this card." = "Füge unter Social eine vertraute Person hinzu, bevor du diese Karte teilst.";
+"A grown-up needs to create family settings before these choices can be changed." = "Ein Erwachsener muss Familieneinstellungen erstellen, bevor diese Auswahl geändert werden kann.";
 "Privacy policy" = "Datenschutzerklärung";
 "Contact support" = "Support kontaktieren";
 "Delete account and data" = "Konto und Daten löschen";

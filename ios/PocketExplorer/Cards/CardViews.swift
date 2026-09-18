@@ -102,6 +102,9 @@ struct CardDetailView: View {
     @State private var error: String?
     @State private var section = 0
     @State private var styling = false
+    @State private var sharing = false
+    @State private var openingMapShare = false
+    @State private var openingFriendShare: String?
     private var discovery: Discovery? { store.state.discoveries.first { $0.id == discoveryID } }
 
     var body: some View {
@@ -176,7 +179,7 @@ struct CardDetailView: View {
                             }.clipShape(RoundedRectangle(cornerRadius: 20))
                         }
                         if let trip = store.state.trips.first(where: { $0.id == discovery.tripID }) {
-                            NavigationLink(value: ExplorerRoute.share(trip.id, discovery.id)) { Label("Preview & share", systemImage: "square.and.arrow.up") }
+                            Button { sharing = true } label: { Label("Preview & share", systemImage: "square.and.arrow.up") }
                                 .buttonStyle(ExplorerButtonStyle()).disabled(!discovery.isUnlocked).accessibilityIdentifier("card-share-preview")
                             NavigationLink("See this adventure", value: ExplorerRoute.trip(discovery.tripID)).frame(maxWidth: .infinity, minHeight: 44)
                         }
@@ -184,7 +187,6 @@ struct CardDetailView: View {
                         if let card = discovery.collectible, discovery.isUnlocked {
                             VStack(alignment: .leading, spacing: 14) {
                                 NavigationLink { CardHistoryView(card: card) } label: { Label("Card history", systemImage: "clock.arrow.circlepath") }.accessibilityIdentifier("card-history")
-                                Button("Share on map") { navigation?.open(.mapShare(discovery.id)) }.frame(minHeight: 44).accessibilityIdentifier("card-map-sharing")
                                 Button("Help this card grow") { navigation?.open(.explore(.init(tripID: discovery.tripID, parentID: discovery.explorationID, evolveFrom: card.id)), in: .chat) }.buttonStyle(ExplorerButtonStyle()).accessibilityIdentifier("evolve-card")
                                     .disabled(!store.family.allows(.exploration))
                                 Picker("Card style", selection: Binding(get: { card.style }, set: { style in
@@ -204,6 +206,14 @@ struct CardDetailView: View {
                 proxy.scrollTo("card-section-start", anchor: .top)
             }.background(ExplorerBackdrop()).foregroundStyle(Theme.ink)
             .navigationTitle(discovery?.title ?? L10n.text("My discovery")).navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                if discovery?.isUnlocked == true {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button { sharing = true } label: { Image(systemName: "square.and.arrow.up").frame(minWidth: 44, minHeight: 44) }
+                            .accessibilityLabel("Share card").accessibilityIdentifier("card-share-options")
+                    }
+                }
+            }
             .sheet(isPresented: $editing) {
                 NavigationStack {
                     Form {
@@ -219,6 +229,24 @@ struct CardDetailView: View {
                                 }.disabled(observation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                             }
                         }
+                }
+            }
+            .sheet(isPresented: $sharing, onDismiss: {
+                if openingMapShare {
+                    openingMapShare = false
+                    navigation?.open(.mapShare(discoveryID))
+                } else if let friendID = openingFriendShare {
+                    openingFriendShare = nil
+                    navigation?.open(.friend(friendID, 2), in: .social)
+                }
+            }) {
+                if let discovery, let trip = store.state.trips.first(where: { $0.id == discovery.tripID }) {
+                    CardShareOptionsView(store: store, discovery: discovery, trip: trip, onMap: {
+                        openingMapShare = true
+                    }, onFriendSent: { friendID in
+                        openingFriendShare = friendID
+                    })
+                    .presentationDetents([.medium, .large]).presentationDragIndicator(.visible)
                 }
             }
         }

@@ -658,6 +658,16 @@
 "Invite someone you know" = "知っている人を招待";
 "Shared discoveries will appear here." = "共有された発見がここに表示されます。";
 "Privacy and support" = "プライバシーとサポート";
+"Child profile" = "子どものプロフィール";
+"Discovery preferences" = "発見の設定";
+"Parent controls" = "保護者による管理";
+"Share" = "共有";
+"Share card" = "カードを共有";
+"Public with approximate location" = "おおよその場所と一緒に公開";
+"Choose where to share" = "共有先を選ぶ";
+"Who would enjoy this discovery?" = "この発見を楽しんでくれるのはだれ？";
+"Add a trusted explorer in Social before sharing this card." = "このカードを共有する前に、Social で信頼できる探検家を追加してください。";
+"A grown-up needs to create family settings before these choices can be changed." = "これらの選択を変更するには、おうちの人が先にファミリー設定を作成する必要があります。";
 "Privacy policy" = "プライバシーポリシー";
 "Contact support" = "サポートに連絡";
 "Delete account and data" = "アカウントとデータを削除";
