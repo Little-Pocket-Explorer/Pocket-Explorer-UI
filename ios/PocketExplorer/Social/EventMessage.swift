@@ -28,28 +28,6 @@ struct EventMessage: Equatable {
     var text: String { title.replacingOccurrences(of: "\n", with: " ") + "\n" + url.absoluteString }
 }
 
-struct SharedCardMessage: Equatable {
-    let cardID: String
-    let title: String
-
-    init(cardID: String, title: String) {
-        self.cardID = cardID.lowercased()
-        self.title = title.replacingOccurrences(of: "\n", with: " ")
-    }
-
-    init?(text: String) {
-        let lines = text.split(separator: "\n", omittingEmptySubsequences: false)
-        let label = "Shared a discovery: "
-        guard lines.count == 2, lines[0].hasPrefix(label), lines[0].count > label.count else { return nil }
-        let cardID = String(lines[1])
-        guard let canonical = UUID(uuidString: cardID)?.uuidString.lowercased(), cardID == canonical else { return nil }
-        self.cardID = cardID
-        title = String(lines[0].dropFirst(label.count))
-    }
-
-    var text: String { "Shared a discovery: \(title)\n\(cardID)" }
-}
-
 struct FriendActivity: Identifiable, Equatable {
     enum Kind { case discovery, growth, gift, exchange }
     let card: KnowledgeCard

@@ -98,11 +98,8 @@ import XCTest
         tap("card-share-recipient-\(id)"); tap("card-share-send")
         XCTAssertTrue(app.tabBars.buttons["Social"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.tabBars.buttons["Social"].isSelected)
-        let sharedMessage = app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH 'message-card-'")).firstMatch
-        XCTAssertTrue(sharedMessage.waitForExistence(timeout: 10)); sharedMessage.tap()
-        XCTAssertTrue(button("discovery-card").waitForExistence(timeout: 10))
-        app.navigationBars.buttons["BackButton"].tap()
-        XCTAssertTrue(button("conversation-profile").waitForExistence(timeout: 10))
+        let sharedTransfers: Page<Transfer> = try await peer("/api/social/friends/\(id)/transfers")
+        XCTAssertTrue(sharedTransfers.items.contains { $0.kind == "gift" && $0.state == "pending" })
         app.tabBars.buttons["Chat"].tap()
         XCTAssertTrue(app.tabBars.buttons["Map"].isHittable)
         tap("new-card-map"); tap("map-share-location")
@@ -128,13 +125,7 @@ import XCTest
         XCTAssertTrue(app.tabBars.buttons["Social"].isSelected)
         struct Message: Decodable { var text: String }
         let messages: Page<Message> = try await peer("/api/social/friends/\(id)/messages")
-        XCTAssertEqual(messages.items.count, 3)
-        XCTAssertEqual(messages.items.first?.text, "I found a new card!")
-        let cardLines = try XCTUnwrap(messages.items.dropFirst().first?.text.split(separator: "\n", omittingEmptySubsequences: false))
-        XCTAssertEqual(cardLines.count, 2)
-        XCTAssertTrue(cardLines[0].hasPrefix("Shared a discovery: "))
-        XCTAssertNotNil(UUID(uuidString: String(cardLines[1])))
-        XCTAssertEqual(messages.items.last?.text, "Sky watchers\n\(base)/events/77777777-7777-4777-8777-777777777777")
+        XCTAssertEqual(messages.items.map(\.text), ["I found a new card!", "Sky watchers\n\(base)/events/77777777-7777-4777-8777-777777777777"])
         capture("jacky-event-shared-in-conversation")
         for _ in 0..<8 where !button("conversation-profile").isHittable { app.swipeDown() }
         tap("conversation-profile")

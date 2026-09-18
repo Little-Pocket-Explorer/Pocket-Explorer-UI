@@ -13,9 +13,7 @@ struct CardShareOptionsView: View {
     @State private var message: String?
     @State private var error: String?
 
-    private var friendsAllowed: Bool {
-        store.family.family != nil && store.family.allows(.sharing) && store.family.allows(.social)
-    }
+    private var friendsAllowed: Bool { store.family.allows(.sharing) && store.family.allows(.social) }
     private var sharingAllowed: Bool { store.family.allows(.sharing) }
     private var friends: [ExplorerFriend] { store.social.friends.filter(\.canInteract) }
     private var cardID: String? {
@@ -149,15 +147,13 @@ struct CardShareOptionsView: View {
     }
 
     private func sendToFriend() {
-        guard friendsAllowed, let cardID, let friendID = selectedFriendID else { return }
+        guard friendsAllowed, let friendID = selectedFriendID, let cardID else { return }
         working = true; error = nil
         Task {
             defer { working = false }
             do {
-                let connection = try ConnectionVault().loadOrCreate()
-                let card = SharedCardMessage(cardID: cardID, title: discovery.title)
-                guard SharedCardMessage(text: card.text) == card else { throw SocialError.invalidResponse }
-                try await store.social.shareCard(card, friendID: friendID, connection: connection)
+                _ = try await store.social.offer(friendID: friendID, offeredID: cardID, wantedID: nil,
+                    connection: ConnectionVault().loadOrCreate())
                 onFriendSent(friendID)
                 dismiss()
             } catch { self.error = error.localizedDescription }
@@ -166,22 +162,23 @@ struct CardShareOptionsView: View {
 
     private func copyLink() {
         guard sharingAllowed else { return }
+        if let saved = SharePublisher.shared.saved(for: receiptKey) {
+            UIPasteboard.general.url = saved.receipt.url
+            message = L10n.text("Link copied.")
+            return
+        }
         working = true; error = nil; message = nil
+        let story = PublicStory.make(trip: trip, discoveries: [discovery], firstName: nil, includeCity: false)
+        let request = SharePublisher.shared.publish(story, key: receiptKey, prepare: {
+            try await PreparedRegistration.shared.prepareShare(story, store: store, connection: ConnectionVault().loadOrCreate())
+        })
         Task {
             defer { working = false }
             do {
-                let published = try await publishedShare()
+                let published = try await request.task.value
                 UIPasteboard.general.url = published.receipt.url
                 message = L10n.text("Link copied.")
             } catch { self.error = error.localizedDescription }
         }
-    }
-
-    private func publishedShare() async throws -> PublishedShare {
-        if let saved = SharePublisher.shared.saved(for: receiptKey) { return saved }
-        let story = PublicStory.make(trip: trip, discoveries: [discovery], firstName: nil, includeCity: false)
-        return try await SharePublisher.shared.publish(story, key: receiptKey, prepare: {
-            try await PreparedRegistration.shared.prepareShare(story, store: store, connection: ConnectionVault().loadOrCreate())
-        }).task.value
     }
 }

@@ -83,13 +83,13 @@ struct FriendDetailView: View {
     }
 
     @ViewBuilder private func messageRow(_ message: ExplorerMessage) -> some View {
-        let isRichMessage = eventMessage(message) != nil || sharedCardMessage(message) != nil
+        let isEvent = eventMessage(message) != nil
         HStack(alignment: .bottom, spacing: 8) {
             if !message.mine { ExplorerAvatar(size: 34, avatar: friend?.avatar) }
             if message.mine { Spacer(minLength: 58) }
             messageContent(message)
-                .padding(isRichMessage ? 0 : 13)
-                .background(isRichMessage ? Color.clear : message.mine ? Color(red: 0.86, green: 0.95, blue: 1) : .white,
+                .padding(isEvent ? 0 : 13)
+                .background(isEvent ? Color.clear : message.mine ? Color(red: 0.86, green: 0.95, blue: 1) : .white,
                             in: RoundedRectangle(cornerRadius: 19))
                 .frame(maxWidth: 280, alignment: message.mine ? .trailing : .leading)
                 .accessibilityIdentifier("friend-message-\(message.sequence)")
@@ -190,44 +190,12 @@ struct FriendDetailView: View {
                     }.padding(13)
                 }.frame(width: 230, alignment: .leading).background(.white, in: RoundedRectangle(cornerRadius: 20))
             }.buttonStyle(.plain).accessibilityIdentifier("message-event-\(invitation.eventID)")
-        } else if let card = sharedCardMessage(message) {
-            Button { openSharedCard(card) } label: {
-                VStack(alignment: .leading, spacing: 0) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 18).fill(Theme.mint)
-                        Image(systemName: "rectangle.stack.fill").font(.system(size: 42)).foregroundStyle(Theme.forest.opacity(0.45))
-                    }.frame(height: 112)
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label("Shared card", systemImage: "leaf.fill").font(.caption).foregroundStyle(Theme.forest)
-                        Text(card.title).font(.headline)
-                        HStack { Text("Shared discovery").font(.caption).foregroundStyle(Theme.muted); Spacer(); Label("View", systemImage: "chevron.right").font(.subheadline.bold()).foregroundStyle(Theme.forest) }
-                    }.padding(13)
-                }.frame(width: 230, alignment: .leading).background(.white, in: RoundedRectangle(cornerRadius: 20))
-            }.buttonStyle(.plain).accessibilityIdentifier("message-card-\(card.cardID)")
         } else { Text(message.text) }
     }
 
     private func eventMessage(_ message: ExplorerMessage) -> EventMessage? {
         guard let connection = try? ConnectionVault().loadOrCreate(), let base = connection.validatedURL else { return nil }
         return EventMessage(text: message.text, base: base)
-    }
-
-    private func sharedCardMessage(_ message: ExplorerMessage) -> SharedCardMessage? {
-        SharedCardMessage(text: message.text)
-    }
-
-    private func openSharedCard(_ card: SharedCardMessage) {
-        if let owned = store.state.discoveries.first(where: { $0.collectionID == card.cardID }) {
-            navigation?.open(.card(owned.id))
-            return
-        }
-        Task {
-            let connection = try? ConnectionVault().loadOrCreate()
-            if let connection { try? await store.social.refreshCards(friendID, connection: connection) }
-            if store.social.cards[friendID]?.contains(where: { $0.id == card.cardID }) == true {
-                navigation?.open(.friendCard(friendID, card.cardID))
-            }
-        }
     }
 
     private func decide(_ decision: String, _ transfer: CardTransfer) { run { try await store.social.decide(decision, transferID: transfer.id, store: store, connection: $0) } }

@@ -185,12 +185,6 @@ import XCTest
         XCTAssertNil(EventMessage(text: message.text + "\n", base: base))
         var multiline = event; multiline.title = "Sky\nwatchers"
         XCTAssertNotNil(EventMessage(text: EventMessage(event: multiline, base: base).text, base: base))
-
-        let card = SharedCardMessage(cardID: requestID, title: "Blue\nsky")
-        XCTAssertEqual(SharedCardMessage(text: card.text), card)
-        for value in ["bad", requestID.uppercased(), requestID + "\nextra", "https://pocket.example/s/" + String(repeating: "a", count: 32)] {
-            XCTAssertNil(SharedCardMessage(text: "Shared a discovery: Blue sky\n" + value), value)
-        }
     }
     func testRecentActivityUsesDiscoveryOrVersionTimeAndExcludesPrivateContent() {
         var gift = card
@@ -235,28 +229,6 @@ import XCTest
         XCTAssertEqual(reloaded.draft(for: id), "My unfinished thought")
         try await reloaded.shareEvent(event, friendID: id, connection: connection)
         XCTAssertNotEqual(requestIDs[1], requestIDs[2], "A new deliberate share must receive a new request ID")
-    }
-    func testCardShareRetryIsDurableAndPreservesUnsentConversation() async throws {
-        try store.social.saveDraft("My unfinished thought", friendID: id, connection: connection)
-        let message = SharedCardMessage(cardID: requestID, title: "Blue sky")
-        var requestIDs: [String] = []
-        DiscoveryHTTPProtocol.respond = { request in
-            let draft = try JSONDecoder().decode(MessageDraft.self, from: self.body(request))
-            requestIDs.append(draft.id)
-            throw URLError(.notConnectedToInternet)
-        }
-        await fails { try await self.store.social.shareCard(message, friendID: self.id, connection: self.connection) }
-        let restored = try SocialStore(file: folder.appendingPathComponent("social.json"), client: client)
-        DiscoveryHTTPProtocol.respond = { request in
-            let draft = try JSONDecoder().decode(MessageDraft.self, from: self.body(request))
-            requestIDs.append(draft.id)
-            XCTAssertEqual(SharedCardMessage(text: draft.text), message)
-            return (200, [:], try JSONEncoder().encode(ExplorerMessage(sequence: 5, requestID: draft.id, text: draft.text, createdAt: 1000, mine: true)))
-        }
-        try await restored.shareCard(message, friendID: id, connection: connection)
-        XCTAssertEqual(requestIDs.count, 2); XCTAssertEqual(requestIDs[0], requestIDs[1])
-        XCTAssertEqual(restored.draft(for: id), "My unfinished thought")
-        XCTAssertEqual(restored.messages[id]?.count, 1)
     }
     func testOwnedReceiptsRecoverWithoutFriendshipAndValidatePagination() async throws {
         let card = self.card

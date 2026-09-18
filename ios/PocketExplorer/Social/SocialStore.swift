@@ -8,7 +8,6 @@ import Observation
         var messages: [String: MessageDraft] = [:]
         var transfers: [String: TransferDraft] = [:]
         var eventMessages: [String: MessageDraft]? = nil
-        var cardMessages: [String: MessageDraft]? = nil
         var readSequences: [String: Int]? = nil
     }
     private var state: State
@@ -109,26 +108,6 @@ import Observation
         guard state.owner == owner else { throw SocialError.changed }
         messages[friendID] = merge(messages[friendID] ?? [], [sent]).sorted { $0.sequence < $1.sequence }
         var next = state; next.eventMessages?[key] = nil; try persist(next)
-    }
-
-    func shareCard(_ card: SharedCardMessage, friendID: String, connection: ShareConnection) async throws {
-        try bind(connection)
-        guard !busy else { throw SocialError.changed }
-        let owner = state.owner
-        busy = true; defer { busy = false }
-        let key = "\(friendID):\(card.cardID)"
-        if state.cardMessages?[key] == nil {
-            var next = state
-            var drafts = next.cardMessages ?? [:]
-            drafts[key] = MessageDraft(id: UUID().uuidString.lowercased(), text: card.text)
-            next.cardMessages = drafts
-            try persist(next)
-        }
-        guard let draft = state.cardMessages?[key] else { throw SocialError.saveFailed }
-        let sent = try await client.message(draft, friendID: friendID, connection: connection)
-        guard state.owner == owner else { throw SocialError.changed }
-        messages[friendID] = merge(messages[friendID] ?? [], [sent]).sorted { $0.sequence < $1.sequence }
-        var next = state; next.cardMessages?[key] = nil; try persist(next)
     }
 
     func refreshCards(_ id: String, connection: ShareConnection, more: Bool = false) async throws {

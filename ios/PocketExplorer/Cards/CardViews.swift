@@ -237,7 +237,7 @@ struct CardDetailView: View {
                     navigation?.open(.mapShare(discoveryID))
                 } else if let friendID = openingFriendShare {
                     openingFriendShare = nil
-                    navigation?.open(.friend(friendID, 0), in: .social)
+                    navigation?.open(.friend(friendID, 2), in: .social)
                 }
             }) {
                 if let discovery, let trip = store.state.trips.first(where: { $0.id == discovery.tripID }) {
