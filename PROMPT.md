@@ -1,5 +1,9 @@
 # Pocket Explorer: Continuation Brief
 
+## Active: qualified teammate TestFlight release (2026-09-20)
+
+T25.1 and T25.2 are complete. Upstream c565d29 has 195 unit and 15 UI latest passes, all 12 changed Swift files above 80% matching-source coverage, and ten 700-key catalogs. Only test helpers/assertions and marketing version changed locally. Backend dcc6629 passed workflow 35475725421 and production verification. Continue T25.3 from the hai/testflight-20260920 worktree: commit and publish 1.0.2 locally, independently verify the IPA, Apple processing and Hackathon Internal, then clean owned resources and record delivery. Do not repeat qualified checks or mutate runtime source. Keep the public App Store 1.0.1 (24), primary checkout edits and physical-device acceptance boundary. No GitHub native runner, new automation or agent. See TODO and docs/evidence/teammate-testflight-20260920.json.
+
 ## Complete: App Store 1.0.1 (24) corrected and resubmitted (2026-09-19)
 
 ITMS-90062 is corrected in source f237dbf by increasing MARKETING_VERSION to 1.0.1. The exact build 23 product code was repackaged locally as 1.0.1 (24), Apple build 4641bae6-3418-4c1d-a242-e8eb50bad345. IPA, signing, compiled catalogs and source equivalence pass, and independent Apple reads confirm VALID / IN_BETA_TESTING. The rejected item was resolved and submission 40be6edc-a2c4-446d-b670-fb13c8dc4c54 resubmitted at 2026-09-19T03:49:59.129Z. API and UI show WAITING_FOR_REVIEW after a bounded observation of at least five minutes with no new failure email. This is not review approval. Live 1.0 (21) remains available, and release stays AFTER_APPROVAL. No newer teammate features were included. No Backend deployment, external messages, automation or GitHub native runner was used. Evidence: docs/evidence/app-store-update-1.0.1-build24.json and docs/app-store/release-status.json. Do not repeat publication without a new request or concrete review feedback.

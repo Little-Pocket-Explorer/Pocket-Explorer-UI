@@ -1,0 +1,430 @@
+{
+  "checkedAt": "2026-09-19T23:41:47.929268+00:00",
+  "qualifiedUpstream": "c565d2968b98fc5075abbe3ec6d375475140c387",
+  "allObservedProductHashesMatchCurrentSource": true,
+  "policy": "Latest result per observed test with unchanged product source. This is not one wholly passing full-suite invocation.",
+  "counts": {
+    "PocketExplorerTests": 195,
+    "PocketExplorerUITests": 15
+  },
+  "unresolved": [],
+  "observations": [
+    {
+      "resultBundle": "units-signed.xcresult",
+      "result": "Failed",
+      "startTime": 1789859957.147,
+      "finishTime": 1789859971.622,
+      "totalTestCount": 195,
+      "passedTests": 191,
+      "failedTests": 2,
+      "skippedTests": 2,
+      "runtimeWarnings": [
+        "AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread."
+      ]
+    },
+    {
+      "resultBundle": "journeys.xcresult",
+      "result": "Failed",
+      "startTime": 1789859993.148,
+      "finishTime": 1789860743.295,
+      "totalTestCount": 18,
+      "passedTests": 16,
+      "failedTests": 2,
+      "skippedTests": 0,
+      "runtimeWarnings": [
+        "AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread."
+      ]
+    },
+    {
+      "resultBundle": "final-journeys.xcresult",
+      "result": "Failed",
+      "startTime": 1789860857.664,
+      "finishTime": 1789861080.355,
+      "totalTestCount": 5,
+      "passedTests": 3,
+      "failedTests": 2,
+      "skippedTests": 0,
+      "runtimeWarnings": []
+    },
+    {
+      "resultBundle": "corrected-journeys.xcresult",
+      "result": "Passed",
+      "startTime": 1789861109.079,
+      "finishTime": 1789861276.372,
+      "totalTestCount": 2,
+      "passedTests": 2,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "runtimeWarnings": []
+    }
+  ],
+  "coverage": {
+    "policy": "Every changed product Swift file must meet 80% line coverage in a complete matching-source observation. Best complete observation per file, not arithmetic averaging.",
+    "passed": true,
+    "files": [
+      {
+        "file": "ios/PocketExplorer/App/AppNavigation.swift",
+        "coverage": 0.9428571428571428,
+        "covered": 33,
+        "executable": 35,
+        "sourceSHA256": "ffebfebbe30f9420dd9d358c84acb70a1ff21b1afcb9bb940775e27f0cf67b20",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/journeys-coverage.json"
+      },
+      {
+        "file": "ios/PocketExplorer/App/RootView.swift",
+        "coverage": 0.8279883381924198,
+        "covered": 284,
+        "executable": 343,
+        "sourceSHA256": "302d49b274465ccca9e476a2d288e4d73f9028b8470dd074921d9c44a944ea22",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/journeys-coverage.json"
+      },
+      {
+        "file": "ios/PocketExplorer/Cards/CardShareView.swift",
+        "coverage": 0.8530701754385965,
+        "covered": 389,
+        "executable": 456,
+        "sourceSHA256": "e31b007737503f71921795ddb58b5995c6f04126257ebb5af5a6640da0e58c26",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/journeys-coverage.json"
+      },
+      {
+        "file": "ios/PocketExplorer/Events/EventClient.swift",
+        "coverage": 0.9903846153846154,
+        "covered": 103,
+        "executable": 104,
+        "sourceSHA256": "080bf06bc9323a6db8d628cb4d024a1a391ab06da269e074086013c6d5f414ee",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/journeys-coverage.json"
+      },
+      {
+        "file": "ios/PocketExplorer/Events/EventModels.swift",
+        "coverage": 1,
+        "covered": 72,
+        "executable": 72,
+        "sourceSHA256": "c7fdcf30e55d77a0c61bd59d1f2ba1eda7c06264e7cbc6406eba3d9e6131bc1d",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/journeys-coverage.json"
+      },
+      {
+        "file": "ios/PocketExplorer/Events/EventStore.swift",
+        "coverage": 0.9117647058823529,
+        "covered": 62,
+        "executable": 68,
+        "sourceSHA256": "4040bc294befb1a79c5aa3f67f093dbcfd4a5f24e3277f414ec9b3944490f134",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/units-coverage.json"
+      },
+      {
+        "file": "ios/PocketExplorer/Events/MapSharingView.swift",
+        "coverage": 0.9797979797979798,
+        "covered": 291,
+        "executable": 297,
+        "sourceSHA256": "810f8feaadd3ec29dbe05a35dceff5e99813eda4ebd9dd0241e2cebd814f6f89",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/journeys-coverage.json"
+      },
+      {
+        "file": "ios/PocketExplorer/Events/NearbyDiscoveryView.swift",
+        "coverage": 0.98,
+        "covered": 343,
+        "executable": 350,
+        "sourceSHA256": "3df7495a47dd28a207c458d845c74fcf3770dd83a2e0de0aa440d05647ec30f0",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/journeys-coverage.json"
+      },
+      {
+        "file": "ios/PocketExplorer/Social/ExplorerNotificationsView.swift",
+        "coverage": 0.9900497512437811,
+        "covered": 398,
+        "executable": 402,
+        "sourceSHA256": "cf5d03a5f0785ea8a6e6cf0e8c33b6bdc57c6b0fd9f9f0a6f09c61614702056e",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/corrected-coverage.json"
+      },
+      {
+        "file": "ios/PocketExplorer/Social/ReferenceSocialView.swift",
+        "coverage": 0.9547920433996383,
+        "covered": 528,
+        "executable": 553,
+        "sourceSHA256": "3f468cdfe7c586f6c412534f01170d1066f68effd67cca8559d93eac7a92002e",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/journeys-coverage.json"
+      },
+      {
+        "file": "ios/PocketExplorer/World/WorldMap.swift",
+        "coverage": 0.85,
+        "covered": 170,
+        "executable": 200,
+        "sourceSHA256": "c7eda38c3cce2e330dd35fd2735d55ee02dda05640a3038407ae881b41655c2f",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/units-coverage.json"
+      },
+      {
+        "file": "ios/PocketExplorer/World/WorldView.swift",
+        "coverage": 0.9406130268199234,
+        "covered": 491,
+        "executable": 522,
+        "sourceSHA256": "c3849a8988648bcbf7ba30e6e715e742db63757c5cc6c7249edac6810c8f7b77",
+        "report": "/Users/haichang/tmp/review/pocket-testflight-20260920/corrected-coverage.json"
+      }
+    ],
+    "missing": [],
+    "belowThreshold": []
+  },
+  "physicalDeviceAcceptanceRepeated": false,
+  "qualificationSnapshotSHA256": "0accb1190d346f75cf64ac5cd29229cddf4c84aabad079bde5b0a04718cc8283",
+  "localizations": {
+    "catalogs": 10,
+    "matchingKeysPerCatalog": 700
+  },
+  "visualReview": {
+    "inspected": [
+      "Map scope controls",
+      "Notifications exchange decisions",
+      "Friend card without location",
+      "Four sharing audiences and public no-location publication",
+      "Arabic collection at largest accessibility text"
+    ],
+    "notes": "Sharing actions remain in a scrollable view. Screenshot review does not replace physical-device acceptance."
+  },
+  "backend": {
+    "sourceCommit": "dcc6629f76c0be6d0d469bd6999260838a5ec4db",
+    "workflow": {
+      "id": 35475725421,
+      "url": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/35475725421",
+      "conclusion": "success"
+    },
+    "migration": "0015_map_audience.sql",
+    "deployment": {
+      "id": "63429eb3-a8ba-4018-81b0-c5eabf704d19",
+      "annotations": {
+        "workers/message": "GitHub Actions 35475725421",
+        "workers/triggered_by": "deployment"
+      },
+      "versions": [
+        {
+          "version_id": "879a296c-cf76-4d8e-9458-4c4838dccd0e",
+          "percentage": 100
+        }
+      ],
+      "created_on": "2026-09-19T23:27:23.968594Z"
+    },
+    "tests": {
+      "unit": 388,
+      "testFiles": 48,
+      "chromium": 43,
+      "webkit": 43,
+      "explicitSkipPerBrowser": 1,
+      "artwork": 5,
+      "productionWorkflow": 1
+    },
+    "productionContract": {
+      "checkedAt": "2026-09-19T23:27:49.827Z",
+      "origin": "https://pocket.changhai.me",
+      "checks": [
+        {
+          "name": "Public feed available",
+          "passed": true
+        },
+        {
+          "name": "Create Release verification 1",
+          "passed": true
+        },
+        {
+          "name": "Family response Release verification 1",
+          "passed": true
+        },
+        {
+          "name": "Enable scoped verification Release verification 1",
+          "passed": true
+        },
+        {
+          "name": "Create Release verification 2",
+          "passed": true
+        },
+        {
+          "name": "Family response Release verification 2",
+          "passed": true
+        },
+        {
+          "name": "Enable scoped verification Release verification 2",
+          "passed": true
+        },
+        {
+          "name": "Create test friendship",
+          "passed": true,
+          "detail": {
+            "status": 200
+          }
+        },
+        {
+          "name": "Accept test friendship",
+          "passed": true
+        },
+        {
+          "name": "Read prepared discovery",
+          "passed": true
+        },
+        {
+          "name": "Register existing prepared answer",
+          "passed": true,
+          "detail": {
+            "status": 200
+          }
+        },
+        {
+          "name": "Award prepared card without AI generation",
+          "passed": true
+        },
+        {
+          "name": "Publish friends_only",
+          "passed": true,
+          "detail": {
+            "status": 200
+          }
+        },
+        {
+          "name": "Independent read friends_only",
+          "passed": true
+        },
+        {
+          "name": "Anonymous boundary friends_only",
+          "passed": true
+        },
+        {
+          "name": "Accepted friend read friends_only",
+          "passed": true
+        },
+        {
+          "name": "Friend feed friends_only",
+          "passed": true
+        },
+        {
+          "name": "Publication metadata friends_only",
+          "passed": true
+        },
+        {
+          "name": "Publish friends_approximate",
+          "passed": true,
+          "detail": {
+            "status": 200
+          }
+        },
+        {
+          "name": "Independent read friends_approximate",
+          "passed": true
+        },
+        {
+          "name": "Anonymous boundary friends_approximate",
+          "passed": true
+        },
+        {
+          "name": "Accepted friend read friends_approximate",
+          "passed": true
+        },
+        {
+          "name": "Friend feed friends_approximate",
+          "passed": true
+        },
+        {
+          "name": "Publication metadata friends_approximate",
+          "passed": true
+        },
+        {
+          "name": "Publish public",
+          "passed": true,
+          "detail": {
+            "status": 200
+          }
+        },
+        {
+          "name": "Independent read public",
+          "passed": true
+        },
+        {
+          "name": "Anonymous boundary public",
+          "passed": true
+        },
+        {
+          "name": "Accepted friend read public",
+          "passed": true
+        },
+        {
+          "name": "Friend feed public",
+          "passed": true
+        },
+        {
+          "name": "Publication metadata public",
+          "passed": true
+        },
+        {
+          "name": "Publish public_approximate",
+          "passed": true,
+          "detail": {
+            "status": 200
+          }
+        },
+        {
+          "name": "Independent read public_approximate",
+          "passed": true
+        },
+        {
+          "name": "Anonymous boundary public_approximate",
+          "passed": true
+        },
+        {
+          "name": "Accepted friend read public_approximate",
+          "passed": true
+        },
+        {
+          "name": "Friend feed public_approximate",
+          "passed": true
+        },
+        {
+          "name": "Publication metadata public_approximate",
+          "passed": true
+        },
+        {
+          "name": "Existing released client contract",
+          "passed": true
+        },
+        {
+          "name": "Revoke test publication",
+          "passed": true
+        },
+        {
+          "name": "Independent revoked read",
+          "passed": true
+        },
+        {
+          "name": "Delete Release verification 1",
+          "passed": true
+        },
+        {
+          "name": "Retired Release verification 1",
+          "passed": true
+        },
+        {
+          "name": "Delete Release verification 2",
+          "passed": true
+        },
+        {
+          "name": "Retired Release verification 2",
+          "passed": true
+        }
+      ]
+    },
+    "assets": {
+      "checkedAt": "2026-09-19T23:28:53.074Z",
+      "source": "dcc6629f76c0be6d0d469bd6999260838a5ec4db",
+      "assets": [
+        {
+          "path": "/assets/index-DvI-M3AF.js",
+          "status": 200,
+          "sha256": "f08480fe3eff56cb9fd598cdbe9fe5542d8c98fae44887e0ed579efad5bb511b",
+          "matchesCI": true
+        },
+        {
+          "path": "/assets/index-C6s4nURJ.css",
+          "status": 200,
+          "sha256": "c0a7e30c1ab48b65afea249ef5fd045a08eb6de01b1d7ff421492ab7990df06d",
+          "matchesCI": true
+        }
+      ]
+    },
+    "fictionalAccountsDeleted": true,
+    "oldClientContractVerified": true
+  },
+  "releaseState": "Qualified, local TestFlight upload pending"
+}

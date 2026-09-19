@@ -1,5 +1,12 @@
 # Pocket Explorer: Implementation Plan
 
+## Active: teammate TestFlight release (2026-09-20)
+
+- T25.1 DONE: Qualify upstream c565d29 against build 24, including map scopes, four sharing audiences, notifications and cancelled refreshes. Run native compilation, affected units and UI journeys with matching-source 80% changed-Swift coverage. Preserve ten languages and personal data.
+- T25.2 DONE: Backend dcc6629 passed workflow 35475725421 after correcting test fixtures and the upload wait. Migration 0015 and 43 independent production checks are verified. Tested JS/CSS hashes match the deployed assets.
+- T25.3 IN_PROGRESS: Bump marketing version to 1.0.2 because 1.0.1 (24) is now READY_FOR_SALE. Archive and upload locally with the next unused build number. Verify IPA, Apple processing and Hackathon Internal assignment. Do not alter the public App Store release.
+- Worktrees: ~/Worktrees/Pocket-Explorer-UI-testflight-20260920 and ~/Worktrees/Pocket-Explorer-Backend-testflight-20260920. Evidence: ~/tmp/review/pocket-testflight-20260920. Preserve primary checkout edits. Physical-device acceptance remains distinct from simulator checks.
+
 ## DONE: correct App Store 1.0.1 binary version (2026-09-19)
 
 Corrected ITMS-90062 by changing only ios/project.yml MARKETING_VERSION from 1.0 to 1.0.1 on the qualified build 23 source. Local release 1.0.1 (24) is VALID and available to Hackathon Internal. Strict IPA signature, embedded version/build, all ten compiled catalogs and source equivalence were verified. The rejected review item was resolved and the same review resubmitted at 2026-09-19T03:49:59.129Z. API and UI confirm WAITING_FOR_REVIEW. At least five minutes of post-submission checks found no repeat invalid-binary state or new failure notification. Review approval remains pending. Existing metadata, free price, territories and AFTER_APPROVAL are preserved. See [corrected submission evidence](docs/evidence/app-store-update-1.0.1-build24.json).

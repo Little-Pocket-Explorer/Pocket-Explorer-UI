@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-09-19T03:54:59.793Z",
+  "checkedAt": "2026-09-19T23:23:56.876Z",
   "appId": "6810920731",
   "appStoreVersion": "1.0.1",
   "appStoreVersionId": "5af0f30b-1404-48cc-b73b-e92b140012a0",
-  "appStoreState": "WAITING_FOR_REVIEW",
+  "appStoreState": "READY_FOR_SALE",
   "submitted": true,
   "build": {
     "number": "24",
@@ -34,18 +34,19 @@
   "reviewSubmission": {
     "id": "40be6edc-a2c4-446d-b670-fb13c8dc4c54",
     "submittedDate": "2026-09-19T03:49:59.129Z",
-    "state": "WAITING_FOR_REVIEW",
+    "state": "COMPLETE",
     "url": "https://appstoreconnect.apple.com/apps/6810920731/distribution/reviewsubmissions/details/40be6edc-a2c4-446d-b670-fb13c8dc4c54"
   },
   "releaseType": "AFTER_APPROVAL",
-  "approved": false,
-  "publiclyAvailable": false,
+  "approved": true,
+  "publiclyAvailable": true,
   "liveRelease": {
-    "version": "1.0",
-    "buildNumber": "21",
+    "version": "1.0.1",
+    "buildNumber": "24",
     "appStoreState": "READY_FOR_SALE",
     "publiclyAvailable": true,
-    "url": "https://apps.apple.com/au/app/pocket-explorer/id6810920731"
+    "url": "https://apps.apple.com/au/app/pocket-explorer/id6810920731",
+    "publicPageVerifiedAt": "2026-09-19T23:24:39.731Z"
   },
   "correctedRejection": {
     "code": "ITMS-90062",
@@ -123,5 +124,17 @@
     "uiState": "Waiting for Review",
     "uiItem": "iOS App 1.0.1 / 1.0.1 (24)",
     "rawEvidenceDirectory": "/Users/haichang/tmp/review/pocket-app-store-update-20260919"
+  },
+  "appVersionState": "READY_FOR_DISTRIBUTION",
+  "latestApprovalVerification": {
+    "api": "2026-09-19T23:23:56.876Z",
+    "publicPage": {
+      "checkedAt": "2026-09-19T23:24:39.731Z",
+      "status": 200,
+      "url": "https://apps.apple.com/au/app/pocket-explorer/id6810920731",
+      "version": "1.0.1"
+    },
+    "lookupVersion": "1.0",
+    "lookupLagObserved": true
   }
 }
