@@ -1,5 +1,9 @@
 # Pocket Explorer: Continuation Brief
 
+## IN_PROGRESS: correct App Store 1.0.1 binary version (2026-09-19)
+
+The owner authorized fixing the invalid binary and resubmitting. Apple email at 2026-09-19T03:11:19Z reports ITMS-90062: CFBundleShortVersionString 1.0 must exceed previously approved 1.0. The earlier accepted-association and WAITING_FOR_REVIEW observations did not establish binary acceptance. Keep qualified build 23 source, change only marketing version to 1.0.1, upload from this Mac and resubmit the current App Store version. Do not incorporate newer remote features. Verify the signed artifact and observe delayed validation before reporting success. Evidence: ~/tmp/review/pocket-app-store-update-20260919. Current live 1.0 (21) remains available.
+
 ## Complete: App Store 1.0.1 submitted with build 23 (2026-09-19)
 
 The owner's requested build 23 was submitted at 2026-09-19T03:10:57.525Z. App Store version 1.0.1 and submission 40be6edc-a2c4-446d-b670-fb13c8dc4c54 independently report WAITING_FOR_REVIEW, and the UI confirms iOS App 1.0.1 / 1.0 (23). Apple accepted the existing binary, so no rebuild or new upload occurred. Release is AFTER_APPROVAL. Public 1.0 (21) remains available. Preserve free pricing, mainland China exclusion, ten languages and the existing privacy/family rules. Do not resubmit or include newer teammate code without a new request. Await Apple's review and address concrete feedback when requested. Current evidence is docs/app-store/release-status.json and docs/evidence/app-store-update-1.0.1.json. No new automation was created.

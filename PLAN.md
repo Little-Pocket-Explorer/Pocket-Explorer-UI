@@ -1,5 +1,9 @@
 # Pocket Explorer: Implementation Plan
 
+## IN_PROGRESS: correct App Store 1.0.1 binary version (2026-09-19)
+
+Correct the ITMS-90062 rejection by changing only ios/project.yml MARKETING_VERSION to 1.0.1 on the qualified build 23 source. Archive and upload locally with the next unused build number. Verify embedded version/build, strict signing, compiled language catalogs and source equivalence. Preserve store metadata, free price, territories and automatic release. Resolve the existing rejected review item, resubmit, and inspect delayed status plus Apple notices for at least five minutes. Reuse prior feature qualification because runtime code is unchanged. No Backend deployment or newer teammate features.
+
 ## DONE: App Store 1.0.1 submitted with existing build 23 (2026-09-19)
 
 Submit the qualified build 23 as the next App Store update, preserve the free price and existing territories, carry forward approved metadata and screenshots, add accurate release notes, and release automatically after approval. This is complete: Apple accepted the original 1.0 (23) binary for App Store 1.0.1 and accepted the review submission. No rebuild, runtime change or Backend deployment was needed. Independent API and UI reads confirm WAITING_FOR_REVIEW. The live 1.0 (21) remains READY_FOR_SALE. See [submission evidence](docs/evidence/app-store-update-1.0.1.json).

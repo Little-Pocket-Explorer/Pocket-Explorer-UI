@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-09-19T03:12:42.721365+00:00",
+  "checkedAt": "2026-09-19T03:19:02.488Z",
   "appId": "6810920731",
   "appStoreVersion": "1.0.1",
   "appStoreVersionId": "5af0f30b-1404-48cc-b73b-e92b140012a0",
-  "appStoreState": "WAITING_FOR_REVIEW",
+  "appStoreState": "INVALID_BINARY",
   "submitted": true,
   "build": {
     "number": "23",
@@ -11,15 +11,16 @@
     "embeddedVersion": "1.0",
     "processingState": "VALID",
     "reusedExistingBinary": true,
-    "rebuildRequired": false,
+    "rebuildRequired": true,
     "sourceCommit": "0b909f72d025af1290592b94af2e62c2854aa419",
     "ipaSHA256": "af5eaaeb01e10620b81860fffd94399303a8a472debe29507266f0944c60f55d"
   },
   "reviewSubmission": {
     "id": "40be6edc-a2c4-446d-b670-fb13c8dc4c54",
     "submittedDate": "2026-09-19T03:10:57.525Z",
-    "state": "WAITING_FOR_REVIEW",
-    "url": "https://appstoreconnect.apple.com/apps/6810920731/distribution/reviewsubmissions/details/40be6edc-a2c4-446d-b670-fb13c8dc4c54"
+    "state": "UNRESOLVED_ISSUES",
+    "url": "https://appstoreconnect.apple.com/apps/6810920731/distribution/reviewsubmissions/details/40be6edc-a2c4-446d-b670-fb13c8dc4c54",
+    "itemState": "REJECTED"
   },
   "releaseType": "AFTER_APPROVAL",
   "approved": false,
@@ -74,5 +75,10 @@
     "uiItem": "iOS App 1.0.1 / 1.0 (23)",
     "rawEvidenceDirectory": "/Users/haichang/tmp/review/pocket-app-store-update-20260919"
   },
-  "ownerPending": []
+  "ownerPending": [],
+  "rejection": {
+    "code": "ITMS-90062",
+    "evidence": "docs/evidence/app-store-1.0.1-invalid-binary.json",
+    "correctionState": "IN_PROGRESS"
+  }
 }

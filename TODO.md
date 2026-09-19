@@ -1,5 +1,12 @@
 # Pocket Explorer: Current Execution State
 
+## IN_PROGRESS: correct App Store 1.0.1 binary version (2026-09-19)
+
+- Confirmed cause: ITMS-90062 in Apple email, with version INVALID_BINARY and review UNRESOLVED_ISSUES / item REJECTED. Previous completion statement is superseded.
+- IN_PROGRESS: change marketing version to 1.0.1 on the qualified build 23 source and create a new local signed binary. No runtime behavior or Backend changes.
+- NEXT: independently verify IPA and Apple processing, replace the rejected build, mark the review issue resolved, resubmit and check delayed validation for at least five minutes. Preserve free pricing, 174 territories excluding CHN and AFTER_APPROVAL.
+- Evidence: docs/evidence/app-store-1.0.1-invalid-binary.json and ~/tmp/review/pocket-app-store-update-20260919. No new automation or GitHub native runner.
+
 ## DONE: App Store 1.0.1 submitted with build 23 (2026-09-19)
 
 - Submitted at 2026-09-19T03:10:57.525Z, 13:10 Australia/Sydney. Independent version and review reads confirm WAITING_FOR_REVIEW. Submission: 40be6edc-a2c4-446d-b670-fb13c8dc4c54. UI confirms iOS App 1.0.1 / 1.0 (23).

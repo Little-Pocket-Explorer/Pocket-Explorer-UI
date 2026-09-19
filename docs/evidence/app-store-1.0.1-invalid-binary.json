@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-09-19T03:19:02.488Z",
+  "appId": "6810920731",
+  "storeVersion": "1.0.1",
+  "build": "23",
+  "embeddedVersion": "1.0",
+  "status": "INVALID_BINARY",
+  "code": "ITMS-90062",
+  "source": "App Store Connect email",
+  "emailMessageId": "1a0b7a5c85fe416f",
+  "emailDate": "2026-09-19T03:11:19Z",
+  "reason": "The value for key CFBundleShortVersionString [1.0] in the Info.plist file must contain a higher version than that of the previously approved version [1.0].",
+  "requiredCorrection": "Repackage the qualified build 23 source with marketing version 1.0.1 and a new build number, upload locally and resubmit.",
+  "correctionApplied": false,
+  "liveVersionState": "READY_FOR_SALE"
+}
