@@ -31,16 +31,22 @@ struct EventClient {
         let result: NearbyCards = try await send("api/map-discoveries", query: coordinates(location), connection: connection)
         guard result.items.allSatisfy(\.isValid) else { throw EventError.invalidResponse }; return result
     }
-    func publish(_ id: String, location: ExplorerCoordinate, connection: ShareConnection) async throws -> SharedMapCard {
-        guard UUID(uuidString: id) != nil, location.isValid else { throw EventError.invalidResponse }
-        struct Input: Encodable { var collectibleID: String; var latitude: Double; var longitude: Double }
-        let result: SharedMapCard = try await send("api/map-discoveries", body: JSONEncoder().encode(Input(collectibleID: id, latitude: location.latitude, longitude: location.longitude)), connection: connection)
+    func friendCards(connection: ShareConnection) async throws -> [SharedMapCard] {
+        struct Result: Decodable { var items: [SharedMapCard] }
+        let result: Result = try await send("api/map-discoveries/friends", connection: connection)
+        guard result.items.allSatisfy({ $0.isValid && $0.audience.needsFriends }) else { throw EventError.invalidResponse }
+        return result.items
+    }
+    func publish(_ id: String, audience: MapAudience, location: ExplorerCoordinate?, connection: ShareConnection) async throws -> SharedMapCard {
+        guard UUID(uuidString: id) != nil, audience.needsLocation == (location != nil), location?.isValid != false else { throw EventError.invalidResponse }
+        struct Input: Encodable { var collectibleID: String; var audience: MapAudience; var location: ExplorerCoordinate? }
+        let result: SharedMapCard = try await send("api/map-discoveries", body: JSONEncoder().encode(Input(collectibleID: id, audience: audience, location: location?.approximate)), connection: connection)
         guard result.isValid else { throw EventError.invalidResponse }; return result
     }
     func mine(connection: ShareConnection) async throws -> [MapPublication] {
         struct Result: Decodable { var items: [MapPublication] }
         let result: Result = try await send("api/map-discoveries/mine", connection: connection)
-        guard result.items.allSatisfy({ UUID(uuidString: $0.id) != nil && UUID(uuidString: $0.collectibleID) != nil && [0, 1].contains($0.revoked) }) else { throw EventError.invalidResponse }
+        guard result.items.allSatisfy({ UUID(uuidString: $0.id) != nil && UUID(uuidString: $0.collectibleID) != nil && [0, 1].contains($0.revoked) && $0.audience.needsLocation == ($0.latitude != nil && $0.longitude != nil) }) else { throw EventError.invalidResponse }
         return result.items
     }
     func revoke(_ id: String, connection: ShareConnection) async throws {

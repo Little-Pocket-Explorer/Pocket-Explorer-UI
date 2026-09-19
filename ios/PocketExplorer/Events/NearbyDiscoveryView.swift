@@ -27,8 +27,10 @@ struct NearbyDiscoveryView: View {
                                 }
                             }
                             ForEach(store.events.shared) { card in
-                                Annotation(card.title, coordinate: CLLocationCoordinate2D(latitude: card.location.latitude, longitude: card.location.longitude)) {
-                                    Button { navigation?.open(.sharedDiscovery(card.id)) } label: { Image(systemName: "rectangle.stack.fill").padding(12).background(Theme.mint, in: Circle()) }.accessibilityIdentifier("shared-map-pin-\(card.id)")
+                                if let cardLocation = card.location {
+                                    Annotation(card.title, coordinate: CLLocationCoordinate2D(latitude: cardLocation.latitude, longitude: cardLocation.longitude)) {
+                                        Button { navigation?.open(.sharedDiscovery(card.id)) } label: { Image(systemName: "rectangle.stack.fill").padding(12).background(Theme.mint, in: Circle()) }.accessibilityIdentifier("shared-map-pin-\(card.id)")
+                                    }
                                 }
                             }
                         }.mapStyle(.hybrid).frame(height: 230).clipShape(RoundedRectangle(cornerRadius: 26)).accessibilityIdentifier("nearby-map")
@@ -44,8 +46,8 @@ struct NearbyDiscoveryView: View {
                             Text("No events nearby right now. Your next discovery can still start anywhere.").foregroundStyle(Theme.muted)
                         }
                         if !store.events.shared.isEmpty {
-                            Text("Discoveries shared nearby").font(.title2.bold())
-                            Text("These pins show a broad area, never another child's exact location.").font(.caption).foregroundStyle(Theme.muted)
+                            Text("Discoveries shared with you").font(.title2.bold())
+                            Text("Map pins show only a broad area. Some friends may share a card without any location.").font(.caption).foregroundStyle(Theme.muted)
                             ForEach(store.events.shared) { card in
                                 Button { navigation?.open(.sharedDiscovery(card.id)) } label: {
                                     HStack { LeafBadge(); Text(card.title).font(.headline); Spacer(); Image(systemName: "chevron.right") }.padding(16).background(.white, in: RoundedRectangle(cornerRadius: 22))
@@ -60,7 +62,7 @@ struct NearbyDiscoveryView: View {
                 .sheet(isPresented: $familySettings) { FamilySettingsView(family: store.family) }
                 .task(id: location.reading?.observedAt) {
                     guard permitted, let reading = location.reading, let connection = try? ConnectionVault().loadOrCreate() else { return }
-                    await store.events.refresh(at: reading.coordinate, connection: connection)
+                    await store.events.refresh(at: reading.coordinate, includeFriends: store.family.allows(.social), connection: connection)
                     camera = .region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: reading.coordinate.latitude, longitude: reading.coordinate.longitude), latitudinalMeters: 4500, longitudinalMeters: 4500))
                 }
         }.tint(Theme.forest)
@@ -94,7 +96,7 @@ struct SharedMapCardView: View {
                     Text(card.title).font(.system(.largeTitle, design: .rounded, weight: .bold))
                     Text(card.question).font(.title2)
                     Text(card.answer)
-                    Text("Shared in this area").font(.caption).foregroundStyle(Theme.muted)
+                    Text(card.location == nil ? "Shared without a location" : "Shared in this area").font(.caption).foregroundStyle(Theme.muted)
                     if let error { Text(error).font(.caption).foregroundStyle(Theme.muted) }
                 }.padding(24)
             }.background(ExplorerBackdrop()).toolbar { Button("Done") { if let navigation { navigation.back() } else { dismiss() } } }

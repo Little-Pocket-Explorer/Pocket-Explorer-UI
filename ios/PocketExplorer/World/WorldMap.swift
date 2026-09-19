@@ -4,7 +4,13 @@ import ImageIO
 
 struct WorldMap: UIViewRepresentable {
     let trips: [Trip]
+    var events: [ExplorerEvent] = []
+    var sharedCards: [SharedMapCard] = []
+    var focus: ExplorerCoordinate?
+    var focusRevision = 0
     var select: (Trip) -> Void
+    var selectEvent: (ExplorerEvent) -> Void = { _ in }
+    var selectSharedCard: (SharedMapCard) -> Void = { _ in }
     var store: TripStore?
 
     func makeCoordinator() -> Coordinator { Coordinator(parent: self) }
@@ -14,6 +20,7 @@ struct WorldMap: UIViewRepresentable {
         map.pointOfInterestFilter = .excludingAll
         map.showsCompass = true
         map.showsScale = true
+        map.showsUserLocation = focus != nil
         map.delegate = context.coordinator
         map.accessibilityIdentifier = "discovery-map"
         return map
@@ -26,6 +33,7 @@ struct WorldMap: UIViewRepresentable {
     final class Coordinator: NSObject, MKMapViewDelegate {
         var parent: WorldMap
         private let markerImages = NSCache<NSString, UIImage>()
+        private var focusedRevision = -1
         init(parent: WorldMap) {
             self.parent = parent
             markerImages.totalCostLimit = 2 * 1024 * 1024
@@ -34,13 +42,20 @@ struct WorldMap: UIViewRepresentable {
 
         func synchronize(_ map: MKMapView) {
             let located = parent.trips.filter { $0.place != nil }
-            let existing = map.annotations.compactMap { $0 as? TripAnnotation }
-            let changed = existing.count != located.count || located.contains { trip in
-                !existing.contains { $0.trip.id == trip.id && $0.trip.place == trip.place }
+            let locatedCards = parent.sharedCards.filter { $0.location != nil }
+            let existingTrips = map.annotations.compactMap { $0 as? TripAnnotation }
+            let existingEvents = map.annotations.compactMap { $0 as? EventMapAnnotation }
+            let existingCards = map.annotations.compactMap { $0 as? SharedCardAnnotation }
+            let changed = existingTrips.count != located.count || existingEvents.count != parent.events.count || existingCards.count != locatedCards.count || located.contains { trip in
+                !existingTrips.contains { $0.trip.id == trip.id && $0.trip.place == trip.place }
+            } || parent.events.contains { event in
+                !existingEvents.contains { $0.event.id == event.id && $0.event.location == event.location }
+            } || locatedCards.contains { card in
+                !existingCards.contains { $0.card.id == card.id && $0.card.location == card.location }
             }
             if changed {
-                map.removeAnnotations(existing)
-                let annotations = located.map(TripAnnotation.init)
+                map.removeAnnotations(existingTrips + existingEvents + existingCards)
+                let annotations: [MKAnnotation] = located.map(TripAnnotation.init) + parent.events.map(EventMapAnnotation.init) + locatedCards.map(SharedCardAnnotation.init)
                 map.addAnnotations(annotations)
                 if !annotations.isEmpty {
                     let rect = annotations.reduce(MKMapRect.null) { current, annotation in
@@ -54,13 +69,34 @@ struct WorldMap: UIViewRepresentable {
                 if let trip = located.first(where: { $0.id == annotation.trip.id }) { annotation.trip = trip }
                 if let view = map.view(for: annotation) { configure(view, annotation: annotation) }
             }
+            map.showsUserLocation = parent.focus != nil
+            if focusedRevision != parent.focusRevision, let focus = parent.focus {
+                focusedRevision = parent.focusRevision
+                map.setRegion(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: focus.latitude, longitude: focus.longitude), latitudinalMeters: 5500, longitudinalMeters: 5500), animated: true)
+            }
         }
 
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            guard let annotation = annotation as? TripAnnotation else { return nil }
-            let view = mapView.dequeueReusableAnnotationView(withIdentifier: "discovery") ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "discovery")
-            view.annotation = annotation
-            configure(view, annotation: annotation)
+            if let annotation = annotation as? TripAnnotation {
+                let view = mapView.dequeueReusableAnnotationView(withIdentifier: "discovery") ?? MKAnnotationView(annotation: annotation, reuseIdentifier: "discovery")
+                view.annotation = annotation
+                configure(view, annotation: annotation)
+                return view
+            }
+            if let annotation = annotation as? EventMapAnnotation {
+                return pin(annotation: annotation, identifier: "event", symbol: "calendar", color: .systemOrange, label: annotation.event.title)
+            }
+            if let annotation = annotation as? SharedCardAnnotation {
+                return pin(annotation: annotation, identifier: "shared", symbol: "rectangle.stack.fill", color: .systemMint, label: annotation.card.title)
+            }
+            return nil
+        }
+        private func pin(annotation: MKAnnotation, identifier: String, symbol: String, color: UIColor, label: String) -> MKMarkerAnnotationView {
+            let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.glyphImage = UIImage(systemName: symbol); view.markerTintColor = color; view.displayPriority = .required
+            view.isAccessibilityElement = true; view.accessibilityTraits = .button; view.accessibilityLabel = label
+            if let event = annotation as? EventMapAnnotation { view.accessibilityIdentifier = "map-event-\(event.event.id)" }
+            if let card = annotation as? SharedCardAnnotation { view.accessibilityIdentifier = "map-shared-\(card.card.id)" }
             return view
         }
         func configure(_ view: MKAnnotationView, annotation: TripAnnotation) {
@@ -104,11 +140,24 @@ struct WorldMap: UIViewRepresentable {
             return marker
         }
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-            guard let annotation = view.annotation as? TripAnnotation else { return }
-            parent.select(annotation.trip)
-            mapView.deselectAnnotation(annotation, animated: false)
+            if let annotation = view.annotation as? TripAnnotation { parent.select(annotation.trip) }
+            if let annotation = view.annotation as? EventMapAnnotation { parent.selectEvent(annotation.event) }
+            if let annotation = view.annotation as? SharedCardAnnotation { parent.selectSharedCard(annotation.card) }
+            if let annotation = view.annotation { mapView.deselectAnnotation(annotation, animated: false) }
         }
     }
+}
+
+final class EventMapAnnotation: NSObject, MKAnnotation {
+    let event: ExplorerEvent
+    var coordinate: CLLocationCoordinate2D { CLLocationCoordinate2D(latitude: event.location.latitude, longitude: event.location.longitude) }
+    init(event: ExplorerEvent) { self.event = event }
+}
+
+final class SharedCardAnnotation: NSObject, MKAnnotation {
+    let card: SharedMapCard
+    var coordinate: CLLocationCoordinate2D { CLLocationCoordinate2D(latitude: card.location?.latitude ?? 0, longitude: card.location?.longitude ?? 0) }
+    init(card: SharedMapCard) { self.card = card }
 }
 
 final class TripAnnotation: NSObject, MKAnnotation {

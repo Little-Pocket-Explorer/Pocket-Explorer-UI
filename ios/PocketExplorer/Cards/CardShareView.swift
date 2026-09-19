@@ -74,7 +74,7 @@ struct CardShareOptionsView: View {
                     dismiss()
                     onMap()
                 } label: {
-                    shareRow("Share on map", detail: "Public with approximate location", symbol: "map.fill")
+                    shareRow("Share on map", detail: "Choose friends or public", symbol: "map.fill")
                 }
                 .buttonStyle(.plain)
                 .accessibilityIdentifier("card-share-map")

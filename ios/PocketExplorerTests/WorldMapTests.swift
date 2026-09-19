@@ -4,6 +4,34 @@ import XCTest
 
 @MainActor
 final class WorldMapTests: XCTestCase {
+    func testMapRendersEventsAndSharedCardsAndRecentersOnLocationRequest() throws {
+        let trip = JournalState.examples().trips[0]
+        let eventID = "77777777-7777-4777-8777-777777777777"
+        let event = ExplorerEvent(id: eventID, revision: 1, title: "Sky watchers", description: "Look up", language: "en", organizer: "Nature Club", place: "Park", location: ExplorerCoordinate(latitude: -33.86, longitude: 151.21), radius: 200, startsAt: 1, endsAt: 2, minAge: 5, maxAge: 18, background: "stargazing", demonstration: true, challenge: .init(question: "Why?", choices: ["A", "B", "C"]), artworkPath: "/api/events/\(eventID)/artwork?language=en")
+        let cardID = "11111111-1111-4111-8111-111111111111"
+        let card = SharedMapCard(id: cardID, audience: .friendsApproximate, location: ExplorerCoordinate(latitude: -33.87, longitude: 151.22), publishedAt: 1, title: "Moon", question: "Why?", answer: "Light", category: "space", language: "en", version: 1, tier: .common, artworkPath: nil)
+        var selectedEvent: ExplorerEvent?, selectedCard: SharedMapCard?
+        let parent = WorldMap(trips: [trip], events: [event], sharedCards: [card], focus: event.location, focusRevision: 1,
+            select: { _ in }, selectEvent: { selectedEvent = $0 }, selectSharedCard: { selectedCard = $0 })
+        let coordinator = parent.makeCoordinator(), map = MKMapView(frame: CGRect(x: 0, y: 0, width: 390, height: 600))
+        map.delegate = coordinator; coordinator.synchronize(map)
+        XCTAssertEqual(map.annotations.compactMap { $0 as? TripAnnotation }.count, 1)
+        let eventAnnotation = try XCTUnwrap(map.annotations.compactMap { $0 as? EventMapAnnotation }.first)
+        let cardAnnotation = try XCTUnwrap(map.annotations.compactMap { $0 as? SharedCardAnnotation }.first)
+        let eventView = try XCTUnwrap(coordinator.mapView(map, viewFor: eventAnnotation))
+        let cardView = try XCTUnwrap(coordinator.mapView(map, viewFor: cardAnnotation))
+        XCTAssertEqual(eventView.accessibilityIdentifier, "map-event-\(eventID)")
+        XCTAssertEqual(cardView.accessibilityIdentifier, "map-shared-\(cardID)")
+        coordinator.mapView(map, didSelect: eventView); coordinator.mapView(map, didSelect: cardView)
+        XCTAssertEqual(selectedEvent?.id, eventID); XCTAssertEqual(selectedCard?.id, cardID)
+        XCTAssertEqual(map.region.center.latitude, event.location.latitude, accuracy: 0.01)
+        coordinator.parent = WorldMap(trips: [], focus: card.location, focusRevision: 2, select: { _ in })
+        coordinator.synchronize(map)
+        XCTAssertTrue(map.annotations.compactMap { $0 as? EventMapAnnotation }.isEmpty)
+        XCTAssertTrue(map.annotations.compactMap { $0 as? SharedCardAnnotation }.isEmpty)
+        XCTAssertEqual(map.region.center.latitude, card.location!.latitude, accuracy: 0.01)
+    }
+
     func testMapAnnotationsFollowSavedPlacesAndSelectionUsesTheMatchingTrip() throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: directory) }

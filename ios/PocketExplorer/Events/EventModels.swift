@@ -4,6 +4,18 @@ struct ExplorerCoordinate: Codable, Equatable {
     var latitude: Double
     var longitude: Double
     var isValid: Bool { latitude.isFinite && longitude.isFinite && (-90...90).contains(latitude) && (-180...180).contains(longitude) }
+    var approximate: ExplorerCoordinate {
+        ExplorerCoordinate(latitude: (latitude * 100).rounded() / 100, longitude: (longitude * 100).rounded() / 100)
+    }
+}
+
+enum MapAudience: String, Codable, CaseIterable {
+    case friendsOnly = "friends_only"
+    case friendsApproximate = "friends_approximate"
+    case `public`
+    case publicApproximate = "public_approximate"
+    var needsLocation: Bool { self == .friendsApproximate || self == .publicApproximate }
+    var needsFriends: Bool { self == .friendsOnly || self == .friendsApproximate }
 }
 
 struct LocationReading: Equatable {
@@ -49,7 +61,8 @@ struct ExplorerEvent: Codable, Equatable, Identifiable {
 struct NearbyEvents: Codable, Equatable { var items: [ExplorerEvent]; var truncated: Bool }
 struct SharedMapCard: Codable, Equatable, Identifiable {
     var id: String
-    var location: ExplorerCoordinate
+    var audience: MapAudience
+    var location: ExplorerCoordinate?
     var publishedAt: Double
     var title: String
     var question: String
@@ -60,7 +73,7 @@ struct SharedMapCard: Codable, Equatable, Identifiable {
     var tier: CardTier
     var artworkPath: String?
     var isValid: Bool {
-        UUID(uuidString: id) != nil && location.isValid && version > 0 && AppLanguage(rawValue: language) != nil &&
+        UUID(uuidString: id) != nil && location?.isValid != false && audience.needsLocation == (location != nil) && version > 0 && AppLanguage(rawValue: language) != nil &&
         (artworkPath == nil || artworkPath == "/api/map-discoveries/\(id)/artwork")
     }
 }
@@ -68,8 +81,9 @@ struct NearbyCards: Codable { var items: [SharedMapCard]; var truncated: Bool }
 struct MapPublication: Codable, Equatable, Identifiable {
     var id: String
     var collectibleID: String
-    var latitude: Double
-    var longitude: Double
+    var audience: MapAudience
+    var latitude: Double?
+    var longitude: Double?
     var revoked: Int
 }
 struct EventClaim: Codable {

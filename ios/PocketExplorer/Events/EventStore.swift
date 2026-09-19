@@ -13,7 +13,13 @@ final class EventStore {
     var client: EventClient
     private(set) var busy = false
     private(set) var error: String?
-    private(set) var shared: [SharedMapCard] = []
+    private(set) var nearbyShared: [SharedMapCard] = []
+    private(set) var friendShared: [SharedMapCard] = []
+    var shared: [SharedMapCard] {
+        (nearbyShared + friendShared).reduce(into: []) { items, card in
+            if !items.contains(where: { $0.id == card.id }) { items.append(card) }
+        }
+    }
     private(set) var truncated = false
     var events: [ExplorerEvent] { state.events.filter { $0.language == AppLanguage.current.rawValue } }
 
@@ -24,7 +30,7 @@ final class EventStore {
            let saved = try? JSONDecoder().decode(State.self, from: data), saved.events.allSatisfy(\.isValid) { state = saved }
         else { state = State() }
     }
-    func refresh(at coordinate: ExplorerCoordinate, connection: ShareConnection) async {
+    func refresh(at coordinate: ExplorerCoordinate, includeFriends: Bool = false, connection: ShareConnection) async {
         guard !busy else { return }
         busy = true; error = nil; defer { busy = false }
         do {
@@ -32,11 +38,19 @@ final class EventStore {
             var next = state; next.events = result.items
             try persist(next)
             let cards = try await client.nearbyCards(coordinate, connection: connection)
-            shared = cards.items; truncated = result.truncated || cards.truncated
+            nearbyShared = cards.items
+            friendShared = includeFriends ? (try? await client.friendCards(connection: connection)) ?? [] : []
+            truncated = result.truncated || cards.truncated
         } catch {
-            shared = []
+            nearbyShared = []
+            if includeFriends { friendShared = [] }
             if !(error is CancellationError) { self.error = error.localizedDescription }
         }
+    }
+    func refreshFriends(connection: ShareConnection) async {
+        error = nil
+        do { friendShared = try await client.friendCards(connection: connection) }
+        catch { if !(error is CancellationError) { self.error = error.localizedDescription } }
     }
     func claim(_ event: ExplorerEvent, choice: Int, reading: LocationReading, store: TripStore, connection: ShareConnection) async throws -> EventClaim {
         guard !busy, store.family.allows(.events) else { throw FamilyError.disabled }

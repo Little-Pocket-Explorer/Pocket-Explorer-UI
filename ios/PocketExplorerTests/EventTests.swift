@@ -17,7 +17,7 @@ import XCTest
         return KnowledgeCard(id: cardID, style: .forest, createdAt: version.awardedAt, updatedAt: version.awardedAt, tier: .common, versions: [version], origin: CardOrigin(kind: "event", sourceID: id, label: "Sky watchers"))
     }
     private var reading: LocationReading { LocationReading(coordinate: event.location, accuracy: 20, observedAt: .now) }
-    private var shared: SharedMapCard { SharedMapCard(id: id, location: event.location, publishedAt: Date.now.timeIntervalSince1970 * 1000, title: "Blue sky", question: "Why blue?", answer: "Air scatters blue.", category: "science", language: "en", version: 1, tier: .common, artworkPath: "/api/map-discoveries/\(id)/artwork") }
+    private var shared: SharedMapCard { SharedMapCard(id: id, audience: .publicApproximate, location: event.location, publishedAt: Date.now.timeIntervalSince1970 * 1000, title: "Blue sky", question: "Why blue?", answer: "Air scatters blue.", category: "science", language: "en", version: 1, tier: .common, artworkPath: "/api/map-discoveries/\(id)/artwork") }
     override func setUp() async throws {
         directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         store = try TripStore(fileURL: directory.appendingPathComponent("journal.json"), initial: JournalState(trips: [], discoveries: []))
@@ -37,6 +37,9 @@ import XCTest
         for bad in ["https://events/\(id)", "pocketexplorer://events/\(id)?secret=1", "pocketexplorer://events/\(id)#extra", "pocketexplorer://events/bad", "pocketexplorer://wrong/\(id)"] { XCTAssertNil(DiscoveryLink(url: URL(string: bad)!)) }
         XCTAssertTrue(event.isValid); XCTAssertTrue(event.isActive()); XCTAssertFalse(event.isActive(now: .distantFuture))
         XCTAssertTrue(reading.isFresh()); XCTAssertEqual(event.meetingPlace.latitude, event.location.latitude)
+        XCTAssertEqual(ExplorerCoordinate(latitude: -33.864321, longitude: 151.213456).approximate, ExplorerCoordinate(latitude: -33.86, longitude: 151.21))
+        XCTAssertEqual(MapAudience.allCases.filter(\.needsLocation), [.friendsApproximate, .publicApproximate])
+        XCTAssertEqual(MapAudience.allCases.filter(\.needsFriends), [.friendsOnly, .friendsApproximate])
         for value in [Double.nan, .infinity, -91, 91] { XCTAssertFalse(ExplorerCoordinate(latitude: value, longitude: 0).isValid) }
         var stale = reading; stale.observedAt = .distantPast; XCTAssertFalse(stale.isFresh())
         stale = reading; stale.accuracy = -1; XCTAssertFalse(stale.isFresh())
@@ -69,9 +72,26 @@ import XCTest
         let result = try await client.claim(event, id: UUID(), choice: 0, reading: reading, connection: connection); XCTAssertEqual(result.collectible, value)
         try respond(NearbyCards(items: [shared], truncated: false))
         let cards = try await client.nearbyCards(event.location, connection: connection); XCTAssertEqual(cards.items[0].id, id)
-        try respond(shared); let publication = try await client.publish(cardID, location: event.location, connection: connection); XCTAssertTrue(publication.isValid)
+        var friendCard = shared; friendCard.audience = .friendsOnly; friendCard.location = nil
+        struct Friends: Encodable { var items: [SharedMapCard] }
+        try respond(Friends(items: [friendCard])); XCTAssertEqual(try await client.friendCards(connection: connection), [friendCard])
+        try respond(shared)
+        DiscoveryHTTPProtocol.respond = { request in
+            let body = try XCTUnwrap(request.httpBody), input = try XCTUnwrap(JSONSerialization.jsonObject(with: body) as? [String: Any])
+            XCTAssertEqual(input["audience"] as? String, "public_approximate")
+            XCTAssertEqual((input["location"] as? [String: Double])?["latitude"], -33.86)
+            return (200, [:], try JSONEncoder().encode(shared))
+        }
+        let publication = try await client.publish(cardID, audience: .publicApproximate, location: ExplorerCoordinate(latitude: -33.864321, longitude: 151.213456), connection: connection); XCTAssertTrue(publication.isValid)
+        var publicCard = shared; publicCard.audience = .public; publicCard.location = nil
+        DiscoveryHTTPProtocol.respond = { request in
+            let body = try XCTUnwrap(request.httpBody), input = try XCTUnwrap(JSONSerialization.jsonObject(with: body) as? [String: Any])
+            XCTAssertEqual(input["audience"] as? String, "public"); XCTAssertNil(input["location"])
+            return (200, [:], try JSONEncoder().encode(publicCard))
+        }
+        _ = try await client.publish(cardID, audience: .public, location: nil, connection: connection)
         struct Mine: Encodable { var items: [MapPublication] }
-        try respond(Mine(items: [MapPublication(id: id, collectibleID: cardID, latitude: -33.86, longitude: 151.21, revoked: 0)]))
+        try respond(Mine(items: [MapPublication(id: id, collectibleID: cardID, audience: .publicApproximate, latitude: -33.86, longitude: 151.21, revoked: 0)]))
         let mine = try await client.mine(connection: connection); XCTAssertEqual(mine[0].collectibleID, cardID)
         try respond(["ok": true], status: 204); try await client.revoke(id, connection: connection)
         for code in ["event_location_stale", "event_too_far", "event_changed", "event_not_active", "event_age_restricted", "event_language_unavailable", "family_required", "unknown"] {
@@ -106,5 +126,24 @@ import XCTest
         XCTAssertTrue(result.correct); XCTAssertEqual(store.state.discoveries.count, 1)
         let broken = EventStore(file: directory.appendingPathComponent("broken.json"), client: EventClient(session: session), writer: { _, _ in throw CocoaError(.fileWriteNoPermission) })
         do { _ = try await broken.claim(value, choice: 0, reading: reading, store: store, connection: connection); XCTFail("Persistence must precede the request") } catch {}
+    }
+    func testEventStoreSeparatesNearbyAndFriendMapCards() async throws {
+        let events = EventStore(file: directory.appendingPathComponent("map-groups.json"), client: EventClient(session: session))
+        var friend = shared; friend.audience = .friendsApproximate
+        struct Friends: Encodable { var items: [SharedMapCard] }
+        let eventData = try JSONEncoder().encode(NearbyEvents(items: [event], truncated: false))
+        let nearbyData = try JSONEncoder().encode(NearbyCards(items: [shared], truncated: false))
+        let friendData = try JSONEncoder().encode(Friends(items: [friend]))
+        DiscoveryHTTPProtocol.respond = { request in
+            switch request.url!.path {
+            case "/api/events": return (200, [:], eventData)
+            case "/api/map-discoveries/friends": return (200, [:], friendData)
+            default: return (200, [:], nearbyData)
+            }
+        }
+        await events.refresh(at: event.location, includeFriends: true, connection: connection)
+        XCTAssertEqual(events.nearbyShared, [shared])
+        XCTAssertEqual(events.friendShared, [friend])
+        XCTAssertEqual(events.shared.map(\.id), [shared.id])
     }
 }

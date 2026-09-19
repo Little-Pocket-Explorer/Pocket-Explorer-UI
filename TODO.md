@@ -18,11 +18,29 @@
 - Remote main now contains separate notification and refresh fixes after build 23. They are not in this submission and are left for a later qualified release. Primary checkouts remain untouched.
 - Evidence: docs/evidence/app-store-update-1.0.1.json, docs/app-store/release-status.json and ~/tmp/review/pocket-app-store-update-20260919. The review page is retained in the in-app browser.
 
+## Main Map workflow aligned; macOS runtime qualification pending (2026-09-19)
+
+- On 2026-09-20 the owner explicitly authorized pulling latest `main` and merging this implementation without completing the pending macOS XCTest/XCUITest or changed-Swift coverage run. This authorization permits source integration but does not convert those checks into passing evidence.
+- The native main Map now has real `Me`, `Nearby` and `Friends` modes. `Me` shows local trip markers and story rows; `Nearby` shows cached Events plus public approximate-location cards; `Friends` reads the authenticated friends feed and shows accepted-friend cards. Cards shared without location remain in the Friends list and never receive a fake map pin.
+- Added the missing top-level location action. It requests Core Location through the existing `DiscoveryLocation`, shows the user location, recenters MapKit through a revision-controlled focus request and refreshes Nearby only when the parent has allowed Events.
+- Added the missing top-level map-share action. It lists verified public cards and opens the existing four-audience `MapSharingView`; when no eligible card exists, the menu explains that a verified card must be made first. Notifications and Collection remain directly available.
+- The existing `Nearby events & discoveries` route still opens the detailed Nearby/Family settings workflow, preserving first-use Event setup. Main Map Event and shared-card pins open their existing detail routes.
+- Added MapKit annotation/recenter tests, EventStore nearby/friend grouping coverage and an XCUITest assertion for the three scopes plus location/share/notification controls. Swift workspace diagnostics and `git diff --check` pass. All ten localization catalogs contain 700 unique matching keys with zero key-set differences.
+- This Windows host has no `swift` or `xcodebuild`, so XCTest/XCUITest execution, responsive screenshots, changed-Swift coverage and physical-device review remain pending on macOS. TestFlight 1.0 (23) does not contain this work.
+
+## Map audience selector implemented; deployment and macOS qualification pending (2026-09-18)
+
+- Native and Web Card Detail now offer four explicit map scopes: Friends only, Friends with location, Public, and Public with approximate location. Native disables friend scopes unless Social is parent-enabled; location-free modes do not request location.
+- The sibling Backend now stores `friends_only`, `friends_approximate`, `public`, or `public_approximate`. Friends reads require an accepted friendship and live Social/Sharing permission from both families. Location-free modes expose no shared coordinates; approximate modes are rounded on-device/in-browser and again at the server boundary. Legacy rows migrate to `public_approximate`.
+- Backend D1 audience tests pass, including anonymous rejection, accepted-friend access, bilateral permission revocation, nullable coordinates, public/friends feeds, nearby filtering and old-client compatibility. Web build passes; final affected qualification passes 117 tests across 15 suites with every changed TypeScript file above 80% line and branch coverage. The broader Vitest run remains noisy on this Windows host with 22 pre-existing timeout/cascade failures outside these focused suites.
+- Responsive browser inspection passes at 390x844 and 1280x800: all four options and the publish action fit with no horizontal or vertical overflow. A live `Public` publication persisted no `mapLocation`. Native Map merges the authenticated friends feed, showing no-location cards in its list and pins only for cards with approximate locations. Native diagnostics pass; final localization parity is recorded in the newer Main Map section above.
+- Production is unchanged. Apply `0015_map_audience.sql` and deploy the sibling Backend through its existing workflow before releasing compatible clients. Native XCTest/XCUITest, changed-Swift 80% coverage and physical-device review remain pending on macOS; TestFlight 1.0 (23) does not contain this work.
+
 ## Video workflow notification alignment pending macOS qualification (2026-09-18)
 
 - Re-audited the supplied two-minute workflow as behavior rather than a pixel-exact Web copy. Existing native flows already cover prepared question -> conversation -> card reveal/detail -> friend/map/link sharing -> nearby Event -> event conversation -> Friend Profile -> card request/gift/exchange -> recall quiz.
 - Map now opens an App-styled Notifications destination that aggregates real incoming friendship requests, pending/received card transfers, cached nearby Events and due discovery quizzes. Actions reuse existing protected endpoints and routes: accept/decline, open received card, open Event, or switch to Chat recall. Notification settings remain reachable from the same screen.
-- The native share sheet retains the three implemented contracts: approved-friend card copy, public broad-area map publication and revocable public link. The video's unsupported `Friends with location` scope is not shown as a fake control.
+- The native share sheet retains approved-friend card copy and revocable public links; map publication now continues into the four server-enforced audience scopes recorded above.
 - Swift diagnostics, `git diff --check`, route assertions and ten-catalog parity pass; all catalogs contain 670 unique matching keys. Existing reminder UI tests now traverse Map -> Notifications -> settings, and a new UI case covers Notifications -> due quiz -> Chat. This Windows host cannot execute XCUITest or changed-Swift coverage. TestFlight 1.0 (23) does not contain this work.
 
 ## Social refresh cancellation fix pending macOS qualification (2026-09-18)
