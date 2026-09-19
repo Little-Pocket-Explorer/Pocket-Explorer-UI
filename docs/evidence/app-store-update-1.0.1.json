@@ -74,5 +74,10 @@
     "uiItem": "iOS App 1.0.1 / 1.0 (23)",
     "rawEvidenceDirectory": "/Users/haichang/tmp/review/pocket-app-store-update-20260919"
   },
-  "ownerPending": []
+  "ownerPending": [],
+  "subsequentOutcome": {
+    "state": "INVALID_BINARY",
+    "code": "ITMS-90062",
+    "supersededBy": "docs/evidence/app-store-update-1.0.1-build24.json"
+  }
 }

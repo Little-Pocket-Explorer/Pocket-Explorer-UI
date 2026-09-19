@@ -1,11 +1,13 @@
 # Pocket Explorer: Current Execution State
 
-## IN_PROGRESS: correct App Store 1.0.1 binary version (2026-09-19)
+## DONE: App Store 1.0.1 (24) corrected and resubmitted (2026-09-19)
 
-- Confirmed cause: ITMS-90062 in Apple email, with version INVALID_BINARY and review UNRESOLVED_ISSUES / item REJECTED. Previous completion statement is superseded.
-- IN_PROGRESS: change marketing version to 1.0.1 on the qualified build 23 source and create a new local signed binary. No runtime behavior or Backend changes.
-- NEXT: independently verify IPA and Apple processing, replace the rejected build, mark the review issue resolved, resubmit and check delayed validation for at least five minutes. Preserve free pricing, 174 territories excluding CHN and AFTER_APPROVAL.
-- Evidence: docs/evidence/app-store-1.0.1-invalid-binary.json and ~/tmp/review/pocket-app-store-update-20260919. No new automation or GitHub native runner.
+- Corrected ITMS-90062 with the only source change MARKETING_VERSION 1.0 -> 1.0.1. Runtime behavior and build 23's qualified source remain identical. Newer remote notification/refresh changes are not included.
+- Signed and uploaded from this Mac as 1.0.1 (24). Independent Apple read confirms VALID / IN_BETA_TESTING and Hackathon Internal membership. Build ID: 4641bae6-3418-4c1d-a242-e8eb50bad345.
+- Independent IPA verification confirms 1.0.1 / 24, strict signature, release entitlements, Xcode 27A266a and ten matching 660-entry catalogs. Source differences are limited to ios/project.yml. Prior build 22/23 tests apply without repeating feature regression for metadata alone. Physical-device acceptance was not repeated.
+- Replaced build 23, independently read the selected build, resolved the rejected item, and resubmitted review 40be6edc-a2c4-446d-b670-fb13c8dc4c54 at 2026-09-19T03:49:59.129Z. API/UI confirm WAITING_FOR_REVIEW. At least five minutes of delayed checks found no invalid-binary recurrence or new failure notification. Approval is still pending.
+- Free price, 174 territories excluding only CHN, metadata, review details and AFTER_APPROVAL are preserved. Live 1.0 (21) remains READY_FOR_SALE. No Backend deployment or GitHub native build occurred.
+- Temporary signing credentials and keychain were removed, original keychain search list restored, and all owned release/check processes completed. No new automation. Evidence: docs/evidence/app-store-update-1.0.1-build24.json, docs/app-store/release-status.json and ~/tmp/review/pocket-app-store-update-20260919.
 
 ## DONE: App Store 1.0.1 submitted with build 23 (2026-09-19)
 

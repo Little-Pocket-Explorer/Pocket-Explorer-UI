@@ -1,8 +1,10 @@
 # Pocket Explorer: Continuation Brief
 
-## IN_PROGRESS: correct App Store 1.0.1 binary version (2026-09-19)
+## Complete: App Store 1.0.1 (24) corrected and resubmitted (2026-09-19)
 
-The owner authorized fixing the invalid binary and resubmitting. Apple email at 2026-09-19T03:11:19Z reports ITMS-90062: CFBundleShortVersionString 1.0 must exceed previously approved 1.0. The earlier accepted-association and WAITING_FOR_REVIEW observations did not establish binary acceptance. Keep qualified build 23 source, change only marketing version to 1.0.1, upload from this Mac and resubmit the current App Store version. Do not incorporate newer remote features. Verify the signed artifact and observe delayed validation before reporting success. Evidence: ~/tmp/review/pocket-app-store-update-20260919. Current live 1.0 (21) remains available.
+ITMS-90062 is corrected in source f237dbf by increasing MARKETING_VERSION to 1.0.1. The exact build 23 product code was repackaged locally as 1.0.1 (24), Apple build 4641bae6-3418-4c1d-a242-e8eb50bad345. IPA, signing, compiled catalogs and source equivalence pass, and independent Apple reads confirm VALID / IN_BETA_TESTING. The rejected item was resolved and submission 40be6edc-a2c4-446d-b670-fb13c8dc4c54 resubmitted at 2026-09-19T03:49:59.129Z. API and UI show WAITING_FOR_REVIEW after a bounded observation of at least five minutes with no new failure email. This is not review approval. Live 1.0 (21) remains available, and release stays AFTER_APPROVAL. No newer teammate features were included. No Backend deployment, external messages, automation or GitHub native runner was used. Evidence: docs/evidence/app-store-update-1.0.1-build24.json and docs/app-store/release-status.json. Do not repeat publication without a new request or concrete review feedback.
+
+Future submissions must match the actual binary marketing version to the store version and exceed the previous approved marketing version. Initial API acceptance alone does not prove delayed validation succeeded. Earlier completion claims for build 23 below were superseded by the rejection and this correction.
 
 ## Complete: App Store 1.0.1 submitted with build 23 (2026-09-19)
 
