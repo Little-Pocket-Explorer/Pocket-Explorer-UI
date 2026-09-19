@@ -1,11 +1,12 @@
 # Pocket Explorer: Current Execution State
 
-## IN_PROGRESS: teammate TestFlight release (2026-09-20)
+## DONE: teammate TestFlight 1.0.2 (25) (2026-09-20)
 
-- T25.1 DONE: Upstream c565d29 is qualified. All 195 unit cases and 15 affected UI journeys have passing latest results across the full and targeted runs, with no unresolved failure. This is not one wholly passing full-suite invocation. All 12 changed product Swift files meet 80% matching-source line coverage, minimum 82.80%. Ten catalogs contain 700 matching unique keys. Notifications, no-location sharing and Arabic largest-text screenshots are inspected. Corrections only affect tests. Product source remains upstream c565d29 except marketing version 1.0.2. Physical-device acceptance was not repeated.
-- T25.2 DONE: Backend dcc6629 passed workflow 35475725421 and is deployed with migration 0015. Independent production verification passes 43 map/privacy/compatibility/cleanup checks. Tested CI JS/CSS hashes match production.
-- T25.3 IN_PROGRESS: Commit qualification and publish 1.0.2 locally, then verify the IPA and internal group. App Store 1.0.1 (24) is independently READY_FOR_SALE and visible on the public storefront. Preserve that release.
-- Evidence: docs/evidence/teammate-testflight-20260920.json and ~/tmp/review/pocket-testflight-20260920. Primary checkouts untouched. No native upload yet. No new automation or agent.
+- T25.1 DONE: Upstream c565d29 is qualified. All 195 unit cases and 15 affected UI journeys have passing latest results across full and targeted runs, with no unresolved failure. All 12 changed product Swift files exceed 80% matching-source line coverage, minimum 82.80%. Ten catalogs contain 700 matching keys. Notifications, no-location sharing and Arabic largest-text screenshots are inspected. Test-only corrections resolved initial failures. Existing AVAudioSession main-thread runtime warnings were observed in audio-related tests. Physical-device acceptance was not repeated.
+- T25.2 DONE: Backend dcc6629 passed workflow 35475725421 and is deployed with migration 0015. All 43 independent production map/privacy/compatibility/cleanup checks pass. Deployed JS/CSS hashes match tested CI assets.
+- T25.3 DONE: Published source b6d45fb locally as 1.0.2 (25), Apple build 297056c0-c7ce-40f5-9e52-20c854711367. Independent reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. IPA signing, source hashes and ten compiled 700-entry catalogs are verified. Public App Store 1.0.1 (24) remains READY_FOR_SALE with review COMPLETE. No new App Store submission.
+- Owned fixtures, simulator and temporary signing copies/keychain are removed. Original credentials and keychain search list are preserved. Primary checkouts are untouched. No new automation or agent, and no GitHub native runner.
+- Evidence: docs/evidence/teammate-testflight-25.json, docs/evidence/teammate-testflight-20260920.json and ~/tmp/review/pocket-testflight-20260920. This release request is complete. Do not repeat the upload without a new request or concrete failure.
 
 ## DONE: App Store 1.0.1 (24) corrected and resubmitted (2026-09-19)
 

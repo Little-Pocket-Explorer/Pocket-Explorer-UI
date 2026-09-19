@@ -426,5 +426,6 @@
     "fictionalAccountsDeleted": true,
     "oldClientContractVerified": true
   },
-  "releaseState": "Qualified, local TestFlight upload pending"
+  "releaseState": "Complete: TestFlight 1.0.2 (25), VALID and IN_BETA_TESTING in Hackathon Internal",
+  "deliveryEvidence": "docs/evidence/teammate-testflight-25.json"
 }

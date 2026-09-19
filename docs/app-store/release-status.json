@@ -17,17 +17,17 @@
     "releaseOrigin": "local"
   },
   "testFlight": {
-    "checkedAt": "2026-09-19T03:49:29.143Z",
     "app_id": "6810920731",
-    "version": "1.0.1",
-    "build_number": 24,
-    "build_id": "4641bae6-3418-4c1d-a242-e8eb50bad345",
+    "version": "1.0.2",
+    "build_number": 25,
+    "build_id": "297056c0-c7ce-40f5-9e52-20c854711367",
     "processing_state": "VALID",
     "internal_state": "IN_BETA_TESTING",
     "internal_group": "Hackathon Internal",
-    "source_commit": "f237dbf80177dfd1cd965e91678b68c8403a6298:d89d26a0c1d78b850ac42868dd2b0c4576912dce4d86668d2d709c6849ce7613",
+    "source_commit": "b6d45fb24941e2c08a56a4325dac35e1f0df0b86:f745a587b5d3badf8ab21e055ecf4c31bec5a3ecc345ff8eab51c454d682223d",
     "release_origin": "local",
     "run_url": null,
+    "checkedAt": "2026-09-19T23:48:02.413Z",
     "independentlyVerified": true,
     "internalStateReadback": "IN_BETA_TESTING"
   },
@@ -136,5 +136,14 @@
     },
     "lookupVersion": "1.0",
     "lookupLagObserved": true
+  },
+  "latestAppStoreReadback": {
+    "checkedAt": "2026-09-19T23:48:02.413Z",
+    "version": "1.0.1",
+    "state": "READY_FOR_SALE",
+    "build": "24",
+    "buildID": "4641bae6-3418-4c1d-a242-e8eb50bad345",
+    "reviewState": "COMPLETE",
+    "changed": false
   }
 }

@@ -1,11 +1,8 @@
 # Pocket Explorer: Implementation Plan
 
-## Active: teammate TestFlight release (2026-09-20)
+## DONE: teammate TestFlight 1.0.2 (25) (2026-09-20)
 
-- T25.1 DONE: Qualify upstream c565d29 against build 24, including map scopes, four sharing audiences, notifications and cancelled refreshes. Run native compilation, affected units and UI journeys with matching-source 80% changed-Swift coverage. Preserve ten languages and personal data.
-- T25.2 DONE: Backend dcc6629 passed workflow 35475725421 after correcting test fixtures and the upload wait. Migration 0015 and 43 independent production checks are verified. Tested JS/CSS hashes match the deployed assets.
-- T25.3 IN_PROGRESS: Bump marketing version to 1.0.2 because 1.0.1 (24) is now READY_FOR_SALE. Archive and upload locally with the next unused build number. Verify IPA, Apple processing and Hackathon Internal assignment. Do not alter the public App Store release.
-- Worktrees: ~/Worktrees/Pocket-Explorer-UI-testflight-20260920 and ~/Worktrees/Pocket-Explorer-Backend-testflight-20260920. Evidence: ~/tmp/review/pocket-testflight-20260920. Preserve primary checkout edits. Physical-device acceptance remains distinct from simulator checks.
+T25.1 qualified upstream c565d29 for map scopes, four sharing audiences, Notifications and cancelled refreshes. The final matching-product-source evidence has 195 unit and 15 affected UI latest passes. All 12 changed product Swift files exceed 80% line coverage, with ten matching 700-key catalogs and inspected screenshots. T25.2 deployed the compatible Backend dcc6629 through successful workflow 35475725421 and independently verified migration 0015, all 43 production checks and artifact hashes. T25.3 published source b6d45fb from this Mac as TestFlight 1.0.2 (25), then verified the IPA, VALID processing and Hackathon Internal membership. Public App Store 1.0.1 (24) is unchanged. Owned test/signing resources are cleaned up. Physical-device acceptance remains separate. See [delivery evidence](docs/evidence/teammate-testflight-25.json) and [qualification](docs/evidence/teammate-testflight-20260920.json).
 
 ## DONE: correct App Store 1.0.1 binary version (2026-09-19)
 

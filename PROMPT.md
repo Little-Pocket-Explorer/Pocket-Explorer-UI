@@ -1,8 +1,8 @@
 # Pocket Explorer: Continuation Brief
 
-## Active: qualified teammate TestFlight release (2026-09-20)
+## Complete: teammate TestFlight 1.0.2 (25) (2026-09-20)
 
-T25.1 and T25.2 are complete. Upstream c565d29 has 195 unit and 15 UI latest passes, all 12 changed Swift files above 80% matching-source coverage, and ten 700-key catalogs. Only test helpers/assertions and marketing version changed locally. Backend dcc6629 passed workflow 35475725421 and production verification. Continue T25.3 from the hai/testflight-20260920 worktree: commit and publish 1.0.2 locally, independently verify the IPA, Apple processing and Hackathon Internal, then clean owned resources and record delivery. Do not repeat qualified checks or mutate runtime source. Keep the public App Store 1.0.1 (24), primary checkout edits and physical-device acceptance boundary. No GitHub native runner, new automation or agent. See TODO and docs/evidence/teammate-testflight-20260920.json.
+T25.1-T25.3 are complete. Source b6d45fb includes upstream c565d29 and is locally published as 1.0.2 (25). Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. IPA, tested runtime source, signature and ten compiled 700-entry catalogs are verified. Qualification has 195 unit and 15 affected UI latest passes with all 12 changed Swift files above 80% matching-source coverage. This combines full and targeted runs, not one wholly passing final invocation. Backend dcc6629 is deployed and independently verified. Public App Store 1.0.1 (24) remains available, with no new review submission. Owned test/signing resources are cleaned up and primary checkout edits preserved. Follow the next user request or physical-device feedback. Do not repeat delivery or resume old timers. See TODO and docs/evidence/teammate-testflight-25.json.
 
 ## Complete: App Store 1.0.1 (24) corrected and resubmitted (2026-09-19)
 
