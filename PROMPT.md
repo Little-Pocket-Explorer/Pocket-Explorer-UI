@@ -1,5 +1,9 @@
 # Pocket Explorer: Continuation Brief
 
+## Complete: App Store 1.0.1 submitted with build 23 (2026-09-19)
+
+The owner's requested build 23 was submitted at 2026-09-19T03:10:57.525Z. App Store version 1.0.1 and submission 40be6edc-a2c4-446d-b670-fb13c8dc4c54 independently report WAITING_FOR_REVIEW, and the UI confirms iOS App 1.0.1 / 1.0 (23). Apple accepted the existing binary, so no rebuild or new upload occurred. Release is AFTER_APPROVAL. Public 1.0 (21) remains available. Preserve free pricing, mainland China exclusion, ten languages and the existing privacy/family rules. Do not resubmit or include newer teammate code without a new request. Await Apple's review and address concrete feedback when requested. Current evidence is docs/app-store/release-status.json and docs/evidence/app-store-update-1.0.1.json. No new automation was created.
+
 ## Complete: teammate update delivery (2026-09-18)
 
 Native upstream 784267f Profile/card sharing and local qualification corrections are published from source 0b909f7 as TestFlight 1.0 (23). Independent Apple reads confirm VALID, IN_BETA_TESTING and Hackathon Internal membership. The signed IPA and ten 660-entry dictionaries match the qualified source. Backend fbb5ccd is deployed and independently verified. App Store 1.0 remains WAITING_FOR_REVIEW on build 21. Earlier intermediate Social changes were intentionally reverted and must not be reintroduced. Dirty primary checkouts are preserved and owned test/signing resources cleaned up. See TODO and docs/evidence/teammate-testflight-23.json. Evidence belongs in ~/tmp/review/pocket-release-20260918. Do not repeat completed tests or publication without new changes.

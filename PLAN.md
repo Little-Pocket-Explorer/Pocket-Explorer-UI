@@ -1,5 +1,9 @@
 # Pocket Explorer: Implementation Plan
 
+## DONE: App Store 1.0.1 submitted with existing build 23 (2026-09-19)
+
+Submit the qualified build 23 as the next App Store update, preserve the free price and existing territories, carry forward approved metadata and screenshots, add accurate release notes, and release automatically after approval. This is complete: Apple accepted the original 1.0 (23) binary for App Store 1.0.1 and accepted the review submission. No rebuild, runtime change or Backend deployment was needed. Independent API and UI reads confirm WAITING_FOR_REVIEW. The live 1.0 (21) remains READY_FOR_SALE. See [submission evidence](docs/evidence/app-store-update-1.0.1.json).
+
 ## DONE: teammate update delivery (2026-09-18)
 
 Qualify 784267f Profile and card-sharing changes using affected native integration journeys, screenshot review, localization parity and the 80% changed-Swift coverage gate. Preserve the existing Social gate and gift protocol restored by upstream. Fix reproduced release defects and publish from this Mac. Resolve the sibling Backend browser regression and deploy through its workflow. Independently verify TestFlight group membership and Cloudflare delivery. Preserve the App Store submission on build 21.

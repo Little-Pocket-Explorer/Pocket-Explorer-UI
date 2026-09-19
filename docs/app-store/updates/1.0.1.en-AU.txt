@@ -1,0 +1,7 @@
+This update makes it easier to manage your profile and share discoveries.
+
+- Find child profile, discovery, privacy and location settings on dedicated pages.
+- Share a card with a friend, publish it on the map with an approximate location, or copy a link to share outside the app.
+- Share event invitations with friends.
+- Enjoy refinements to navigation, card details and collection history.
+- Includes fixes for settings, card sharing and larger text sizes.

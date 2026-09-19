@@ -1,5 +1,14 @@
 # Pocket Explorer: Current Execution State
 
+## DONE: App Store 1.0.1 submitted with build 23 (2026-09-19)
+
+- Submitted at 2026-09-19T03:10:57.525Z, 13:10 Australia/Sydney. Independent version and review reads confirm WAITING_FOR_REVIEW. Submission: 40be6edc-a2c4-446d-b670-fb13c8dc4c54. UI confirms iOS App 1.0.1 / 1.0 (23).
+- Apple accepted the existing VALID build 23, ID 840d4cd5-ca8f-4420-9440-80da8d07e82d, directly. No repackaging, new upload, runtime edit, test rerun or Backend deployment was needed. Existing build 22/23 qualification applies.
+- Independent reads confirm free pricing, 174 available territories with only CHN excluded, three COMPLETE inherited screenshots, preserved review details and saved English release notes. Release is AFTER_APPROVAL, with immediate availability to all users after approval.
+- Live 1.0 (21) remains READY_FOR_SALE. Approval and public availability of 1.0.1 are pending Apple review. No owner action or new automation is required.
+- Remote main now contains separate notification and refresh fixes after build 23. They are not in this submission and are left for a later qualified release. Primary checkouts remain untouched.
+- Evidence: docs/evidence/app-store-update-1.0.1.json, docs/app-store/release-status.json and ~/tmp/review/pocket-app-store-update-20260919. The review page is retained in the in-app browser.
+
 ## Video workflow notification alignment pending macOS qualification (2026-09-18)
 
 - Re-audited the supplied two-minute workflow as behavior rather than a pixel-exact Web copy. Existing native flows already cover prepared question -> conversation -> card reveal/detail -> friend/map/link sharing -> nearby Event -> event conversation -> Friend Profile -> card request/gift/exchange -> recall quiz.
