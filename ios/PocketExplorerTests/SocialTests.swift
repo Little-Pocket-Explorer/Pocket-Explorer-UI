@@ -135,6 +135,11 @@ import XCTest
         try respond(SocialPage(items: [card], next: 50)); try await social.refreshCards(id, connection: connection)
         try respond(SocialPage(items: [card], next: nil)); try await social.refreshCards(id, connection: connection, more: true)
         XCTAssertEqual(social.cards[id]?.count, 1)
+        var artworkRequests = 0
+        DiscoveryHTTPProtocol.respond = { _ in artworkRequests += 1; return (200, [:], Data([1, 2, 3])) }
+        XCTAssertEqual(try await social.artwork(card, friendID: id, connection: connection), Data([1, 2, 3]))
+        XCTAssertEqual(try await social.artwork(card, friendID: id, connection: connection), Data([1, 2, 3]))
+        XCTAssertEqual(artworkRequests, 1)
         try respond(["error": "friend_unavailable"], status: 403); await fails { try await social.refreshCards(self.id, connection: self.connection) }; XCTAssertNil(social.cards[id])
         DiscoveryHTTPProtocol.respond = { _ in throw URLError(.notConnectedToInternet) }
         await fails { _ = try await social.offer(friendID: self.id, offeredID: self.id, wantedID: nil, connection: self.connection) }

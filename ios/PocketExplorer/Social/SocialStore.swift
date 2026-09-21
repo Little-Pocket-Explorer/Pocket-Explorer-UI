@@ -21,6 +21,7 @@ import Observation
     private var fetchedSequences: [String: Int] = [:]
     private(set) var cards: [String: [KnowledgeCard]] = [:]
     private(set) var cardCursors: [String: Int] = [:]
+    private var artworkCache: [String: Data] = [:]
     private(set) var transfers: [String: [CardTransfer]] = [:]
     private(set) var transferCursors: [String: Int] = [:]
     private(set) var busy = false
@@ -43,7 +44,7 @@ import Observation
         guard let sequence = messages[id]?.last?.sequence, sequence > (state.readSequences?[id] ?? 0) else { return }
         var next = state; var reads = next.readSequences ?? [:]; reads[id] = sequence; next.readSequences = reads; try persist(next)
     }
-    func clearAccess() { friends = []; friendCursor = nil; messages = [:]; messageCursors = [:]; fetchedSequences = [:]; cards = [:]; cardCursors = [:]; transfers = [:]; transferCursors = [:] }
+    func clearAccess() { friends = []; friendCursor = nil; messages = [:]; messageCursors = [:]; fetchedSequences = [:]; cards = [:]; cardCursors = [:]; artworkCache = [:]; transfers = [:]; transferCursors = [:] }
     func bind(_ connection: ShareConnection) throws {
         let owner = SHA256.hash(data: Data("\(connection.baseURL):\(connection.ownerKey)".utf8)).map { String(format: "%02x", $0) }.joined()
         guard state.owner != owner else { return }; var next = State(); next.owner = owner; try persist(next); clearAccess()
@@ -116,6 +117,14 @@ import Observation
             let page = try await client.cards(id, offset: more ? cardCursors[id] ?? 0 : 0, connection: connection)
             cards[id] = more ? merge(cards[id] ?? [], page.items) : page.items; cardCursors[id] = page.next
         } catch { if error is FamilyError || (error as? SocialError) == .friendUnavailable { cards[id] = nil }; throw error }
+    }
+    func artwork(_ card: KnowledgeCard, friendID: String, connection: ShareConnection) async throws -> Data? {
+        guard let artworkID = card.versions.last?.artworkID else { return nil }
+        let key = "\(friendID):\(card.id):\(artworkID)"
+        if let cached = artworkCache[key] { return cached }
+        let bytes = try await client.artwork(card, friendID: friendID, connection: connection)
+        if let bytes { artworkCache[key] = bytes }
+        return bytes
     }
     func refreshTransfers(_ id: String, store: TripStore, connection: ShareConnection, more: Bool = false) async throws {
         try bind(connection)

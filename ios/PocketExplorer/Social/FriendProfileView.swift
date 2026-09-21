@@ -176,7 +176,7 @@ struct FriendArtworkView: View {
             if let bytes, let image = UIImage(data: bytes) { Image(uiImage: image).resizable().scaledToFit() }
             else { RoundedRectangle(cornerRadius: 18).fill(Theme.mint).overlay { Image(systemName: "leaf.fill").foregroundStyle(Theme.forest) } }
         }.accessibilityHidden(true).task(id: card.versions.last?.artworkID) {
-            if let connection = try? ConnectionVault().loadOrCreate() { bytes = try? await store.social.client.artwork(card, friendID: friendID, connection: connection) }
+            if let connection = try? ConnectionVault().loadOrCreate() { bytes = try? await store.social.artwork(card, friendID: friendID, connection: connection) }
         }
     }
 }

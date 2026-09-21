@@ -1,5 +1,12 @@
 # Pocket Explorer: Current Execution State
 
+## Native Social loading responsiveness pending macOS qualification (2026-09-21)
+
+- Investigated the physical-iPhone Card Detail -> Share to friend wait as actual latency rather than a timeout-display problem. The native request was not doing image generation; the sibling Backend gift endpoint repeated serial family/friend/sharing D1 reads and synchronous card-copy reads. The Backend root-cause optimization is recorded in its TODO and remains undeployed.
+- The original 20-second Social request timeout is unchanged. Card sharing now shows progress inside the disabled Send action, cancels when its sheet closes, and retains the persisted transfer request ID so retry cannot create a duplicate gift.
+- Friend-card artwork is now cached by friend, card and artwork version in `SocialStore`. Friend profile thumbnails, collection rows and card detail reuse the same bytes instead of downloading the same authenticated image again. The cache clears when account/friend access is rebound.
+- Swift workspace diagnostics and `git diff --check` pass. The Social regression asserts one network read across repeated artwork loads. This Windows host has neither Swift nor Xcode, so XCTest/XCUITest, changed-file 80% coverage, measured physical-device latency and visual acceptance remain pending on macOS. No TestFlight upload occurred.
+
 ## DONE: App Store 1.0.1 (24) corrected and resubmitted (2026-09-19)
 
 - Corrected ITMS-90062 with the only source change MARKETING_VERSION 1.0 -> 1.0.1. Runtime behavior and build 23's qualified source remain identical. Newer remote notification/refresh changes are not included.

@@ -94,7 +94,7 @@ struct FriendCardView: View {
             }.background(ExplorerBackdrop()).toolbar { Button("Done") { if let navigation { navigation.back() } else { dismiss() } } }
         }
             .task {
-                do { bytes = try await store.social.client.artwork(card, friendID: friendID, connection: ConnectionVault().loadOrCreate()) }
+                do { bytes = try await store.social.artwork(card, friendID: friendID, connection: ConnectionVault().loadOrCreate()) }
                 catch { self.error = error.localizedDescription }
             }
     }

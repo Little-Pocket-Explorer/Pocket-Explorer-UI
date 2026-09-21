@@ -12,6 +12,7 @@ struct CardShareOptionsView: View {
     @State private var working = false
     @State private var message: String?
     @State private var error: String?
+    @State private var sendTask: Task<Void, Never>?
 
     private var friendsAllowed: Bool { store.family.allows(.sharing) && store.family.allows(.social) }
     private var sharingAllowed: Bool { store.family.allows(.sharing) }
@@ -48,6 +49,7 @@ struct CardShareOptionsView: View {
             do { try await store.social.refreshFriends(connection: ConnectionVault().loadOrCreate()) }
             catch { self.error = error.localizedDescription }
         }
+        .onDisappear { sendTask?.cancel() }
     }
 
     private var options: some View {
@@ -113,11 +115,15 @@ struct CardShareOptionsView: View {
                         }.padding(14).background(.white, in: RoundedRectangle(cornerRadius: 20))
                     }.buttonStyle(.plain).disabled(working).accessibilityIdentifier("card-share-recipient-\(friend.id)")
                 }
-                Button(selectedFriendID.flatMap { id in friends.first(where: { $0.id == id })?.displayName }
-                    .map { String(format: L10n.text("Send to %@"), $0) } ?? L10n.text("Choose a friend"), action: sendToFriend)
+                Button(action: sendToFriend) {
+                    HStack {
+                        if working { ProgressView().tint(.white) }
+                        Text(selectedFriendID.flatMap { id in friends.first(where: { $0.id == id })?.displayName }
+                            .map { String(format: L10n.text("Send to %@"), $0) } ?? L10n.text("Choose a friend"))
+                    }.frame(maxWidth: .infinity)
+                }
                     .buttonStyle(ExplorerButtonStyle()).disabled(selectedFriendID == nil || working || cardID == nil)
                     .accessibilityIdentifier("card-share-send")
-                if working { ProgressView().frame(maxWidth: .infinity) }
                 if let error { Text(error).foregroundStyle(Theme.muted).accessibilityIdentifier("card-share-error") }
             }.padding(20)
         }
@@ -149,14 +155,16 @@ struct CardShareOptionsView: View {
     private func sendToFriend() {
         guard friendsAllowed, let friendID = selectedFriendID, let cardID else { return }
         working = true; error = nil
-        Task {
-            defer { working = false }
+        sendTask = Task {
+            defer { working = false; sendTask = nil }
             do {
                 _ = try await store.social.offer(friendID: friendID, offeredID: cardID, wantedID: nil,
                     connection: ConnectionVault().loadOrCreate())
+                try Task.checkCancellation()
                 onFriendSent(friendID)
                 dismiss()
-            } catch { self.error = error.localizedDescription }
+            } catch is CancellationError { }
+            catch { self.error = error.localizedDescription }
         }
     }
 
