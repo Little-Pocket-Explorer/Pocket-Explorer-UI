@@ -1,11 +1,13 @@
 # Pocket Explorer: Current Execution State
 
-## CI27 IN_PROGRESS: local tests and cloud TestFlight publication (2026-09-21)
+## CI27 DONE: local tests and cloud TestFlight publication (2026-09-21)
 
 - The owner requested cloud archive/sign/upload without simulator tests. This supersedes the previous local-only native-release restriction. All native tests and coverage remain local responsibilities.
 - Run 35590146552 compiled the corrected tests but was cancelled at the 35-minute job limit. Before cancellation, its log also contains UI assertion failures and connection refusals to the missing pitch fixture on port 4236. TestFlight never started. The timeout is not evidence that all tests passed.
 - Removed the simulator job and its `needs` edge. Workflow/script lint, main-only publishing, signing cleanup, serialized build numbering and Apple/internal-group verification remain required. No Swift, test suite or production backend code changes.
-- Local `actionlint`, `shellcheck`, dependency readback and `git diff --check` pass. Latest native evidence remains 194 passing unit tests and one notification-permission skip from CI26. A complete passing UI/coverage run is not established by that evidence. This workflow-only change does not rerun or waive those tests. Cloud delivery is pending.
+- Local `actionlint`, `shellcheck`, dependency readback and `git diff --check` pass. Latest native evidence remains 194 passing unit tests and one notification-permission skip from CI26. A complete passing UI/coverage run is not established by that evidence. This workflow-only change does not rerun or waive those tests.
+- GitHub run 35595652074 succeeds from e3eb418 with exactly two jobs: workflow/script checks and TestFlight publication. Release artifact and independent Apple API reads confirm 1.0.2 (26), build 207bd7e4-aaaa-4a73-9c71-7478029e73fd, VALID, IN_BETA_TESTING and Hackathon Internal membership. Native product/test source is unchanged from 29d5d0a. No App Store submission or external beta review occurred.
+- Evidence: `docs/evidence/github-testflight-26.json` and `/Users/haichang/tmp/review/pocket-ci-20260921/{cloud-upload-job.log,cloud-artifact/release-result.json,apple-cloud-release-readback.json}`. The watch process completed. Preserve primary-checkout edits. This delivery is complete, with existing UI failures retained for local investigation rather than reported as passes.
 
 ## CI compilation correction verified (2026-09-21)
 

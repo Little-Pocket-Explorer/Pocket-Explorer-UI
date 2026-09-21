@@ -14,7 +14,7 @@ In Xcode, select the PocketExplorer target, choose your development team under S
 
 Existing TestFlight users should update directly in TestFlight to preserve their journal. Do not replace the user's installation with a UI-test build using reset arguments. See [TODO](../TODO.md) for latest delivery and open physical checks, and [the five-minute iPhone check](../docs/device-check.md) for the user journey.
 
-The previously inspected development certificate expires on 2026-11-30. Also inspect the selected provisioning profile expiry before the demonstration. Renew expired development signing in Xcode and reinstall. TestFlight distribution uses the separate local release process.
+The previously inspected development certificate expires on 2026-11-30. Also inspect the selected provisioning profile expiry before the demonstration. Renew expired development signing in Xcode and reinstall. TestFlight uses a separate distribution signing certificate.
 
 ## Local simulator checks
 

@@ -1,0 +1,31 @@
+{
+  "build_id": "207bd7e4-aaaa-4a73-9c71-7478029e73fd",
+  "build_number": "26",
+  "processing_state": "VALID",
+  "version": "1.0.2",
+  "internal_state": "IN_BETA_TESTING",
+  "in_internal_group": true,
+  "source_commit": "e3eb418b913aabbe4d5d6d40482287b43ed4f4f9",
+  "release_origin": "github",
+  "run_url": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-UI/actions/runs/35595652074",
+  "app_id": "6810920731",
+  "workflow_conclusion": "success",
+  "workflow_jobs": [
+    "Workflow and script checks",
+    "Upload and verify TestFlight"
+  ],
+  "internal_group": "Hackathon Internal",
+  "verification": "Independent App Store Connect reads of the build, beta detail, version and internal group membership match the GitHub release artifact.",
+  "qualification": {
+    "workflow_lint": "passed",
+    "shellcheck": "passed",
+    "native_source_unchanged_from": "29d5d0a9575d4c0e7d173f4e55ae0be67b7446d2",
+    "previous_local_unit_passes": 194,
+    "previous_local_unit_skips": 1,
+    "native_suite_rerun_this_change": false,
+    "full_ui_and_coverage_pass_verified": false,
+    "outstanding": "Run 35590146552 has UI assertion failures, missing pitch-fixture connections and a 35-minute timeout. These remain local follow-up work."
+  },
+  "app_store_submission": false,
+  "external_beta_review_submitted": false
+}

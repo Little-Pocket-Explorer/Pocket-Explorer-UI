@@ -1,8 +1,10 @@
 # Pocket Explorer: Implementation Plan
 
-## CI27: local qualification and GitHub TestFlight delivery (2026-09-21)
+## CI27 DONE: local qualification and GitHub TestFlight delivery (2026-09-21)
 
 Remove the simulator job and its release dependency from `.github/workflows/ios.yml`. Preserve lightweight lint, main-only publication, serialized signing, build numbering and Apple verification. Keep the complete native test suite and coverage requirements on the Mac, with results recorded independently. Validate workflow syntax and push/manual/PR release conditions, then verify a cloud release. Failures in lint, signing, compilation or Apple processing must still fail the workflow. This owner-requested policy supersedes historical local-only release restrictions below.
+
+Delivered as source e3eb418 and TestFlight 1.0.2 (26), independently VALID and assigned to Hackathon Internal. The workflow and both jobs pass. Configuration and release conditions are checked, while existing native UI failures remain local follow-up work. See [cloud delivery evidence](docs/evidence/github-testflight-26.json).
 
 ## DONE: teammate TestFlight 1.0.2 (25) (2026-09-20)
 
