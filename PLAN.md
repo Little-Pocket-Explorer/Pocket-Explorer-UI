@@ -1,5 +1,9 @@
 # Pocket Explorer: Implementation Plan
 
+## DONE: teammate TestFlight 1.0.2 (25) (2026-09-20)
+
+T25.1 qualified upstream c565d29 for map scopes, four sharing audiences, Notifications and cancelled refreshes. The final matching-product-source evidence has 195 unit and 15 affected UI latest passes. All 12 changed product Swift files exceed 80% line coverage, with ten matching 700-key catalogs and inspected screenshots. T25.2 deployed the compatible Backend dcc6629 through successful workflow 35475725421 and independently verified migration 0015, all 43 production checks and artifact hashes. T25.3 published source b6d45fb from this Mac as TestFlight 1.0.2 (25), then verified the IPA, VALID processing and Hackathon Internal membership. Public App Store 1.0.1 (24) is unchanged. Owned test/signing resources are cleaned up. Physical-device acceptance remains separate. See [delivery evidence](docs/evidence/teammate-testflight-25.json) and [qualification](docs/evidence/teammate-testflight-20260920.json).
+
 ## DONE: correct App Store 1.0.1 binary version (2026-09-19)
 
 Corrected ITMS-90062 by changing only ios/project.yml MARKETING_VERSION from 1.0 to 1.0.1 on the qualified build 23 source. Local release 1.0.1 (24) is VALID and available to Hackathon Internal. Strict IPA signature, embedded version/build, all ten compiled catalogs and source equivalence were verified. The rejected review item was resolved and the same review resubmitted at 2026-09-19T03:49:59.129Z. API and UI confirm WAITING_FOR_REVIEW. At least five minutes of post-submission checks found no repeat invalid-binary state or new failure notification. Review approval remains pending. Existing metadata, free price, territories and AFTER_APPROVAL are preserved. See [corrected submission evidence](docs/evidence/app-store-update-1.0.1-build24.json).

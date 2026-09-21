@@ -7,6 +7,14 @@
 - Friend-card artwork is now cached by friend, card and artwork version in `SocialStore`. Friend profile thumbnails, collection rows and card detail reuse the same bytes instead of downloading the same authenticated image again. The cache clears when account/friend access is rebound.
 - Swift workspace diagnostics and `git diff --check` pass. The Social regression asserts one network read across repeated artwork loads. This Windows host has neither Swift nor Xcode, so XCTest/XCUITest, changed-file 80% coverage, measured physical-device latency and visual acceptance remain pending on macOS. No TestFlight upload occurred.
 
+## DONE: teammate TestFlight 1.0.2 (25) (2026-09-20)
+
+- T25.1 DONE: Upstream c565d29 is qualified. All 195 unit cases and 15 affected UI journeys have passing latest results across full and targeted runs, with no unresolved failure. All 12 changed product Swift files exceed 80% matching-source line coverage, minimum 82.80%. Ten catalogs contain 700 matching keys. Notifications, no-location sharing and Arabic largest-text screenshots are inspected. Test-only corrections resolved initial failures. Existing AVAudioSession main-thread runtime warnings were observed in audio-related tests. Physical-device acceptance was not repeated.
+- T25.2 DONE: Backend dcc6629 passed workflow 35475725421 and is deployed with migration 0015. All 43 independent production map/privacy/compatibility/cleanup checks pass. Deployed JS/CSS hashes match tested CI assets.
+- T25.3 DONE: Published source b6d45fb locally as 1.0.2 (25), Apple build 297056c0-c7ce-40f5-9e52-20c854711367. Independent reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. IPA signing, source hashes and ten compiled 700-entry catalogs are verified. Public App Store 1.0.1 (24) remains READY_FOR_SALE with review COMPLETE. No new App Store submission.
+- Owned fixtures, simulator and temporary signing copies/keychain are removed. Original credentials and keychain search list are preserved. Primary checkouts are untouched. No new automation or agent, and no GitHub native runner.
+- Evidence: docs/evidence/teammate-testflight-25.json, docs/evidence/teammate-testflight-20260920.json and ~/tmp/review/pocket-testflight-20260920. This release request is complete. Do not repeat the upload without a new request or concrete failure.
+
 ## DONE: App Store 1.0.1 (24) corrected and resubmitted (2026-09-19)
 
 - Corrected ITMS-90062 with the only source change MARKETING_VERSION 1.0 -> 1.0.1. Runtime behavior and build 23's qualified source remain identical. Newer remote notification/refresh changes are not included.

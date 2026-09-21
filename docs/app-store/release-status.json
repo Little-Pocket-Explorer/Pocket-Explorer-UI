@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-09-19T03:54:59.793Z",
+  "checkedAt": "2026-09-19T23:23:56.876Z",
   "appId": "6810920731",
   "appStoreVersion": "1.0.1",
   "appStoreVersionId": "5af0f30b-1404-48cc-b73b-e92b140012a0",
-  "appStoreState": "WAITING_FOR_REVIEW",
+  "appStoreState": "READY_FOR_SALE",
   "submitted": true,
   "build": {
     "number": "24",
@@ -17,35 +17,36 @@
     "releaseOrigin": "local"
   },
   "testFlight": {
-    "checkedAt": "2026-09-19T03:49:29.143Z",
     "app_id": "6810920731",
-    "version": "1.0.1",
-    "build_number": 24,
-    "build_id": "4641bae6-3418-4c1d-a242-e8eb50bad345",
+    "version": "1.0.2",
+    "build_number": 25,
+    "build_id": "297056c0-c7ce-40f5-9e52-20c854711367",
     "processing_state": "VALID",
     "internal_state": "IN_BETA_TESTING",
     "internal_group": "Hackathon Internal",
-    "source_commit": "f237dbf80177dfd1cd965e91678b68c8403a6298:d89d26a0c1d78b850ac42868dd2b0c4576912dce4d86668d2d709c6849ce7613",
+    "source_commit": "b6d45fb24941e2c08a56a4325dac35e1f0df0b86:f745a587b5d3badf8ab21e055ecf4c31bec5a3ecc345ff8eab51c454d682223d",
     "release_origin": "local",
     "run_url": null,
+    "checkedAt": "2026-09-19T23:48:02.413Z",
     "independentlyVerified": true,
     "internalStateReadback": "IN_BETA_TESTING"
   },
   "reviewSubmission": {
     "id": "40be6edc-a2c4-446d-b670-fb13c8dc4c54",
     "submittedDate": "2026-09-19T03:49:59.129Z",
-    "state": "WAITING_FOR_REVIEW",
+    "state": "COMPLETE",
     "url": "https://appstoreconnect.apple.com/apps/6810920731/distribution/reviewsubmissions/details/40be6edc-a2c4-446d-b670-fb13c8dc4c54"
   },
   "releaseType": "AFTER_APPROVAL",
-  "approved": false,
-  "publiclyAvailable": false,
+  "approved": true,
+  "publiclyAvailable": true,
   "liveRelease": {
-    "version": "1.0",
-    "buildNumber": "21",
+    "version": "1.0.1",
+    "buildNumber": "24",
     "appStoreState": "READY_FOR_SALE",
     "publiclyAvailable": true,
-    "url": "https://apps.apple.com/au/app/pocket-explorer/id6810920731"
+    "url": "https://apps.apple.com/au/app/pocket-explorer/id6810920731",
+    "publicPageVerifiedAt": "2026-09-19T23:24:39.731Z"
   },
   "correctedRejection": {
     "code": "ITMS-90062",
@@ -123,5 +124,26 @@
     "uiState": "Waiting for Review",
     "uiItem": "iOS App 1.0.1 / 1.0.1 (24)",
     "rawEvidenceDirectory": "/Users/haichang/tmp/review/pocket-app-store-update-20260919"
+  },
+  "appVersionState": "READY_FOR_DISTRIBUTION",
+  "latestApprovalVerification": {
+    "api": "2026-09-19T23:23:56.876Z",
+    "publicPage": {
+      "checkedAt": "2026-09-19T23:24:39.731Z",
+      "status": 200,
+      "url": "https://apps.apple.com/au/app/pocket-explorer/id6810920731",
+      "version": "1.0.1"
+    },
+    "lookupVersion": "1.0",
+    "lookupLagObserved": true
+  },
+  "latestAppStoreReadback": {
+    "checkedAt": "2026-09-19T23:48:02.413Z",
+    "version": "1.0.1",
+    "state": "READY_FOR_SALE",
+    "build": "24",
+    "buildID": "4641bae6-3418-4c1d-a242-e8eb50bad345",
+    "reviewState": "COMPLETE",
+    "changed": false
   }
 }

@@ -1,0 +1,89 @@
+{
+  "checkedAt": "2026-09-19T23:48:02.413Z",
+  "sourceCommit": "b6d45fb24941e2c08a56a4325dac35e1f0df0b86",
+  "sourceSnapshotSHA256": "f745a587b5d3badf8ab21e055ecf4c31bec5a3ecc345ff8eab51c454d682223d",
+  "upstreamQualified": "c565d2968b98fc5075abbe3ec6d375475140c387",
+  "testflight": {
+    "app_id": "6810920731",
+    "version": "1.0.2",
+    "build_number": 25,
+    "build_id": "297056c0-c7ce-40f5-9e52-20c854711367",
+    "processing_state": "VALID",
+    "internal_state": "IN_BETA_TESTING",
+    "internal_group": "Hackathon Internal",
+    "source_commit": "b6d45fb24941e2c08a56a4325dac35e1f0df0b86:f745a587b5d3badf8ab21e055ecf4c31bec5a3ecc345ff8eab51c454d682223d",
+    "release_origin": "local",
+    "run_url": null,
+    "checkedAt": "2026-09-19T23:48:02.413Z",
+    "independentlyVerified": true,
+    "internalStateReadback": "IN_BETA_TESTING"
+  },
+  "ipa": {
+    "checkedAt": "2026-09-19T23:43:50.008130+00:00",
+    "bundleId": "com.haichang.pocketexplorer",
+    "version": "1.0.2",
+    "build": "25",
+    "xcodeBuild": "27A266a",
+    "teamId": "5B858997A3",
+    "signatureVerified": true,
+    "debugEntitlement": false,
+    "ipaSHA256": "849ddc58bd8c81e5c98db3544f52e28db071e68abf9b67136a5ebc5d4241b658",
+    "localizations": {
+      "ar.lproj": 700,
+      "de.lproj": 700,
+      "en.lproj": 700,
+      "es.lproj": 700,
+      "fr.lproj": 700,
+      "ja.lproj": 700,
+      "ko.lproj": 700,
+      "pt-BR.lproj": 700,
+      "zh-Hans.lproj": 700,
+      "zh-Hant.lproj": 700
+    },
+    "compiledLocalizationDictionariesMatchSource": true,
+    "qualifiedProductSourceMatches": true,
+    "sourceCommit": "b6d45fb24941e2c08a56a4325dac35e1f0df0b86",
+    "sourceSnapshotSHA256": "f745a587b5d3badf8ab21e055ecf4c31bec5a3ecc345ff8eab51c454d682223d"
+  },
+  "appStore": {
+    "version": "1.0.1",
+    "state": "READY_FOR_SALE",
+    "build": "24",
+    "buildID": "4641bae6-3418-4c1d-a242-e8eb50bad345",
+    "reviewState": "COMPLETE",
+    "changed": false
+  },
+  "qualification": {
+    "unitsWithLatestPasses": 195,
+    "affectedUIJourneysWithLatestPasses": 15,
+    "latestFailures": 0,
+    "changedProductSwiftFiles": 12,
+    "minimumFileLineCoverage": 0.8279883381924198,
+    "sameSourceCoverageVerified": true,
+    "localizationCatalogs": 10,
+    "keysPerCatalog": 700,
+    "physicalDeviceAcceptanceRepeated": false,
+    "evidence": "docs/evidence/teammate-testflight-20260920.json",
+    "notes": "Latest per-test results across full and targeted matching-product-source runs. Test-only fixture and assertion corrections resolved initial failures. Existing AVAudioSession main-thread runtime warnings were observed during audio-related tests."
+  },
+  "backendDeployment": {
+    "sourceCommit": "dcc6629f76c0be6d0d469bd6999260838a5ec4db",
+    "workflowURL": "https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend/actions/runs/35475725421",
+    "conclusion": "success",
+    "productionChecksPassed": 43,
+    "independentTrafficAndArtifactVerification": true
+  },
+  "cleanup": {
+    "checkedAt": "2026-09-19T23:48:26.959647+00:00",
+    "temporarySigningKeychainRemoved": true,
+    "keychainSearchListRestored": true,
+    "temporarySigningCopiesRemoved": true,
+    "originalSigningCredentialsPreserved": true,
+    "ownedFixturesStopped": true,
+    "ownedSimulatorRemoved": true,
+    "ports": {
+      "4197": "",
+      "4236": ""
+    }
+  }
+}

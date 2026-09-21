@@ -31,6 +31,19 @@ import XCTest
             return (status, [:], data)
         }
     }
+    private func body(_ request: URLRequest) throws -> Data {
+        if let data = request.httpBody { return data }
+        let stream = try XCTUnwrap(request.httpBodyStream)
+        stream.open(); defer { stream.close() }
+        var data = Data(), buffer = [UInt8](repeating: 0, count: 4096)
+        while stream.hasBytesAvailable {
+            let count = stream.read(&buffer, maxLength: buffer.count)
+            if count < 0 { throw stream.streamError ?? URLError(.cannotDecodeContentData) }
+            if count == 0 { break }
+            data.append(buffer, count: count)
+        }
+        return data
+    }
     func testLocationValidityEventWindowsAndImmutableReceivedCardPersistence() throws {
         let link = try XCTUnwrap(DiscoveryLink(url: URL(string: "pocketexplorer://events/\(id)")!))
         XCTAssertEqual(link.kind, "events"); XCTAssertEqual(link.id, "events/\(id)")
@@ -74,10 +87,12 @@ import XCTest
         let cards = try await client.nearbyCards(event.location, connection: connection); XCTAssertEqual(cards.items[0].id, id)
         var friendCard = shared; friendCard.audience = .friendsOnly; friendCard.location = nil
         struct Friends: Encodable { var items: [SharedMapCard] }
-        try respond(Friends(items: [friendCard])); XCTAssertEqual(try await client.friendCards(connection: connection), [friendCard])
+        try respond(Friends(items: [friendCard]))
+        let friends = try await client.friendCards(connection: connection)
+        XCTAssertEqual(friends, [friendCard])
         try respond(shared)
         DiscoveryHTTPProtocol.respond = { request in
-            let body = try XCTUnwrap(request.httpBody), input = try XCTUnwrap(JSONSerialization.jsonObject(with: body) as? [String: Any])
+            let body = try self.body(request), input = try XCTUnwrap(JSONSerialization.jsonObject(with: body) as? [String: Any])
             XCTAssertEqual(input["audience"] as? String, "public_approximate")
             XCTAssertEqual((input["location"] as? [String: Double])?["latitude"], -33.86)
             return (200, [:], try JSONEncoder().encode(shared))
@@ -85,7 +100,7 @@ import XCTest
         let publication = try await client.publish(cardID, audience: .publicApproximate, location: ExplorerCoordinate(latitude: -33.864321, longitude: 151.213456), connection: connection); XCTAssertTrue(publication.isValid)
         var publicCard = shared; publicCard.audience = .public; publicCard.location = nil
         DiscoveryHTTPProtocol.respond = { request in
-            let body = try XCTUnwrap(request.httpBody), input = try XCTUnwrap(JSONSerialization.jsonObject(with: body) as? [String: Any])
+            let body = try self.body(request), input = try XCTUnwrap(JSONSerialization.jsonObject(with: body) as? [String: Any])
             XCTAssertEqual(input["audience"] as? String, "public"); XCTAssertNil(input["location"])
             return (200, [:], try JSONEncoder().encode(publicCard))
         }
@@ -129,6 +144,7 @@ import XCTest
     }
     func testEventStoreSeparatesNearbyAndFriendMapCards() async throws {
         let events = EventStore(file: directory.appendingPathComponent("map-groups.json"), client: EventClient(session: session))
+        let shared = self.shared
         var friend = shared; friend.audience = .friendsApproximate
         struct Friends: Encodable { var items: [SharedMapCard] }
         let eventData = try JSONEncoder().encode(NearbyEvents(items: [event], truncated: false))
