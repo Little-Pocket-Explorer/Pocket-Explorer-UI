@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       publish:
-        description: Upload to TestFlight after all checks pass
+        description: Upload to TestFlight after workflow checks (native tests run locally)
         type: boolean
         default: true
 
@@ -37,35 +37,9 @@ jobs:
           go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
           shellcheck scripts/ci/*.sh
 
-  ios:
-    name: iPhone simulator tests
-    runs-on: macos-26
-    timeout-minutes: 35
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Install XcodeGen
-        run: bash scripts/ci/install-xcodegen.sh
-      - name: Check selected Xcode
-        run: xcodebuild -version
-      - name: Run native regression and Cloudflare sharing integration
-        run: bash scripts/ci/test-ios.sh
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        if: always()
-        with:
-          name: ios-checks-${{ github.run_attempt }}
-          path: |
-            ${{ runner.temp }}/ios-tests.xcresult
-            ${{ runner.temp }}/ios-coverage.json
-            ${{ runner.temp }}/ios-tests.log
-          retention-days: 7
-
   testflight:
     name: Upload and verify TestFlight
-    needs: [checks, ios]
+    needs: [checks]
     if: >-
       github.ref == 'refs/heads/main' &&
       (github.event_name == 'push' ||
@@ -95,6 +69,8 @@ jobs:
           bundler-cache: true
           working-directory: ios
       - run: bash scripts/ci/install-xcodegen.sh
+      - name: Check selected Xcode
+        run: xcodebuild -version
       - run: xcodegen generate
         working-directory: ios
       - name: Sign, upload, wait for processing and assign internal testers

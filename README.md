@@ -25,13 +25,13 @@ On first launch, choose device language or English, Simplified Chinese, Traditio
 
 The project uses the local codex-project skill. Keep implementation, tests and TODO current within the same Codex task.
 
-This iteration releases TestFlight from the Mac because GitHub quota is exhausted. See [local release operations](docs/local-release.md).
+Run native tests on the Mac and publish TestFlight through GitHub. See [GitHub release operations](docs/github-release.md). [Local publication](docs/local-release.md) remains available as a fallback.
 
 ## Repository and releases
 
 This repository owns the native iOS UI and its native shared resources. [Pocket-Explorer-Backend](https://github.com/Little-Pocket-Explorer/Pocket-Explorer-Backend) owns the website, Worker API, D1 migrations and web tests. Backend main pushes automatically update Cloudflare after checks.
 
-The GitHub iOS workflow remains configured, but the current quota restriction prohibits GitHub iOS runners. Use [skip ci] for native commits, run tests/archive/upload on the Mac, and independently verify TestFlight distribution. Do not dispatch the iOS workflow for checks or publication. [GitHub release operations](docs/github-release.md) retain the setup for a future workflow resumption. The local release guide governs the current process.
+The GitHub iOS workflow runs workflow/script lint, then archives, signs, uploads and verifies TestFlight for eligible main pushes or a manual main run with publish enabled. Native unit, UI, integration and coverage checks run locally and are not cloud release dependencies. A green release confirms delivery, not a passing test suite. Use `[skip ci]` when a native commit should not automatically publish.
 
 ## What is real
 

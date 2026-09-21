@@ -1,8 +1,12 @@
 # Pocket Explorer
 
+## Current release policy (2026-09-21)
+
+The owner resumed GitHub TestFlight publication and moved all native regression, UI, integration and coverage checks to this Mac. GitHub runs workflow/script lint, then archives, signs, uploads and verifies internal TestFlight distribution. Do not add simulator tests to the cloud release dependency chain. Record local test results and unresolved failures independently of upload success. This supersedes the earlier local-only release and mandatory `[skip ci]` restrictions. Local publication remains available as a fallback.
+
 ## Current product authority (2026-09-15)
 
-The user explicitly made the eight roadshow slides authoritative for conflicting product decisions and requested all described product features in this iteration. Follow docs/plans/pitch-alignment.md. This supersedes earlier restrictions against parent controls, correct-answer unlocks, accounts/profiles, friends and text chat. Miro remains the compatible visual reference. Preserve legacy data, ten languages and private demo isolation. Native releases remain local with [skip ci]. Backend releases use the existing workflow. Older design-authority text below is historical where it conflicts.
+The user explicitly made the eight roadshow slides authoritative for conflicting product decisions and requested all described product features in this iteration. Follow docs/plans/pitch-alignment.md. This supersedes earlier restrictions against parent controls, correct-answer unlocks, accounts/profiles, friends and text chat. Miro remains the compatible visual reference. Preserve legacy data, ten languages and private demo isolation. Backend releases use the existing workflow. Older design-authority text below is historical where it conflicts.
 
 ## Current design authority (2026-09-14)
 

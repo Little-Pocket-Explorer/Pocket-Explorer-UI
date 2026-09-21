@@ -1,6 +1,6 @@
 # Local TestFlight release
 
-The user requires this iteration to release from this Mac because GitHub runner quota is exhausted. Do not dispatch the GitHub TestFlight workflow.
+Native testing runs on this Mac. The owner resumed [GitHub TestFlight publication](github-release.md) on September 21, 2026, without cloud simulator tests. Use this local publication path when GitHub runners are unavailable or a local release is preferred. Do not overlap local and GitHub uploads.
 
 Run the native regression and backend verification first. Confirm the production AI endpoints and generated-image sharing before uploading a build that depends on them. TODO records the current evidence and any outstanding account prerequisite.
 

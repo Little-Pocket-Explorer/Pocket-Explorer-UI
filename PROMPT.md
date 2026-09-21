@@ -1,5 +1,9 @@
 # Pocket Explorer: Continuation Brief
 
+## Current release policy (2026-09-21)
+
+Follow CI27 in PLAN and the latest TODO. The owner requested GitHub archive/sign/upload without cloud simulator tests. Complete native testing and coverage now belong on the Mac. Preserve failed-test evidence and distinguish successful delivery from product qualification. GitHub publication is authorized again, superseding historical quota-based local-only restrictions below. Local TestFlight publication remains an alternative.
+
 ## Complete: teammate TestFlight 1.0.2 (25) (2026-09-20)
 
 T25.1-T25.3 are complete. Source b6d45fb includes upstream c565d29 and is locally published as 1.0.2 (25). Independent Apple reads confirm VALID / IN_BETA_TESTING and Hackathon Internal membership. IPA, tested runtime source, signature and ten compiled 700-entry catalogs are verified. Qualification has 195 unit and 15 affected UI latest passes with all 12 changed Swift files above 80% matching-source coverage. This combines full and targeted runs, not one wholly passing final invocation. Backend dcc6629 is deployed and independently verified. Public App Store 1.0.1 (24) remains available, with no new review submission. Owned test/signing resources are cleaned up and primary checkout edits preserved. Follow the next user request or physical-device feedback. Do not repeat delivery or resume old timers. See TODO and docs/evidence/teammate-testflight-25.json.

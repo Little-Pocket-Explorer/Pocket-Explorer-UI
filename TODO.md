@@ -1,5 +1,12 @@
 # Pocket Explorer: Current Execution State
 
+## CI27 IN_PROGRESS: local tests and cloud TestFlight publication (2026-09-21)
+
+- The owner requested cloud archive/sign/upload without simulator tests. This supersedes the previous local-only native-release restriction. All native tests and coverage remain local responsibilities.
+- Run 35590146552 compiled the corrected tests but was cancelled at the 35-minute job limit. Before cancellation, its log also contains UI assertion failures and connection refusals to the missing pitch fixture on port 4236. TestFlight never started. The timeout is not evidence that all tests passed.
+- Removed the simulator job and its `needs` edge. Workflow/script lint, main-only publishing, signing cleanup, serialized build numbering and Apple/internal-group verification remain required. No Swift, test suite or production backend code changes.
+- Local `actionlint`, `shellcheck`, dependency readback and `git diff --check` pass. Latest native evidence remains 194 passing unit tests and one notification-permission skip from CI26. A complete passing UI/coverage run is not established by that evidence. This workflow-only change does not rerun or waive those tests. Cloud delivery is pending.
+
 ## CI compilation correction verified (2026-09-21)
 
 - CI26 LOCAL_DONE: GitHub run 35588051764 on 11df2c9 fails while compiling `SocialTests.swift:140-141`. Two artwork-cache assertions added in 981cd7e await results inside XCTest's synchronous autoclosure. The same two compiler errors reproduce locally before the fix. Await each result before asserting, preserving both artwork comparisons and the single-request cache check. Product code is unchanged.

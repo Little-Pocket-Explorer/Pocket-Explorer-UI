@@ -1,5 +1,9 @@
 # Pocket Explorer: Implementation Plan
 
+## CI27: local qualification and GitHub TestFlight delivery (2026-09-21)
+
+Remove the simulator job and its release dependency from `.github/workflows/ios.yml`. Preserve lightweight lint, main-only publication, serialized signing, build numbering and Apple verification. Keep the complete native test suite and coverage requirements on the Mac, with results recorded independently. Validate workflow syntax and push/manual/PR release conditions, then verify a cloud release. Failures in lint, signing, compilation or Apple processing must still fail the workflow. This owner-requested policy supersedes historical local-only release restrictions below.
+
 ## DONE: teammate TestFlight 1.0.2 (25) (2026-09-20)
 
 T25.1 qualified upstream c565d29 for map scopes, four sharing audiences, Notifications and cancelled refreshes. The final matching-product-source evidence has 195 unit and 15 affected UI latest passes. All 12 changed product Swift files exceed 80% line coverage, with ten matching 700-key catalogs and inspected screenshots. T25.2 deployed the compatible Backend dcc6629 through successful workflow 35475725421 and independently verified migration 0015, all 43 production checks and artifact hashes. T25.3 published source b6d45fb from this Mac as TestFlight 1.0.2 (25), then verified the IPA, VALID processing and Hackathon Internal membership. Public App Store 1.0.1 (24) is unchanged. Owned test/signing resources are cleaned up. Physical-device acceptance remains separate. See [delivery evidence](docs/evidence/teammate-testflight-25.json) and [qualification](docs/evidence/teammate-testflight-20260920.json).
