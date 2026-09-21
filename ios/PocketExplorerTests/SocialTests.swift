@@ -137,8 +137,10 @@ import XCTest
         XCTAssertEqual(social.cards[id]?.count, 1)
         var artworkRequests = 0
         DiscoveryHTTPProtocol.respond = { _ in artworkRequests += 1; return (200, [:], Data([1, 2, 3])) }
-        XCTAssertEqual(try await social.artwork(card, friendID: id, connection: connection), Data([1, 2, 3]))
-        XCTAssertEqual(try await social.artwork(card, friendID: id, connection: connection), Data([1, 2, 3]))
+        let downloadedArtwork = try await social.artwork(card, friendID: id, connection: connection)
+        XCTAssertEqual(downloadedArtwork, Data([1, 2, 3]))
+        let cachedArtwork = try await social.artwork(card, friendID: id, connection: connection)
+        XCTAssertEqual(cachedArtwork, Data([1, 2, 3]))
         XCTAssertEqual(artworkRequests, 1)
         try respond(["error": "friend_unavailable"], status: 403); await fails { try await social.refreshCards(self.id, connection: self.connection) }; XCTAssertNil(social.cards[id])
         DiscoveryHTTPProtocol.respond = { _ in throw URLError(.notConnectedToInternet) }

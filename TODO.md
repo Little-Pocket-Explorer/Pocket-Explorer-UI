@@ -1,5 +1,13 @@
 # Pocket Explorer: Current Execution State
 
+## CI compilation correction verified (2026-09-21)
+
+- CI26 LOCAL_DONE: GitHub run 35588051764 on 11df2c9 fails while compiling `SocialTests.swift:140-141`. Two artwork-cache assertions added in 981cd7e await results inside XCTest's synchronous autoclosure. The same two compiler errors reproduce locally before the fix. Await each result before asserting, preserving both artwork comparisons and the single-request cache check. Product code is unchanged.
+- Verification: Xcode 27.0 / iOS 27.0 simulator unit suite passes with 194 passed, zero failed and one existing notification-permission skip. All nine Social tests pass. `SocialTests.swift` line coverage is 99.61% (509/511), and `git diff --check` passes. GitHub used Xcode 26.6; its full UI suite and aggregate coverage gate have not been rerun.
+- An initial local run disabled signing and consequently failed Keychain-dependent cases. Repeating the identical source with normal simulator signing resolves those failures. Existing audio-session runtime warnings remain outside this test-only correction.
+- Evidence: `/Users/haichang/tmp/review/pocket-ci-20260921/{failed-run.log,before.log,signed.log,summary.json,coverage.json,signed.xcresult}`. Backend run 35584797975 succeeded. Owned fixture and simulators are stopped and removed.
+- The user authorized committing and pushing this correction. Submit with `[skip ci]` to preserve the local native-release policy and GitHub quota. The dirty primary checkout is preserved. GitHub CI and TestFlight publication are outside this submission. A future authorized test-only workflow dispatch must explicitly set `publish=false`; the workflow currently defaults to uploading after successful checks.
+
 ## Native Social loading responsiveness pending macOS qualification (2026-09-21)
 
 - Investigated the physical-iPhone Card Detail -> Share to friend wait as actual latency rather than a timeout-display problem. The native request was not doing image generation; the sibling Backend gift endpoint repeated serial family/friend/sharing D1 reads and synchronous card-copy reads. The Backend root-cause optimization is recorded in its TODO and remains undeployed.
